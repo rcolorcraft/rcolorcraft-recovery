@@ -205,11 +205,11 @@ nav ul li a.active::after {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  background: linear-gradient(to right, #ff416c, #ff412b);
   border-radius: 20px;
   margin: 20px;
-  padding: 50px 30px;
-  min-height: 40vh;
+  padding: 30px 20px;
+  min-height: 20vh;
 }
 .hero-overlay {
   display: flex;
@@ -353,6 +353,13 @@ footer {
   background: linear-gradient(135deg, #9bdded, hsl(125, 59%, 84%));
     text-align: center;
 }
+.reviews-section p{
+  color: #555;
+  font-size: 18px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  text-align:center;
+}
 
 .reviews-section h1 {
     font-size: 2.5em;
@@ -381,11 +388,12 @@ footer {
     align-items: center; /* Center children horizontally */
     
     /* ADDED: Margin to create space around each card */
-    margin: 3rem; 
+    margin: 1.5rem; 
 }
 
 .review-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 /* Profile + Name in one row */
@@ -494,9 +502,9 @@ footer {
 }
 /* Add this to your CSS */
 .stars {
-    color: orange; /* Or whatever color you want the stars to be */
-    font-size: 1.2em; /* Ensure stars are a readable size */
-    margin-top: 5px;
+    color: #ffc107; /* Or whatever color you want the stars to be */
+    font-size: 18px; /* Ensure stars are a readable size */
+    letter-spacing: 2px;
 }
 
 .review-avatar {
@@ -890,6 +898,14 @@ footer {
     padding: 0 20px;
     gap: 30px;
   }
+  .hero-overlay p{
+    font-size: 20px;
+    font-weight: 600;
+      color: #ffffff;
+  }
+  .hero-overlay p span{
+    color: #FFD700;
+  }
 
   .glass-card h1 {
     font-size: 40px;
@@ -1204,22 +1220,38 @@ footer {
     padding: 30px 10px;
   }
 
-  .reviews-section h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+  .reviews-section h1,
+  .reviews-section h2,
+   .reviews-section h3{
+    font-size: 32px;
+   font-weight:  700;
+   letter-spacing: 1px;
   }
 
   .reviews-container {
-    gap: 30px;
-    padding: 0 10px;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+   
   }
 
   .review-card {
-    max-width: 100%;
-    min-height: auto;
-    margin: 1.5rem 0;
+    background: #fff;
     padding: 20px;
+    border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   text-align: center;
   }
+ 
+  @media (max-width: 768px) {
+    .review-container {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
 
   .review-header {
     flex-direction: column;
@@ -1248,20 +1280,75 @@ footer {
 
   /* Review Form */
   .review-form {
-    margin-top: 30px;
-    padding: 20px;
-    max-width: 100%;
+    max-width: 340px;
+    margin:50px auto;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border:1px solid rgba(255, 255, 255, 0.3);
+    text-align:center
+    
+    
   }
 
   .review-form input,
-  .review-form textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
+    .review-form textarea {
+      width: 100%;
+      padding:10px;
+       margin-bottom: 12px; 
+      border-radius:8px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.8);
+    
+  }
+  .review-form textarea{
+height: 70px;
+resize:none;
+  }
+  
+    /* height: 50px;
+    /* width: 100%; */
+    /* padding: 4px;
+    font-size: 13px; */ 
+    /* margin-bottom: 8px; /* Prevents zoom on iOS */
+  
+
+  .star-rating i{
+    color:#ddd;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .star-rating i:hover,
+  .star-rating i.active{
+  transform: scale(1.2);
+}
+
+  .review-form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg,#4a90e2,#6a82fb);
+    color: white;
+    font-size: 16px;
+    font-weight:bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .review-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 
   .file-upload-container {
     flex-direction: column;
     align-items: flex-start;
   }
+
 
   /* Footer */
   footer {
@@ -1376,7 +1463,31 @@ footer {
     font-size: 14px;
     margin-bottom: 15px;
   }
-
+  .cta-buttons{
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+  }
+.cta-btn{
+  padding: 14px 30px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: 0.3s;
+}
+.cta-btn.primary{
+  background: #ff6a00;
+  color:white;
+}
+.cta-btn.secondary{
+  background:white;
+  color:#333;
+}
+.ctn-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0, 0, 0, 0.2);
+}
   .hero-img img {
     max-width: 300px;
   }
@@ -1449,4 +1560,17 @@ body {
         height: 100px;
         left: -19px;
     }
+}
+.reviews-section h2{
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.rating{
+  text-align: center;
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 8px;
+  font-weight: 500;
 }

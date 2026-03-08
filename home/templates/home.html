@@ -421,6 +421,8 @@
     <div class="hero-overlay">
       <div class="hero-text glass-card">
         <h1>
+          Welcome to Rcolorcraft</h1>
+          <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
           {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
               {% trans "Welcome Neeraj" %}
@@ -432,10 +434,16 @@
               {% trans "Welcome" %} {{ request.user.full_name }}
             {% endif %}
           {% else %}
-            {% trans "Welcome Back" %}
+            <!-- {% trans "Welcome Back" %} -->
           {% endif %}
-        </h1>
-        <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p>
+        
+        <!-- <div class="cta-buttons"</div>
+          <a href=""/contact" class="cta-btn">Get Free Quote</a>
+          <a href="/booking" class=""cta-btn secondary">Book Now</a>
+        <a href="explore" class="cta-btn">Explore Services</a>
+      </div>
+      <a href="/booking" class="cta-btn">Book Now</a> -->
+        <!-- <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p> -->
         <!-- <button>Explore Services</button> -->
       </div>
       <div class="hero-img">
@@ -444,8 +452,12 @@
     </div>
   </div>
 
-  <section class="quick-explore-section">
-    <div class="explore-grid-container">
+  <section class="hero">
+    <div class="hero-box">
+      <!-- <h1>Welcome to Rcolorcraft</h1>
+      <p>Transform your space with our stunning murals and creative paintings.
+        Experience art that breathes life into your walls.
+      </p> -->
       <!-- 1. 3D Wall Art (Corrected slug) -->
       <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-item">
         <div class="explore-circle">
@@ -887,7 +899,7 @@
   </section>
 
   <!-- Reviews Section -->
-  <section class="reviews-section">
+  <!-- <section class="reviews-section">
     <h1>{% trans "Customer Reviews" %}</h1>
     <div class="reviews-container">
       {% for review in reviews %}
@@ -919,7 +931,7 @@
         </div>
       {% endfor %}
     </div>
-  </section>
+  </section> -->
 
   <!-- Image Modal -->
   <div id="imageModal" class="modal">

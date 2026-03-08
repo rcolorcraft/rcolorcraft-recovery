@@ -2,9 +2,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WDGCWQT6JZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WDGCWQT6JZ');
+</script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}RColorcraft{% endblock %}</title>
+  <meta name="google-site-verification" content="9Uh7grJ6096aOJewQ-vFHZTiXiA1hGH9c4BteZbn2bo" />
+  <meta name="description" content="3D Wall Art & Mural Painting Services in Gurgaon. Transform your home walls with crative painting designs by RColorcraft's expert artists. Book now for stunning, custom wall art!">
+  <meta name="keyboards" content="3D wall art Gurgaon, mural painting Gurgaon, wall painting artist gurgaon, wall art design">
+  <title>3D Wall Art & Mural Painting Services in Gurgaon|{% block title %}RColorcraft{% endblock %}</title>
   
   <!-- CSS link -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -800,7 +811,7 @@ body.gt-active header {
 {% if user.is_authenticated and user.role == 'admin' %}
     <li><a href="{% url 'bookings' %}" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
     <li><a href="{% url 'artists' %}" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
-{% endif %}
+{% endif %}    <li><a href="{% url 'bookings' %}" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
 
           <li><a href="{% url 'reviews' %}" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
           <!-- <li><a href="{% url 'shop' %}" class="{% if request.path == '/shop/' %}active{% endif %}">Shop</a></li> -->

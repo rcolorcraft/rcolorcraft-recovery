@@ -38,20 +38,20 @@
         /* Review Card - Clean design */
         .review-card {
             background: white;
-            border-radius: 10px;
-            padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            display: flex;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition:0.3s;
+            /* display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            min-height: 200px;
+            min-height: 200px; */
         }
 
         .review-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
         }
 
         .review-card img {
@@ -145,18 +145,29 @@
             display: flex;
             flex-direction: row-reverse;
             justify-content: center;
-            gap: 4px;
-            margin: 16px 0 20px 0;
+            gap: 6px;
+            margin: 10px 0 20px 0;
+        }
+        .star-rating input {
+            display: none;
         }
 
-    
-
         .star-rating label {
-            font-size: 1.8rem;
-            color: #ddd;
+            font-size: 28px;
+            color: #bbb;
             cursor: pointer;
-            transition: color 0.2s ease;
-            margin-bottom: 0;
+            transition: 0.3s;
+           
+        }
+        /* hover effect */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+
+            color: #ffb400;
+        }
+        /* selected stars */
+        .star-rating input:checked ~ label {
+            color: #ffb400;
         }
 
 
@@ -251,32 +262,33 @@
         }
     </style>
   <section class="hero">
-    <h1>{% trans "What Our Customers Say" %}</h1>
-    <p>{% trans "Your words inspire us. Your art tells the story." %}</p>
+    <h1>{% trans "Customer Reviews & Testimonials" %}</h1>
+    <p>{% trans "⭐ 4.9/5 Customers Rating | 200+ Happy Clients." %}</p>
   </section>
 
   <section class="reviews-section">
-    <h2>{% trans "Customer Reviews" %}</h2>
+    <h2>Client Testimonials</h2>
+    <p>Hear what our satisfied clients say about our services.</p>
     <div class="reviews-grid" id="reviewsGrid">
       <div class="review-card">
         <img src="{% static 'gallery/john.jpg' %}" alt="John D">
         <div class="review-content">
-          <h3>John D. <span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"Amazing wall art! Totally transformed my living room."</p>
+          <h3>Rohit Sharma<span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
+          <p>"Rcolorcraft team did an amazing mural painting in my office.Highly recommended.</p>
         </div>
       </div>
       <div class="review-card">
         <img src="{% static 'gallery/rohit.jpg' %}" alt="Rohit">
         <div class="review-content">
-          <h3>Emily R. <span class="stars">⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"The 3D painting is stunning, it feels alive!"</p>
+          <h3>Pawan Mehta <span class="stars">⭐ ⭐ ⭐ ⭐</span></h3>
+          <p>"Beautiful wall art design .My living room looks completely different now."</p>
         </div>
       </div>
       <div class="review-card">
         <img src="{% static 'gallery/rahul.jpg' %}" alt="Rahul S">
         <div class="review-content">
-          <h3>Rahul S. <span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"Very professional team, highly recommended."</p>
+          <h3>Amit Verma <span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
+          <p>"Very professional artists and great finishing work."</p>
         </div>
       </div>
       {% for r in reviews %}
@@ -316,14 +328,30 @@
   <section class="gallery-section">
     <div class="review-form">
       <h3>{% trans "Leave a Review" %}</h3>
-      <form id="reviewForm" enctype="multipart/form-data" method="post">
+      <form id="reviewForm" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
         <input type="text" name="name" placeholder="{% trans 'Your Name' %}" required>
         <input type="email" name="email" placeholder="{% trans 'Your Email' %}" required>
         <textarea name="customer_review" rows="4" placeholder="{% trans 'Your Review' %}"></textarea>
-        <label>{% trans "Your Rating:" %}</label>
+        <label for="rating">{% trans "Your Rating" %}</label>
         <div class="star-rating">
-          <input class="star star-5" id="star-5" type="radio" name="rating" value="5"/>
+          <input type="radio" name="rating" id="star-5"> 
+          <label for="star-5">★</label>
+         <input type="radio" name="rating" id="star-4"> 
+          <label for="star-4">★</label>
+          <input type="radio" name="rating" id="star-3"> 
+          <label for="star-3">★</label>
+          <input type="radio" name="rating" id="star-2"> 
+          <label for="star-2">★</label>
+          <input type="radio" name="rating" id="star-1"> 
+          <label for="star-1">★</label>
+          </div>
+          <label for="image">{% trans "Upload your picture (optional):" %}</label>
+          <input type="file" name="image" id="image">
+          <button type="submit">{% trans "Submit Review" %}</button>
+          </form>
+          <!-- <input class="star star<input type="radio" name="rating" id="star-5"> 
+          <label for="star-5"></label>-5" id="star-5" type="radio" name="rating" value="5"/>
           <label class="star star-5" for="star-5"></label>
           <input class="star star-4" id="star-4" type="radio" name="rating" value="4"/>
           <label class="star star-4" for="star-4"></label>
@@ -332,8 +360,8 @@
           <input class="star star-2" id="star-2" type="radio" name="rating" value="2"/>
           <label class="star star-2" for="star-2"></label>
           <input class="star star-1" id="star-1" type="radio" name="rating" value="1"/>
-          <label class="star star-1" for="star-1"></label>
-        </div>
+          <label class="star star-1" for="star-1"></label> -->
+        <!-- </div>
 
     <div class="form-group">
   <p>{% trans "Upload your picture (optional):" %}</p>
@@ -342,16 +370,16 @@
     <span id="file-name-display" class="file-name-text">{% trans "No file chosen" %}</span>
     <input type="file" name="image" id="image" class="file-upload-input">
   </div>
-</div>
+</div> -->
 
 
-
+<!-- 
 
 <div class="form-group text-center">
   <button type="submit">{% trans "Submit Review" %}</button>
 </div>
 
-      </form>
+      </form> -->
 
       <div id="response" style="margin-top:12px"></div>
     </div>

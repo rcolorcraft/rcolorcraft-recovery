@@ -504,7 +504,7 @@
 
     <div class="slide active" id="booking-slide">
         <div class="booking-container">
-            <form class="booking-form" id="bookingForm" method="POST">
+            <form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h2>{% trans "Book" %} {{ service_name }}</h2>
 
@@ -559,8 +559,8 @@
 </div>
 
 <label>Or Upload Your Own Design</label>
-<input type="file" id="custom_design_input" name="custom_design" accept="image/*">
-
+<form id="bookingForm" method="POST" enctype="multipart/form-data">
+<div id="image-preview" style="margin-top:10px;"></div>
 
                 <label>Total Walls</label>
                 <input type="number" min="1" 
@@ -704,6 +704,46 @@
     // Add other services here, with a sensible default if the service_name doesn't match
     "Default": 150 
 };
+
+const uploadInput =
+ document.getElementById('custom_design_input');
+const preview= 
+document.getElementById('image-preview');
+
+uploadInput.addEventListener('change', function() {
+    preview.innerHTML = ''; // Clear previous previews
+    Array.from(upload.files).forEach((file ) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+           const div =document.createElement('div');
+           div.style.display = 'inline-block';
+           div.stle.margin="10px"
+           div.innerHTML = `
+            <img src="${e.target.result}" width="120"
+            <br>
+            <button type="button"
+            onclick="this.parentElement.remove()">Remove</button>`;
+            preview.appendChild(div);
+        }
+        reader.readAsDataURL(file);
+    });
+        });
+
+    if (files.length > 0) {
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px';
+                img.style.marginRight = '10px';
+                img.style.marginTop = '10px';
+                img.style.borderRadius = '8px';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
 
 // Auto sqft and price calculation
 // const SERVICE_BASE_RATES = {

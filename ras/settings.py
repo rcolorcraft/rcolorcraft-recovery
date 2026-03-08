@@ -12,109 +12,114 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+
 # from django.core.mail import send_mail
 import os
-import dj_database_url
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-am_fw1vlm_u(2pqj*8k7fv=8*+l9!ync@fa&#5x-$u6)k)-!$r'
+SECRET_KEY = "django-insecure-am_fw1vlm_u(2pqj*8k7fv=8*+l9!ync@fa&#5x-$u6)k)-!$r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'rcolorcraft.com',      # Your root domain
-    'www.rcolorcraft.com',  # Your www domain
-    'ras-s6ke.onrender.com',
-    '127.0.0.1',             # Allows http://127.0.0.1:8000/
-    'localhost',
-     # Your Render subdomain
+    "rcolorcraft.com",  # Your root domain
+    "www.rcolorcraft.com",  # Your www domain
+    "ras-s6ke.onrender.com",
+    "127.0.0.1",  # Allows http://127.0.0.1:8000/
+    "localhost",
+    # Your Render subdomain
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'myadmin', 
-    'employee',
-    'home',
-    'accounts',
-    'rest_framework',
-    'api',
-    'wallet',
-    'user',
-    'rest_framework_simplejwt',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "myadmin",
+    "employee",
+    "home",
+    "accounts",
+    "rest_framework",
+    "api",
+    "wallet",
+    "user",
+    "rest_framework_simplejwt",
+    "django.contrib.sitemaps",
 ]
 
-LOGIN_REDIRECT_URL = 'home:landing'
-LOGOUT_REDIRECT_URL = 'home:landing'
+LOGIN_REDIRECT_URL = "home:landing"
+LOGOUT_REDIRECT_URL = "home:landing"
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.locale.LocaleMiddleware', 
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'accounts.middleware.ProfileCompletionMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "accounts.middleware.ProfileCompletionMiddleware",
 ]
 
-ROOT_URLCONF = 'ras.urls'
+ROOT_URLCONF = "ras.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.template.context_processors.i18n',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'ras.wsgi.application'
+WSGI_APPLICATION = "ras.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',   
-#         'NAME': 'rasdb',                           
-#         'USER': 'postgres',                              
-#         'PASSWORD': '12345678',                          
-#         'HOST': 'localhost',                        
-#         'PORT': '5432',                             
-#     }
-# }
-
-DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://postgres:12345678@localhost:5432/rasdb')
-
-
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "rasdb",
+        "USER": "postgres",
+        "PASSWORD": "Qwaszx@1#2345",
+        "HOST": "localhost",
+        "PORT": "5432",
+    }
+}
+
+DATABASE = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "rasdb",
+    }
 }
 
 # DATABASES["default"] = dj_database_url.parse("postgresql://neeraj:if7nqYvblvhsvOfc6sjZWVWimTScwuMD@dpg-d3im16mr433s73c6jumg-a.singapore-postgres.render.com/rccdb")
@@ -136,47 +141,47 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 RAZORPAY_KEY_ID = "rzp_live_Rhi67B1WkXmubk"  # live key
-RAZORPAY_KEY_SECRET = "yj8L8KoHaMkv5xV2qMgytr8r"   # live secret
+RAZORPAY_KEY_SECRET = "yj8L8KoHaMkv5xV2qMgytr8r"  # live secret
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = "en"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 LANGUAGES = [
-    ('en', 'English'),
-    ('hi', 'Hindi'),
-    ('pa', 'Punjabi'),
-    ('mr', 'Marathi'),
-    ('bn', 'Bengali'),
-    ('gu', 'Gujarati'),
-    ('gwc', 'Garhwali'),
-    ('bho', 'Bhojpuri'),
+    ("en", "English"),
+    ("hi", "Hindi"),
+    ("pa", "Punjabi"),
+    ("mr", "Marathi"),
+    ("bn", "Bengali"),
+    ("gu", "Gujarati"),
+    ("gwc", "Garhwali"),
+    ("bho", "Bhojpuri"),
 ]
 
 LOCALE_PATHS = [
-    BASE_DIR / 'locale',
+    BASE_DIR / "locale",
 ]
 
 USE_TZ = True
-LANGUAGE_COOKIE_NAME = 'django_language'
+LANGUAGE_COOKIE_NAME = "django_language"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -186,44 +191,48 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 # BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ✅ Static files (CSS, JS, Images)
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # Folder where 'collectstatic' will put all static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Optional: keep this only if you have a 'static' folder in your project
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "static"),
 ]
 
 # Enable WhiteNoise compression and caching
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ✅ Media files (user uploads)
 # S3 media storage
-INSTALLED_APPS += ['storages']
+INSTALLED_APPS += ["storages"]
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'ap-south-1')
-AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "ap-south-1")
+AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 # Use S3 for uploaded files (media)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Public file settings (simplest to start)
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False  # if you want public, unsigned URLs
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
 
 # Media URL should point to S3, not /media/
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+# MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # settings.py
 
@@ -231,36 +240,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # 1. SMTP Host: GoDaddy's Outgoing Server Address
-EMAIL_HOST = 'smtpout.secureserver.net' 
+EMAIL_HOST = "smtpout.secureserver.net"
 
 # 2. SMTP Port: Standard port for TLS/STARTTLS
-EMAIL_PORT = 587 
+EMAIL_PORT = 587
 
 # 3. Connection Security: Recommended for port 587
-EMAIL_USE_TLS = True 
+EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False # (Only set this to True if you use Port 465)
 
 # 4. Authentication: Your GoDaddy Email Login
-EMAIL_HOST_USER = 'info@rcolorcraft.com' 
+EMAIL_HOST_USER = "info@rcolorcraft.com"
 # **CRITICAL**: Replace 'your_godaddy_password' with the actual password for info@rcolorcraft.com
 # For security, it is highly recommended to use environment variables for the password.
-EMAIL_HOST_PASSWORD = 'Rcolorcraft@123' 
+EMAIL_HOST_PASSWORD = "Rcolorcraft@123"
 
 # 5. Default Sender Address
-DEFAULT_FROM_EMAIL = 'info@rcolorcraft.com'
+DEFAULT_FROM_EMAIL = "info@rcolorcraft.com"
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication', 
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    )
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
 }
 
 SIMPLE_JWT = {
@@ -271,4 +278,3 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
 }
-

@@ -14,25 +14,44 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from home.custom_i18n import custom_set_language
+from django.contrib.sitemaps.views import sitemap
+from home.sitemaps import StaticViewSitemap
 
+sitemaps = {
+    "static": StaticViewSitemap,
+}
+
+
+# urlpatterns = [
+#     path("admin/", admin.site.urls),
+#     path("i18n/", include("django.conf.urls.i18n")),
+#     path("set_language/", custom_set_language, name="set_language"),
+#     path(
+#         "sitemap.xml",
+#         sitemap,
+#         {"sitemaps": sitemaps},
+#         name="django.contrib.sitemaps.views.sitemap",
+#     ),
+# ]
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),
-    path('set_language/', custom_set_language, name='set_language'),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
-
 urlpatterns += i18n_patterns(
-    path('', include('home.urls')),
-    path('emp/', include('employee.urls')),
-    path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('api/', include('api.urls', namespace='api')),
+    path("", include("home.urls")),
+    path("emp/", include("employee.urls")),
+    path("accounts/", include("accounts.urls", namespace="accounts")),
+    path("api/", include("api.urls", namespace="api")),
     path("wallet/", include("wallet.urls")),
 )
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

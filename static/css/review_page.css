@@ -75,7 +75,8 @@
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px; margin-top: 30px;
+      gap: 60px; 
+      margin-top: 30px;
     }
     .review-card {
       background: #fff;
@@ -90,7 +91,7 @@
       border-radius: 50%; object-fit: cover;
       flex-shrink: 0;
     }
-    .stars { color: gold; font-size: 0.9rem; }
+    .stars { color: #ffd700; }
 
     /* Gallery */
     .gallery-section { padding: 50px 20px; background: #fafafa; text-align: center; }
@@ -113,7 +114,7 @@
   margin-left: auto;
   margin-right: auto;
   text-align: left;
-  background: #dfffe0; 
+  background: #e2dfff; 
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
