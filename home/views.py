@@ -5,11 +5,16 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse   
+from django.urls import reverse
 from django.utils import translation
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+# def home(request):
+#     return render(request, "home/home.html")
+
 
 def home_view(request):
     current_lang = translation.get_language()
@@ -22,10 +27,12 @@ def home_view(request):
     print(f"Accept-Language Header: {request.META.get('HTTP_ACCEPT_LANGUAGE', 'None')}")
     logger.info(f"Home view accessed with language: {current_lang}")
     print(f"{'='*60}\n")
-    return render(request, 'home.html')
+    return render(request, "home.html")
+
 
 def contact_us(request):
-    return render(request, 'contact_us.html')
+    return render(request, "contact_us.html")
+
 
 # def edit_profile(request):
 #     return render(request, "edit_profile.html")
@@ -33,44 +40,46 @@ def contact_us(request):
 
 def book_service(request, service_name):
     # service_name will be "3d-art", "mural", or "normal-paint"
-    return render(request, 'book_service.html', {'service_name': service_name})
+    return render(request, "book_service.html", {"service_name": service_name})
 
 
 from django.shortcuts import render
 from employee.models import ServiceImage  # Make sure to import your model
+
 # ... (imports)
 from django.db.models import Q
+
 
 # views.py
 def explore_service(request, service_type):
     service_dict = {
-        '3d-wall-art': '3D Wall Art',
-        '3d-floor-art': '3D Floor Art',
-        'mural-art': 'Mural Art',
-        'mural': 'Mural Art',
-        'metro-advertisement': 'Metro Advertisement',
-        'outdoor-advertisement': 'Outdoor Advertisement',
-        'school-painting': 'School Painting',
-        'selfie-painting': 'Selfie Painting',
-        'madhubani-painting': 'Madhubani Painting',
-        'texture-painting': 'Texture Painting',
-        'pillere-painting': 'Pillere Painting', 
-        'stone-murti': 'Stone Murti',
-        'statue': 'Statue',
-        'scrap-animal-art': 'Scrap Animal Art',
-        'nature-fountain': 'Nature & Water Fountain',
-        'fountain-art': 'Nature & Water Fountain',
-        'cartoon-painting': 'Cartoon Painting',
-        'home-painting': 'Home Painting',
+        "3d-wall-art": "3D Wall Art",
+        "3d-floor-art": "3D Floor Art",
+        "mural-art": "Mural Art",
+        "mural": "Mural Art",
+        "metro-advertisement": "Metro Advertisement",
+        "outdoor-advertisement": "Outdoor Advertisement",
+        "school-painting": "School Painting",
+        "selfie-painting": "Selfie Painting",
+        "madhubani-painting": "Madhubani Painting",
+        "texture-painting": "Texture Painting",
+        "pillere-painting": "Pillere Painting",
+        "stone-murti": "Stone Murti",
+        "statue": "Statue",
+        "scrap-animal-art": "Scrap Animal Art",
+        "nature-fountain": "Nature & Water Fountain",
+        "fountain-art": "Nature & Water Fountain",
+        "cartoon-painting": "Cartoon Painting",
+        "home-painting": "Home Painting",
     }
 
-    service_name = service_dict.get(service_type, 'Service')
+    service_name = service_dict.get(service_type, "Service")
     query_term = service_name
 
-    if service_name == 'Mural Art':
-        query_term = 'Mural'
-    elif service_name == 'Nature & Water Fountain':
-        query_term = 'Fountain'
+    if service_name == "Mural Art":
+        query_term = "Mural"
+    elif service_name == "Nature & Water Fountain":
+        query_term = "Fountain"
 
     # ✅ Updated logic
     if request.user.is_authenticated and request.user.is_staff:
@@ -80,21 +89,22 @@ def explore_service(request, service_type):
         # Employees see their own + verified ones
         db_images = ServiceImage.objects.filter(
             type_of_art__icontains=query_term
-        ).filter(
-            Q(is_verified_pic=True) | Q(userupload_id=request.user.id)
-        )
+        ).filter(Q(is_verified_pic=True) | Q(userupload_id=request.user.id))
     else:
         # Guests see only verified ones
         db_images = ServiceImage.objects.filter(
-            type_of_art__icontains=query_term,
-            is_verified_pic=True
+            type_of_art__icontains=query_term, is_verified_pic=True
         )
 
-    return render(request, "explore_service.html", {
-        "service_name": service_name,
-        "db_images": db_images,
-        "service_slug": service_type,
-    })
+    return render(
+        request,
+        "explore_service.html",
+        {
+            "service_name": service_name,
+            "db_images": db_images,
+            "service_slug": service_type,
+        },
+    )
 
 
 @csrf_exempt
@@ -102,19 +112,21 @@ def approve_service_image(request):
     if request.method == "POST":
         if not request.user.is_authenticated or not request.user.is_staff:
             return JsonResponse({"success": False, "message": "Permission denied."})
-        
+
         try:
             data = json.loads(request.body)
             image_id = data.get("id")
             image = ServiceImage.objects.get(id=image_id)
             image.is_verified_pic = True
             image.save()
-            return JsonResponse({"success": True, "message": "Image approved successfully!"})
+            return JsonResponse(
+                {"success": True, "message": "Image approved successfully!"}
+            )
         except ServiceImage.DoesNotExist:
             return JsonResponse({"success": False, "message": "Image not found."})
         except Exception as e:
             return JsonResponse({"success": False, "message": str(e)})
-    
+
     return JsonResponse({"success": False, "message": "Invalid request."})
 
 
@@ -122,6 +134,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 from employee.models import ServiceImage
+
 
 @csrf_exempt
 def delete_service_image(request):
@@ -155,83 +168,86 @@ def book_service(request, service_type):
     """
     # Use the comprehensive, consistent slug map
     service_dict = {
-        '3d-wall-art': '3D Wall Art',
-        '3d-floor-art': '3D Floor Art',
-        'mural-art': 'Mural Art',
-        'mural': 'Mural Art',
-        'metro-advertisement': 'Metro Advertisement',
-        'outdoor-advertisement': 'Outdoor Advertisement',
-        'school-painting': 'School Painting',
-        'selfie-painting': 'Selfie Painting',
-        'madhubani-painting': 'Madhubani Painting',
-        'texture-painting': 'Texture Painting',
-        'stone-murti': 'Stone Murti',
-        'statue': 'Statue',
-        'scrap-animal-art': 'Scrap Animal Art',
-        'nature-fountain': 'Nature & Water Fountain',
-        'fountain-art': 'Nature & Water Fountain',
-        'cartoon-painting': 'Cartoon Painting',
-        'home-painting': 'Home Painting',
-        
+        "3d-wall-art": "3D Wall Art",
+        "3d-floor-art": "3D Floor Art",
+        "mural-art": "Mural Art",
+        "mural": "Mural Art",
+        "metro-advertisement": "Metro Advertisement",
+        "outdoor-advertisement": "Outdoor Advertisement",
+        "school-painting": "School Painting",
+        "selfie-painting": "Selfie Painting",
+        "madhubani-painting": "Madhubani Painting",
+        "texture-painting": "Texture Painting",
+        "stone-murti": "Stone Murti",
+        "statue": "Statue",
+        "scrap-animal-art": "Scrap Animal Art",
+        "nature-fountain": "Nature & Water Fountain",
+        "fountain-art": "Nature & Water Fountain",
+        "cartoon-painting": "Cartoon Painting",
+        "home-painting": "Home Painting",
         # Mapping for any previous, short slugs (optional, but good for backward compatibility)
-        '3d-art': '3D Wall Art',
-        'advertisement-art': 'Metro Advertisement', # Guessing based on common short form
-        'aesthetic-art': 'Outdoor Advertisement',   # Guessing based on common short form
-        'madhubani-art': 'Madhubani Painting',      # Guessing based on common short form
-        'cartoon-art': 'Cartoon Painting',          # Guessing based on common short form
-        'nature-art': 'Nature & Water Fountain',    # Guessing based on common short form
-        'scrap-yard-art': 'Scrap Animal Art',       # Guessing based on common short form
-        'spray-art': 'Statue',                      # Guessing based on context
-        'structure-art': 'Scrap Animal Art',        # Guessing based on context
+        "3d-art": "3D Wall Art",
+        "advertisement-art": "Metro Advertisement",  # Guessing based on common short form
+        "aesthetic-art": "Outdoor Advertisement",  # Guessing based on common short form
+        "madhubani-art": "Madhubani Painting",  # Guessing based on common short form
+        "cartoon-art": "Cartoon Painting",  # Guessing based on common short form
+        "nature-art": "Nature & Water Fountain",  # Guessing based on common short form
+        "scrap-yard-art": "Scrap Animal Art",  # Guessing based on common short form
+        "spray-art": "Statue",  # Guessing based on context
+        "structure-art": "Scrap Animal Art",  # Guessing based on context
     }
-    
-    service_name = service_dict.get(service_type, 'Service')
-    
+
+    service_name = service_dict.get(service_type, "Service")
+
     # Use robust filtering logic similar to explore_service
     query_term = service_name
-    
-    if service_name == 'Mural Art':
-        query_term = 'Mural'
-    elif service_name == 'Nature & Water Fountain':
-        query_term = 'Fountain'
-    
+
+    if service_name == "Mural Art":
+        query_term = "Mural"
+    elif service_name == "Nature & Water Fountain":
+        query_term = "Fountain"
+
     # Filter images based on the specific query term using icontains
     # This replaces the entire 'if/elif/else' block for filtering
     db_images = ServiceImage.objects.filter(type_of_art__icontains=query_term)
 
-
-    if request.method == 'POST':
+    if request.method == "POST":
         # Handle booking form submission if needed
         pass
 
-    return render(request, "book_service.html", {
-        "service_name": service_name,
-        "db_images": db_images
-    })
-
+    return render(
+        request,
+        "book_service.html",
+        {"service_name": service_name, "db_images": db_images},
+    )
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, "home.html")
+
 
 from django.shortcuts import render
 
-def reviews(request):
-    all_reviews = Review.objects.all().order_by('-review_date')
-    return render(request, 'reviews.html', {'reviews': all_reviews})
 
+def reviews(request):
+    all_reviews = Review.objects.all().order_by("-review_date")
+    return render(request, "reviews.html", {"reviews": all_reviews})
 
 
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 
+
 def logout_view(request):
     logout(request)
     return render(request, "accounts/login.html")
 
+
 from django.shortcuts import render
-from django.db.models import Q 
+from django.db.models import Q
 from accounts.models import Employee
+
+
 def artists(request):
     query = Employee.objects.all()
 
@@ -245,7 +261,9 @@ def artists(request):
 
     # Filter by Artist ID (supports RAS5, ras12, 8 etc.)
     if artist_id:
-        clean_id = artist_id.upper().replace("RAS", "").strip()  # ensures case-insensitive
+        clean_id = (
+            artist_id.upper().replace("RAS", "").strip()
+        )  # ensures case-insensitive
         if clean_id.isdigit():
             query = query.filter(id=clean_id)
 
@@ -256,9 +274,9 @@ def artists(request):
         query = query.filter(pincode__icontains=pin_code)
     if address:
         query = query.filter(
-            Q(village__icontains=address) |
-            Q(city__icontains=address) |
-            Q(state__icontains=address)
+            Q(village__icontains=address)
+            | Q(city__icontains=address)
+            | Q(state__icontains=address)
         )
     if work_type:
         query = query.filter(type_of_work__icontains=work_type)
@@ -272,8 +290,6 @@ def artists(request):
     return render(request, "artist.html", {"artists": query})
 
 
-
-
 from .models import Review
 import uuid
 
@@ -281,18 +297,25 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import Review
+
+
 @csrf_exempt
 @require_POST
 def save_review(request):
     try:
         if not request.user.is_authenticated:
-            return JsonResponse({"success": False, "error": "User not authenticated"}, status=401)
+            return JsonResponse(
+                {"success": False, "error": "User not authenticated"}, status=401
+            )
 
         # Ensure logged-in user is a customer
         try:
             customer = Customer.objects.get(user=request.user)
         except Customer.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Only customers can submit reviews"}, status=403)
+            return JsonResponse(
+                {"success": False, "error": "Only customers can submit reviews"},
+                status=403,
+            )
 
         name = request.POST.get("name")
         email = request.POST.get("email")
@@ -301,7 +324,9 @@ def save_review(request):
         review_image = request.FILES.get("image")
 
         if not (name and email and rating):
-            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
+            return JsonResponse(
+                {"success": False, "error": "Missing required fields"}, status=400
+            )
 
         # ✅ Convert customer.id to string since customer_id is CharField
         review = Review.objects.create(
@@ -310,39 +335,47 @@ def save_review(request):
             customer_email=email,
             customer_review=review_text or "",
             rating=int(rating),  # Ensure integer
-            review_image=review_image
+            review_image=review_image,
         )
 
         # Force save and verify
         review.save()
-        
+
         # Debug print
         print(f"✅ Review saved successfully: {review.id} - {review.customer_name}")
-        profile_pic_url = customer.customer_photo.url if customer.customer_photo else None
+        profile_pic_url = (
+            customer.customer_photo.url if customer.customer_photo else None
+        )
 
-        return JsonResponse({
-            "success": True,
-            "message": "Review submitted successfully!",
-            "data": {
-                "customer_id": review.customer_id,
-                "name": review.customer_name,
-                "email": review.customer_email,
-                "customer_review": review.customer_review,
-                "rating": review.rating,
-                "profile_pic": profile_pic_url,
-                "image": review.review_image.url if review.review_image else None,
-                "created_at": review.review_date.strftime("%Y-%m-%d %H:%M"),
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Review submitted successfully!",
+                "data": {
+                    "customer_id": review.customer_id,
+                    "name": review.customer_name,
+                    "email": review.customer_email,
+                    "customer_review": review.customer_review,
+                    "rating": review.rating,
+                    "profile_pic": profile_pic_url,
+                    "image": review.review_image.url if review.review_image else None,
+                    "created_at": review.review_date.strftime("%Y-%m-%d %H:%M"),
+                },
             }
-        })
+        )
 
     except ValueError as e:
         print(f"❌ ValueError: {e}")
-        return JsonResponse({"success": False, "error": f"Invalid rating value: {str(e)}"}, status=400)
+        return JsonResponse(
+            {"success": False, "error": f"Invalid rating value: {str(e)}"}, status=400
+        )
     except Exception as e:
         print(f"❌ Exception: {e}")
         import traceback
+
         traceback.print_exc()
         return JsonResponse({"success": False, "error": str(e)}, status=500)
+
 
 from .models import Booking
 
@@ -357,7 +390,7 @@ from .models import Booking
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Booking
-from accounts.models import CustomUser # Assuming CustomUser is in accounts app
+from accounts.models import CustomUser  # Assuming CustomUser is in accounts app
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 
@@ -377,6 +410,7 @@ from datetime import datetime
 import uuid
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
 # @login_required
 # @csrf_exempt
 # def save_booking(request):
@@ -436,18 +470,42 @@ import time
 from decimal import Decimal
 from wallet.models import Wallet, WalletTransaction
 
+
 @login_required
 def edit_profile_view(request):
     # List of all 29 Indian states
     INDIAN_STATES = [
-        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-        "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
-        "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
-        "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
-        "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-        "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi"
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chhattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal",
+        "Delhi",
     ]
-    
+
     user = request.user
     if user.role == "employee":
         employee = get_object_or_404(Employee, user=user)
@@ -464,15 +522,17 @@ def edit_profile_view(request):
             employee.pincode = request.POST.get("pincode")
             employee.aadhar_card_no = request.POST.get("aadhar_card_no")
             employee.experience = request.POST.get("experience")
-            
+
             # Get multiple selected locations and join them
             selected_locations = request.POST.getlist("preferred_work_location")
             employee.preferred_work_location = ", ".join(selected_locations)
-            
-            employee.bank_account_holder_name = request.POST.get("bank_account_holder_name")
+
+            employee.bank_account_holder_name = request.POST.get(
+                "bank_account_holder_name"
+            )
             employee.account_no = request.POST.get("account_no")
             employee.ifsc_code = request.POST.get("ifsc_code")
-            
+
             # NEW: Handle the three new optional fields
             employee.full_address = request.POST.get("full_address")
             employee.working_range = request.POST.get("working_range")
@@ -480,9 +540,9 @@ def edit_profile_view(request):
             employee.pan_card = request.POST.get("pan_card")
             employee.gst_no = request.POST.get("gst_no")
             employee.organization_name = request.POST.get("organization_name")
-            
+
             employee.role = "employee"
-            
+
             # Check if ready to take orders
             is_ready = request.POST.get("ready_to_take_orders") == "on"
 
@@ -490,9 +550,13 @@ def edit_profile_view(request):
             if "passport_photo" in request.FILES:
                 employee.passport_photo = request.FILES["passport_photo"]
             if "aadhar_card_image_front" in request.FILES:
-                employee.aadhar_card_image_front = request.FILES["aadhar_card_image_front"]
+                employee.aadhar_card_image_front = request.FILES[
+                    "aadhar_card_image_front"
+                ]
             if "aadhar_card_image_back" in request.FILES:
-                employee.aadhar_card_image_back = request.FILES["aadhar_card_image_back"]
+                employee.aadhar_card_image_back = request.FILES[
+                    "aadhar_card_image_back"
+                ]
 
             # Multi checkbox values (list)
             employee.type_of_work = request.POST.getlist("type_of_work")
@@ -509,42 +573,51 @@ def edit_profile_view(request):
                         wallet=wallet,
                         transaction_type="DEBIT",
                         amount=Decimal("20.00"),
-                        razorpay_payment_id=f"ACTIVATION_FEE_{user.id}_{int(time.time())}"
+                        razorpay_payment_id=f"ACTIVATION_FEE_{user.id}_{int(time.time())}",
                     )
-                    
+
                     employee.status = True
                     employee.save()
-                    
+
                     print("Deducted ₹20 for activation fee")
-                    return JsonResponse({
-                        "success": True, 
-                        "message": "Profile updated successfully! ₹20 activation fee deducted from your wallet."
-                    })
+                    return JsonResponse(
+                        {
+                            "success": True,
+                            "message": "Profile updated successfully! ₹20 activation fee deducted from your wallet.",
+                        }
+                    )
                 else:
                     employee.status = False
                     employee.save()
-                    return JsonResponse({
-                        "success": False,
-                        "message": "Insufficient wallet balance. Please add ₹20 to enable 'Ready to Take Orders' feature."
-                    })
+                    return JsonResponse(
+                        {
+                            "success": False,
+                            "message": "Insufficient wallet balance. Please add ₹20 to enable 'Ready to Take Orders' feature.",
+                        }
+                    )
             else:
                 employee.status = is_ready
                 employee.save()
                 print("Profile saved")
-                return JsonResponse({
-                    "success": True, 
-                    "message": "Profile updated successfully!"
-                })
+                return JsonResponse(
+                    {"success": True, "message": "Profile updated successfully!"}
+                )
 
         # For GET requests - prepare context
         stored_locations = employee.preferred_work_location or ""
-        selected_locations = [loc.strip() for loc in stored_locations.split(",")] if stored_locations else []
+        selected_locations = (
+            [loc.strip() for loc in stored_locations.split(",")]
+            if stored_locations
+            else []
+        )
 
         context = {
             "name": employee.full_name,
             "email_address": employee.email_address,
             "contact": employee.mobile,
-            "passport_photo": employee.passport_photo.url if employee.passport_photo else None,
+            "passport_photo": (
+                employee.passport_photo.url if employee.passport_photo else None
+            ),
             "fathers_name": employee.fathers_name,
             "dob": employee.dob,
             "gender": employee.gender,
@@ -554,8 +627,16 @@ def edit_profile_view(request):
             "state": employee.state,
             "pincode": employee.pincode,
             "aadhar_card_no": employee.aadhar_card_no,
-            "aadhar_card_image_front": employee.aadhar_card_image_front.url if employee.aadhar_card_image_front else None,
-            "aadhar_card_image_back": employee.aadhar_card_image_back.url if employee.aadhar_card_image_back else None,
+            "aadhar_card_image_front": (
+                employee.aadhar_card_image_front.url
+                if employee.aadhar_card_image_front
+                else None
+            ),
+            "aadhar_card_image_back": (
+                employee.aadhar_card_image_back.url
+                if employee.aadhar_card_image_back
+                else None
+            ),
             "experience": employee.experience,
             "type_of_work": employee.type_of_work or [],
             "preferred_work_location": employee.preferred_work_location,
@@ -572,7 +653,6 @@ def edit_profile_view(request):
             "full_address": employee.full_address,
             "working_range": employee.working_range,
             "belong_to_org": employee.belong_to_org,
-
         }
         return render(request, "edit_profile.html", context)
 
@@ -589,42 +669,51 @@ def edit_profile_view(request):
                 customer.customer_photo = request.FILES["customer_photo"]
 
             customer.save()
-            return JsonResponse({
-                "success": True, 
-                "message": "Profile updated successfully!"
-            })
+            return JsonResponse(
+                {"success": True, "message": "Profile updated successfully!"}
+            )
 
         context = {
             "name": customer.customer_full_name,
             "email": customer.email,
             "contact": customer.mobile,
-            "profile_pic": customer.customer_photo.url if customer.customer_photo else None,
+            "profile_pic": (
+                customer.customer_photo.url if customer.customer_photo else None
+            ),
         }
         return render(request, "edit_customers_profile.html", context)
 
     return render(request, "edit_profile.html", {"user": user})
 
+
 def shop(request):
     # Example products
     products = [
-        {"id": 1, "name": "Acrylic Paint Set", "price": 599, "image": "gallery/paint_set.jpg"},
+        {
+            "id": 1,
+            "name": "Acrylic Paint Set",
+            "price": 599,
+            "image": "gallery/paint_set.jpg",
+        },
         {"id": 2, "name": "Canvas Board", "price": 299, "image": "gallery/canvas.jpg"},
         {"id": 3, "name": "Brush Kit", "price": 399, "image": "gallery/brush_kit.jpg"},
         {"id": 4, "name": "Oil Pastels", "price": 199, "image": "gallery/pastels.jpg"},
     ]
     return render(request, "shop.html", {"products": products})
 
+
 from django.shortcuts import render
 from .models import Booking
+
 
 def my_orders(request):
     if not request.user.is_authenticated or request.user.role != "customer":
         return render(request, "not_allowed.html")
 
     # Filter bookings based on the logged-in user's ID
-    bookings = Booking.objects.filter(
-        customer_user_id=request.user.id
-    ).order_by('-created_at')
+    bookings = Booking.objects.filter(customer_user_id=request.user.id).order_by(
+        "-created_at"
+    )
 
     return render(request, "my_orders.html", {"bookings": bookings})
 
@@ -632,38 +721,39 @@ def my_orders(request):
 # views.py
 
 from django.shortcuts import render
-from .models import Review 
+from .models import Review
 from django.db.models import F
 from .models import Review
 from accounts.models import Customer
 
+
 def home_view(request):
-    reviews = Review.objects.all().order_by('-review_date')[:3]
+    reviews = Review.objects.all().order_by("-review_date")[:3]
     reviews_list = list(reviews)
 
     fake_reviews = [
-    {
-        'customer_name': 'P. Reddy',
-        'customer_review': 'A true artist! The mural they painted for my cafe is a masterpiece.',
-        'rating': 5,
-        'review_image': None,
-    },
-    {
-        'customer_name': 'S. Kumar',
-        'customer_review': 'Excellent work and very easy to communicate with. Will definitely use their service again.',
-        'rating': 5,
-        'review_image': None,
-    },
-    {
-        'customer_name': 'M. Gupta',
-        'customer_review': 'The 3D art on my wall looks so real. It completely changed the feel of the room.',
-        'rating': 5,
-        'review_image': None,
-    },
-]
-  # keep your same fake reviews
+        {
+            "customer_name": "P. Reddy",
+            "customer_review": "A true artist! The mural they painted for my cafe is a masterpiece.",
+            "rating": 5,
+            "review_image": None,
+        },
+        {
+            "customer_name": "S. Kumar",
+            "customer_review": "Excellent work and very easy to communicate with. Will definitely use their service again.",
+            "rating": 5,
+            "review_image": None,
+        },
+        {
+            "customer_name": "M. Gupta",
+            "customer_review": "The 3D art on my wall looks so real. It completely changed the feel of the room.",
+            "rating": 5,
+            "review_image": None,
+        },
+    ]
+    # keep your same fake reviews
 
-    all_reviews = reviews_list + fake_reviews[:3 - len(reviews_list)]
+    all_reviews = reviews_list + fake_reviews[: 3 - len(reviews_list)]
 
     enriched_reviews = []
     for r in all_reviews:
@@ -673,13 +763,17 @@ def home_view(request):
             r["empty_stars"] = range(5 - rating)
             r["customer_photo"] = None  # fake ones don’t have photos
             enriched_reviews.append(r)
-        else:  
+        else:
             rating = r.rating
             setattr(r, "full_stars", range(rating))
             setattr(r, "empty_stars", range(5 - rating))
             try:
                 customer = Customer.objects.get(id=r.customer_id)
-                setattr(r, "customer_photo", customer.customer_photo.url if customer.customer_photo else None)
+                setattr(
+                    r,
+                    "customer_photo",
+                    customer.customer_photo.url if customer.customer_photo else None,
+                )
             except Customer.DoesNotExist:
                 setattr(r, "customer_photo", None)
             enriched_reviews.append(r)
@@ -688,8 +782,6 @@ def home_view(request):
         "reviews": enriched_reviews,
     }
     return render(request, "home.html", context)
-
-
 
 
 # views.py - Add these functions to your existing views.py
@@ -703,41 +795,43 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 # Initialize Razorpay client
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+)
+
 
 @require_http_methods(["POST"])
 def create_razorpay_order(request):
     try:
         # Get amount from request (convert to paise - multiply by 100)
-        amount_str = request.POST.get('amount', '0')
+        amount_str = request.POST.get("amount", "0")
         amount = int(float(amount_str) * 100)  # Convert to paise
-        
+
         # Create unique receipt ID
-        receipt_id = f'booking_{int(time.time())}'
-        
+        receipt_id = f"booking_{int(time.time())}"
+
         # Create Razorpay order
         order_data = {
-            'amount': amount,
-            'currency': 'INR',
-            'receipt': receipt_id,
-            'payment_capture': 1  # Auto capture payment
+            "amount": amount,
+            "currency": "INR",
+            "receipt": receipt_id,
+            "payment_capture": 1,  # Auto capture payment
         }
-        
+
         order = razorpay_client.order.create(data=order_data)
-        
-        return JsonResponse({
-            'success': True,
-            'order_id': order['id'],
-            'amount': order['amount'],
-            'currency': order['currency'],
-            'key_id': settings.RAZORPAY_KEY_ID
-        })
-        
+
+        return JsonResponse(
+            {
+                "success": True,
+                "order_id": order["id"],
+                "amount": order["amount"],
+                "currency": order["currency"],
+                "key_id": settings.RAZORPAY_KEY_ID,
+            }
+        )
+
     except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'error': str(e)
-        })
+        return JsonResponse({"success": False, "error": str(e)})
 
 
 @csrf_exempt
@@ -746,16 +840,16 @@ def verify_razorpay_payment(request):
     try:
         data = json.loads(request.body)
 
-        razorpay_order_id = data.get('razorpay_order_id')
-        razorpay_payment_id = data.get('razorpay_payment_id')
-        razorpay_signature = data.get('razorpay_signature')
-        product_name = data.get('product_name')
-        amount = data.get('amount')
+        razorpay_order_id = data.get("razorpay_order_id")
+        razorpay_payment_id = data.get("razorpay_payment_id")
+        razorpay_signature = data.get("razorpay_signature")
+        product_name = data.get("product_name")
+        amount = data.get("amount")
 
         params_dict = {
-            'razorpay_order_id': razorpay_order_id,
-            'razorpay_payment_id': razorpay_payment_id,
-            'razorpay_signature': razorpay_signature
+            "razorpay_order_id": razorpay_order_id,
+            "razorpay_payment_id": razorpay_payment_id,
+            "razorpay_signature": razorpay_signature,
         }
 
         # Verify signature
@@ -763,21 +857,27 @@ def verify_razorpay_payment(request):
 
         # 📝 Save booking/order
         from .models import BookingOrder  # or your booking model
+
         BookingOrder.objects.create(
             user=request.user if request.user.is_authenticated else None,
             product_name=product_name,
             amount=amount,
             razorpay_payment_id=razorpay_payment_id,
             razorpay_order_id=razorpay_order_id,
-            status='PAID'
+            status="PAID",
         )
 
-        return JsonResponse({'success': True, 'message': 'Payment verified successfully'})
+        return JsonResponse(
+            {"success": True, "message": "Payment verified successfully"}
+        )
 
     except razorpay.errors.SignatureVerificationError:
-        return JsonResponse({'success': False, 'error': 'Payment signature verification failed'})
+        return JsonResponse(
+            {"success": False, "error": "Payment signature verification failed"}
+        )
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        return JsonResponse({"success": False, "error": str(e)})
+
 
 # Add this to your views.py or update your existing save_bookings view
 from django.core.mail import send_mail
@@ -788,66 +888,98 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 from .models import Booking
-@csrf_exempt
 
+
+@csrf_exempt
 @require_http_methods(["POST"])
 def save_booking(request):
     try:
         if not request.user.is_authenticated:
-            return JsonResponse({'success': False, 'message': 'You must be logged in to book a service'})
+            return JsonResponse(
+                {"success": False, "message": "You must be logged in to book a service"}
+            )
 
         # --- Standard Fields ---
-        service_name = request.POST.get('service_name')
-        contact_number = request.POST.get('contact_number')
-        email = request.POST.get('email')
-        address = request.POST.get('address')
-        pin_code = request.POST.get('pin_code')
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-        total_walls = request.POST.get('total_walls')
-        width = request.POST.get('width')
-        height = request.POST.get('height')
-        total_sqft = request.POST.get('total_sqft') or '0'
-        appointment_date = request.POST.get('appointment_date')
-        
+        service_name = request.POST.get("service_name")
+        contact_number = request.POST.get("contact_number")
+        email = request.POST.get("email")
+        address = request.POST.get("address")
+        pin_code = request.POST.get("pin_code")
+        state = request.POST.get("state")
+        city = request.POST.get("city")
+        total_walls = request.POST.get("total_walls")
+        width = request.POST.get("width")
+        height = request.POST.get("height")
+        total_sqft = request.POST.get("total_sqft") or "0"
+        appointment_date = request.POST.get("appointment_date")
+
         # *** CRITICAL FIX: Use the calculated amount from the front-end ***
         total_amount = request.POST.get("total_amount")
-        print(total_amount,"total_amount_+++++++++++++++++++++")
+        print(total_amount, "total_amount_+++++++++++++++++++++")
         # --- Design Fields (from form or null) ---
-        selected_design_name = request.POST.get('selected_design_name')
-        selected_design_price = request.POST.get('selected_design_price') # This is the price/rate for the design
-        custom_design_file = request.FILES.get('custom_design') # This handles uploaded file
+        selected_design_name = request.POST.get("selected_design_name")
+        selected_design_price = request.POST.get(
+            "selected_design_price"
+        )  # This is the price/rate for the design
+        custom_design_file = request.FILES.get(
+            "custom_design"
+        )  # This handles uploaded file
 
-        required_fields = [service_name, contact_number, email, address,
-                           pin_code, state, city, total_walls,
-                           width, height, appointment_date]
+        required_fields = [
+            service_name,
+            contact_number,
+            email,
+            address,
+            pin_code,
+            state,
+            city,
+            total_walls,
+            width,
+            height,
+            appointment_date,
+        ]
         if not all(required_fields):
-             # Check for total_sqft > 0 instead of just existence
+            # Check for total_sqft > 0 instead of just existence
             if not total_sqft or float(total_sqft) <= 0:
-                 return JsonResponse({'success': False, 'message': 'Please enter valid width/height to calculate square footage.'})
-            return JsonResponse({'success': False, 'message': 'Please fill all required fields'})
-
+                return JsonResponse(
+                    {
+                        "success": False,
+                        "message": "Please enter valid width/height to calculate square footage.",
+                    }
+                )
+            return JsonResponse(
+                {"success": False, "message": "Please fill all required fields"}
+            )
 
         if appointment_date:
             try:
                 # Assuming the JS sends 'DD-MM-YYYY'
-                appointment_date = datetime.strptime(appointment_date, "%d-%m-%Y").date()
+                appointment_date = datetime.strptime(
+                    appointment_date, "%d-%m-%Y"
+                ).date()
             except ValueError:
-                 # Check if format is YYYY-MM-DD (standard date input fallback)
+                # Check if format is YYYY-MM-DD (standard date input fallback)
                 try:
-                    appointment_date = datetime.strptime(appointment_date, "%Y-%m-%d").date()
+                    appointment_date = datetime.strptime(
+                        appointment_date, "%Y-%m-%d"
+                    ).date()
                 except ValueError:
-                    return JsonResponse({'success': False, 'message': 'Invalid date format, use DD-MM-YYYY or YYYY-MM-DD'})
-        
+                    return JsonResponse(
+                        {
+                            "success": False,
+                            "message": "Invalid date format, use DD-MM-YYYY or YYYY-MM-DD",
+                        }
+                    )
+
         next_id = Booking.objects.count() + 1
         booking_id = f"RCC{next_id}"
         print("getting to it ")
 
         # --- Finalize Design Fields for Model ---
         design_name_to_save = selected_design_name if selected_design_name else None
-        
+
         # Save the design price/rate (which was used to calculate the final amount)
-        price_to_save = float(selected_design_price) if selected_design_price else None 
+        price_to_save = float(selected_design_price) if selected_design_price else None
 
         # Determine type_of_art_booked
         if design_name_to_save:
@@ -856,16 +988,19 @@ def save_booking(request):
             art_type = "Custom Upload"
             # If custom design is uploaded, the price/rate used would be the service's default rate
             # You might want to pull the default rate here, but we'll use null/0 for simplicity.
-            price_to_save = price_to_save if price_to_save is not None else 0 # Default price if needed
+            price_to_save = (
+                price_to_save if price_to_save is not None else 0
+            )  # Default price if needed
         else:
             art_type = "Standard Service"
             # If standard, the price/rate is the hardcoded base rate from your JS, which you may want to save here.
             # For now, we'll keep price_to_save as None/0 if no design selected/uploaded.
             # If you want to save the rate from SERVICE_BASE_RATES, you'd need to send it from JS or look it up here.
 
-
         booking = Booking.objects.create(
-            customer_name=request.user.full_name if request.user.full_name else request.user.email,
+            customer_name=(
+                request.user.full_name if request.user.full_name else request.user.email
+            ),
             customer_user_id=request.user.id,
             booking_id=booking_id,
             service_name=service_name,
@@ -880,15 +1015,13 @@ def save_booking(request):
             height=height,
             total_sqft=total_sqft,
             appointment_date=appointment_date,
-            
             # --- SAVING DESIGN AND PRICE ---
             design_names=design_name_to_save,
             type_of_art_booked=art_type,
-            price_of_design=price_to_save, # The per-sqft rate or design fixed price
-            customer_design=custom_design_file, # Saves the uploaded file or None
-            
+            price_of_design=price_to_save,  # The per-sqft rate or design fixed price
+            customer_design=custom_design_file,  # Saves the uploaded file or None
             # --- FINAL AMOUNT FIX ---
-            total_amount=total_amount
+            total_amount=total_amount,
         )
         # --- SEND BOOKING CONFIRMATION EMAIL ---
         try:
@@ -940,18 +1073,20 @@ def save_booking(request):
         except Exception as email_error:
             print("EMAIL ERROR:", email_error)
 
-
-        return JsonResponse({'success': True, 'message': 'Booking saved successfully', 'id': booking.id})
+        return JsonResponse(
+            {"success": True, "message": "Booking saved successfully", "id": booking.id}
+        )
 
     except Exception as e:
         import traceback
+
         print(traceback.format_exc())
-        return JsonResponse({'success': False, 'message': str(e)})
-    
+        return JsonResponse({"success": False, "message": str(e)})
 
 
 from django.utils.decorators import method_decorator
 from .models import CustomProduct
+
 
 @csrf_exempt
 @login_required
@@ -974,34 +1109,38 @@ def save_custom_product(request):
 
 def is_admin(user):
     # Assuming staff/superuser status denotes an admin for booking management
-    return user.is_authenticated and user.is_staff 
+    return user.is_authenticated and user.is_staff
+
 
 def is_employee(user):
     # Assuming 'role' = 'employee' is set in CustomUser for workers
-    return user.is_authenticated and user.role == 'employee'
+    return user.is_authenticated and user.role == "employee"
 
 
 # --- Admin/Manager Views ---
 
+
 @user_passes_test(is_admin)
 def bookings(request):
     """Admin view to list all bookings and employees."""
-    status_filter = request.GET.get('status') 
-    
+    status_filter = request.GET.get("status")
+
     if status_filter and status_filter.lower() != "all":
         # Also filter by assignment_status if you want to group them
-        bookings = Booking.objects.filter(Q(status=status_filter) | Q(assignment_status=status_filter)).order_by('-created_at')
+        bookings = Booking.objects.filter(
+            Q(status=status_filter) | Q(assignment_status=status_filter)
+        ).order_by("-created_at")
     else:
-        bookings = Booking.objects.all().order_by('-created_at')
+        bookings = Booking.objects.all().order_by("-created_at")
 
     # Fetch users who can be assigned (employees)
-    employees = CustomUser.objects.filter(role='employee').order_by('full_name')
+    employees = CustomUser.objects.filter(role="employee").order_by("full_name")
 
     context = {
-        'bookings': bookings,
-        'employees': employees, # Passed for the assignment dropdown
+        "bookings": bookings,
+        "employees": employees,  # Passed for the assignment dropdown
     }
-    return render(request, 'bookings.html', context)
+    return render(request, "bookings.html", context)
 
 
 @user_passes_test(is_admin)
@@ -1022,15 +1161,16 @@ def update_booking_status(request, booking_id):
 #         employee_id = request.POST.get("employee_id")
 #         booking = get_object_or_404(Booking, id=booking_id)
 #         employee = get_object_or_404(CustomUser, id=employee_id)
-        
+
 #         # Assign the employee and set status to 'assigned' (awaiting response)
 #         booking.assigned_employee = employee
-#         booking.assignment_status = 'assigned' 
+#         booking.assignment_status = 'assigned'
 #         booking.save()
-        
+
 #     return redirect(reverse("bookings"))
 from django.core.mail import send_mail
 from django.conf import settings
+
 
 @user_passes_test(is_admin)
 def assign_booking(request, booking_id):
@@ -1042,7 +1182,7 @@ def assign_booking(request, booking_id):
 
         # Assign the employee
         booking.assigned_employee = employee
-        booking.assignment_status = 'assigned'
+        booking.assignment_status = "assigned"
         booking.save()
 
         # 🔍 Fetch employee profile to get email
@@ -1091,14 +1231,16 @@ RColorcraft Bookings Team
 
 # --- Employee Views ---
 
+
 @user_passes_test(is_employee)
 def employee_bookings(request):
     """Employee view to see all assigned bookings."""
     # Only show bookings assigned to the currently logged-in user
-    bookings = Booking.objects.filter(assigned_employee=request.user).order_by('-created_at')
-    
-    return render(request, 'employee_bookings.html', {'bookings': bookings})
+    bookings = Booking.objects.filter(assigned_employee=request.user).order_by(
+        "-created_at"
+    )
 
+    return render(request, "employee_bookings.html", {"bookings": bookings})
 
 
 @user_passes_test(is_employee)
@@ -1108,12 +1250,12 @@ def handle_assignment_response(request, booking_id, action):
     employee = request.user  # the logged-in user
 
     # Security check
-    if booking.assigned_employee != employee or booking.assignment_status != 'assigned':
+    if booking.assigned_employee != employee or booking.assignment_status != "assigned":
         messages.error(request, "Invalid action or unauthorized access.")
         return redirect(reverse("employee_bookings"))
 
     # Accept booking
-    if action == 'accept':
+    if action == "accept":
         # Deduct ₹60 from wallet
         wallet = Wallet.objects.filter(user=employee).first()
 
@@ -1132,13 +1274,19 @@ def handle_assignment_response(request, booking_id, action):
 
             booking.assignment_status = "accepted"
             booking.save()
-            messages.success(request, f"You accepted the assignment. ₹60 has been deducted from your wallet.")
+            messages.success(
+                request,
+                f"You accepted the assignment. ₹60 has been deducted from your wallet.",
+            )
         else:
-            messages.error(request, "Insufficient wallet balance. You need at least ₹60 to accept this booking.")
+            messages.error(
+                request,
+                "Insufficient wallet balance. You need at least ₹60 to accept this booking.",
+            )
             return redirect(reverse("employee_bookings"))
 
     # Decline booking
-    elif action == 'decline':
+    elif action == "decline":
         booking.assignment_status = "declined"
         booking.assigned_employee = None
         booking.save()
@@ -1147,17 +1295,19 @@ def handle_assignment_response(request, booking_id, action):
     return redirect(reverse("employee_bookings"))
 
 
-
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 from employee.models import ServiceImage
 
+
 @csrf_exempt
 def update_service_price(request):
     if request.method == "POST":
         if not request.user.is_staff:
-            return JsonResponse({"success": False, "message": "Permission denied."}, status=403)
+            return JsonResponse(
+                {"success": False, "message": "Permission denied."}, status=403
+            )
         try:
             data = json.loads(request.body)
             image_id = data.get("id")
@@ -1178,22 +1328,26 @@ def update_service_price(request):
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from accounts.models import Employee
+
+
 @login_required
 def toggle_block_artist(request, artist_id):
     artist = get_object_or_404(Employee, id=artist_id)
     artist.block_status = not artist.block_status
     artist.save()
-    return redirect(request.META.get('HTTP_REFERER', '/artists/'))
-
+    return redirect(request.META.get("HTTP_REFERER", "/artists/"))
 
 
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Booking
 
+
 @login_required
 def toggle_customer_status(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id, customer_user_id=request.user.id)
+    booking = get_object_or_404(
+        Booking, id=booking_id, customer_user_id=request.user.id
+    )
 
     if request.method == "POST":
         booking.customer_status = not booking.customer_status

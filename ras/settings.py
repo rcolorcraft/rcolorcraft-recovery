@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     "myadmin",
     "employee",
     "home",
@@ -60,11 +61,10 @@ INSTALLED_APPS = [
     "wallet",
     "user",
     "rest_framework_simplejwt",
-    "django.contrib.sitemaps",
 ]
 
-LOGIN_REDIRECT_URL = "home:landing"
-LOGOUT_REDIRECT_URL = "home:landing"
+LOGIN_REDIRECT_URL = "landing"
+LOGOUT_REDIRECT_URL = "landing"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

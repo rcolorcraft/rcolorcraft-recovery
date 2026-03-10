@@ -8,7 +8,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-WDGCWQT6JZ');
 </script>
 
@@ -807,15 +806,15 @@ body.gt-active header {
       <!-- NAVIGATION MENU -->
       <nav class="nav-left" id="navMenu">
         <ul>
-          <li><a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+         <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
           {# Only visible to admin #}
 {% if user.is_authenticated and user.role == 'admin' %}
-    <li><a href="{% url 'bookings' %}" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
-    <li><a href="{% url 'artists' %}" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
-{% endif %}    <li><a href="{% url 'bookings' %}" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
+    <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
+    <li><a href="/artists/" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
+{% endif %}    <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
 
-          <li><a href="{% url 'reviews' %}" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
-          <!-- <li><a href="{% url 'shop' %}" class="{% if request.path == '/shop/' %}active{% endif %}">Shop</a></li> -->
+          <li><a href="/reviews/" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
+          <!-- <li><a href="/shop/" class="{% if request.path == '/shop/' %}active{% endif %}">Shop</a></li> -->
 {% if user.is_authenticated and user.role == 'admin' or user.is_authenticated and user.role == 'employee' %}
     <li><a href="{% url 'service_images' %}">Art Images</a></li>
 {% endif %}
@@ -1185,8 +1184,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <!-- Popup menu -->
           <div id="myPopup" class="popup-menu">
             <a href="{% url 'wallet_dashboard' %}">Wallet</a>
+            {% comment %} <a href="{% url 'edit_profile' %}">Edit Profile</a> {% endcomment %}
             <a href="{% url 'edit_profile' %}">Edit Profile</a>
-            <a href="{% url 'logout' %}">Logout / Login</a>
+          <a href="{% url 'logout' %}">Logout / Login</a>
           </div>
         </li>
       </ul>

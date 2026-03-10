@@ -30,6 +30,7 @@
     margin-bottom: 15px;
     background: linear-gradient(to right, #ffdd57, #ff6f61);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -114,7 +115,7 @@
   margin-left: auto;
   margin-right: auto;
   text-align: left;
-  background: #e2dfff; 
+  background: #dfffe0; 
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);

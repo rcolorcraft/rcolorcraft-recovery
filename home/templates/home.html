@@ -1,941 +1,1831 @@
 {% extends 'base1.html' %}
+
 {% load static %}
+
 {% load i18n %}
+
 {% block title %}
-  {% trans "Home - RColourcraft" %}
+
+{% trans "Home - RColourcraft" %}
+
 {% endblock %}
 
 {% block content %}
+
 <style>
   
+  
+  
 
+  
     .trending-section {
+  
       width: 100%;
+  
       max-width: 1400px;
+  
       margin: 0 auto;
+  
       margin-bottom: 20px;
+  
     }
+  
 
+  
     .trending-heading {
+  
       text-align: center;
+  
       font-size: 2.5rem;
+  
       color: #000000;
+  
       margin-bottom: 3rem;
+  
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  
       letter-spacing: 1px;
+  
     }
+  
 
+  
     .trending-slider {
+  
       position: relative;
+  
       overflow: hidden;
+  
       padding: 20px 0;
+  
       mask-image: linear-gradient(
+  
         to right,
+  
         transparent,
+  
         black 10%,
+  
         black 90%,
+  
         transparent
+  
       );
+  
       -webkit-mask-image: linear-gradient(
+  
         to right,
+  
         transparent,
+  
         black 10%,
+  
         black 90%,
+  
         transparent
+  
       );
+  
     }
+  
 
+  
     .slider-track {
+  
       display: flex;
+  
       gap: 2rem;
+  
       animation: scroll 30s linear infinite;
+  
       width: max-content;
+  
     }
+  
 
+  
     .slider-track:hover {
+  
       animation-play-state: paused;
+  
     }
+  
 
+  
     @keyframes scroll {
+  
       0% {
+  
         transform: translateX(0);
+  
       }
+  
       100% {
+  
         transform: translateX(calc(-320px * 9 - 2rem * 9));
+  
       }
+  
     }
+  
 
+  
     .trending-card {
+  
       position: relative;
+  
       width: 280px;
+  
       height: 250px;
+  
       border-radius: 20px;
+  
       overflow: hidden;
+  
       cursor: pointer;
+  
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  
       flex-shrink: 0;
+  
     }
+  
 
+  
     .trending-card:hover {
+  
       transform: translateY(-15px) scale(1.05);
+  
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  
       z-index: 10;
+  
     }
+  
 
+  
     .trending-card img {
+  
       width: 100%;
+  
       height: 100%;
+  
       object-fit: cover;
+  
       transition: transform 0.5s ease;
+  
     }
+  
 
+  
     .trending-card:hover img {
+  
       transform: scale(1.1);
+  
     }
+  
 
+  
     .card-overlay {
+  
       position: absolute;
+  
       bottom: 0;
+  
       left: 0;
+  
       right: 0;
+  
       background: linear-gradient(
+  
         to top,
+  
         rgba(0, 0, 0, 0.9) 0%,
+  
         rgba(0, 0, 0, 0.7) 50%,
+  
         transparent 100%
+  
       );
+  
       padding: 2rem 1.5rem 1.5rem;
+  
       transform: translateY(0);
+  
       transition: all 0.4s ease;
+  
     }
+  
 
+  
     .trending-card:hover .card-overlay {
+  
       background: linear-gradient(
+  
         to top,
+  
         rgba(0, 0, 0, 0.95) 0%,
+  
         rgba(0, 0, 0, 0.8) 60%,
+  
         transparent 100%
+  
       );
+  
     }
+  
 
+  
     .card-overlay h3 {
+  
       color: #fff;
+  
       font-size: 1.5rem;
+  
       font-weight: 600;
+  
       margin-bottom: 0.5rem;
+  
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  
     }
+  
 
+  
     .card-overlay p {
+  
       color: #ffd700;
+  
       font-size: 1.1rem;
+  
       font-weight: 500;
+  
       opacity: 0;
+  
       transform: translateY(10px);
+  
       transition: all 0.4s ease;
+  
     }
+  
 
+  
     .trending-card:hover .card-overlay p {
+  
       opacity: 1;
+  
       transform: translateY(0);
+  
     }
+  
 
+  
     /* Responsive Design */
+  
     @media (max-width: 768px) {
+  
       .trending-heading {
+  
         font-size: 1.8rem;
+  
         margin-bottom: 2rem;
+  
       }
+  
 
+  
       .trending-card {
+  
         width: 250px;
+  
         height: 320px;
+  
       }
+  
 
+  
       @keyframes scroll {
+  
         0% {
+  
           transform: translateX(0);
+  
         }
+  
         100% {
+  
           transform: translateX(calc(-250px * 9 - 2rem * 9));
+  
         }
+  
       }
+  
 
+  
       .card-overlay h3 {
+  
         font-size: 1.2rem;
+  
       }
+  
     }
-  </style>
-  <style>
+  
+  </style>  <style>
+  
 
+  
 
+  
 .explore-grid-container {
+  
    
+  
     gap: 58px;
+  
 
+  
 }
+  
     
+  
 
+  
 
+  
 
+  
 
+  
 
+  
     /* Services Section Styling */
+  
     section h1 {
+  
       text-align: center;
+  
       text-transform: capitalize;
+  
       margin-bottom: 2rem;
+  
       font-size: 2.5rem;
+  
       color: #212121;
+  
       font-weight: 700;
+  
     }
+  
     
+  
     .services-grid {
+  
       flex-wrap: wrap;
+  
       justify-content: center;
+  
       max-width: 1400px;
+  
       margin: 0 auto;
+  
       padding: 20px;
+  
       gap: 4px;
+  
     }
+  
     
+  
     .service-card {
+  
       flex: 0 1 calc(25% - 16px);
+  
       background: #fff;
+  
       box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
+  
       border-radius: 15px;
+  
       margin: 8px;
+  
       padding: 20px 15px;
+  
       position: relative;
+  
       z-index: 1;
+  
       min-height: 354px;
+  
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  
       display: flex;
+  
       flex-direction: column;
+  
       align-items: center;
+  
       text-align: center;
+  
     }
+  
     
+  
     /* .service-card:before {
+  
       content: '';
+  
       position: absolute;
+  
       background: rgb(85 108 214 / 5%);
+  
       width: 170px;
+  
       height: 400px;
+  
       left: 1;
+  
       z-index: -1;
+  
       transform: rotate(42deg);
+  
       right: -56px;
+  
       top: -23px;
+  
       border-radius: 35px;
+  
       transition: all 0.7s ease;
+  
     }
+  
      */
+  
     .service-card:hover {
+  
       background: linear-gradient(135deg, #309df0 0%, #2d8fd9 100%);
+  
       color: #fff;
+  
       transform: scale(1.08) translateY(-5px);
+  
       z-index: 9;
+  
       box-shadow: 0 8px 16px 0 rgba(48, 157, 240, 0.3), 0 12px 40px 0 rgba(48, 157, 240, 0.25);
+  
     }
+  
     
+  
     .service-card:hover:before {
+  
       background: rgb(85 108 214 / 15%);
+  
       transform: rotate(42deg) scale(1.1);
+  
     }
+  
     
+  
     .service-card .circle {
+  
             transform: scale(1.06) rotate(0deg);
+  
 
+  
       width: 140px;
+  
       height: 140px;
+  
       margin-top: 12px;
+  
       margin-bottom: 15px;
+  
       background: #fff;
+  
       overflow: hidden;
+  
       display: flex;
+  
       align-items: center;
+  
       justify-content: center;
+  
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
       transition: all 0.4s ease;
+  
       border: 3px solid transparent;
+  
     }
+  
     
+  
     .service-card:hover .circle {
+  
       transform: scale(1.05) rotate(5deg);
+  
       box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+  
       border-color: rgba(255, 255, 255, 0.3);
+  
     }
+  
     
+  
     .service-card .circle img {
+  
       width: 100%;
+  
       height: 100%;
+  
       object-fit: cover;
+  
       transition: transform 0.4s ease;
+  
     }
+  
     
+  
     .service-card:hover .circle img {
+  
       transform: scale(1.1);
+  
     }
+  
     
+  
     .service-card h3 {
+  
       color: #212121;
+  
       font-size: 1.3rem;
+  
       margin-top: 10px;
+  
       margin-bottom: 10px;
+  
       transition: 0.7s;
+  
     }
+  
     
+  
     .service-card p {
+  
       font-size: 14px;
+  
       margin-bottom: 15px;
+  
       color: #666;
+  
       flex-grow: 1;
+  
       transition: 0.7s;
+  
     }
+  
     
+  
    
+  
     .service-card:hover h3,
+  
     .service-card:hover p {
+  
       color: #fff;
+  
     }
+  
     
+  
     .book-btn,
+  
     .explore-btn {
+  
       border: 0;
+  
       border-radius: 15px;
+  
       color: #fff;
+  
       font-weight: 500;
+  
       font-size: 0.9rem;
+  
       padding: 8px 16px;
+  
       text-decoration: none;
+  
       transition: 0.3s;
+  
       cursor: pointer;
+  
       display: inline-block;
+  
     }
+  
     
+  
     .book-btn {
+  
       background: linear-gradient(140deg, #42c3ca 0%, #42c3ca 50%, #42c3cac7 75%) !important;
+  
     }
+  
     
+  
     .explore-btn {
+  
       background: linear-gradient(140deg, #309df0 0%, #309df0 50%, #309df0c7 75%) !important;
+  
     }
+  
     
+  
     .service-card:hover .book-btn {
+  
       background: #fff !important;
+  
       color: #42c3ca;
+  
     }
+  
     
+  
     .service-card:hover .explore-btn {
+  
       background: #fff !important;
+  
       color: #309df0;
+  
     }
+  
     
+  
     .hover_color_bubble {
+  
       position: absolute;
+  
       background: rgb(54 81 207 / 15%);
+  
       width: 100rem;
+  
       height: 100rem;
+  
       left: 0;
+  
       right: 0;
+  
       z-index: -1;
+  
       top: 16rem;
+  
       border-radius: 50%;
+  
       transform: rotate(-36deg);
+  
       left: -18rem;
+  
       transition: 0.7s;
+  
     }
+  
     
+  
     .service-card:hover .hover_color_bubble {
+  
       top: 0rem;
+  
     }
+  
     
+  
     #cartoon-painting-card,
+  
     #home-painting-card {
+  
       flex: 0 1 calc(25% - 16px);
+  
       position: relative;
+  
       left: 66.9%;
+  
     }
+  
     
+  
     /* Responsive Design */
+  
     @media screen and (min-width: 320px) {
+  
       .service-card {
+  
         flex: 0 1 calc(100% - 16px);
+  
       }
+  
       
+  
       #cartoon-painting-card,
+  
       #home-painting-card {
+  
         left: 0;
+  
       }
+  
     }
+  
     
+  
     @media screen and (min-width: 576px) {
+  
       .service-card {
+  
         flex: 0 1 calc(50% - 16px);
+  
       }
+  
       
+  
       #cartoon-painting-card,
+  
       #home-painting-card {
+  
         left: 0;
+  
       }
+  
     }
+  
     
+  
     @media screen and (min-width: 768px) {
+  
       .service-card {
+  
         flex: 0 1 calc(33.333% - 16px);
+  
       }
+  
       
+  
       #cartoon-painting-card,
+  
       #home-painting-card {
+  
         left: 16.665%;
+  
       }
+  
     }
+  
     
+  
     @media screen and (min-width: 1024px) {
+  
       .service-card {
+  
         flex: 0 1 calc(25% - 16px);
+  
       }
+  
       
+  
       #cartoon-painting-card,
+  
       #home-painting-card {
+  
         left: 50%;
+  
       }
+  
     }
+  
     
+  
     @media screen and (min-width: 1400px) {
+  
       .service-card {
+  
         flex: 0 1 calc(20% - 16px);
+  
       }
+  
       
+  
       #cartoon-painting-card,
+  
       #home-painting-card {
+  
         left: 50%;
+  
       }
+  
     }
-  </style>
+  
+  </style>  <!-- Hero Section -->  <div class="hero"><div class="hero-overlay">
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="hero-overlay">
-      <div class="hero-text glass-card">
-        <h1>
-          Welcome to Rcolorcraft</h1>
-          <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
-          {% if request.user.is_authenticated %}
-            {% if request.user.is_superuser %}
-              {% trans "Welcome Neeraj" %}
-            {% elif request.user.role == 'customer' %}
-              {% trans "Welcome" %} {{ request.user.customers.first.customer_full_name }}
-            {% elif request.user.role == 'employee' %}
-              {% trans "Welcome" %} {{ request.user.employees.first.full_name }}
-            {% else %}
-              {% trans "Welcome" %} {{ request.user.full_name }}
-            {% endif %}
-          {% else %}
-            <!-- {% trans "Welcome Back" %} -->
-          {% endif %}
-        
-        <!-- <div class="cta-buttons"</div>
-          <a href=""/contact" class="cta-btn">Get Free Quote</a>
-          <a href="/booking" class=""cta-btn secondary">Book Now</a>
-        <a href="explore" class="cta-btn">Explore Services</a>
-      </div>
-      <a href="/booking" class="cta-btn">Book Now</a> -->
-        <!-- <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p> -->
-        <!-- <button>Explore Services</button> -->
-      </div>
-      <div class="hero-img">
-        <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
-      </div>
-    </div>
+  <div class="hero-text glass-card">
+
+    <h1>
+
+      Welcome to Rcolorcraft</h1>
+
+      <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
+
+      {% if request.user.is_authenticated %}
+
+        {% if request.user.is_superuser %}
+
+          {% trans "Welcome Neeraj" %}
+
+        {% elif request.user.role == 'customer' %}
+
+          {% trans "Welcome" %} {{ request.user.customers.first.customer_full_name }}
+
+        {% elif request.user.role == 'employee' %}
+
+          {% trans "Welcome" %} {{ request.user.employees.first.full_name }}
+
+        {% else %}
+
+          {% trans "Welcome" %} {{ request.user.full_name }}
+
+        {% endif %}
+
+      {% else %}
+
+        <!-- {% trans "Welcome Back" %} -->
+
+      {% endif %}
+
+    
+
+    <!-- <div class="cta-buttons"</div>
+
+      <a href=""/contact" class="cta-btn">Get Free Quote</a>
+
+      <a href="/booking" class=""cta-btn secondary">Book Now</a>
+
+    <a href="explore" class="cta-btn">Explore Services</a>
+
   </div>
 
-  <section class="hero">
-    <div class="hero-box">
-      <!-- <h1>Welcome to Rcolorcraft</h1>
-      <p>Transform your space with our stunning murals and creative paintings.
-        Experience art that breathes life into your walls.
-      </p> -->
-      <!-- 1. 3D Wall Art (Corrected slug) -->
-      <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/3D wall art.jpeg' %}" alt="3D Wall Art" />
-        </div>
-        <p>{% trans "3D Wall Art" %}</p>
-      </a>
+  <a href="/booking" class="cta-btn">Book Now</a> -->
 
-      <!-- 2. 3D Floor Art (Corrected slug) -->
-      <a href="{% url 'explore_service' '3d-floor-art' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/3D floor Art.jpeg' %}" alt="3D Floor Art" />
-        </div>
-        <p>{% trans "3D Floor Art" %}</p>
-      </a>
+    <!-- <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p> -->
 
-      <!-- 3. Outdoor Advertisement (Corrected slug) -->
-      <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
-        </div>
-        <p>{% trans "Outdoor Advertisement" %}</p>
-      </a>
+    <!-- <button>Explore Services</button> -->
 
-      <!-- 4. Metro Advertisement (Corrected slug) -->
-      <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/Metro Advertisement.jpeg' %}" alt="Metro Advertisement" />
-        </div>
-        <p>{% trans "Metro Advertisement" %}</p>
-      </a>
+  </div>
 
-      <!-- 5. School Painting (Corrected slug) -->
-      <a href="{% url 'explore_service' 'school-painting' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/kids.png' %}" alt="School Painting" />
-        </div>
-        <p>{% trans "School Painting" %}</p>
-      </a>
+  <div class="hero-img">
 
-      <!-- 6. Stone Murti (Corrected slug) -->
-      <!-- <a href="{% url 'explore_service' 'stone-murti' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/ganeshmurti.jpg' %}" alt="Stone Murti" />
-        </div>
-        <p>Stone Murti</p>
-      </a> -->
+    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
 
-      <!-- 7. mural (Corrected slug) -->
-      <a href="{% url 'explore_service' 'mural' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/art11.jpg' %}" alt="mural" />
-        </div>
-        <p>{% trans "Mural Art" %}</p>
-      </a>
+  </div>
 
-      <!-- 8. Scrap Animal Art (Corrected slug) -->
-      <!-- <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/king.png' %}" alt="Scrap Animal Art" />
-        </div>
-        <p>Scrap Animal Art</p>
-      </a> -->
+</div>
 
-      <!-- 9. Nature & Water Fountain / Fountain Art (Slug: fountain-art) -->
-      <a href="{% url 'explore_service' 'fountain-art' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Nature and Water Fountain" />
-        </div>
-        <p>{% trans "Water Tank" %}</p>
-      </a>
+  </div>  <section class="hero"><div class="hero-box">
 
-      <!-- 10. Home Painting (Corrected slug from 'fountain-art' to 'home-painting') -->
-      <a href="{% url 'explore_service' 'home-painting' %}" class="explore-item">
-        <div class="explore-circle">
-          <img src="{% static 'gallery/paint1.jpg' %}" alt="Home Painting" />
-        </div>
-        <p>{% trans "Home Painting" %}</p>
-      </a>
+  <!-- <h1>Welcome to Rcolorcraft</h1>
+
+  <p>Transform your space with our stunning murals and creative paintings.
+
+    Experience art that breathes life into your walls.
+
+  </p> -->
+
+  <!-- 1. 3D Wall Art (Corrected slug) -->
+
+  <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/3D wall art.jpeg' %}" alt="3D Wall Art" />
+
     </div>
-  </section>
 
-  <!-- Most Trending Designs Section -->
-  <section class="trending-section">
-    <h2 class="trending-heading">{% trans "Most Trending Designs" %}</h2>
-    <!-- Translations:
-      Hindi: "सर्वाधिक ट्रेंडिंग डिजाइन"
-      Gujarati: "સૌથી લોકપ્રિય ડિઝાઇનો"
-      Punjabi: "ਸਭ ਤੋਂ ਜ਼ਿਆਦਾ ਟ્રેન્ડિંગ ડિઝાઇનો"
-    -->
+    <p>{% trans "3D Wall Art" %}</p>
 
-    <div class="trending-slider">
-      <div class="slider-track">
-        <!-- Original Cards -->
-        <div class="trending-card">
-          <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
-          <div class="card-overlay">
-            <h3>{% trans "3D Art" %}</h3>
-            <!-- <p>₹ 150 per sq.ft</p> -->
-          </div>
-        </div>
+  </a>
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
-          <div class="card-overlay">
-            <h3>{% trans "Aesthetic Art" %}</h3>
-            <!-- <p>₹ 200 per sq.ft</p> -->
-          </div>
-        </div>
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
-          <div class="card-overlay">
-            <h3>{% trans "Metro Advertisement" %}</h3>
-            <!-- <p>₹ 120 per sq.ft</p> -->
-          </div>
-        </div>
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
-          <div class="card-overlay">
-            <h3>{% trans "Abstract" %}</h3>
-            <!-- <p>₹ 180 per sq.ft</p> -->
-          </div>
-        </div>
+  <!-- 2. 3D Floor Art (Corrected slug) -->
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
-          <div class="card-overlay">
-            <h3>{% trans "Nature Art" %}</h3>
-            <!-- <p>₹ 210 per sq.ft</p> -->
-          </div>
-        </div>
+  <a href="{% url 'explore_service' '3d-floor-art' %}" class="explore-item">
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
-          <div class="card-overlay">
-            <h3>{% trans "Kids Theme" %}</h3>
-            <!-- <p>₹ 130 per sq.ft</p> -->
-          </div>
-        </div>
+    <div class="explore-circle">
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
-          <div class="card-overlay">
-            <h3>{% trans "Mural Art" %}</h3>
-            <!-- <p>₹ 150 per sq.ft</p> -->
-          </div>
-        </div>
+      <img src="{% static 'gallery/3D floor Art.jpeg' %}" alt="3D Floor Art" />
 
-        <div class="trending-card">
-          <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
-          <div class="card-overlay">
-            <h3>{% trans "Canvas Painting" %}</h3>
-            <!-- <p>₹ 200 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
-          <div class="card-overlay">
-            <h3>{% trans "Radha Krishna Mural" %}</h3>
-            <!-- <p>₹ 220 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <!-- Duplicate for seamless infinite scroll -->
-        <div class="trending-card">
-          <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
-          <div class="card-overlay">
-            <h3>{% trans "3D Art" %}</h3>
-            <!-- <p>₹ 150 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
-          <div class="card-overlay">
-            <h3>{% trans "Aesthetic Art" %}</h3>
-            <!-- <p>₹ 200 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
-          <div class="card-overlay">
-            <h3>{% trans "Metro Advertisement" %}</h3>
-            <!-- <p>₹ 120 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
-          <div class="card-overlay">
-            <h3>{% trans "Abstract" %}</h3>
-            <!-- <p>₹ 180 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
-          <div class="card-overlay">
-            <h3>{% trans "Nature Art" %}</h3>
-            <!-- <p>₹ 210 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
-          <div class="card-overlay">
-            <h3>{% trans "Kids Theme" %}</h3>
-            <!-- <p>₹ 130 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
-          <div class="card-overlay">
-            <h3>Mural Art</h3>
-            <!-- <p>₹ 150 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
-          <div class="card-overlay">
-            <h3>Canvas Painting</h3>
-            <!-- <p>₹ 200 per sq.ft</p> -->
-          </div>
-        </div>
-
-        <div class="trending-card">
-          <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
-          <div class="card-overlay">
-            <h3>Radha Krishna Mural</h3>
-            <!-- <p>₹ 220 per sq.ft</p> -->
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
-  <!-- Services Section -->
 
-  <section>
-    <h1>{% trans "Our Services" %}</h1>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/3D wall art.jpeg' %}" alt="3D Wall Art" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Wall Art" %}</b></h3>
-        <p>{% trans "Our immersive 3D painting experiences transform ordinary walls into extraordinary spaces, making your surroundings vibrant, interactive and unforgettable." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' '3d-wall-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+    <p>{% trans "3D Floor Art" %}</p>
 
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/3D floor Art.jpeg' %}" alt="3D Floor Art" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Floor Art" %}</b></h3>
-        <p>{% trans "We create immersive 3D Floor paintings experiences that bring your floors and spaces to life.Step into a world where art escapes the canvas." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' '3d-floor-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' '3d-floor-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/art11.jpg' %}" alt="Mural Art" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Mural Art" %}</b></h3>
-        <p>{% trans "We design beautiful and expressive Mural artworks that perfectly match your personality, style, and space. Every brushstroke is crafted to make your walls a true reflection of you." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'mural' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'mural' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Metro Advertisement.jpeg' %}" alt="Metro Advertisement" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Metro Advertisement" %}</b></h3>
-        <p>{% trans "Transform high-traffic areas into stunning visual experiences. Our large-scale creative artworks and ads are perfect for metro stations, public spaces, and commercial zones." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'metro-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Outdoor Advertisement" %}</b></h3>
-        <p>{% trans "From soft minimalism to bold statements, our aesthetic artworks are thoughtfully crafted to enhance the beauty and energy of your space." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'outdoor-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/schoolpaint.jpg' %}" alt="School Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "School Painting" %}</b></h3>
-        <p> {% trans "Make learning spaces lively and inspiring! Our school paintings bring classrooms, corridors and playgrounds to life with color, fun characters, and motivational messages." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'school-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'school-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Selfie Painting.jpeg' %}" alt="Selfie Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Selfie Painting" %}</b></h3>
-        <p>{% trans "Perfect for photo lovers and Instagram-worthy clicks. Ideal for cafés, studios, events, and public spaces." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'selfie-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'selfie-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Madhubani Painting" %}</b></h3>
-        <p> {% trans "Our hand-painted Madhubani artworks reflect India's rich cultural heritage with intricate patterns, vibrant colors, and meaningful storytelling" %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'madhubani-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'madhubani-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Texture Painting" %}</b></h3>
-        <p>{% trans "Give your walls a touch of elegance and depth with our premium texture painting" %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'texture-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'texture-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
-
-      <!-- <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/ganeshmurti.jpg' %}" alt="Stone Murti" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>Stone Murti</b></h3>
-        <p>Our hand-carved stone murtis capture divine energy and artistic excellence, perfect for temples, gardens, and home décor that radiates peace and grace.</p>
-        <div class="card-buttons">
-          {% comment %} <a href="{% url 'book_service' 'stone-murti' %}" class="book-btn">Customize Product</a> {% endcomment %}
-          <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
-        </div>
-      </div> -->
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Pillere panting.jpeg' %}" alt="Pillere Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Pillere Painting" %}</b></h3>
-        <p>{% trans "Enhance your home with our detailed and beautiful pillere painting service." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'pillere-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'pillere-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+  </a>
 
 
-      <!-- <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/statue12.jpg' %}" alt="Statue" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>Statue</b></h3>
-        <p>Add grandeur and character to your surroundings with our beautifully crafted statues. Each piece is designed with precision, making it a timeless centerpiece for homes, offices, and public spaces.</p>
-        <div class="card-buttons">
-          {% comment %} <a href="{% url 'book_service' 'statue' %}" class="book-btn">Customize Product</a> {% endcomment %}
-          <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
-        </div>
-      </div> -->
 
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Scrap animal.jpeg' %}" alt="Scrap Animal Art" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Scrap Animal Art" %}</b></h3>
-        <p>{% trans "Where creativity meets sustainability. We transform recycled scrap materials into stunning animal sculptures that celebrate wildlife while promoting eco-friendly art. Unique, bold, and full of personality" %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'scrap-animal-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+  <!-- 3. Outdoor Advertisement (Corrected slug) -->
 
-      <div class="service-card">
-        <div class="circle">
-          <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Water Tank" %}</b></h3>
-        <p>{% trans "We blend the harmony of architecture with the elegance of nature. These artworks create a balanced and sophisticated ambiance in any space." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'nature-fountain' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'nature-fountain' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+  <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
 
-      <div class="service-card" id="cartoon-painting-card">
-        <div class="circle">
-          <img src="{% static 'gallery/dora.png' %}" alt="Cartoon Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Cartoon Painting" %}</b></h3>
-        <p>{% trans "Perfect for kids, schools, play areas, and creative corners — our cartoon and fun-themed designs bring smiles, laughter, and a touch of whimsy to your walls." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'cartoon-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'cartoon-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+    <div class="explore-circle">
 
-      <div class="service-card" id="home-painting-card">
-        <div class="circle">
-          <img src="{% static 'gallery/normal_paint.png' %}" alt="Home Painting" />
-        </div>
-        <h3 style="padding-bottom: 12px;"> <b>{% trans "Home Painting" %}</b></h3>
-        <p>{% trans "Transform your house into a warm and artistic home. Our customized home painting solutions blend creativity, color, and comfort to reflect your personal style." %}</p>
-        <div class="card-buttons">
-          <a href="{% url 'book_service' 'home-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-          <a href="{% url 'explore_service' 'home-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-        </div>
-      </div>
+      <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
+
     </div>
-  </section>
 
-  <!-- Reviews Section -->
-  <!-- <section class="reviews-section">
+    <p>{% trans "Outdoor Advertisement" %}</p>
+
+  </a>
+
+
+
+  <!-- 4. Metro Advertisement (Corrected slug) -->
+
+  <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/Metro Advertisement.jpeg' %}" alt="Metro Advertisement" />
+
+    </div>
+
+    <p>{% trans "Metro Advertisement" %}</p>
+
+  </a>
+
+
+
+  <!-- 5. School Painting (Corrected slug) -->
+
+  <a href="{% url 'explore_service' 'school-painting' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/kids.png' %}" alt="School Painting" />
+
+    </div>
+
+    <p>{% trans "School Painting" %}</p>
+
+  </a>
+
+
+
+  <!-- 6. Stone Murti (Corrected slug) -->
+
+  <!-- <a href="{% url 'explore_service' 'stone-murti' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/ganeshmurti.jpg' %}" alt="Stone Murti" />
+
+    </div>
+
+    <p>Stone Murti</p>
+
+  </a> -->
+
+
+
+  <!-- 7. mural (Corrected slug) -->
+
+  <a href="{% url 'explore_service' 'mural' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/art11.jpg' %}" alt="mural" />
+
+    </div>
+
+    <p>{% trans "Mural Art" %}</p>
+
+  </a>
+
+
+
+  <!-- 8. Scrap Animal Art (Corrected slug) -->
+
+  <!-- <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/king.png' %}" alt="Scrap Animal Art" />
+
+    </div>
+
+    <p>Scrap Animal Art</p>
+
+  </a> -->
+
+
+
+  <!-- 9. Nature & Water Fountain / Fountain Art (Slug: fountain-art) -->
+
+  <a href="{% url 'explore_service' 'fountain-art' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Nature and Water Fountain" />
+
+    </div>
+
+    <p>{% trans "Water Tank" %}</p>
+
+  </a>
+
+
+
+  <!-- 10. Home Painting (Corrected slug from 'fountain-art' to 'home-painting') -->
+
+  <a href="{% url 'explore_service' 'home-painting' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/paint1.jpg' %}" alt="Home Painting" />
+
+    </div>
+
+    <p>{% trans "Home Painting" %}</p>
+
+  </a>
+
+</div>
+
+  </section>  <!-- Most Trending Designs Section -->  <section class="trending-section"><h2 class="trending-heading">{% trans "Most Trending Designs" %}</h2>
+
+<!-- Translations:
+
+  Hindi: "सर्वाधिक ट्रेंडिंग डिजाइन"
+
+  Gujarati: "સૌથી લોકપ્રિય ડિઝાઇનો"
+
+  Punjabi: "ਸਭ ਤੋਂ ਜ਼ਿਆਦਾ ਟ્રેન્ડિંગ ડિઝાઇનો"
+
+-->
+
+
+
+<div class="trending-slider">
+
+  <div class="slider-track">
+
+    <!-- Original Cards -->
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "3D Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Aesthetic Art" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Metro Advertisement" %}</h3>
+
+        <!-- <p>₹ 120 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Abstract" %}</h3>
+
+        <!-- <p>₹ 180 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Nature Art" %}</h3>
+
+        <!-- <p>₹ 210 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Kids Theme" %}</h3>
+
+        <!-- <p>₹ 130 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Mural Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Canvas Painting" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Radha Krishna Mural" %}</h3>
+
+        <!-- <p>₹ 220 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Duplicate for seamless infinite scroll -->
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "3D Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Aesthetic Art" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Metro Advertisement" %}</h3>
+
+        <!-- <p>₹ 120 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Abstract" %}</h3>
+
+        <!-- <p>₹ 180 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Nature Art" %}</h3>
+
+        <!-- <p>₹ 210 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Kids Theme" %}</h3>
+
+        <!-- <p>₹ 130 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>Mural Art</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
+
+      <div class="card-overlay">
+
+        <h3>Canvas Painting</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
+
+      <div class="card-overlay">
+
+        <h3>Radha Krishna Mural</h3>
+
+        <!-- <p>₹ 220 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Services" %}</h1>
+
+<div class="services-grid">
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/3D wall art.jpeg' %}" alt="3D Wall Art" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Wall Art" %}</b></h3>
+
+    <p>{% trans "Our immersive 3D painting experiences transform ordinary walls into extraordinary spaces, making your surroundings vibrant, interactive and unforgettable." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' '3d-wall-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/3D floor Art.jpeg' %}" alt="3D Floor Art" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Floor Art" %}</b></h3>
+
+    <p>{% trans "We create immersive 3D Floor paintings experiences that bring your floors and spaces to life.Step into a world where art escapes the canvas." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' '3d-floor-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' '3d-floor-art' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/art11.jpg' %}" alt="Mural Art" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Mural Art" %}</b></h3>
+
+    <p>{% trans "We design beautiful and expressive Mural artworks that perfectly match your personality, style, and space. Every brushstroke is crafted to make your walls a true reflection of you." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'mural' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'mural' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Metro Advertisement.jpeg' %}" alt="Metro Advertisement" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Metro Advertisement" %}</b></h3>
+
+    <p>{% trans "Transform high-traffic areas into stunning visual experiences. Our large-scale creative artworks and ads are perfect for metro stations, public spaces, and commercial zones." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'metro-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Outdoor Advertisement" %}</b></h3>
+
+    <p>{% trans "From soft minimalism to bold statements, our aesthetic artworks are thoughtfully crafted to enhance the beauty and energy of your space." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'outdoor-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/schoolpaint.jpg' %}" alt="School Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "School Painting" %}</b></h3>
+
+    <p> {% trans "Make learning spaces lively and inspiring! Our school paintings bring classrooms, corridors and playgrounds to life with color, fun characters, and motivational messages." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'school-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'school-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Selfie Painting.jpeg' %}" alt="Selfie Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Selfie Painting" %}</b></h3>
+
+    <p>{% trans "Perfect for photo lovers and Instagram-worthy clicks. Ideal for cafés, studios, events, and public spaces." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'selfie-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'selfie-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Madhubani Painting" %}</b></h3>
+
+    <p> {% trans "Our hand-painted Madhubani artworks reflect India's rich cultural heritage with intricate patterns, vibrant colors, and meaningful storytelling" %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'madhubani-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'madhubani-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Texture Painting" %}</b></h3>
+
+    <p>{% trans "Give your walls a touch of elegance and depth with our premium texture painting" %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'texture-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'texture-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/ganeshmurti.jpg' %}" alt="Stone Murti" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>Stone Murti</b></h3>
+
+    <p>Our hand-carved stone murtis capture divine energy and artistic excellence, perfect for temples, gardens, and home décor that radiates peace and grace.</p>
+
+    <div class="card-buttons">
+
+      {% comment %} <a href="{% url 'book_service' 'stone-murti' %}" class="book-btn">Customize Product</a> {% endcomment %}
+
+      <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
+
+    </div>
+
+  </div> -->
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Pillere panting.jpeg' %}" alt="Pillere Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Pillere Painting" %}</b></h3>
+
+    <p>{% trans "Enhance your home with our detailed and beautiful pillere painting service." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'pillere-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'pillere-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <!-- <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/statue12.jpg' %}" alt="Statue" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>Statue</b></h3>
+
+    <p>Add grandeur and character to your surroundings with our beautifully crafted statues. Each piece is designed with precision, making it a timeless centerpiece for homes, offices, and public spaces.</p>
+
+    <div class="card-buttons">
+
+      {% comment %} <a href="{% url 'book_service' 'statue' %}" class="book-btn">Customize Product</a> {% endcomment %}
+
+      <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
+
+    </div>
+
+  </div> -->
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Scrap animal.jpeg' %}" alt="Scrap Animal Art" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Scrap Animal Art" %}</b></h3>
+
+    <p>{% trans "Where creativity meets sustainability. We transform recycled scrap materials into stunning animal sculptures that celebrate wildlife while promoting eco-friendly art. Unique, bold, and full of personality" %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'scrap-animal-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Water Tank" %}</b></h3>
+
+    <p>{% trans "We blend the harmony of architecture with the elegance of nature. These artworks create a balanced and sophisticated ambiance in any space." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'nature-fountain' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'nature-fountain' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card" id="cartoon-painting-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/dora.png' %}" alt="Cartoon Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Cartoon Painting" %}</b></h3>
+
+    <p>{% trans "Perfect for kids, schools, play areas, and creative corners — our cartoon and fun-themed designs bring smiles, laughter, and a touch of whimsy to your walls." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'cartoon-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'cartoon-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="service-card" id="home-painting-card">
+
+    <div class="circle">
+
+      <img src="{% static 'gallery/normal_paint.png' %}" alt="Home Painting" />
+
+    </div>
+
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Home Painting" %}</b></h3>
+
+    <p>{% trans "Transform your house into a warm and artistic home. Our customized home painting solutions blend creativity, color, and comfort to reflect your personal style." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'home-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'home-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </section>  <!-- Reviews Section -->  <!-- <section class="reviews-section">
+  
     <h1>{% trans "Customer Reviews" %}</h1>
+  
     <div class="reviews-container">
+  
       {% for review in reviews %}
+  
         <div class="review-card">
+  
           <div class="review-header">
+  
             {% if review.customer_photo %}
+  
               <img src="{{ review.customer_photo }}" alt="{{ review.customer_name }} photo" class="review-avatar" />
+  
             {% else %}
+  
               <img src="{% static 'images/default-avatar.png' %}" alt="Avatar" class="review-avatar" />
+  
             {% endif %}
+  
             <div class="review-meta">
+  
               <h3>{{ review.customer_name }}</h3>
+  
               <p class="review-text-inline">{{ review.customer_review }}</p>
+  
               <div class="stars">
+  
                 {% for _ in review.full_stars %}
+  
                   <i class="fa fa-star text-warning"></i>
+  
                 {% endfor %}
+  
                 {% for _ in review.empty_stars %}
+  
                   <i class="fa fa-star-o text-warning"></i>
+  
                 {% endfor %}
+  
               </div>
+  
             </div>
+  
           </div>
+  
           {% if review.review_image %}
+  
             <div class="review-image-container" onclick="openModal('{{ review.review_image.url }}')">
+  
               <img src="{{ review.review_image.url }}" alt="Review Image" class="review-image" />
+  
             </div>
+  
           {% endif %}
+  
         </div>
+  
       {% endfor %}
+  
     </div>
-  </section> -->
+  
+  </section> -->  <!-- Image Modal -->  <div id="imageModal" class="modal"><span class="close-btn">&times;</span>
 
-  <!-- Image Modal -->
-  <div id="imageModal" class="modal">
-    <span class="close-btn">&times;</span>
-    <img class="modal-content" id="img01" />
-  </div>
-{% endblock %}
+<img class="modal-content" id="img01" />
+
+  </div>{% endblock %}
