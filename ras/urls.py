@@ -22,7 +22,15 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import set_language
 from django.contrib.sitemaps.views import sitemap
+from django.urls import reverse
+from home import sitemaps
+from home.sitemaps import StaticViewSitemap
 from django.views.generic import TemplateView
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    # You can add more sitemaps here if needed
+}
 
 urlpatterns = [
     path(
@@ -31,7 +39,7 @@ urlpatterns = [
     ),
     path("i18n/", include("django.conf.urls.i18n")),
     # path("set_language/", set_language, name="set_language"),
-    path("sitemap.xml", sitemap, {"sitemaps": {}}),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 
 urlpatterns += i18n_patterns(
