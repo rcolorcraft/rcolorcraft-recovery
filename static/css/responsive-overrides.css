@@ -1,0 +1,181 @@
+/* Site-wide responsive hardening.
+   This file intentionally contains only "safe" overrides that improve
+   phone/tablet layouts across templates (many of which use inline CSS). */
+
+/* Prevent sideways scroll caused by fixed widths/offsets */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Fluid media */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better text scaling on small screens */
+h1 { font-size: clamp(1.6rem, 3.5vw, 3rem); }
+h2 { font-size: clamp(1.3rem, 3vw, 2.5rem); }
+h3 { font-size: clamp(1.05rem, 2.4vw, 1.6rem); }
+
+/* Forms: avoid iOS zoom and cramped inputs */
+input,
+select,
+textarea,
+button {
+  font-size: 16px;
+}
+
+/* Tables: make scrollable on small screens */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+  .table-responsive,
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Common container patterns used across templates */
+.page-container,
+.contact-container,
+.footer-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* My Orders: reduce min card width on phones */
+@media (max-width: 480px) {
+  .orders-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* Generic "row" stacks for small screens (used by booking/profile pages) */
+@media (max-width: 768px) {
+  .contact-row,
+  .address-row,
+  .card-row {
+    flex-direction: column !important;
+  }
+
+  .info-row {
+    flex-wrap: wrap;
+  }
+}
+
+/* Reduce overly-wide grid minimums on tablets too */
+@media (max-width: 768px) {
+  .orders-list {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  }
+}
+
+/* Contact Us hero: reduce padding on phones */
+@media (max-width: 576px) {
+  .hero-card {
+    padding: 2.25rem 1.25rem !important;
+  }
+}
+
+/* Shop grid: ensure padding doesn't force overflow */
+@media (max-width: 576px) {
+  .product-grid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Home: Our Services cards on small screens */
+@media (max-width: 576px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    margin-left: 0 !important;
+    padding: 0 12px;
+    justify-items: stretch !important;
+  }
+
+  .service-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1.5rem 1rem 1.5rem 1rem !important;
+    text-align: center !important;
+    min-height: auto !important;
+  }
+
+  .service-card .circle {
+    position: static !important;
+    transform: none !important;
+    margin: 0 auto 1rem auto;
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .card-buttons {
+    position: static !important;
+    margin-top: 1rem;
+    left: auto !important;
+    right: auto !important;
+    justify-content: center;
+  }
+}
+
+/* Explore Service (gallery) grid: allow smaller cards on phones/tablets */
+@media (max-width: 768px) {
+  .gallery-container {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* Artist list grid: prevent 420px min columns on phones */
+@media (max-width: 768px) {
+  .artist-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* Customer profile edit page: allow columns to shrink on phones */
+@media (max-width: 576px) {
+  #customerProfileForm .profile-details,
+  #customerProfileForm .profile-picture,
+  .edit-profile-container .profile-details {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  main.edit-profile-page {
+    padding: 20px !important;
+  }
+
+  .edit-profile-container {
+    padding: 20px !important;
+    gap: 20px !important;
+  }
+}
+
+/* Explore Service gallery: reduce modal chrome on phones */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 92% !important;
+  }
+  .prev,
+  .next,
+  .prev-btn,
+  .next-btn {
+    font-size: 36px !important;
+    padding: 12px !important;
+  }
+}
+

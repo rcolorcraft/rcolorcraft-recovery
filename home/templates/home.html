@@ -377,61 +377,10 @@
       font-weight: 700;
   
     }
-  
     
-  
-    .services-grid {
-  
-      flex-wrap: wrap;
-  
-      justify-content: center;
-  
-      max-width: 1400px;
-  
-      margin: 0 auto;
-  
-      padding: 20px;
-  
-      gap: 4px;
-  
-    }
-  
+    /* Layout is handled globally in `static/css/common.css` (responsive grid + breakpoints).
+       Keep page-specific visual tweaks here; avoid overriding layout primitives. */
     
-  
-    .service-card {
-  
-      flex: 0 1 calc(25% - 16px);
-  
-      background: #fff;
-  
-      box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
-  
-      border-radius: 15px;
-  
-      margin: 8px;
-  
-      padding: 20px 15px;
-  
-      position: relative;
-  
-      z-index: 1;
-  
-      min-height: 354px;
-  
-      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  
-      display: flex;
-  
-      flex-direction: column;
-  
-      align-items: center;
-  
-      text-align: center;
-  
-    }
-  
-    
-  
     /* .service-card:before {
   
       content: '';
@@ -699,196 +648,37 @@
       top: 0rem;
   
     }
-  
     
-  
-    #cartoon-painting-card,
-  
-    #home-painting-card {
-  
-      flex: 0 1 calc(25% - 16px);
-  
-      position: relative;
-  
-      left: 66.9%;
-  
-    }
-  
-    
-  
-    /* Responsive Design */
-  
-    @media screen and (min-width: 320px) {
-  
-      .service-card {
-  
-        flex: 0 1 calc(100% - 16px);
-  
-      }
-  
-      
-  
-      #cartoon-painting-card,
-  
-      #home-painting-card {
-  
-        left: 0;
-  
-      }
-  
-    }
-  
-    
-  
-    @media screen and (min-width: 576px) {
-  
-      .service-card {
-  
-        flex: 0 1 calc(50% - 16px);
-  
-      }
-  
-      
-  
-      #cartoon-painting-card,
-  
-      #home-painting-card {
-  
-        left: 0;
-  
-      }
-  
-    }
-  
-    
-  
-    @media screen and (min-width: 768px) {
-  
-      .service-card {
-  
-        flex: 0 1 calc(33.333% - 16px);
-  
-      }
-  
-      
-  
-      #cartoon-painting-card,
-  
-      #home-painting-card {
-  
-        left: 16.665%;
-  
-      }
-  
-    }
-  
-    
-  
-    @media screen and (min-width: 1024px) {
-  
-      .service-card {
-  
-        flex: 0 1 calc(25% - 16px);
-  
-      }
-  
-      
-  
-      #cartoon-painting-card,
-  
-      #home-painting-card {
-  
-        left: 50%;
-  
-      }
-  
-    }
-  
-    
-  
-    @media screen and (min-width: 1400px) {
-  
-      .service-card {
-  
-        flex: 0 1 calc(20% - 16px);
-  
-      }
-  
-      
-  
-      #cartoon-painting-card,
-  
-      #home-painting-card {
-  
-        left: 50%;
-  
-      }
-  
-    }
-  
-  </style>  <!-- Hero Section -->  <div class="hero"><div class="hero-overlay">
+    /* Remove hard-coded offsets that caused horizontal overflow on mobile. */
+  </style>
 
-  <div class="hero-text glass-card">
-
-    <h1>
-
-      Welcome to Rcolorcraft</h1>
-
-      <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
-
-      {% if request.user.is_authenticated %}
-
-        {% if request.user.is_superuser %}
-
-          {% trans "Welcome Neeraj" %}
-
-        {% elif request.user.role == 'customer' %}
-
-          {% trans "Welcome" %} {{ request.user.customers.first.customer_full_name }}
-
-        {% elif request.user.role == 'employee' %}
-
-          {% trans "Welcome" %} {{ request.user.employees.first.full_name }}
-
-        {% else %}
-
-          {% trans "Welcome" %} {{ request.user.full_name }}
-
-        {% endif %}
-
-      {% else %}
-
-        <!-- {% trans "Welcome Back" %} -->
-
-      {% endif %}
-
-    
-
-    <!-- <div class="cta-buttons"</div>
-
-      <a href=""/contact" class="cta-btn">Get Free Quote</a>
-
-      <a href="/booking" class=""cta-btn secondary">Book Now</a>
-
-    <a href="explore" class="cta-btn">Explore Services</a>
-
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-overlay">
+      <div class="hero-text glass-card">
+        <h1>
+          {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+              {% trans "Welcome Neeraj" %}
+            {% elif request.user.role == 'customer' %}
+              {% trans "Welcome" %} {{ request.user.customers.first.customer_full_name }}
+            {% elif request.user.role == 'employee' %}
+              {% trans "Welcome" %} {{ request.user.employees.first.full_name }}
+            {% else %}
+              {% trans "Welcome" %} {{ request.user.full_name }}
+            {% endif %}
+          {% else %}
+            {% trans "Welcome Back" %}
+          {% endif %}
+        </h1>
+        <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p>
+        <!-- <button>Explore Services</button> -->
+      </div>
+      <div class="hero-img">
+        <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
+      </div>
+    </div>
   </div>
-
-  <a href="/booking" class="cta-btn">Book Now</a> -->
-
-    <!-- <p>{% trans "At RColorcraft, we specialize in stunning murals, creative paintings, and artistic designs that transform your space." %}</p> -->
-
-    <!-- <button>Explore Services</button> -->
-
-  </div>
-
-  <div class="hero-img">
-
-    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
-
-  </div>
-
-</div>
 
   </div>  <section class="hero"><div class="hero-box">
 

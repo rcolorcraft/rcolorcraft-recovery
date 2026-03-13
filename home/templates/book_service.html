@@ -158,6 +158,29 @@
     gap: 0.5rem;
 }
 
+/* Mobile layout fixes (stack rows, avoid overflow) */
+@media (max-width: 768px) {
+    .contact-row,
+    .address-row,
+    .card-row {
+        flex-direction: column;
+    }
+
+    .square-ft-inputs {
+        flex-wrap: wrap;
+    }
+
+    .steps {
+        gap: 24px;
+    }
+
+    .steps::before,
+    .steps::after {
+        left: 8%;
+        right: 8%;
+    }
+}
+
 .popup-box {
     text-align: center;
     padding: 2rem;

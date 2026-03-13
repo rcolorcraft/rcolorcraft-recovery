@@ -104,21 +104,28 @@ WSGI_APPLICATION = "ras.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "rasdb",
-        "USER": "postgres",
-        "PASSWORD": "Qwaszx@1#2345",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',   
+#         'NAME': 'rasdb',                           
+#         'USER': 'postgres',                              
+#         'PASSWORD': '12345678',                          
+#         'HOST': 'localhost',                        
+#         'PORT': '5432',                             
+#     }
+# }
 
-DATABASE = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "rasdb",
+# DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://postgres:12345678@localhost:5432/rasdb')
+
+
+# DATABASES = {
+ #    'default': dj_database_url.parse(DATABASE_URL)
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
