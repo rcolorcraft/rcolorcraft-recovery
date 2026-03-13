@@ -5,7 +5,7 @@
 /* Hero Section */
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, #2f71eb, #2a5298); 
+        background: linear-gradient(135deg, #ffffff, #f8f8f8);
     color: #fff;
     text-align: center;
     
@@ -37,7 +37,7 @@
 .hero p {
     /* Kept the same */
     font-size: 1.2rem;
-    color: #f0f0f0;
+    color: hsl(0, 0%, 4%);
     max-width: 700px;
     margin: 0 auto;
 }

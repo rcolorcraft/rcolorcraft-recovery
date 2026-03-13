@@ -403,15 +403,17 @@ background: rgba(255, 255, 255, 0.15);
 
 backdrop-filter: blur(10px);
 
-padding: 40px;
+padding: 60px;
 
-border-radius: 20px;
+border-radius: 25px;
 
 color: #fff;
 
-box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 
-max-width: 500px;
+max-width: 750px;
+
+width: 95%;
 
 }
 
@@ -478,22 +480,36 @@ margin-top: 15px;
 /* Services Section */
 
 section h1 {
+      font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+    font-size: 3.2rem;
+    font-weight: 400;
 
 text-align: center;
-
 font-size: 2.5rem;
-
 font-weight: bold;
+margin: 0 auto 2rem auto;
+color:#0f0f0f;
+letter-spacing:2px;
+position:relative;
+display:block;
+width:fit-content;
+}
 
-margin-bottom: 2rem;
+/* underine */
+section h1::after {
+    content: "";
+    width: 250px;
+    height: 3px;
+    background: #ff0073;
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
+    bottom:-10px;
+/* text-decoration: underline;
+text-decoration-color: hsl(249, 94%, 20%);
+text-decoration-thickness: 3px;
 
-background: linear-gradient(90deg, #ff4b2b, #ff416c, #ff9800, #00c6ff, #0072ff);
-
--webkit-background-clip: text;
-
--webkit-text-fill-color: transparent;
-
-letter-spacing: 2px;
+letter-spacing: 2px; */
 
 }
 
@@ -1117,6 +1133,8 @@ border-radius: 2px;
 
 .trending-slider {
 
+    margin-top:20px;
+    
 position: relative;
 
 width: 100%;
@@ -2012,6 +2030,7 @@ font-size: 2rem;
 margin-bottom: 1.5rem;
 
 letter-spacing: 1px;
+
 
 }
 

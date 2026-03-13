@@ -227,7 +227,7 @@ AWS_S3_CUSTOM_DOMAIN = (
 
 # Media URL should point to S3, not /media/
 # MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
-MEDIA_URL = "/media/"
+MEDIA_URL = "https://rasmedia2025.s3.ap-south-1.amazonaws.com/service_images/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

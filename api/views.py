@@ -11,32 +11,34 @@ from accounts.models import CustomUser, Customer
 
 @csrf_exempt
 def save_customer_signup_api(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
-            full_name = request.POST.get('customer_full_name')
-            mobile = request.POST.get('mobile')
-            email = request.POST.get('email')
-            create_password = request.POST.get('customer_password')
+            full_name = request.POST.get("customer_full_name")
+            mobile = request.POST.get("mobile")
+            email = request.POST.get("email")
+            create_password = request.POST.get("customer_password")
 
             if not all([full_name, mobile, email, create_password]):
-                return JsonResponse({'success': False, 'error': 'All fields are required'})
+                return JsonResponse(
+                    {"success": False, "error": "All fields are required"}
+                )
 
             # Email validation
-            email_regex = r'^[^@\s]+@[^\s@]+\.[^@\s]+$'
+            email_regex = r"^[^@\s]+@[^\s@]+\.[^@\s]+$"
             if not re.match(email_regex, email):
-                return JsonResponse({'success': False, 'error': 'Invalid email format'})
+                return JsonResponse({"success": False, "error": "Invalid email format"})
 
             # Generate OTP
             otp = str(random.randint(100000, 999999))
 
             # Save in session temporarily
-            request.session['signup_data'] = {
-                'customer_full_name': full_name,
-                'mobile': mobile,
-                'email': email,
-                'customer_password': create_password,
+            request.session["signup_data"] = {
+                "customer_full_name": full_name,
+                "mobile": mobile,
+                "email": email,
+                "customer_password": create_password,
             }
-            request.session['otp'] = otp
+            request.session["otp"] = otp
 
             # Send OTP email
             send_mail(
@@ -47,47 +49,49 @@ def save_customer_signup_api(request):
                 fail_silently=False,
             )
 
-            return JsonResponse({'success': True, 'message': 'OTP sent to your email!'})
+            return JsonResponse({"success": True, "message": "OTP sent to your email!"})
         except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+            return JsonResponse({"success": False, "error": str(e)})
+    return JsonResponse({"success": False, "error": "Invalid request method"})
 
 
 @csrf_exempt
 def verify_customer_otp_api(request):
-    if request.method == 'POST':
-        otp_entered = request.POST.get('otp')
-        otp_saved = request.session.get('otp')
-        signup_data = request.session.get('signup_data')
+    if request.method == "POST":
+        otp_entered = request.POST.get("otp")
+        otp_saved = request.session.get("otp")
+        signup_data = request.session.get("signup_data")
 
         if otp_saved and signup_data and otp_entered == otp_saved:
             # Save user & customer after OTP verification
             user = CustomUser.objects.create_user(
-                email=signup_data['email'],
-                password=signup_data['customer_password'],
-                full_name=signup_data['customer_full_name'],
-                role='customer',
-                is_verified=True
+                email=signup_data["email"],
+                password=signup_data["customer_password"],
+                full_name=signup_data["customer_full_name"],
+                role="customer",
+                is_verified=True,
             )
 
             Customer.objects.create(
-                customer_full_name=signup_data['customer_full_name'],
+                customer_full_name=signup_data["customer_full_name"],
                 user=user,
-                mobile=signup_data['mobile'],
-                email=signup_data['email'],
-                customer_password=signup_data['customer_password'],
-                is_verified=True
+                mobile=signup_data["mobile"],
+                email=signup_data["email"],
+                customer_password=signup_data["customer_password"],
+                is_verified=True,
             )
 
             # Clear session
-            del request.session['otp']
-            del request.session['signup_data']
+            del request.session["otp"]
+            del request.session["signup_data"]
 
-            return JsonResponse({'success': True, 'message': 'Email verified & customer registered!'})
+            return JsonResponse(
+                {"success": True, "message": "Email verified & customer registered!"}
+            )
         else:
-            return JsonResponse({'success': False, 'error': 'Invalid OTP'})
+            return JsonResponse({"success": False, "error": "Invalid OTP"})
 
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    return JsonResponse({"success": False, "error": "Invalid request method"})
 
 
 import random, re
@@ -100,7 +104,7 @@ from accounts.models import CustomUser, Employee
 
 
 import json
-import jwt # Required for token decoding
+import jwt  # Required for token decoding
 import time
 from decimal import Decimal
 
@@ -127,29 +131,27 @@ User = get_user_model()
 def get_user_from_token(request):
     """Decodes the JWT token from the Authorization header and returns the User object."""
     auth_header = request.headers.get("Authorization")
-    
+
     # Check if header is present and starts with 'Bearer '
     if not auth_header or not auth_header.startswith("Bearer "):
         return None, "Authentication credentials were not provided"
 
     # Extract the token (e.g., "Bearer token" -> "token")
     token = auth_header.split(" ")[1]
-    
+
     try:
         # Decode and Validate the Token
         payload = jwt.decode(
-            token, 
-            settings.SECRET_KEY, 
-            algorithms=[api_settings.ALGORITHM]
+            token, settings.SECRET_KEY, algorithms=[api_settings.ALGORITHM]
         )
-        
+
         # Get the user ID from the token payload
         user_id = payload.get(api_settings.USER_ID_CLAIM)
-        
+
         # Retrieve the user from the database
         user = User.objects.get(id=user_id)
-        
-        return user, None # Success: return user and no error
+
+        return user, None  # Success: return user and no error
 
     except jwt.ExpiredSignatureError:
         return None, "Token has expired"
@@ -166,13 +168,15 @@ def get_user_from_token(request):
 # 2. LOGIN API (Generates Token)
 # =====================================================================
 
+
 # Helper function to get tokens (using DRF Simple JWT logic)
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
     return {
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
     }
+
 
 @csrf_exempt
 def login_api(request):
@@ -186,13 +190,17 @@ def login_api(request):
         password = data.get("password")
 
         if not all([email, password]):
-            return JsonResponse({"success": False, "error": "Email and password are required"})
-        
+            return JsonResponse(
+                {"success": False, "error": "Email and password are required"}
+            )
+
         # Authenticate user
         user = authenticate(request, email=email, password=password)
 
         if user is None:
-            return JsonResponse({"success": False, "error": "Invalid email or password"})
+            return JsonResponse(
+                {"success": False, "error": "Invalid email or password"}
+            )
 
         if not user.is_verified:
             return JsonResponse({"success": False, "error": "Email not verified yet!"})
@@ -207,11 +215,13 @@ def login_api(request):
         }
 
         # RETURN TOKENS IN THE RESPONSE
-        return JsonResponse({
-            "success": True, 
-            "user": user_data,
-            "token": tokens['access'] # <-- Send the access token
-        })
+        return JsonResponse(
+            {
+                "success": True,
+                "user": user_data,
+                "token": tokens["access"],  # <-- Send the access token
+            }
+        )
 
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
@@ -220,6 +230,7 @@ def login_api(request):
 # =====================================================================
 # 3. CUSTOMER PROFILE APIs (Uses Token)
 # =====================================================================
+
 
 @csrf_exempt
 def api_get_customer_profile(request):
@@ -230,53 +241,69 @@ def api_get_customer_profile(request):
     user, error = get_user_from_token(request)
     if not user:
         return JsonResponse({"success": False, "error": error}, status=401)
-    
+
     if user.role != "customer":
-        return JsonResponse({"success": False, "error": "Forbidden: Not a customer"}, status=403)
+        return JsonResponse(
+            {"success": False, "error": "Forbidden: Not a customer"}, status=403
+        )
 
     try:
         customer = Customer.objects.get(user=user)
     except Customer.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Customer profile not found"}, status=404)
+        return JsonResponse(
+            {"success": False, "error": "Customer profile not found"}, status=404
+        )
 
-    return JsonResponse({
-        "success": True,
-        "data": {
-            "name": customer.customer_full_name,
-            "email": customer.email,
-            "mobile": customer.mobile,
-            "profile_photo": customer.customer_photo.url if customer.customer_photo else None
+    return JsonResponse(
+        {
+            "success": True,
+            "data": {
+                "name": customer.customer_full_name,
+                "email": customer.email,
+                "mobile": customer.mobile,
+                "profile_photo": (
+                    customer.customer_photo.url if customer.customer_photo else None
+                ),
+            },
         }
-    })
+    )
+
 
 @csrf_exempt
 def api_update_customer_profile(request):
     if request.method != "POST":
         return JsonResponse({"success": False, "error": "POST required"})
-    
+
     # 🚀 Authenticate user using the Authorization token
     user, error = get_user_from_token(request)
     if not user:
         return JsonResponse({"success": False, "error": error}, status=401)
-    
+
     if user.role != "customer":
-        return JsonResponse({"success": False, "error": "Forbidden: Only customers can update this profile"}, status=403)
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "Forbidden: Only customers can update this profile",
+            },
+            status=403,
+        )
 
     try:
         customer = Customer.objects.get(user=user)
     except Customer.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Customer profile not found"}, status=404)
+        return JsonResponse(
+            {"success": False, "error": "Customer profile not found"}, status=404
+        )
 
-    
     # --- Original update logic ---
     customer.customer_full_name = request.POST.get("name")
-    customer.email = request.POST.get("email") # Assuming this is allowed
-    customer.mobile = request.POST.get("mobile") # Assuming this is allowed
+    customer.email = request.POST.get("email")  # Assuming this is allowed
+    customer.mobile = request.POST.get("mobile")  # Assuming this is allowed
 
     if "profile_photo" in request.FILES:
         customer.customer_photo = request.FILES["profile_photo"]
     # ... (rest of your update logic if any)
-    
+
     customer.save()
 
     return JsonResponse({"success": True, "message": "Profile updated successfully"})
@@ -285,6 +312,7 @@ def api_update_customer_profile(request):
 # =====================================================================
 # 4. EMPLOYEE PROFILE APIs (Uses Token)
 # =====================================================================
+
 
 @csrf_exempt
 def api_get_employee_profile(request):
@@ -295,39 +323,56 @@ def api_get_employee_profile(request):
     user, error = get_user_from_token(request)
     if not user:
         return JsonResponse({"success": False, "error": error}, status=401)
-    
+
     if user.role != "employee":
-        return JsonResponse({"success": False, "error": "Forbidden: Not an employee"}, status=403)
+        return JsonResponse(
+            {"success": False, "error": "Forbidden: Not an employee"}, status=403
+        )
 
     try:
         employee = Employee.objects.get(user=user)
     except Employee.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Employee profile not found"}, status=404)
+        return JsonResponse(
+            {"success": False, "error": "Employee profile not found"}, status=404
+        )
 
-    return JsonResponse({
-        "success": True,
-        "data": {
-            "full_name": user.full_name,
-            "email": user.email,          # read-only
-            "mobile": employee.mobile,
-            "father_name": employee.fathers_name,
-            "dob": str(employee.dob),
-            "gender": employee.gender,
-            "house_no": employee.house_no,
-            "village": employee.village,
-            "city": employee.city,
-            "state": employee.state,
-            "pincode": employee.pincode,
-            "aadhar_card_no": employee.aadhar_card_no,
-            "experience": employee.experience,
-            "preferred_work_location": employee.preferred_work_location,
-            "type_of_work": employee.type_of_work,
-            "ready_to_take_orders": employee.status,
-            "passport_photo": employee.passport_photo.url if employee.passport_photo else None,
-            "aadhar_front": employee.aadhar_card_image_front.url if employee.aadhar_card_image_front else None,
-            "aadhar_back": employee.aadhar_card_image_back.url if employee.aadhar_card_image_back else None,
+    return JsonResponse(
+        {
+            "success": True,
+            "data": {
+                "full_name": user.full_name,
+                "email": user.email,  # read-only
+                "mobile": employee.mobile,
+                "father_name": employee.fathers_name,
+                "dob": str(employee.dob),
+                "gender": employee.gender,
+                "house_no": employee.house_no,
+                "village": employee.village,
+                "city": employee.city,
+                "state": employee.state,
+                "pincode": employee.pincode,
+                "aadhar_card_no": employee.aadhar_card_no,
+                "experience": employee.experience,
+                "preferred_work_location": employee.preferred_work_location,
+                "type_of_work": employee.type_of_work,
+                "ready_to_take_orders": employee.status,
+                "passport_photo": (
+                    employee.passport_photo.url if employee.passport_photo else None
+                ),
+                "aadhar_front": (
+                    employee.aadhar_card_image_front.url
+                    if employee.aadhar_card_image_front
+                    else None
+                ),
+                "aadhar_back": (
+                    employee.aadhar_card_image_back.url
+                    if employee.aadhar_card_image_back
+                    else None
+                ),
+            },
         }
-    })
+    )
+
 
 import jwt
 import json
@@ -336,13 +381,15 @@ from decimal import Decimal
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 # Assuming you have these models imported in your file
 from accounts.models import Employee
-from wallet.models import Wallet, WalletTransaction 
+from wallet.models import Wallet, WalletTransaction
 
 # For JWT decoding
 from rest_framework_simplejwt.settings import api_settings
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -355,15 +402,19 @@ def api_update_employee_profile(request):
     user, error = get_user_from_token(request)
     if not user:
         return JsonResponse({"success": False, "error": error}, status=401)
-    
+
     # 🚀 NEW: Check role after authentication
     if user.role != "employee":
-        return JsonResponse({"success": False, "error": "Forbidden: Not an employee"}, status=403)
+        return JsonResponse(
+            {"success": False, "error": "Forbidden: Not an employee"}, status=403
+        )
 
     try:
         employee = Employee.objects.get(user=user)
     except Employee.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Employee profile not found"}, status=404)
+        return JsonResponse(
+            {"success": False, "error": "Employee profile not found"}, status=404
+        )
 
     full_name = request.POST.get("full_name")
     mobile = request.POST.get("mobile")
@@ -374,7 +425,6 @@ def api_update_employee_profile(request):
 
     if mobile:
         employee.mobile = mobile
-
 
     prev_status = employee.status
 
@@ -392,8 +442,12 @@ def api_update_employee_profile(request):
 
     # Multi-Select
     # Note: request.POST.getlist works correctly for POST data
-    employee.type_of_work = request.POST.get("type_of_work") # Assuming you want a single string if it's not a list field
-    employee.preferred_work_location = request.POST.get("preferred_work_location") # Assuming this is a single string
+    employee.type_of_work = request.POST.get(
+        "type_of_work"
+    )  # Assuming you want a single string if it's not a list field
+    employee.preferred_work_location = request.POST.get(
+        "preferred_work_location"
+    )  # Assuming this is a single string
 
     # Files
     if "passport_photo" in request.FILES:
@@ -429,21 +483,25 @@ def api_update_employee_profile(request):
                 wallet=wallet,
                 transaction_type="DEBIT",
                 amount=Decimal("20.00"),
-                razorpay_payment_id=f"ACTIVATION_{user.id}_{int(time.time())}"
+                razorpay_payment_id=f"ACTIVATION_{user.id}_{int(time.time())}",
             )
 
             employee.status = True
         else:
             employee.status = False
             employee.save()
-            return JsonResponse({"success": False, "message": "Insufficient wallet balance"})
+            return JsonResponse(
+                {"success": False, "message": "Insufficient wallet balance"}
+            )
 
     else:
         employee.status = is_ready
 
     employee.save()
 
-    return JsonResponse({"success": True, "message": "Employee profile updated successfully"})
+    return JsonResponse(
+        {"success": True, "message": "Employee profile updated successfully"}
+    )
 
 
 # @csrf_exempt
@@ -455,7 +513,7 @@ def api_update_employee_profile(request):
 #     user, error = get_user_from_token(request)
 #     if not user:
 #         return JsonResponse({"success": False, "error": error}, status=401)
-    
+
 #     # 🚀 NEW: Check role after authentication
 #     if user.role != "employee":
 #         return JsonResponse({"success": False, "error": "Forbidden: Not an employee"}, status=403)
@@ -487,36 +545,41 @@ def api_update_employee_profile(request):
 #         }
 #     })
 
+
 @csrf_exempt
 def save_employee_signup_api(request):
-    if request.method != 'POST':
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    if request.method != "POST":
+        return JsonResponse({"success": False, "error": "Invalid request method"})
 
     try:
-        email = request.POST.get('email_address')
-        full_name = request.POST.get('full_name')
-        mobile = request.POST.get('mobile', '')
+        email = request.POST.get("email_address")
+        full_name = request.POST.get("full_name")
+        mobile = request.POST.get("mobile", "")
 
         if not all([email, full_name]):
-            return JsonResponse({'success': False, 'error': 'Email and full name are required'})
+            return JsonResponse(
+                {"success": False, "error": "Email and full name are required"}
+            )
 
         # Validate email
-        email_regex = r'^[^@\s]+@[^\s@]+\.[^@\s]+$'
+        email_regex = r"^[^@\s]+@[^\s@]+\.[^@\s]+$"
         if not re.match(email_regex, email):
-            return JsonResponse({'success': False, 'error': 'Invalid email format'})
+            return JsonResponse({"success": False, "error": "Invalid email format"})
 
         # Generate OTP
         otp = str(random.randint(100000, 999999))
 
         # Save form fields in session
         signup_data = {
-            'full_name': full_name,
-            'email_address': email,
-            'mobile': mobile,
-            'password': request.POST.get('password', 'defaultpass123')  # optional default password
+            "full_name": full_name,
+            "email_address": email,
+            "mobile": mobile,
+            "password": request.POST.get(
+                "password", "defaultpass123"
+            ),  # optional default password
         }
-        request.session['employee_signup_data'] = signup_data
-        request.session['employee_otp'] = otp
+        request.session["employee_signup_data"] = signup_data
+        request.session["employee_otp"] = otp
 
         # Send OTP via email
         send_mail(
@@ -527,68 +590,73 @@ def save_employee_signup_api(request):
             fail_silently=False,
         )
 
-        return JsonResponse({'success': True, 'message': 'OTP sent to your email!'})
+        return JsonResponse({"success": True, "message": "OTP sent to your email!"})
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        return JsonResponse({"success": False, "error": str(e)})
 
 
 @csrf_exempt
 def verify_employee_otp_api(request):
-    if request.method != 'POST':
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    if request.method != "POST":
+        return JsonResponse({"success": False, "error": "Invalid request method"})
 
     try:
-        otp_entered = request.POST.get('otp')
-        otp_saved = request.session.get('employee_otp')
-        signup_data = request.session.get('employee_signup_data')
+        otp_entered = request.POST.get("otp")
+        otp_saved = request.session.get("employee_otp")
+        signup_data = request.session.get("employee_signup_data")
 
         # ✅ OTP validation
-        if not (otp_entered and otp_saved and otp_entered.strip() == str(otp_saved).strip()):
-            return JsonResponse({'success': False, 'error': 'Invalid OTP'})
+        if not (
+            otp_entered and otp_saved and otp_entered.strip() == str(otp_saved).strip()
+        ):
+            return JsonResponse({"success": False, "error": "Invalid OTP"})
 
         if not signup_data:
-            return JsonResponse({'success': False, 'error': 'Signup data missing in session'})
+            return JsonResponse(
+                {"success": False, "error": "Signup data missing in session"}
+            )
 
         # Database operations inside transaction
         with transaction.atomic():
-            if CustomUser.objects.filter(email=signup_data['email_address']).exists():
-                return JsonResponse({'success': False, 'error': 'Email already registered'})
+            if CustomUser.objects.filter(email=signup_data["email_address"]).exists():
+                return JsonResponse(
+                    {"success": False, "error": "Email already registered"}
+                )
 
             # 1. Create user
             user = CustomUser.objects.create_user(
-                email=signup_data['email_address'],
-                password=signup_data['password'],
-                full_name=signup_data['full_name'],
+                email=signup_data["email_address"],
+                password=signup_data["password"],
+                full_name=signup_data["full_name"],
                 role="employee",
-                is_verified=True
+                is_verified=True,
             )
 
             # 2. Create employee profile
             Employee.objects.create(
                 user=user,
-                full_name=signup_data['full_name'],
-                mobile=signup_data.get('mobile', ''),
-                email_address=signup_data['email_address'],
+                full_name=signup_data["full_name"],
+                mobile=signup_data.get("mobile", ""),
+                email_address=signup_data["email_address"],
             )
 
         # Clear session after success
-        for key in ['employee_otp', 'employee_signup_data']:
+        for key in ["employee_otp", "employee_signup_data"]:
             request.session.pop(key, None)
 
-        return JsonResponse({'success': True, 'message': 'Employee registered successfully!'})
+        return JsonResponse(
+            {"success": True, "message": "Employee registered successfully!"}
+        )
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': f'Server error: {str(e)}'})
+        return JsonResponse({"success": False, "error": f"Server error: {str(e)}"})
 
 
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
-
-
-
 
 
 from django.http import JsonResponse
@@ -602,7 +670,9 @@ import json
 import time
 from decimal import Decimal
 
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+)
 
 
 # @csrf_exempt
@@ -639,7 +709,8 @@ razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZOR
 
 #     except Exception as e:
 #         return JsonResponse({"success": False, "error": str(e)})
-    
+
+
 @csrf_exempt
 def api_create_order(request):
     if request.method != "POST":
@@ -663,22 +734,23 @@ def api_create_order(request):
             "amount": amount,
             "currency": "INR",
             "receipt": receipt_id,
-            "payment_capture": 1
+            "payment_capture": 1,
         }
 
         order = razorpay_client.order.create(order_data)
 
-        return JsonResponse({
-            "success": True,
-            "order_id": order["id"],
-            "amount": order["amount"],
-            "currency": order["currency"],
-            "key_id": settings.RAZORPAY_KEY_ID,
-        })
+        return JsonResponse(
+            {
+                "success": True,
+                "order_id": order["id"],
+                "amount": order["amount"],
+                "currency": order["currency"],
+                "key_id": settings.RAZORPAY_KEY_ID,
+            }
+        )
 
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
-
 
 
 # @csrf_exempt
@@ -751,7 +823,7 @@ def api_verify_payment(request):
         params_dict = {
             "razorpay_order_id": razorpay_order_id,
             "razorpay_payment_id": razorpay_payment_id,
-            "razorpay_signature": razorpay_signature
+            "razorpay_signature": razorpay_signature,
         }
 
         razorpay_client.utility.verify_payment_signature(params_dict)
@@ -763,16 +835,21 @@ def api_verify_payment(request):
             wallet=wallet,
             amount=amount,
             transaction_type="CREDIT",
-            razorpay_payment_id=razorpay_payment_id
+            razorpay_payment_id=razorpay_payment_id,
         )
 
-        return JsonResponse({"success": True, "message": "Wallet credited successfully"})
+        return JsonResponse(
+            {"success": True, "message": "Wallet credited successfully"}
+        )
 
     except razorpay.errors.SignatureVerificationError:
-        return JsonResponse({"success": False, "error": "Signature verification failed"})
+        return JsonResponse(
+            {"success": False, "error": "Signature verification failed"}
+        )
 
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
+
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -787,12 +864,6 @@ from accounts.models import Employee, Customer
 import time
 import json
 from decimal import Decimal
-
-
-
-
-
-
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -826,6 +897,7 @@ from home.models import CustomProduct
 
 #     except Exception as e:
 #         return JsonResponse({"success": False, "error": str(e)})
+
 
 @csrf_exempt
 def api_save_custom_product(request):
@@ -868,24 +940,30 @@ from datetime import datetime
 from django.db.models import Q
 from home.models import Booking
 from employee.models import ServiceImage
-from .serializers import ServiceImageSerializer # Assuming serializer is in current directory
+from .serializers import (
+    ServiceImageSerializer,
+)  # Assuming serializer is in current directory
+
 
 # SESSION CHECK API
 @csrf_exempt
 def session_status_api(request):
     """Returns whether the current user session is active."""
     if request.user.is_authenticated:
-        return JsonResponse({
-            "success": True,
-            "is_logged_in": True,
-            "user": {
-                "id": request.user.id,
-                "email": request.user.email,
-                "full_name": request.user.full_name,
-                "role": request.user.role,
+        return JsonResponse(
+            {
+                "success": True,
+                "is_logged_in": True,
+                "user": {
+                    "id": request.user.id,
+                    "email": request.user.email,
+                    "full_name": request.user.full_name,
+                    "role": request.user.role,
+                },
             }
-        })
+        )
     return JsonResponse({"success": True, "is_logged_in": False})
+
 
 # LOGOUT API
 @csrf_exempt
@@ -893,19 +971,34 @@ def logout_api(request):
     logout(request)
     return JsonResponse({"success": True, "message": "Logged out successfully"})
 
+
 # SAVE BOOKING API
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def save_booking_api(request):
     data = request.data
     try:
         # Required fields validation
-        required = ["service_name", "contact_number", "email", "address", "pin_code",
-                    "state", "city", "total_walls", "width", "height",
-                    "total_sqft", "appointment_date", "total_amount"]
+        required = [
+            "service_name",
+            "contact_number",
+            "email",
+            "address",
+            "pin_code",
+            "state",
+            "city",
+            "total_walls",
+            "width",
+            "height",
+            "total_sqft",
+            "appointment_date",
+            "total_amount",
+        ]
         for field in required:
             if not data.get(field):
-                return Response({"success": False, "message": f"{field} is required"}, status=400)
+                return Response(
+                    {"success": False, "message": f"{field} is required"}, status=400
+                )
 
         # Date format fix
         appointment = data.get("appointment_date")
@@ -918,7 +1011,11 @@ def save_booking_api(request):
         booking_id = f"RCC{next_id}"
 
         design_name = data.get("selected_design_name")
-        design_price = float(data.get("selected_design_price")) if data.get("selected_design_price") else None
+        design_price = (
+            float(data.get("selected_design_price"))
+            if data.get("selected_design_price")
+            else None
+        )
         custom_design_file = request.FILES.get("custom_design")
 
         if design_name:
@@ -949,7 +1046,7 @@ def save_booking_api(request):
             type_of_art_booked=art_type,
             price_of_design=design_price,
             customer_design=custom_design_file,
-            total_amount=data.get("total_amount")
+            total_amount=data.get("total_amount"),
         )
 
         # Email trigger (optional)
@@ -958,47 +1055,60 @@ def save_booking_api(request):
                 f"Booking Confirmation - {booking.booking_id}",
                 f"Dear {booking.customer_name}, your booking {booking.booking_id} is confirmed.",
                 settings.DEFAULT_FROM_EMAIL,
-                [booking.email]
+                [booking.email],
             )
         except Exception as e:
             print("Email Error", e)
 
-        return Response({
-            "success": True,
-            "message": "Booking saved successfully",
-            "booking": {
-                "id": booking.id,
-                "booking_id": booking.booking_id,
-                "total_amount": booking.total_amount,
-                "customer_name": booking.customer_name
-            }
-        }, status=200)
+        return Response(
+            {
+                "success": True,
+                "message": "Booking saved successfully",
+                "booking": {
+                    "id": booking.id,
+                    "booking_id": booking.booking_id,
+                    "total_amount": booking.total_amount,
+                    "customer_name": booking.customer_name,
+                },
+            },
+            status=200,
+        )
 
     except Exception as e:
         return Response({"success": False, "message": str(e)}, status=500)
 
+
 # EXPLORE SERVICE API
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def explore_service_api(request, service_type):
     service_dict = {
-        '3d-wall-art': '3D Wall Art', '3d-floor-art': '3D Floor Art', 'mural-art': 'Mural Art',
-        'mural': 'Mural Art', 'metro-advertisement': 'Metro Advertisement',
-        'outdoor-advertisement': 'Outdoor Advertisement', 'school-painting': 'School Painting',
-        'selfie-painting': 'Selfie Painting', 'madhubani-painting': 'Madhubani Painting',
-        'texture-painting': 'Texture Painting', 'stone-murti': 'Stone Murti', 'statue': 'Statue',
-        'scrap-animal-art': 'Scrap Animal Art', 'nature-fountain': 'Nature & Water Fountain',
-        'fountain-art': 'Nature & Water Fountain', 'cartoon-painting': 'Cartoon Painting',
-        'home-painting': 'Home Painting',
+        "3d-wall-art": "3D Wall Art",
+        "3d-floor-art": "3D Floor Art",
+        "mural-art": "Mural Art",
+        "mural": "Mural Art",
+        "metro-advertisement": "Metro Advertisement",
+        "outdoor-advertisement": "Outdoor Advertisement",
+        "school-painting": "School Painting",
+        "selfie-painting": "Selfie Painting",
+        "madhubani-painting": "Madhubani Painting",
+        "texture-painting": "Texture Painting",
+        "stone-murti": "Stone Murti",
+        "statue": "Statue",
+        "scrap-animal-art": "Scrap Animal Art",
+        "nature-fountain": "Nature & Water Fountain",
+        "fountain-art": "Nature & Water Fountain",
+        "cartoon-painting": "Cartoon Painting",
+        "home-painting": "Home Painting",
     }
-    service_name = service_dict.get(service_type, 'Service')
+    service_name = service_dict.get(service_type, "Service")
     query_term = service_name
 
     # special cases
-    if service_name == 'Mural Art':
-        query_term = 'Mural'
-    elif service_name == 'Nature & Water Fountain':
-        query_term = 'Fountain'
+    if service_name == "Mural Art":
+        query_term = "Mural"
+    elif service_name == "Nature & Water Fountain":
+        query_term = "Fountain"
 
     # Filtering logic
     if request.user.is_authenticated and request.user.is_staff:
@@ -1006,22 +1116,22 @@ def explore_service_api(request, service_type):
     elif request.user.is_authenticated:
         db_images = ServiceImage.objects.filter(
             type_of_art__icontains=query_term
-        ).filter(
-            Q(is_verified_pic=True) | Q(userupload_id=request.user.id)
-        )
+        ).filter(Q(is_verified_pic=True) | Q(userupload_id=request.user.id))
     else:
         db_images = ServiceImage.objects.filter(
-            type_of_art__icontains=query_term,
-            is_verified_pic=True
+            type_of_art__icontains=query_term, is_verified_pic=True
         )
 
     serializer = ServiceImageSerializer(db_images, many=True)
 
-    return Response({
-        "service_name": service_name,
-        "service_slug": service_type,
-        "images": serializer.data
-    })
+    return Response(
+        {
+            "service_name": service_name,
+            "service_slug": service_type,
+            "images": serializer.data,
+        }
+    )
+
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -1073,6 +1183,7 @@ User = get_user_model()
 #     except Exception as e:
 #         return JsonResponse({"success": False, "error": str(e)})
 
+
 @csrf_exempt
 def api_service_image_upload(request):
     if request.method != "POST":
@@ -1099,17 +1210,13 @@ def api_service_image_upload(request):
             type_of_art=type_of_art,
             image=image,
             userupload_id=user.id,
-            userupload_name=user.full_name or user.email
+            userupload_name=user.full_name or user.email,
         )
 
         return JsonResponse({"success": True, "message": "Image uploaded successfully"})
 
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
-
-
-
-
 
 
 from rest_framework.decorators import api_view
@@ -1152,9 +1259,9 @@ def api_get_filtered_artists(request):
         query = query.filter(pincode__icontains=pin_code)
     if address:
         query = query.filter(
-            Q(village__icontains=address) |
-            Q(city__icontains=address) |
-            Q(state__icontains=address)
+            Q(village__icontains=address)
+            | Q(city__icontains=address)
+            | Q(state__icontains=address)
         )
     if work_type:
         query = query.filter(type_of_work__icontains=work_type)
@@ -1244,7 +1351,9 @@ from .views import get_user_from_token  # Make sure the import path is correct
 def api_create_review(request):
     """Create new customer review"""
     if request.method != "POST":
-        return JsonResponse({"success": False, "error": "POST method required"}, status=405)
+        return JsonResponse(
+            {"success": False, "error": "POST method required"}, status=405
+        )
 
     # 🚀 Authenticate user from token
     user, error = get_user_from_token(request)
@@ -1256,7 +1365,10 @@ def api_create_review(request):
         try:
             customer = Customer.objects.get(user=user)
         except Customer.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Only customers can submit reviews"}, status=403)
+            return JsonResponse(
+                {"success": False, "error": "Only customers can submit reviews"},
+                status=403,
+            )
 
         name = request.POST.get("name")
         email = request.POST.get("email")
@@ -1265,7 +1377,9 @@ def api_create_review(request):
         review_image = request.FILES.get("image")
 
         if not (name and email and rating):
-            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
+            return JsonResponse(
+                {"success": False, "error": "Missing required fields"}, status=400
+            )
 
         review = Review.objects.create(
             customer_id=str(customer.id),
@@ -1277,26 +1391,32 @@ def api_create_review(request):
             review_date=timezone.now(),
         )
 
-        profile_pic_url = customer.customer_photo.url if customer.customer_photo else None
+        profile_pic_url = (
+            customer.customer_photo.url if customer.customer_photo else None
+        )
 
-        return JsonResponse({
-            "success": True,
-            "message": "Review submitted successfully!",
-            "data": {
-                "id": review.id,
-                "customer_id": review.customer_id,
-                "name": review.customer_name,
-                "email": review.customer_email,
-                "customer_review": review.customer_review,
-                "rating": review.rating,
-                "image": review.review_image.url if review.review_image else None,
-                "profile_pic": profile_pic_url,
-                "created_at": review.review_date.strftime("%Y-%m-%d %H:%M"),
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Review submitted successfully!",
+                "data": {
+                    "id": review.id,
+                    "customer_id": review.customer_id,
+                    "name": review.customer_name,
+                    "email": review.customer_email,
+                    "customer_review": review.customer_review,
+                    "rating": review.rating,
+                    "image": review.review_image.url if review.review_image else None,
+                    "profile_pic": profile_pic_url,
+                    "created_at": review.review_date.strftime("%Y-%m-%d %H:%M"),
+                },
             }
-        })
+        )
 
     except ValueError:
-        return JsonResponse({"success": False, "error": "Invalid rating value"}, status=400)
+        return JsonResponse(
+            {"success": False, "error": "Invalid rating value"}, status=400
+        )
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
@@ -1307,16 +1427,18 @@ def api_get_reviews(request):
 
     data = []
     for r in reviews:
-        data.append({
-            "id": r.id,
-            "customer_id": r.customer_id,
-            "name": r.customer_name,
-            "email": r.customer_email,
-            "customer_review": r.customer_review,
-            "rating": r.rating,
-            "image": r.review_image.url if r.review_image else None,
-            "created_at": r.review_date.strftime("%Y-%m-%d %H:%M"),
-        })
+        data.append(
+            {
+                "id": r.id,
+                "customer_id": r.customer_id,
+                "name": r.customer_name,
+                "email": r.customer_email,
+                "customer_review": r.customer_review,
+                "rating": r.rating,
+                "image": r.review_image.url if r.review_image else None,
+                "created_at": r.review_date.strftime("%Y-%m-%d %H:%M"),
+            }
+        )
 
     return JsonResponse({"success": True, "reviews": data})
 
@@ -1328,7 +1450,7 @@ from home.models import Booking
 from .serializers import BookingSerializer
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def my_orders_api(request):
     # Only allow customer role
@@ -1336,17 +1458,16 @@ def my_orders_api(request):
         return Response({"success": False, "message": "Not allowed"}, status=403)
 
     # Get all bookings for customer
-    bookings = Booking.objects.filter(
-        customer_user_id=request.user.id
-    ).order_by('-created_at')
+    bookings = Booking.objects.filter(customer_user_id=request.user.id).order_by(
+        "-created_at"
+    )
 
     serializer = BookingSerializer(bookings, many=True)
 
-    return Response({
-        "success": True,
-        "count": bookings.count(),
-        "data": serializer.data
-    })
+    return Response(
+        {"success": True, "count": bookings.count(), "data": serializer.data}
+    )
+
 
 # api/views.py
 
@@ -1364,17 +1485,15 @@ def employee_bookings_api(request):
     if request.user.role != "employee":
         return Response({"success": False, "message": "Not allowed"}, status=403)
 
-    bookings = Booking.objects.filter(
-        assigned_employee=request.user
-    ).order_by('-created_at')
+    bookings = Booking.objects.filter(assigned_employee=request.user).order_by(
+        "-created_at"
+    )
 
     serializer = BookingSerializer(bookings, many=True)
 
-    return Response({
-        "success": True,
-        "count": bookings.count(),
-        "data": serializer.data
-    })
+    return Response(
+        {"success": True, "count": bookings.count(), "data": serializer.data}
+    )
 
 
 # api/views.py
@@ -1395,8 +1514,11 @@ def booking_assignment_action_api(request, booking_id, action):
     employee = request.user
 
     # Security check
-    if booking.assigned_employee != employee or booking.assignment_status != 'assigned':
-        return Response({"success": False, "message": "Invalid action or unauthorized access"}, status=400)
+    if booking.assigned_employee != employee or booking.assignment_status != "assigned":
+        return Response(
+            {"success": False, "message": "Invalid action or unauthorized access"},
+            status=400,
+        )
 
     # Accept booking
     if action == "accept":
@@ -1416,10 +1538,14 @@ def booking_assignment_action_api(request, booking_id, action):
             booking.assignment_status = "accepted"
             booking.save()
 
-            return Response({"success": True, "message": "Booking accepted. ₹60 deducted"})
+            return Response(
+                {"success": True, "message": "Booking accepted. ₹60 deducted"}
+            )
 
         else:
-            return Response({"success": False, "message": "Insufficient wallet balance"}, status=400)
+            return Response(
+                {"success": False, "message": "Insufficient wallet balance"}, status=400
+            )
 
     # Decline booking
     elif action == "decline":
@@ -1461,11 +1587,9 @@ def admin_bookings_api(request):
 
     serializer = BookingSerializer(bookings, many=True)
 
-    return Response({
-        "success": True,
-        "count": bookings.count(),
-        "data": serializer.data
-    })
+    return Response(
+        {"success": True, "count": bookings.count(), "data": serializer.data}
+    )
 
 
 from django.shortcuts import get_object_or_404
@@ -1501,7 +1625,9 @@ def admin_assign_booking_api(request, booking_id):
 
     employee_id = request.data.get("employee_id")
     if not employee_id:
-        return Response({"success": False, "message": "employee_id required"}, status=400)
+        return Response(
+            {"success": False, "message": "employee_id required"}, status=400
+        )
 
     booking = get_object_or_404(Booking, id=booking_id)
     employee = get_object_or_404(CustomUser, id=employee_id)
@@ -1552,19 +1678,25 @@ RColorcraft Bookings Team
             )
         except Exception as e:
             # still return success (email failure shouldn't block)
-            return Response({
-                "success": True,
-                "message": "Assigned, but email sending failed",
-                "error": str(e),
-            })
+            return Response(
+                {
+                    "success": True,
+                    "message": "Assigned, but email sending failed",
+                    "error": str(e),
+                }
+            )
 
-    return Response({
-        "success": True,
-        "message": "Booking assigned successfully",
-        "assigned_to": employee.full_name
-    })
+    return Response(
+        {
+            "success": True,
+            "message": "Booking assigned successfully",
+            "assigned_to": employee.full_name,
+        }
+    )
+
 
 from .serializers import AdminEmployeeListSerializer
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -1576,10 +1708,6 @@ def admin_employee_list_api(request):
 
     serializer = AdminEmployeeListSerializer(employees, many=True)
 
-    return Response({
-        "success": True,
-        "count": employees.count(),
-        "data": serializer.data
-    })
-
-
+    return Response(
+        {"success": True, "count": employees.count(), "data": serializer.data}
+    )

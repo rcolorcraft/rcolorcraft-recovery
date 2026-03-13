@@ -16,6 +16,7 @@
   
   
   
+  
 
   
     .trending-section {
@@ -416,7 +417,7 @@
   
       z-index: 1;
   
-      min-height: 354px;
+      min-height: 300px;
   
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -494,9 +495,9 @@
   
 
   
-      width: 140px;
+      width: 120px;
   
-      height: 140px;
+      height: 120px;
   
       margin-top: 12px;
   
@@ -825,17 +826,70 @@
       }
   
     }
+.herosec{
+height:90vh;
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+url("{% static 'gallery/logohome.png' %}") center/cover no-repeat;
+}
+
+.hero-overlay{
+background:rgba(0,0,0,0.55);
+padding:60px;
+border-radius:20px;
+text-align:center;
+color:white;
+max-width:800px;
+width: 90%;
+margin: 0 auto;
+backdrop-filter: blur(12px);
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+
+.hero-text h1{
+font-size:70px;
+font-weight:bold;
+margin-bottom:20px;
+
+}
+
+.hero-text p{
+font-size:18px;
+margin-bottom:25px;
+}
+
+.cta-btn{
+background:linear-gradient(45deg,#3b82f6,#2563eb);
+padding:14px 36px;
+border-radius:30px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+transition:0.3s;
+}
+
+.cta-btn:hover{
+transform:scale(1.05);
+}
   
-  </style>  <!-- Hero Section -->  <div class="hero"><div class="hero-overlay">
+  </style>  <!-- Hero Section --> 
+   <div class="herosec">
+<div class="hero-overlay">
 
-  <div class="hero-text glass-card">
+<div class="hero-text glass-card">
 
-    <h1>
+  <h1>Welcome to Rcolorcraft</h1>
 
-      Welcome to Rcolorcraft</h1>
+<p>
+Transform your space with our stunning murals and creative paintings
+and artistic designs. Experience art that breathes life into your walls.
+</p>
 
-      <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
-
+<a href="/explore" class="cta-btn">EXPLORE OUR ART</a>
       {% if request.user.is_authenticated %}
 
         {% if request.user.is_superuser %}
@@ -882,9 +936,9 @@
 
   </div>
 
-  <div class="hero-img">
+  {% comment %} <div class="hero-img">
 
-    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
+    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" /> {% endcomment %}
 
   </div>
 
@@ -970,11 +1024,11 @@
 
     <div class="explore-circle">
 
-      <img src="{% static 'gallery/kids.png' %}" alt="School Painting" />
+      <img src="{% static 'gallery/kids.png' %}" alt="School Art" />
 
     </div>
 
-    <p>{% trans "School Painting" %}</p>
+    <p>{% trans "School Art" %}</p>
 
   </a>
 
@@ -1002,7 +1056,7 @@
 
     <div class="explore-circle">
 
-      <img src="{% static 'gallery/art11.jpg' %}" alt="mural" />
+      <img src="{% static 'gallery/art11.jpg' %}" alt="mural Art" />
 
     </div>
 
@@ -1038,7 +1092,7 @@
 
     </div>
 
-    <p>{% trans "Water Tank" %}</p>
+    <p>{% trans "Water Tank Art" %}</p>
 
   </a>
 
@@ -1050,11 +1104,11 @@
 
     <div class="explore-circle">
 
-      <img src="{% static 'gallery/paint1.jpg' %}" alt="Home Painting" />
+      <img src="{% static 'gallery/paint1.jpg' %}" alt="Home Art" />
 
     </div>
 
-    <p>{% trans "Home Painting" %}</p>
+    <p>{% trans "Home Art" %}</p>
 
   </a>
 
@@ -1194,11 +1248,11 @@
 
     <div class="trending-card">
 
-      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Art" />
 
       <div class="card-overlay">
 
-        <h3>{% trans "Canvas Painting" %}</h3>
+        <h3>{% trans "Canvas Art" %}</h3>
 
         <!-- <p>₹ 200 per sq.ft</p> -->
 
@@ -1210,11 +1264,11 @@
 
     <div class="trending-card">
 
-      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural Art" />
 
       <div class="card-overlay">
 
-        <h3>{% trans "Radha Krishna Mural" %}</h3>
+        <h3>{% trans "Radha Krishna Mural Art" %}</h3>
 
         <!-- <p>₹ 220 per sq.ft</p> -->
 
@@ -1292,7 +1346,7 @@
 
     <div class="trending-card">
 
-      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
+      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature Art" />
 
       <div class="card-overlay">
 
@@ -1340,11 +1394,11 @@
 
     <div class="trending-card">
 
-      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Painting" />
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Art" />
 
       <div class="card-overlay">
 
-        <h3>Canvas Painting</h3>
+        <h3>Canvas Art</h3>
 
         <!-- <p>₹ 200 per sq.ft</p> -->
 
@@ -1356,11 +1410,11 @@
 
     <div class="trending-card">
 
-      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural" />
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural Art" />
 
       <div class="card-overlay">
 
-        <h3>Radha Krishna Mural</h3>
+        <h3>Radha Krishna Mural Art</h3>
 
         <!-- <p>₹ 220 per sq.ft</p> -->
 
@@ -1372,7 +1426,7 @@
 
 </div>
 
-  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Services" %}</h1>
+  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Premium Services" %}</h1>
 
 <div class="services-grid">
 
@@ -1500,19 +1554,19 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/schoolpaint.jpg' %}" alt="School Painting" />
+      <img src="{% static 'gallery/schoolpaint.jpg' %}" alt="School Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "School Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "School Art" %}</b></h3>
 
     <p> {% trans "Make learning spaces lively and inspiring! Our school paintings bring classrooms, corridors and playgrounds to life with color, fun characters, and motivational messages." %}</p>
 
     <div class="card-buttons">
 
-      <a href="{% url 'book_service' 'school-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+      <a href="{% url 'book_service' 'school-Art' %}" class="book-btn">{% trans "Book this Service" %}</a>
 
-      <a href="{% url 'explore_service' 'school-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+      <a href="{% url 'explore_service' 'school-Art' %}" class="explore-btn">{% trans "Explore" %}</a>
 
     </div>
 
@@ -1524,11 +1578,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/Selfie Painting.jpeg' %}" alt="Selfie Painting" />
+      <img src="{% static 'gallery/Selfie Painting.jpeg' %}" alt="Selfie Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Selfie Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Selfie Art" %}</b></h3>
 
     <p>{% trans "Perfect for photo lovers and Instagram-worthy clicks. Ideal for cafés, studios, events, and public spaces." %}</p>
 
@@ -1548,11 +1602,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Painting" />
+      <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Madhubani Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Madhubani Art" %}</b></h3>
 
     <p> {% trans "Our hand-painted Madhubani artworks reflect India's rich cultural heritage with intricate patterns, vibrant colors, and meaningful storytelling" %}</p>
 
@@ -1572,11 +1626,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Painting" />
+      <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Texture Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Texture Art" %}</b></h3>
 
     <p>{% trans "Give your walls a touch of elegance and depth with our premium texture painting" %}</p>
 
@@ -1618,11 +1672,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/Pillere panting.jpeg' %}" alt="Pillere Painting" />
+      <img src="{% static 'gallery/Pillere panting.jpeg' %}" alt="Pillere Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Pillere Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Pillere Art" %}</b></h3>
 
     <p>{% trans "Enhance your home with our detailed and beautiful pillere painting service." %}</p>
 
@@ -1692,11 +1746,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank" />
+      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Water Tank" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Water Tank Art" %}</b></h3>
 
     <p>{% trans "We blend the harmony of architecture with the elegance of nature. These artworks create a balanced and sophisticated ambiance in any space." %}</p>
 
@@ -1716,11 +1770,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/dora.png' %}" alt="Cartoon Painting" />
+      <img src="{% static 'gallery/dora.png' %}" alt="Cartoon Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Cartoon Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Cartoon Art" %}</b></h3>
 
     <p>{% trans "Perfect for kids, schools, play areas, and creative corners — our cartoon and fun-themed designs bring smiles, laughter, and a touch of whimsy to your walls." %}</p>
 
@@ -1740,11 +1794,11 @@
 
     <div class="circle">
 
-      <img src="{% static 'gallery/normal_paint.png' %}" alt="Home Painting" />
+      <img src="{% static 'gallery/normal_paint.png' %}" alt="Home Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Home Painting" %}</b></h3>
+    <h3 style="padding-bottom: 12px;"> <b>{% trans "Home Art" %}</b></h3>
 
     <p>{% trans "Transform your house into a warm and artistic home. Our customized home painting solutions blend creativity, color, and comfort to reflect your personal style." %}</p>
 
