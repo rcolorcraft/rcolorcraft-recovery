@@ -417,7 +417,7 @@
   
       z-index: 1;
   
-      min-height: 300px;
+      min-height: 354px;
   
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -826,70 +826,17 @@
       }
   
     }
-.herosec{
-height:90vh;
-width:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:
-linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("{% static 'gallery/logohome.png' %}") center/cover no-repeat;
-}
-
-.hero-overlay{
-background:rgba(0,0,0,0.55);
-padding:60px;
-border-radius:20px;
-text-align:center;
-color:white;
-max-width:800px;
-width: 90%;
-margin: 0 auto;
-backdrop-filter: blur(12px);
-box-shadow:0 20px 60px rgba(0,0,0,0.4);
-}
-
-.hero-text h1{
-font-size:70px;
-font-weight:bold;
-margin-bottom:20px;
-
-}
-
-.hero-text p{
-font-size:18px;
-margin-bottom:25px;
-}
-
-.cta-btn{
-background:linear-gradient(45deg,#3b82f6,#2563eb);
-padding:14px 36px;
-border-radius:30px;
-color:white;
-text-decoration:none;
-font-weight:bold;
-transition:0.3s;
-}
-
-.cta-btn:hover{
-transform:scale(1.05);
-}
   
-  </style>  <!-- Hero Section --> 
-   <div class="herosec">
-<div class="hero-overlay">
+  </style>  <!-- Hero Section -->  <div class="hero"><div class="hero-overlay">
 
-<div class="hero-text glass-card">
+  <div class="hero-text glass-card">
 
-  <h1>Welcome to Rcolorcraft</h1>
+    <h1>
 
-<p>
-Transform your space with our stunning murals and creative paintings
-and artistic designs. Experience art that breathes life into your walls.
-</p>
+      Welcome to Rcolorcraft</h1>
 
-<a href="/explore" class="cta-btn">EXPLORE OUR ART</a>
+      <p> Transform your space with our stunning murals and creative paintings. and artistic designs. Experience art that breathes life into your walls.</p>
+
       {% if request.user.is_authenticated %}
 
         {% if request.user.is_superuser %}
@@ -936,9 +883,9 @@ and artistic designs. Experience art that breathes life into your walls.
 
   </div>
 
-  {% comment %} <div class="hero-img">
+  <div class="hero-img">
 
-    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" /> {% endcomment %}
+    <img src="{% static 'gallery/logohome.png' %}" alt="Hero Image" />
 
   </div>
 
