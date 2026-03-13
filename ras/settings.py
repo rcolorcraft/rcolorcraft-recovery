@@ -106,12 +106,12 @@ WSGI_APPLICATION = "ras.wsgi.application"
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',   
-#         'NAME': 'rasdb',                           
-#         'USER': 'postgres',                              
-#         'PASSWORD': '12345678',                          
-#         'HOST': 'localhost',                        
-#         'PORT': '5432',                             
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'rasdb',
+#         'USER': 'postgres',
+#         'PASSWORD': '12345678',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #     }
 # }
 
@@ -119,13 +119,13 @@ WSGI_APPLICATION = "ras.wsgi.application"
 
 
 # DATABASES = {
- #    'default': dj_database_url.parse(DATABASE_URL)
+#    'default': dj_database_url.parse(DATABASE_URL)
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -213,6 +213,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ✅ Media files (user uploads)
 # S3 media storage
+INSTALLED_APPS += ["storages"]
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "ap-south-1")
 # INSTALLED_APPS += ["storages"]
 
 # AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
@@ -233,7 +239,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # )
 
 # TESTING TESTING TESRINGGGGG
-INSTALLED_APPS += ['storages']
+INSTALLED_APPS += ["storages"]
 
 # Hardcoded AWS credentials for quick testing
 AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY"
@@ -243,16 +249,24 @@ AWS_STORAGE_BUCKET_NAME = "rasmedia2025"
 AWS_S3_REGION_NAME = "ap-south-1"
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
+# Use S3 for uploaded files (media)
 # Use S3 for uploaded files
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
+# Public file settings (simplest to start)
 # Public file settings
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
+AWS_QUERYSTRING_AUTH = False  # if you want public, unsigned URLs
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
 AWS_QUERYSTRING_AUTH = False
 
 # S3 domain
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
 
 # Store uploads inside this folder in S3
 AWS_LOCATION = "service_images"
@@ -261,7 +275,7 @@ AWS_LOCATION = "service_images"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
 # Media URL should point to S3, not /media/
 # MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
-MEDIA_URL = "https://rasmedia2025.s3.ap-south-1.amazonaws.com/service_images/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
