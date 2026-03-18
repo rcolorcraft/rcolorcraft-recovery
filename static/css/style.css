@@ -443,3 +443,22 @@ body {
   width: 90%;
   text-align: center;
 }
+
+.whatsapp-float{
+position: fixed;
+bottom: 20px;
+right: 20px;
+z-index: 9999;
+}
+
+.whatsapp-float img{
+width: 60px;
+height: 60px;
+border-radius: 50%;
+box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+transition: 0.3s;
+}
+
+.whatsapp-float img:hover{
+transform: scale(1.1);
+}

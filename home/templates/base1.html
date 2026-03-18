@@ -21,7 +21,10 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD5Vn0gT8nNq0UdwQ3N3cQ4A8b6rC8L9Tz1Jb1S9/7g56b0lX6T8z8x8x8x8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD5Vn0gT8nNq0UdwQ3N3cQ4A8b6rC8L9Tz1Jb1S9/7g56b0lX6T8z8x8x8x8w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
   <link rel="stylesheet" href="{% static 'css/common.css' %}">
   <link rel="stylesheet" href="{% static 'css/responsive-overrides.css' %}">
   <link rel="stylesheet" href="{% static 'css/review_page.css' %}">
@@ -478,7 +481,7 @@ body.gt-active header {
         footer {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: #fff;
-            padding: 60px 20px 20px;
+            padding: 40px ;
             margin-top: auto;
         }
 
@@ -496,7 +499,7 @@ body.gt-active header {
 
         .footer-section h3 {
             font-size: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-weight: 700;
             position: relative;
             padding-bottom: 10px;
@@ -513,11 +516,11 @@ body.gt-active header {
             border-radius: 2px;
         }
 
-        .footer-section p {
+        {% comment %} .footer-section p {
             line-height: 1.8;
             color: #d1d5db;
-            font-size: 14px;
-        }
+            font-size: 29px;
+        } {% endcomment %}
 
         .footer-section ul {
             list-style: none;
@@ -528,15 +531,15 @@ body.gt-active header {
         }
 
         .footer-section ul li a {
-            color: #d1d5db;
+            color: rgb(243, 245, 248);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             transition: all 0.3s ease;
             display: inline-block;
         }
 
         .footer-section ul li a:hover {
-            color: #fff;
+            color: #ffffffc4;
             transform: translateX(5px);
         }
 
@@ -593,24 +596,15 @@ body.gt-active header {
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
+            padding-top: 10px;
             text-align: center;
         }
 
         .footer-bottom p {
-            color: #d1d5db;
-            font-size: 14px;
+            color: rgb(233, 238, 245);
+            font-size: 16px;
         }
 
-        .footer-bottom .heart {
-            color: #ff6b6b;
-            animation: heartbeat 1.5s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
 
         @media (max-width: 768px) {
             .footer-content {
@@ -808,13 +802,16 @@ body.gt-active header {
       <nav class="nav-left" id="navMenu">
         <ul>
          <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+            <li><a href="{% url 'about'%}" 
+              class="{% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
+               <li><a href="/reviews/" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
           {# Only visible to admin #}
 {% if user.is_authenticated and user.role == 'admin' %}
     <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
     <li><a href="/artists/" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
-{% endif %}    <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
+{% endif %}    
 
-          <li><a href="/reviews/" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
+         
           <!-- <li><a href="/shop/" class="{% if request.path == '/shop/' %}active{% endif %}">Shop</a></li> -->
 {% if user.is_authenticated and user.role == 'admin' or user.is_authenticated and user.role == 'employee' %}
     <li><a href="{% url 'service_images' %}">Art Images</a></li>
@@ -855,7 +852,7 @@ body.gt-active header {
     list="artServices"
   />
   <button onclick="searchArtService()">
-    🔍
+    <i class="fas fa-search"></i>
   </button>
 
   <!-- Suggestions -->
@@ -865,15 +862,15 @@ body.gt-active header {
     <option value="Mural Art">
     <option value="Metro Advertisement">
     <option value="Outdoor Advertisement">
-    <option value="School Painting">
-    <option value="Selfie Painting">
-    <option value="Madhubani Painting">
-    <option value="Texture Painting">
-    <option value="Pillere Painting">
+    <option value="School Art">
+    <option value="Selfie Art">
+    <option value="Madhubani Art">
+    <option value="Texture Art">
+    <option value="Pillere Art">
     <option value="Scrap Animal Art">
-    <option value="Water Tank">
-    <option value="Cartoon Painting">
-    <option value="Home Painting">
+    <option value="Water Tank Art">
+    <option value="Cartoon Art">
+    <option value="Home Art">
   </datalist>
 </div>
 
@@ -936,10 +933,10 @@ body.gt-active header {
 }
 
 .art-search-container input {
-  padding: 8px 14px;
-  border-radius: 20px;
+  padding: 1px 1px;
+  border-radius: 10px;
   border: 1px solid #ddd;
-  min-width: 200px;
+  min-width: 100px;
   outline: none;
 }
 
@@ -1058,7 +1055,58 @@ body.gt-active header {
   }
 }
 
+.whatsapp-pro{
+position: fixed;
+bottom: 25px;
+right: 25px;
+display: flex;
+align-items: center;
+gap: 10px;
+background: linear-gradient(135deg, #25D366, #128C7E);
+padding: 12px 18px;
+border-radius: 50px;
+color: white;
+font-weight: 600;
+font-size: 14px;
+text-decoration: none;
+box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+z-index: 9999;
+transition: all 0.3s ease;
+}
+
+.whatsapp-pro .icon{
+background: rgba(255,255,255,0.2);
+padding: 6px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.whatsapp-pro img{
+width: 22px;
+height: 22px;
+}
+
+.whatsapp-pro:hover{
+transform: translateY(-3px) scale(1.05);
+box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* Glow effect */
+@keyframes glow{
+0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6);}
+70%{box-shadow:0 0 0 15px rgba(37,211,102,0);}
+100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+}
+
+.whatsapp-pro{
+animation: glow 2s infinite;
+}
+
 </style>
+
+
 
 <script>
   function changeLanguage() {
@@ -1078,6 +1126,8 @@ body.gt-active header {
     document.getElementById('nextInput').value = pathWithoutLang + window.location.search;
     document.getElementById('languageForm').submit();
   }
+
+  
 </script>
 
      <!-- Replace your popup-overlay section with this updated version -->
@@ -1210,9 +1260,15 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="footer-container">
             <div class="footer-content">
                 <!-- About Section -->
-                <div class="footer-section">
-                    <h3>RColorcraft</h3>
-                    <p>Transforming spaces with artistic excellence. We bring creativity and professionalism to every project, from 3D wall art to complete home painting solutions.</p>
+                <div class="footer-logo">
+                    <img src="{%static 'gallery\logohome.png' %}"alt="Rcolorcraft logo">.
+                   <p>
+RColorcraft is a creative wall art and mural painting company that transforms
+homes, offices, and commercial spaces with beautiful and unique designs.
+Our team of professional artists specializes in 3D wall art, mural painting,
+cartoon art, and customized wall designs. Our goal is to add a creative and
+artistic touch to every space we work on.
+</p>
                     <!-- <div class="social-links">
                         <a href="#" aria-label="Facebook">ⓕ</a>
                         <a href="#" aria-label="Instagram">🅾</a>
@@ -1226,6 +1282,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="/">Home</a></li>
+                        <li><a href="/">Booking</a></li>
                         <li><a href="/reviews">Reviews & Feedback</a></li>
                         <!-- <li><a href="/shop">Shop</a></li> -->
                         <li><a href="/contact_us">Contact Us</a></li>
@@ -1237,9 +1294,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>Trending Services</h3>
                     <ul>
                         <li><a href="/explore/3d-wall-art/">3D Wall Art</a></li>
-                        <li><a href="/explore/home-painting/">Home Painting</a></li>
+                        <li><a href="/explore/home-painting/">Home Wall Art</a></li>
                         <li><a href="/explore/mural-art/">Mural Art</a></li>
-                        <li><a href="/explore/cartoon-painting/">Cartoon Painting</a></li>
+                        <li><a href="/explore/cartoon-painting/">Cartoon Wall Art</a></li>
+                        <li><a href="/explore/cartoon-painting/">Piller Art</a></li>
                     </ul>
                 </div>
 
@@ -1308,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             </div>
             <br></br>
-                <p>© 2025 RColorcraft. All Rights Reserved. | Made with <span class="heart">♥</span> in India</p>
+                <p>© 2025 RColorcraft. All Rights Reserved. | Made with <span class="heart">❤️</span> in India</p>
             </div>
         </div>
     </footer>
@@ -1450,7 +1508,27 @@ document.getElementById("artSearchInput").addEventListener("keydown", function(e
     }
   </script>
 
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   
+
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+setTimeout(function(){
+    document.getElementById("whatsapp-popup").style.display = "block";
+}, 4000);
+</script>
+<script src="//translate.google.com/..."></script>
+
+<a href="https://wa.me/919717452619?text=Hi%20I%20want%20to%20book%20your%20service"
+class="whatsapp-pro"
+target="_blank">
+<span class="icon">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+</span>
+
+<span class="text">Chat with us</span>
+
+</a>
+
+</a>
 </body>
 </html>

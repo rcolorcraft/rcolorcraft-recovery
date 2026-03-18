@@ -11,345 +11,626 @@
    <style>
 
   
-
-        /* Reviews Section */
-        .reviews-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .reviews-section h2 {
-            text-align: center;
-            font-size: 1.9rem;
-            margin-bottom: 35px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        /* Reviews Grid - Optimal sizing */
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 22px;
-            margin-bottom: 35px;
-        }
-
-        /* Review Card - Clean design */
-        .review-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transition:0.3s;
-            /* display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            min-height: 200px; */
-        }
-
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-        }
-
-        .review-card img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 14px;
-            border: 2.5px solid #667eea;
-        }
-
-        .review-content {
-            flex: 1;
-            width: 100%;
-        }
-
-        .review-content h3 {
-            font-size: 1.05rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-   
-
-        .review-content p {
-            font-size: 0.92rem;
-            color: #555;
-            line-height: 1.5;
-            font-style: italic;
-            margin-top: 8px;
-        }
-
-        /* Form Section */
-        .gallery-section {
-            padding: 50px 20px;
-            background: linear-gradient(135deg, #9bdded, hsl(125, 59%, 84%));
-        }
-
-        .review-form {
-            max-width: 550px;
-            margin: 0 auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .review-form h3 {
-            text-align: center;
-            font-size: 1.7rem;
-            margin-bottom: 28px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .review-form input[type="text"],
-        .review-form input[type="email"],
-        .review-form textarea {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid #ddd;
-            border-radius: 7px;
-            font-size: 0.95rem;
-            transition: border-color 0.3s ease;
-            margin-bottom: 14px;
-            font-family: inherit;
-        }
-
-        .review-form input:focus,
-        .review-form textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .review-form label,
-        .review-form p {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2c3e50;
-            font-size: 0.95rem;
-        }
-
-        /* Star Rating */
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            gap: 6px;
-            margin: 10px 0 20px 0;
-        }
-        .star-rating input {
-            display: none;
-        }
-
-        .star-rating label {
-            font-size: 28px;
-            color: #bbb;
-            cursor: pointer;
-            transition: 0.3s;
-           
-        }
-        /* hover effect */
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {
-
-            color: #ffb400;
-        }
-        /* selected stars */
-        .star-rating input:checked ~ label {
-            color: #ffb400;
-        }
-
-
-        
-
-        /* File Upload */
-        .file-upload-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .file-upload-btn {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            font-weight: 600;
-        }
-
-        .file-upload-btn:hover {
-            background: #5568d3;
-        }
-
-        .file-upload-input {
-            display: none;
-        }
-
-        .file-name-text {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        /* Submit Button */
-        .review-form button[type="submit"] {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .review-form button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        #response {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .review-card img.profile-pic {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
+.review-hero{
+max-width:900px;
+margin:60px auto;
+padding:35px;
+border-radius:14px;
+box-shadow:0 10px 35px rgba(0,0,0,0.1);
+ background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(10px);
+text-align:center;
 }
 
-.review-card .review-img {
-  max-width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
+
+.review-hero h1{
+font-size:36px;
+color:#2c3e50;
 }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
+.success-message{
+background:#e8f9ee;
+color:#2d8f4e;
+padding:10px;
+border-radius:8px;
+margin-bottom:15px;
+text-align:center;
+font-weight:500;
+}
 
-            .reviews-grid {
-                grid-template-columns: 1fr;
-            }
+.rating-summary{
+margin-top:10px;
+color:#666;
+font-size:16px;
+}
 
-            .review-form {
-                padding: 30px 20px;
-            }
-        }
-    </style>
-  <section class="hero">
-    <h1>{% trans "Customer Reviews & Testimonials" %}</h1>
-    <p>{% trans "⭐ 4.9/5 Customers Rating | 200+ Happy Clients." %}</p>
-  </section>
 
-  <section class="reviews-section">
-    <h2>Client Testimonials</h2>
-    <p>Hear what our satisfied clients say about our services.</p>
-    <div class="reviews-grid" id="reviewsGrid">
-      <div class="review-card">
-        <img src="{% static 'gallery/john.jpg' %}" alt="John D">
-        <div class="review-content">
-          <h3>Rohit Sharma<span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"Rcolorcraft team did an amazing mural painting in my office.Highly recommended.</p>
-        </div>
-      </div>
-      <div class="review-card">
-        <img src="{% static 'gallery/rohit.jpg' %}" alt="Rohit">
-        <div class="review-content">
-          <h3>Pawan Mehta <span class="stars">⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"Beautiful wall art design .My living room looks completely different now."</p>
-        </div>
-      </div>
-      <div class="review-card">
-        <img src="{% static 'gallery/rahul.jpg' %}" alt="Rahul S">
-        <div class="review-content">
-          <h3>Amit Verma <span class="stars">⭐ ⭐ ⭐ ⭐ ⭐</span></h3>
-          <p>"Very professional artists and great finishing work."</p>
-        </div>
-      </div>
-      {% for r in reviews %}
-  <div class="review-card">
-    <!-- Profile picture from customer account -->
-    {% if r.customer.customer_photo %}
-      <img src="{{ r.customer.customer_photo.url }}" alt="{{ r.customer_name }}">
-    {% else %}
-      <img src="{% static 'gallery/default-user.png' %}" alt="User">
-    {% endif %}
-    
-    <div class="review-content">
-      <h3>{{ r.customer_name }}
-        <span class="stars">
-          {% for i in "12345"|make_list %}
-            {% if forloop.counter <= r.rating %}
-              ⭐
-            {% else %}
-              ☆
-            {% endif %}
-          {% endfor %}
-        </span>
-      </h3>
-      <p>"{{ r.customer_review }}"</p>
-      
-      <!-- Review image (uploaded with review) -->
-      {% if r.review_image %}
-        <img src="{{ r.review_image.url }}" alt="Review Image" class="review-img" style="max-width: 100%; margin-top: 10px; border-radius: 8px;">
-      {% endif %}
-    </div>
-  </div>
-{% empty %}
-{% endfor %}
-    </div>
-  </section>
+.reviews-section{
+padding:80px 20px;
+background:linear-gradient(180deg,#eef7ff,#ffffff);
+{% comment %} text-align:center; {% endcomment %}
+}
+.review-hero{
+max-width:900px;
+margin:60px auto;
+padding:40px;
+border-radius:20px;
+text-align:center;
 
-  <section class="gallery-section">
-    <div class="review-form">
-      <h3>{% trans "Leave a Review" %}</h3>
-      <form id="reviewForm" method="post" enctype="multipart/form-data" >
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="{% trans 'Your Name' %}" required>
-        <input type="email" name="email" placeholder="{% trans 'Your Email' %}" required>
-        <textarea name="customer_review" rows="4" placeholder="{% trans 'Your Review' %}"></textarea>
-        <label for="rating">{% trans "Your Rating" %}</label>
-        <div class="star-rating">
-          <input type="radio" name="rating" id="star-5"> 
-          <label for="star-5">★</label>
-         <input type="radio" name="rating" id="star-4"> 
-          <label for="star-4">★</label>
-          <input type="radio" name="rating" id="star-3"> 
-          <label for="star-3">★</label>
-          <input type="radio" name="rating" id="star-2"> 
-          <label for="star-2">★</label>
-          <input type="radio" name="rating" id="star-1"> 
-          <label for="star-1">★</label>
-          </div>
-          <label for="image">{% trans "Upload your picture (optional):" %}</label>
-          <input type="file" name="image" id="image">
-          <button type="submit">{% trans "Submit Review" %}</button>
-          </form>
+background:linear-gradient(135deg,#ffffff,#eef7ff);
+
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+
+.review-hero h1{
+font-size:34px;
+color:#2c3e50;
+margin-bottom:10px;
+}
+
+.rating-summary{
+font-size:18px;
+color:#555;
+}
+
+.reviews-section h2{
+font-size:34px;
+font-weight:700;
+margin-bottom:40px;
+color:#2c3e50;
+}
+
+.review-hero{
+max-width:900px;
+margin:60px auto;
+padding:40px;
+background:rgba(255,255,255,0.9);
+border-radius:18px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+
+.review-hero h1{
+font-size:34px;
+color:#2c3e50;
+margin-bottom:10px;
+}
+
+.rating-summary{
+font-size:18px;
+color:#555;
+margin-top:10px;
+}
+
+.rating-summary strong{
+color:#1e3a8a;
+}
+
+.star{
+color:#f1c40f;
+font-size:22px;
+animation:starGlow 2s infinite alternate;
+}
+
+
+@keyframe starGlow{
+  from{opacity:0.7;}
+  to{opacity:1;}
+}
+
+.trust-badges{
+margin-top:15px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+font-size:14px;
+color:#27ae60;
+}
+
+
+.reviews-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+max-width:1200px;
+margin:auto;
+}
+
+.rating-summary{
+margin-top:12px;
+font-size:17px;
+color:#666;
+text-align:center;
+font-weight:500;
+}
+
+.rating-summary strong{
+color:#1e3a8a;
+font-weight:700;
+}
+
+.rating-summary::before{
+color:#f1c40f;
+font-size:18px;
+}
+.
+
+.review-card{
+background:white;
+padding:28px;
+border-radius:16px;
+box-shadow:0 12px 35px rgba(0,0,0,0.08);
+transition:all .3s ease;
+text-align:center;
+border:1px solid #f2f2f2;
+}
+
+.review-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 45px rgba(0,0,0,0.15);
+}
+
+.quote{
+  font-size:40px;
+  color:#ee0e0;
+  position:absolute;
+  top:10px;
+  left:15px;
+}
+.rating-bars{
+max-width:600px;
+margin:40px auto;
+}
+
+.rating-row{
+display:flex;
+align-items:center;
+gap:10px;
+margin:10px 0;
+}
+
+.bar{
+flex:1;
+height:8px;
+background:#eee;
+border-radius:10px;
+}
+
+.fill{
+height:100%;
+background:#f1c40f;
+border-radius:10px;
+animation:growBar 1.5s ease forwards;
+}
+@keyframes growBar{
+  from{
+    width:0;
+  }
+}
+
+
+.verified{
+  color:#2ecc71;
+  font-size:13px;
+}
+
+.client-img{
+width:65px;
+height:65px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:12x;
+border: 3px solid#f1f1f1;
+}
+
+
+.designation{
+font-size:14px;
+color:#888;
+}
+
+
+.stars{
+color:#f1c40f;
+font-size:22px;
+letter-spacing:3px;
+
+animation:starGlow 2s infinite alternate;
+}
+
+@keyframes starGlow{
+  from{
+    opacity:0.7;
+    transform:scale(1);
+  }
+  to{
+  opacity:1;
+  transform:scale(1.1)}
+}
+
+/* Page background */
+
+.review-form-section{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+padding:40px;
+}
+
+/* Form card */
+
+.review-form{
+width:450px;
+background:rgba(255,255,255,0.95);
+padding:20px;
+border-radius:18px;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+backdrop-filter: blur(10px);
+transition:0.3s;
+}
+
+.review-form:hover{
+transform:translateY(-5px);
+}
+
+/* Heading */
+
+.review-form h2{
+text-align:center;
+margin-bottom:25px;
+font-size:26px;
+color:#333;
+font-weight:600;
+}
+
+/* Inputs */
+
+.review-form input,
+.review-form textarea{
+width:100%;
+padding:12px 15px;
+margin-bottom:15px;
+border-radius:10px;
+border:1px solid #e0e0e0;
+font-size:14px;
+transition:0.3s;
+}
+
+.review-form input:focus,
+.review-form textarea:focus{
+border-color:#2a7be4;
+box-shadow:0 0 6px rgba(42,123,228,0.4);
+outline:none;
+}
+/* Focus effect */
+
+.review-form input:focus,
+.review-form textarea:focus{
+border-color:#2a5298;
+box-shadow:0 0 6px rgba(42,82,152,0.3);
+outline:none;
+}
+
+/* Textarea */
+
+.review-form textarea{
+resize:none;
+height:100px;
+}
+
+/* Submit button */
+
+.review-form button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.review-form button:hover{
+transform:scale(1.05);
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+
+/* STAR RATING */
+
+.rating{
+display:flex;
+flex-direction:row-reverse;
+justify-content:flex-end;
+font-size:28px;
+margin-bottom:15px;
+}
+
+.rating input{
+display:none;
+}
+
+.rating label{
+font-size:28px;
+color:#ddd;
+cursor:pointer;
+transition:0.2s;
+}
+
+.rating label:hover,
+.rating label:hover ~ label{
+color:#ffc107;
+}
+
+.rating input:checked ~ label{
+color:#ffc107;
+}
+
+/* Hover stars */
+
+.rating label:hover,
+.rating label:hover ~ label{
+color:#ffc107;
+}
+
+/* Selected stars */
+
+.rating input:checked ~ label{
+color:#ffc107;
+}
+
+
+
+</style>
+
+
+<section class="review-hero">
+
+<h1>Customer Reviews & Testimonials</h1>
+<div id="successMessage" style="color:green;display:none;font-weight:600;margin-bottom:10px;">
+⭐Thank you for your review! 
+Your feedback helps other customers.
+<form id="reviewForm" method="POST" enctype="multipart/form-data" onsubmit="submitReview(); Sreturn false;">
+</div>
+
+<p class="rating-summary">
+ <span class="stars">☆☆☆☆☆</span>
+<strong>4.9 / 5</strong> Average Rating  • <strong>200+</strong> Happy Clients
+</p>
+
+<div class="trust-badges">
+  <span>✔ Verified Reviews </span>
+  <span>✔ Trusted by 200+ Cients </span>
+  <span>✔ Professional Artists</span>
+</div>
+
+</section>
+
+<section class="rating-bars">
+
+<div class="rating-row">
+<span>★★★★★</span>
+<div class="bar">
+<div class="fill" style="width:90%"></div>
+</div>
+<span>120</span>
+</div>
+
+<div class="rating-row">
+<span>★★★★☆</span>
+<div class="bar">
+<div class="fill" style="width:60%"></div>
+</div>
+<span>50</span>
+</div>
+
+<div class="rating-row">
+<span>★★★☆☆</span>
+<div class="bar">
+<div class="fill" style="width:20%"></div>
+</div>
+<span>10</span>
+</div>
+
+</section>
+
+<section class="reviews-section">
+
+<h2>What Our Clients Say</h2>
+
+<div class="reviews-grid">
+
+
+<div class="review-card">
+
+  <div class="quote">❝</div>
+
+<img src="{% static 'gallery/user1.png' %}" class="client-img">
+
+<h3>Rohit Sharma</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Business Owner</span>
+
+<div class="stars">⭐⭐⭐⭐⭐</div>
+
+<p>
+RColorcraft team did an amazing mural painting in my office. Highly recommended.
+</p>
+
+</div>
+
+
+<div class="review-card">
+    <div class="quote">❝</div>
+
+
+<img src="{% static 'gallery/user2.png' %}" class="client-img">
+
+<h3>Pawan Mehta</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Interior Designer</span>
+
+<div class="stars">⭐⭐⭐⭐⭐</div>
+
+<p>
+Beautiful wall art design. My living room looks completely different now.
+</p>
+
+</div>
+
+
+<div class="review-card">
+    <div class="quote">❝</div>
+
+
+<img src="{% static 'gallery/user3.png' %}" class="client-img">
+
+<h3>Amit Verma</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Restaurant Owner</span>
+
+<div class="stars">⭐⭐⭐⭐</div>
+
+<p>
+Very professional artists and great finishing work.
+</p>
+
+</div>
+
+
+<div class="review-card">
+    <div class="quote">❝</div>
+
+
+<img src="{% static 'gallery/user5.png' %}" class="client-img">
+
+<h3>Neha Kapoor</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Architect</span>
+
+<div class="stars">⭐⭐⭐⭐⭐</div>
+
+<p>
+They transformed our office wall into a beautiful artwork.
+</p>
+
+</div>
+
+
+<div class="review-card">
+    <div class="quote">❝</div>
+
+
+<img src="{% static 'gallery/user4.png' %}" class="client-img">
+
+<h3>Arjun Singh</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Cafe Owner</span>
+
+<div class="stars">⭐⭐⭐⭐</div>
+
+<p>
+Creative designs and amazing team. Very satisfied.
+</p>
+
+</div>
+
+
+<div class="review-card">
+    <div class="quote">❝</div>
+
+
+<img src="{% static 'gallery/user6.png' %}" class="client-img">
+
+<h3>Priya Gupta</h3>
+<span class="verified">✔ Verified Client</span>
+
+<span class="designation">Home Owner</span>
+
+<div class="stars">⭐⭐⭐</div>
+
+<p>
+Our kids room wall painting is beautiful. Thank you RColorcraft.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="review-form-section">
+    <div class="quote">❝</div>
+
+
+<div class="review-form">
+
+<h2>Leave a Review</h2>
+
+
+<form id="reviewForm" method="POST" enctype="multipart/form-data" onsubmit="submitReview(); Sreturn false;">
+
+{% csrf_token %}
+
+<input type="text" name="name" placeholder="Your Name" required>
+
+<input type="email" name="email" placeholder="Your Email" required>
+
+<textarea name="review" rows="4" placeholder="Write your review"></textarea>
+
+<label>Your Rating</label>
+
+
+<div class="rating">
+
+<input type="radio" name="rating" id="star5" value="5">
+<label for="star5">★</label>
+
+<input type="radio" name="rating" id="star4" value="4">
+<label for="star4">★</label>
+
+<input type="radio" name="rating" id="star3" value="3">
+<label for="star3">★</label>
+
+<input type="radio" name="rating" id="star2" value="2">
+<label for="star2">★</label>
+
+<input type="radio" name="rating" id="star1" value="1">
+<label for="star1">★</label>
+
+</div>
+
+<div>
+
+<label>Upload Your Photo(optional)</label>
+<input type="file" name="image" id="imageUpload">
+
+<img id="previewImage"style="width:70px;height:70px;border-radius:50%;display:none;margin-top:10px;">
+
+<button type="submit">Submit Review</button>
+
+</form>
+</select>
+
+
+</div>
+
+</section>
+
+{% endblock %}
           <!-- <input class="star star<input type="radio" name="rating" id="star-5"> 
           <label for="star-5"></label>-5" id="star-5" type="radio" name="rating" value="5"/>
           <label class="star star-5" for="star-5"></label>
@@ -381,9 +662,6 @@
 
       </form> -->
 
-      <div id="response" style="margin-top:12px"></div>
-    </div>
-  </section>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
@@ -400,7 +678,16 @@ function submitReview() {
     contentType: false,
     headers: { "X-CSRFToken": csrftoken },
     success: function(data){
-      if (data.success) {
+alert("⭐Thank you for your review! Your feedback helps other customers.");
+const msg =
+      document.getElementById("successMessage");
+      msg.style.display = "block";
+
+      msg.scrollIntoView({behaviour:"smooth"});
+      document.getElementById("reviewForm").reset();
+      }
+    }
+   
         $("#response").html(`<div style='color:green; margin-bottom:8px'>${data.message}</div>`);
         
         // ✅ Profile pic comes from customer account
@@ -459,16 +746,32 @@ $(document).ready(function(){
     $("#file-name-display").text(fileName);
   });
 });
-</script>
 
-<style>
+const fileInput = document.getElementById("imageUpload");
+const preview = document.getElementById("previewImage");
+
+fileInput.addEventListener("change", function(){
+
+const file = this.files[0];
+
+if(file){
+
+preview.style.display="block";
+
+preview.src = URL.createObjectURL(file);
+
+}
+
+});
+
+</script>
+{% comment %} <style>
   .gallery-section {
     padding: 50px 20px;
     background: linear-gradient(135deg, #9bdded, hsl(125, 59%, 84%));
     text-align: center;
 }
 
-</style>
+</style> {% endcomment %}
 
   
-{% endblock %}

@@ -7,6 +7,9 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import translation
+from django.shortcuts import render
+
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,8 +33,16 @@ def home_view(request):
     return render(request, "home.html")
 
 
+def about(request):
+    return render(request, "about.html")
+
+
 def contact_us(request):
     return render(request, "contact_us.html")
+
+
+def explore(request):
+    return render(request, "exlore.html")
 
 
 # def edit_profile(request):
@@ -110,6 +121,7 @@ def explore_service(request, service_type):
 @csrf_exempt
 def approve_service_image(request):
     if request.method == "POST":
+
         if not request.user.is_authenticated or not request.user.is_staff:
             return JsonResponse({"success": False, "message": "Permission denied."})
 
@@ -229,13 +241,38 @@ def home(request):
 from django.shortcuts import render
 
 
-def reviews(request):
-    all_reviews = Review.objects.all().order_by("-review_date")
-    return render(request, "reviews.html", {"reviews": all_reviews})
+from django.shortcuts import render, redirect
+from .models import Review
+
+
+def reviews_page(request):
+
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        review = request.POST.get("review")
+        rating = request.POST.get("rating")
+        image = request.FILES.get("image")
+
+        Review.objects.create(
+            customer_name=name,
+            customer_email=email,
+            customer_review=review,
+            rating=rating,
+            review_image=image,
+        )
+
+        return redirect("reviews_page")
+
+    reviews = Review.objects.all().order_by("-review_date")
+
+    return render(request, "reviews.html", {"reviews": reviews})
 
 
 from django.contrib.auth import logout
-from django.shortcuts import render, redirect
+
+# from django.shortcuts import render, redirect
 
 
 def logout_view(request):
@@ -753,34 +790,64 @@ def home_view(request):
     ]
     # keep your same fake reviews
 
-    all_reviews = reviews_list + fake_reviews[: 3 - len(reviews_list)]
+
+def home_view(request):
+
+    reviews_list = Review.objects.all().order_by("-id")
+
+    # Fake reviews (अगर database में कम हों)
+    fake_reviews = [
+        {
+            "customer_name": "Rohit Sharma",
+            "rating": 5,
+            "review": "Amazing wall painting work!",
+            "review_image": None,
+        },
+        {
+            "customer_name": "Pawan Mehta",
+            "rating": 4,
+            "review": "Very creative design and good finishing.",
+            "review_image": None,
+        },
+        {
+            "customer_name": "Neha Kapoor",
+            "rating": 5,
+            "review": "Professional artists and beautiful artwork.",
+            "review_image": None,
+        },
+    ]
+
+    all_reviews = list(reviews_list)
+
+    if len(all_reviews) < 3:
+        all_reviews = all_reviews + fake_reviews
 
     enriched_reviews = []
+
     for r in all_reviews:
+
+        # Fake reviews (dictionary)
         if isinstance(r, dict):
+
             rating = r["rating"]
             r["full_stars"] = range(rating)
             r["empty_stars"] = range(5 - rating)
-            r["customer_photo"] = None  # fake ones don’t have photos
-            enriched_reviews.append(r)
-        else:
-            rating = r.rating
-            setattr(r, "full_stars", range(rating))
-            setattr(r, "empty_stars", range(5 - rating))
-            try:
-                customer = Customer.objects.get(id=r.customer_id)
-                setattr(
-                    r,
-                    "customer_photo",
-                    customer.customer_photo.url if customer.customer_photo else None,
-                )
-            except Customer.DoesNotExist:
-                setattr(r, "customer_photo", None)
+            r["customer_photo"] = None
+
             enriched_reviews.append(r)
 
-    context = {
-        "reviews": enriched_reviews,
-    }
+        # Database reviews (Django model)
+        else:
+
+            rating = r.rating
+
+            setattr(r, "full_stars", range(rating))
+            setattr(r, "empty_stars", range(5 - rating))
+
+            enriched_reviews.append(r)
+
+    context = {"reviews": enriched_reviews}
+
     return render(request, "home.html", context)
 
 

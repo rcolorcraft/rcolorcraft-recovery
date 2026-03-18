@@ -23,11 +23,11 @@
   
       width: 100%;
   
-      max-width: 1400px;
+      max-width: 1800px;
   
       margin: 0 auto;
   
-      margin-bottom: 20px;
+      margin-bottom: 40px;
   
     }
   
@@ -37,7 +37,7 @@
   
       text-align: center;
   
-      font-size: 2.5rem;
+      font-size: 3.5rem;
   
       color: #000000;
   
@@ -95,15 +95,28 @@
   
       display: flex;
   
-      gap: 2rem;
+      gap: 3rem;
   
-      animation: scroll 30s linear infinite;
-  
-      width: max-content;
+       width: max-content;
+
+      animation: scroll-left 30s linear infinite;
   
     }
   
+ .slider-track-2 {
+  
+      display: flex;
+  
+      gap: 3rem;
+  
+      width: max-content;
 
+      margin-top:15px;
+
+      animation: scroll-right 30s linear infinite;
+  
+    }
+  
   
     .slider-track:hover {
   
@@ -111,9 +124,14 @@
   
     }
   
+     .slider-track-2:hover {
+  
+      animation-play-state: paused;
+  
+    }
 
   
-    @keyframes scroll {
+    @keyframes scroll-left{
   
       0% {
   
@@ -123,12 +141,27 @@
   
       100% {
   
-        transform: translateX(calc(-320px * 9 - 2rem * 9));
+        transform: translateX(-50%);
   
       }
   
     }
+
+@keyframes scroll-right {
   
+      0% {
+  
+        transform: translateX(-50%);
+  
+      }
+  
+      100% {
+  
+        transform: translateX(0%);
+  
+      }
+  
+}
 
   
     .trending-card {
@@ -371,7 +404,7 @@
   
       margin-bottom: 2rem;
   
-      font-size: 2.5rem;
+      font-size: 3.5rem;
   
       color: #212121;
   
@@ -387,13 +420,13 @@
   
       justify-content: center;
   
-      max-width: 1400px;
+      max-width: 1800px;
   
       margin: 0 auto;
   
       padding: 20px;
   
-      gap: 4px;
+      gap: 80px;
   
     }
   
@@ -401,7 +434,7 @@
   
     .service-card {
   
-      flex: 0 1 calc(25% - 16px);
+      flex: 0 1 calc(33.33%- 20px);
   
       background: #fff;
   
@@ -409,19 +442,30 @@
   
       border-radius: 15px;
   
-      margin: 8px;
+      margin: 0px;
   
       padding: 20px 15px;
   
       position: relative;
+      
+      overflow:hidden;
   
       z-index: 1;
-  
-      min-height: 300px;
+      
+       {% comment %} display:flex;  {% endcomment %}
+
+
+      justify-content:space-between;
+
+      width:100%;
+      
+   height: 200px;
+
+      min-height: 600px;
   
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   
-      display: flex;
+       {% comment %} display: flex;  {% endcomment %}
   
       flex-direction: column;
   
@@ -460,6 +504,8 @@
       transition: all 0.7s ease;
   
     }
+
+    
   
      */
   
@@ -469,7 +515,7 @@
   
       color: #fff;
   
-      transform: scale(1.08) translateY(-5px);
+      transform: scale(1.05) translateY(-5px);
   
       z-index: 9;
   
@@ -477,7 +523,6 @@
   
     }
   
-    
   
     .service-card:hover:before {
   
@@ -539,9 +584,10 @@
   
       width: 100%;
   
-      height: 100%;
+      height: 200px;
   
       object-fit: cover;
+      border-radius:12px;
   
       transition: transform 0.4s ease;
   
@@ -561,11 +607,11 @@
   
       color: #212121;
   
-      font-size: 1.3rem;
+      font-size: 1.5rem;
   
-      margin-top: 10px;
+      margin-top: 5px;
   
-      margin-bottom: 10px;
+      margin-bottom: 5px;
   
       transition: 0.7s;
   
@@ -578,13 +624,18 @@
       font-size: 14px;
   
       margin-bottom: 15px;
-  
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
       color: #666;
   
       flex-grow: 1;
   
       transition: 0.7s;
-  
+
+      min-height:60px;
+  max-height:65px;
+  overflow:hidden;
     }
   
     
@@ -607,15 +658,17 @@
   
       border: 0;
   
-      border-radius: 15px;
+      border-radius: 70px;
+
   
       color: #fff;
   
-      font-weight: 500;
+      font-weight: 600;
+      
+  margin-top:auto;
+      font-size: 16px;
   
-      font-size: 0.9rem;
-  
-      padding: 8px 16px;
+      padding: 4px 24px;
   
       text-decoration: none;
   
@@ -623,7 +676,9 @@
   
       cursor: pointer;
   
-      display: inline-block;
+      display: flex;
+      justify-content:space-between;
+      {% comment %} margin-top:10px; {% endcomment %}
   
     }
   
@@ -826,27 +881,113 @@
       }
   
     }
+
+    .ba-section{
+padding: 60px 20px;
+text-align: center;
+background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+}
+
+.ba-section h2{
+font-size: 32px;
+margin-bottom: 40px;
+font-weight: 700;
+}
+
+.ba-wrapper{
+display: flex;
+justify-content: center;
+}
+
+.ba-slider{
+position: relative;
+width: 500px;
+height: 300px;
+overflow: hidden;
+border-radius: 15px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.ba-slider img{
+position: absolute;
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.after-img{
+clip-path: inset(0 50% 0 0);
+}
+
+.label{
+  position:absolute;
+  top:10px;
+  background:rgba(0,0,0,0.7);
+  color:white;
+  padding;6px 12px;
+  font-size:12px;
+  border-radius:20px;
+  z-index:5;
+  font-weight:600;
+  backdrop-filter:blue(5px);
+  box-shadow: 2 2px 10px rgba(0,0,0,0.2);
+}
+.before{left:10px; }
+.after{ right:10px; }
+
+.slider-line{
+position: absolute;
+top: 0;
+left: 50%;
+width: 2px;
+height: 100%;
+background: white;
+z-index: 2;
+}
+
+.slider-button{
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 40px;
+height: 40px;
+background: white;
+border-radius: 50%;
+box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+z-index: 3;
+}
+
+.slider-range{
+position: absolute;
+width: 100%;
+height: 100%;
+opacity: 0;
+cursor: pointer;
+z-index: 4;
+}
+
 .herosec{
-height:90vh;
+height:60vh;
 width:100%;
 display:flex;
 align-items:center;
 justify-content:center;
 background:
 linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("{% static 'gallery/logohome.png' %}") center/cover no-repeat;
+url("{% static 'gallery\bckgrnd.jpg.jpeg' %}") center/cover no-repeat;
 }
 
 .hero-overlay{
 background:rgba(0,0,0,0.55);
-padding:60px;
+padding:80px;
 border-radius:20px;
 text-align:center;
 color:white;
-max-width:800px;
-width: 90%;
+max-width:1000px;
+width: 2000%;
 margin: 0 auto;
-backdrop-filter: blur(12px);
+backdrop-filter: blur(5px);
 box-shadow:0 20px 60px rgba(0,0,0,0.4);
 }
 
@@ -854,22 +995,33 @@ box-shadow:0 20px 60px rgba(0,0,0,0.4);
 font-size:70px;
 font-weight:bold;
 margin-bottom:20px;
-
+background:linear-gradient(to right,#ff4b2b,#ffb347,#3b82f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .hero-text p{
-font-size:18px;
-margin-bottom:25px;
+font-size:16px;
+margin-bottom:22px;
 }
 
 .cta-btn{
-background:linear-gradient(45deg,#3b82f6,#2563eb);
-padding:14px 36px;
-border-radius:30px;
+display:inline-block;
+background: linear-gradient(90deg, #0077ff, #00c6ff);
+padding:10px 20px;
+border-radius:60px;
+width:90%;
 color:white;
 text-decoration:none;
 font-weight:bold;
 transition:0.3s;
+text-align:center;
+font-size:20px;
+box-shadow:0 8px 25px rgba(o,o,o,0.2);
+color:white;
+
+
+
 }
 
 .cta-btn:hover{
@@ -877,6 +1029,7 @@ transform:scale(1.05);
 }
   
   </style>  <!-- Hero Section --> 
+
    <div class="herosec">
 <div class="hero-overlay">
 
@@ -890,6 +1043,8 @@ and artistic designs. Experience art that breathes life into your walls.
 </p>
 
 <a href="/explore" class="cta-btn">EXPLORE OUR ART</a>
+{% comment  %}
+
       {% if request.user.is_authenticated %}
 
         {% if request.user.is_superuser %}
@@ -915,7 +1070,8 @@ and artistic designs. Experience art that breathes life into your walls.
         <!-- {% trans "Welcome Back" %} -->
 
       {% endif %}
-
+      
+{% endcomment %}
     
 
     <!-- <div class="cta-buttons"</div>
@@ -944,14 +1100,21 @@ and artistic designs. Experience art that breathes life into your walls.
 
 </div>
 
-  </div>  <section class="hero"><div class="hero-box">
+  </div> 
+  <div class ="discount-bar">
+   <marque> 📢Special Offer🎁: Get <strong> 20% OFF</strong> on  Wall Art , Mural Art & Outdoor Advertisement Services! Limited Time Offer⏳!
+  </div>
+  
+  
+  
+  <section class="hero"><div class="hero-box">
 
   <!-- <h1>Welcome to Rcolorcraft</h1>
 
   <p>Transform your space with our stunning murals and creative paintings.
 
     Experience art that breathes life into your walls.
-
+</section>  <!-- Services Section -->  <section><h1>{% trans "  Explore Categories" %}</h1>
   </p> -->
 
   <!-- 1. 3D Wall Art (Corrected slug) -->
@@ -992,7 +1155,7 @@ and artistic designs. Experience art that breathes life into your walls.
 
     <div class="explore-circle">
 
-      <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
+      <img src="{% static 'gallery/Outdoor2.jpg' %}" alt="Outdoor Advertisement" />
 
     </div>
 
@@ -1425,6 +1588,303 @@ and artistic designs. Experience art that breathes life into your walls.
   </div>
 
 </div>
+{% comment %} SLIDER-2 {% endcomment %}
+
+<div class="trending-slider">
+
+  <div class="slider-track-2">
+
+    <!-- Original Cards -->
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "3D Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Aesthetic Art" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Metro Advertisement" %}</h3>
+
+        <!-- <p>₹ 120 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Abstract" %}</h3>
+
+        <!-- <p>₹ 180 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Nature Art" %}</h3>
+
+        <!-- <p>₹ 210 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Kids Theme" %}</h3>
+
+        <!-- <p>₹ 130 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Mural Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Canvas Art" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Radha Krishna Mural Art" %}</h3>
+
+        <!-- <p>₹ 220 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Duplicate for seamless infinite scroll -->
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/3dArt1.jpeg' %}" alt="3D Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "3D Art" %}</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/aestheticArt.jpeg' %}" alt="Aesthetic Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Aesthetic Art" %}</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/metro.jpeg' %}" alt="Metro Advertisement" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Metro Advertisement" %}</h3>
+
+        <!-- <p>₹ 120 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/abstract.jpeg' %}" alt="Abstract" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Abstract" %}</h3>
+
+        <!-- <p>₹ 180 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/nature.jpeg' %}" alt="Nature Art" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Nature Art" %}</h3>
+
+        <!-- <p>₹ 210 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/kidsTheme.jpeg' %}" alt="Kids Theme" />
+
+      <div class="card-overlay">
+
+        <h3>{% trans "Kids Theme" %}</h3>
+
+        <!-- <p>₹ 130 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/mural.jpeg' %}" alt="Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>Mural Art</h3>
+
+        <!-- <p>₹ 150 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/canvasPainting.jpeg' %}" alt="Canvas Art" />
+
+      <div class="card-overlay">
+
+        <h3>Canvas Art</h3>
+
+        <!-- <p>₹ 200 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trending-card">
+
+      <img src="{% static 'sliding/radhakrishna.jpeg' %}" alt="Radha Krishna Mural Art" />
+
+      <div class="card-overlay">
+
+        <h3>Radha Krishna Mural Art</h3>
+
+        <!-- <p>₹ 220 per sq.ft</p> -->
+
+      </div>
+
+    </div>
+  </div>
+</div>
 
   </section>  <!-- Services Section -->  <section><h1>{% trans "Our Premium Services" %}</h1>
 
@@ -1432,16 +1892,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/3D wall art.jpeg' %}" alt="3D Wall Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Wall Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "3D Wall Art - Walls That Come Alive" %}</b></h3>
 
-    <p>{% trans "Our immersive 3D painting experiences transform ordinary walls into extraordinary spaces, making your surroundings vibrant, interactive and unforgettable." %}</p>
-
+    <p>{% trans "Turn plain walls into extraordinary 3D masterpieces. Our creative wall art adds depth, style, and a striking visual impact to any space. Perfect for interiors that deserve a bold artistic touch."%}</p>
     <div class="card-buttons">
 
       <a href="{% url 'book_service' '3d-wall-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
@@ -1456,15 +1915,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
-      <img src="{% static 'gallery/3D floor Art.jpeg' %}" alt="3D Floor Art" />
+      <img src="{% static 'gallery/3D Floor Art.jpeg' %}" alt="3D Floor Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "3D Floor Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "3D Floor Art - Walk on Art" %}</b></h3>
 
-    <p>{% trans "We create immersive 3D Floor paintings experiences that bring your floors and spaces to life.Step into a world where art escapes the canvas." %}</p>
+    <p>{% trans "Transform ordinary floors into stunning 3D visual experiences. Our realistic designs create breathtaking illusions that instantly capture attention. Perfect for homes, malls, offices, and commercial spaces."%}</p>
 
     <div class="card-buttons">
 
@@ -1480,15 +1939,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/art11.jpg' %}" alt="Mural Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Mural Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Mural Art - Walls that Tell Your Story" %}</b></h3>
 
-    <p>{% trans "We design beautiful and expressive Mural artworks that perfectly match your personality, style, and space. Every brushstroke is crafted to make your walls a true reflection of you." %}</p>
+    <p>{% trans "Bring life and personality to your walls with custom mural designs. Our artistic murals transform blank spaces into meaningful visual stories. Perfect for homes, offices, and creative environments." %}</p>
 
     <div class="card-buttons">
 
@@ -1504,15 +1963,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Metro Advertisement.jpeg' %}" alt="Metro Advertisement" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Metro Advertisement" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Metro Advertisement - Be Seen by Thousands" %}</b></h3>
 
-    <p>{% trans "Transform high-traffic areas into stunning visual experiences. Our large-scale creative artworks and ads are perfect for metro stations, public spaces, and commercial zones." %}</p>
+    <p>{% trans "Promote your brand in high-traffic metro spaces with bold visual designs. Our creative advertising art captures attention instantly. Make your brand unforgettable for thousands of daily commuters." %}</p>
 
     <div class="card-buttons">
 
@@ -1528,15 +1987,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
-      <img src="{% static 'gallery/Outdoor Advertisement.jpeg' %}" alt="Outdoor Advertisement" />
+      <img src="{% static 'gallery/Outdoor2.jpg' %}" alt="Outdoor Advertisement" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Outdoor Advertisement" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Outdoor Advertisement - Make Your Brand Unmissable" %}</b></h3>
 
-    <p>{% trans "From soft minimalism to bold statements, our aesthetic artworks are thoughtfully crafted to enhance the beauty and energy of your space." %}</p>
+    <p>{% trans "Stand out in busy streets and public spaces with powerful outdoor advertising art. Our bold designs attract attention from a distance. Perfect for brands that want strong visibility." %}</p>
 
     <div class="card-buttons">
 
@@ -1552,15 +2011,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/schoolpaint.jpg' %}" alt="School Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "School Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "School Art - Walls That Inspire Young Minds." %}</b></h3>
 
-    <p> {% trans "Make learning spaces lively and inspiring! Our school paintings bring classrooms, corridors and playgrounds to life with color, fun characters, and motivational messages." %}</p>
+    <p> {% trans "Transform school walls into colorful and educational spaces. Our creative artwork encourages imagination and curiosity in children. Perfect for making learning environments vibrant and engaging."%}</p>
 
     <div class="card-buttons">
 
@@ -1576,15 +2035,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Selfie Painting.jpeg' %}" alt="Selfie Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Selfie Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Selfie Art - Turn Your Photo into Wall Art" %}</b></h3>
 
-    <p>{% trans "Perfect for photo lovers and Instagram-worthy clicks. Ideal for cafés, studios, events, and public spaces." %}</p>
+    <p>{% trans "Convert your favorite photos into stunning artistic portraits. Our custom selfie art transforms memories into beautiful wall décor. Perfect for homes, gifts, and personal spaces." %}</p>
 
     <div class="card-buttons">
 
@@ -1600,15 +2059,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Madhubani Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Madhubani Art - Traditional Art for Modern Walls" %}</b></h3>
 
-    <p> {% trans "Our hand-painted Madhubani artworks reflect India's rich cultural heritage with intricate patterns, vibrant colors, and meaningful storytelling" %}</p>
+    <p> {% trans "Experience the beauty of authentic Madhubani art on your walls. Our hand-crafted designs bring rich culture and vibrant colors to your space. Perfect for elegant and traditional décor."%}</p>
 
     <div class="card-buttons">
 
@@ -1624,15 +2083,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Texture Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Texture Art - Luxury You Can Feel on Your Walls" %}</b></h3>
 
-    <p>{% trans "Give your walls a touch of elegance and depth with our premium texture painting" %}</p>
+    <p>{% trans "Add depth and sophistication with modern texture art designs. Our premium finishes create stylish and luxurious interiors. Perfect for contemporary homes and designer spaces." %}</p>
 
     <div class="card-buttons">
 
@@ -1670,15 +2129,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Pillere panting.jpeg' %}" alt="Pillere Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Pillere Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Pillere Art - Turn Pillars into Art Pieces" %}</b></h3>
 
-    <p>{% trans "Enhance your home with our detailed and beautiful pillere painting service." %}</p>
+    <p>{% trans "Transform ordinary pillars into eye-catching design elements. Our creative artwork enhances the beauty of both indoor and outdoor spaces. Perfect for adding artistic detail to architecture." %}</p>
 
     <div class="card-buttons">
 
@@ -1720,15 +2179,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Scrap animal.jpeg' %}" alt="Scrap Animal Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Scrap Animal Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Scrap Animal Art - Art Made from Creativity & Recycling" %}</b></h3>
 
-    <p>{% trans "Where creativity meets sustainability. We transform recycled scrap materials into stunning animal sculptures that celebrate wildlife while promoting eco-friendly art. Unique, bold, and full of personality" %}</p>
+    <p>{% trans "Unique animal sculptures created from recycled materials. Our scrap art adds creativity and sustainability to parks, gardens, and public spaces. Perfect for eco-friendly artistic installations."%}</p>
 
     <div class="card-buttons">
 
@@ -1744,15 +2203,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Water Tank Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Water Tank Art - From Tank to Landmark" %}</b></h3>
 
-    <p>{% trans "We blend the harmony of architecture with the elegance of nature. These artworks create a balanced and sophisticated ambiance in any space." %}</p>
+    <p>{% trans "Turn ordinary water tanks into colorful artistic highlights. Our creative designs transform dull structures into vibrant visual attractions. Perfect for communities and public spaces." %}</p>
 
     <div class="card-buttons">
 
@@ -1768,15 +2227,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card" id="cartoon-painting-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/dora.png' %}" alt="Cartoon Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Cartoon Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Cartoon Art - Walls Full of Fun and Imagination" %}</b></h3>
 
-    <p>{% trans "Perfect for kids, schools, play areas, and creative corners — our cartoon and fun-themed designs bring smiles, laughter, and a touch of whimsy to your walls." %}</p>
+    <p>{% trans "Bring joy and creativity with playful cartoon wall art. Our designs create lively spaces for kids rooms, schools, and play areas. Perfect for bright and cheerful environments." %}</p>
 
     <div class="card-buttons">
 
@@ -1792,15 +2251,15 @@ and artistic designs. Experience art that breathes life into your walls.
 
   <div class="service-card" id="home-painting-card">
 
-    <div class="circle">
+    <div class="">
 
       <img src="{% static 'gallery/normal_paint.png' %}" alt="Home Art" />
 
     </div>
 
-    <h3 style="padding-bottom: 12px;"> <b>{% trans "Home Art" %}</b></h3>
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Home Art - Make Your Home a Work of Art" %}</b></h3>
 
-    <p>{% trans "Transform your house into a warm and artistic home. Our customized home painting solutions blend creativity, color, and comfort to reflect your personal style." %}</p>
+    <p>{% trans "Enhance your living space with customized wall art and creative designs. Our artwork adds personality, beauty, and elegance to your home. Perfect for interiors that feel truly unique." %}</p>
 
     <div class="card-buttons">
 
@@ -1814,72 +2273,50 @@ and artistic designs. Experience art that breathes life into your walls.
 
 </div>
 
-  </section>  <!-- Reviews Section -->  <!-- <section class="reviews-section">
-  
-    <h1>{% trans "Customer Reviews" %}</h1>
-  
-    <div class="reviews-container">
-  
-      {% for review in reviews %}
-  
-        <div class="review-card">
-  
-          <div class="review-header">
-  
-            {% if review.customer_photo %}
-  
-              <img src="{{ review.customer_photo }}" alt="{{ review.customer_name }} photo" class="review-avatar" />
-  
-            {% else %}
-  
-              <img src="{% static 'images/default-avatar.png' %}" alt="Avatar" class="review-avatar" />
-  
-            {% endif %}
-  
-            <div class="review-meta">
-  
-              <h3>{{ review.customer_name }}</h3>
-  
-              <p class="review-text-inline">{{ review.customer_review }}</p>
-  
-              <div class="stars">
-  
-                {% for _ in review.full_stars %}
-  
-                  <i class="fa fa-star text-warning"></i>
-  
-                {% endfor %}
-  
-                {% for _ in review.empty_stars %}
-  
-                  <i class="fa fa-star-o text-warning"></i>
-  
-                {% endfor %}
-  
-              </div>
-  
-            </div>
-  
-          </div>
-  
-          {% if review.review_image %}
-  
-            <div class="review-image-container" onclick="openModal('{{ review.review_image.url }}')">
-  
-              <img src="{{ review.review_image.url }}" alt="Review Image" class="review-image" />
-  
-            </div>
-  
-          {% endif %}
-  
-        </div>
-  
-      {% endfor %}
-  
-    </div>
-  
-  </section> -->  <!-- Image Modal -->  <div id="imageModal" class="modal"><span class="close-btn">&times;</span>
+  <section class="ba-section">
+  <h2>Before & After Transformations</h2>
 
-<img class="modal-content" id="img01" />
+  <div class="ba-wrapper">
+
+    <div class="ba-slider">
+      <img src="{% static 'gallery/before.jpeg' %}" class="before-img">
+      <img src="{% static 'gallery/after.jpeg' %}" class="after-img">
+
+      <span class"label before">Before</span>
+<span class"label after">Aefore</span>
+
+      <div class="slider-line"></div>
+      <div class="slider-button"></div>
+      <input type="range" min="0" max="100" value="50" class="slider-range">
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const slider = document.querySelector(".slider-range");
+  const afterImage = document.querySelector(".after-img");
+  const line = document.querySelector(".slider-line");
+  const button = document.querySelector(".slider-button");
+
+  if (!slider) {
+    console.log("Slider not found ❌");
+    return;
+  }
+
+  slider.addEventListener("input", (e) => {
+    let value = e.target.value;
+
+    afterImage.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    line.style.left = value + "%";
+    button.style.left = value + "%";
+  });
+
+});
+</script>
+
+
 
   </div>{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="about-section">
+
+<div class="about-container">
+
+<div class="about-image">
+<img src="{% static 'gallery/about.jpg.jpeg' %}" alt="RColorcraft">
+</div>
+
+<div class="about-text">
+
+<h1>About RColorcraft</h1>
+<h3 class="tagline">Transforming Walls Into Creative Masterpieces</h3>
+
+<p>
+RColorcraft is a creative wall art and mural art company that transforms homes, offices, schools, and commercial spaces into beautiful artistic environments.
+
+<p>
+our team specializes 3D wall art, mural art, cartoon art and custom wall designs that brings creativity and life to every wall
+</p>
+
+<div class="about-stats">
+
+<div class="stat-box">
+<h2>500+</h2>
+<p>Projects Completed</p>
+</div>
+
+<div class="stat-box">
+<h2>200+</h2>
+<p>Happy Clients</p>
+</div>
+
+<div class="stat-box">
+<h2>5+</h2>
+<p>Years Experience</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="why-section">
+
+<h2 class="why-title">Why Choose RColorcraft</h2>
+
+<div class="why-container">
+
+<div class="why-card">
+<i class="fas fa-paint-brush"></i>
+<h3>Creative Designs</h3>
+<p>We create unique wall art designs that enhance the beauty of your space.</p>
+</div>
+
+<div class="why-card">
+<i class="fa-solid fa-palette"></i>
+<h3>Professional Artists</h3>
+<p>Our team has expert artists with years of experience in wall painting.</p>
+</div>
+
+<div class="why-card">
+<i class="fas fa-hand-holding-dollar"></i>
+<h3>Affordable Pricing</h3>
+<p>Premium artistic services at competitive and reasonable prices.</p>
+</div>
+
+<div class="why-card">
+<i class="fa-solid fa-star"></i>
+<h3>Customer Satisfaction</h3>
+<p>Your satisfaction is our priority and we aim to exceed expectations.</p>
+</div>
+
+</div>
+
+<a href="/about/" class="about-btn">Explore Our Services</a>
+
+</section>
+
+{% endblock %}
