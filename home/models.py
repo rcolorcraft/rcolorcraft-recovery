@@ -19,14 +19,14 @@ class Booking(models.Model):
     customer_user_id = models.IntegerField()
     service_name = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=20)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     address = models.TextField()
     pin_code = models.CharField(max_length=10)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     total_walls = models.IntegerField()
-    width = models.DecimalField(max_digits=10, decimal_places=2)
-    height = models.DecimalField(max_digits=10, decimal_places=2)
+    width = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
     total_sqft = models.DecimalField(max_digits=12, decimal_places=2)
     appointment_date = models.DateField()
     design_names = models.TextField(blank=True, null=True)
@@ -157,3 +157,24 @@ class BookingOrder(models.Model):
         verbose_name = "Booking Order"  # ✅ display name in Django admin
         verbose_name_plural = "Booking Orders"  # ✅ plural name in Django admin
         ordering = ["-created_at"]  # ✅ latest first
+
+
+from django.db import models
+
+
+class Consultation(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class Artist(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

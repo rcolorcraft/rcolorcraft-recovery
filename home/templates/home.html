@@ -1,6 +1,8 @@
 {% extends 'base1.html' %}
 
 {% load static %}
+<script src="yourfile.js" defer ></script>
+
 
 {% load i18n %}
 
@@ -223,7 +225,7 @@
 
   
     .card-overlay {
-  
+     
       position: absolute;
   
       bottom: 0;
@@ -241,8 +243,6 @@
         rgba(0, 0, 0, 0.7) 50%,
   
         transparent 100%
-  
-      );
   
       padding: 2rem 1.5rem 1.5rem;
   
@@ -415,6 +415,8 @@
     
   
     .services-grid {
+      display:grid;
+      grid-template-column:repeat(auto-fit,minmax(150px,1fr));
   
       flex-wrap: wrap;
   
@@ -433,6 +435,13 @@
     
   
     .service-card {
+       height:100%;
+      {% comment %} display:flex; {% endcomment %}
+       flex-direction:column;
+       justify-content: space-between;
+   border-radius:15px;
+   overflow:hidden;
+   
   
       flex: 0 1 calc(33.33%- 20px);
   
@@ -459,9 +468,9 @@
 
       width:100%;
       
-   height: 200px;
+   height: 350px;
 
-      min-height: 600px;
+      min-height: 560px;
   
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -584,10 +593,10 @@
   
       width: 100%;
   
-      height: 200px;
+      height: 180px;
   
       object-fit: cover;
-      border-radius:12px;
+      border-radius:10px;
   
       transition: transform 0.4s ease;
   
@@ -607,9 +616,10 @@
   
       color: #212121;
   
-      font-size: 1.5rem;
+      font-size: 18px;
   
       margin-top: 5px;
+      margin:10px 0 0px;
   
       margin-bottom: 5px;
   
@@ -621,11 +631,11 @@
   
     .service-card p {
   
-      font-size: 14px;
+      font-size: 15px;
   
       margin-bottom: 15px;
   display:-webkit-box;
-  -webkit-line-clamp:3;
+  -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
       color: #666;
   
@@ -656,19 +666,20 @@
   
     .explore-btn {
   
-      border: 0;
+      border: none;
   
-      border-radius: 70px;
+      border-radius: 20px;
 
-  
+  width:auto;
+
       color: #fff;
   
       font-weight: 600;
       
-  margin-top:auto;
-      font-size: 16px;
   
-      padding: 4px 24px;
+      font-size: 14px;
+  
+      padding: 6px 12px;
   
       text-decoration: none;
   
@@ -676,7 +687,7 @@
   
       cursor: pointer;
   
-      display: flex;
+      display:inline-block;
       justify-content:space-between;
       {% comment %} margin-top:10px; {% endcomment %}
   
@@ -882,30 +893,62 @@
   
     }
 
+    
+
     .ba-section{
 padding: 60px 20px;
 text-align: center;
-background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+background: white;
+border:3px solid #00b894;
+box-shadow: 0 0 15px rgba(0, 184,148,0.6);
 }
 
+
 .ba-section h2{
-font-size: 32px;
+  font-family:"Playfair Display" ,serif;
+font-size: 38px;
+color:#1e2a38;
 margin-bottom: 40px;
-font-weight: 700;
+font-weight: 800;
+letter-spacing:1px;
+linear-gradient(90deg,#2c3e50,#00b894);
+text-shadow:0 2px 10px rgba(0,0,0,0.1);
+-webkit-backgrouoond-clip:text;
+-webkit-text-fil-color:transparent;
+}
+
+
+.ba-section h2::after {
+    content: "";
+    display: block;
+    width: 180px;       /* underline width */
+    height: 3px;       /* thickness */
+    background-color: red;
+    margin: 8px auto 0; /* spacing + center */
+}
+
+.ba-section p{
+  font-size: 16px;
+  color:#777;
+  margin-top:12px;
+  letter-spacing:0.5px;
 }
 
 .ba-wrapper{
 display: flex;
 justify-content: center;
+align-items:center;
 }
 
 .ba-slider{
 position: relative;
-width: 500px;
-height: 300px;
+width: 100%;
+max-width:900px;
+height: 450px;
+margin:auto;
 overflow: hidden;
-border-radius: 15px;
-box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+border-radius: 20px;
+box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
 .ba-slider img{
@@ -913,19 +956,36 @@ position: absolute;
 width: 100%;
 height: 100%;
 object-fit: cover;
+top:0;
+left:0;
+transition:clip-path 0.3s ease;
 }
 
+.before-img{
+  z-index: 1;
+}
 .after-img{
-clip-path: inset(0 50% 0 0);
+  z-index:2;
+  clip-path:inset (0 50% 0 0 );
+  will-changw:clip-path;
+}
+
+.ba-slider img:hover{
+  transform:scale(1.1);
+}
+
+img{
+  usser-select:none;
+  pointer-events:none;
 }
 
 .label{
   position:absolute;
-  top:10px;
-  background:rgba(0,0,0,0.7);
+  top:15px;
+  background:rgba(0,0,0,0.6);
   color:white;
   padding;6px 12px;
-  font-size:12px;
+  font-size:14px;
   border-radius:20px;
   z-index:5;
   font-weight:600;
@@ -939,10 +999,11 @@ clip-path: inset(0 50% 0 0);
 position: absolute;
 top: 0;
 left: 50%;
-width: 2px;
+width: 3px;
 height: 100%;
 background: white;
 z-index: 2;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
 
 .slider-button{
@@ -950,12 +1011,13 @@ position: absolute;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
-width: 40px;
-height: 40px;
-background: white;
-border-radius: 50%;
-box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+width: 30px;
+height: 30px;
+background: #00b894;
+border-radius: 25px;
+box-shadow: 0 0 15px #00b894;
 z-index: 3;
+border:4px solid #00b894;
 }
 
 .slider-range{
@@ -965,6 +1027,131 @@ height: 100%;
 opacity: 0;
 cursor: pointer;
 z-index: 4;
+}
+
+.process-section h2{
+  font-family:"Playfair Display" ,serif;
+font-size: 38px;
+color:#1e2a38;
+margin-bottom: 40px;
+font-weight: 800;
+letter-spacing:1px;
+linear-gradient(90deg,#2c3e50,#00b894);
+text-shadow:0 2px 10px rgba(0,0,0,0.1);
+-webkit-backgrouoond-clip:text;
+-webkit-text-fil-color:transparent;
+}
+
+.process-section h2::after {
+    content: "";
+    display: block;
+    width: 180px;       /* underline width */
+    height: 3px;       /* thickness */
+    background-color: red;
+    margin: 8px auto 0; /* spacing + center */
+}
+
+.process-section{
+  
+  padding: 80px 20px;
+  background: #f5f8ff;
+  text-align: center;
+}
+
+.process-section p{
+  font-size: 16px;
+  color:#777;
+  margin-top:12px;
+  letter-spacing:0.5px;
+}
+
+.timeline{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  margin-top: 60px;
+  padding: 0 40px;
+}
+
+/* CENTER LINE */
+.timeline::before{
+  content: "";
+  position: absolute;
+  top: 55%;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background: linear-gradient(to right, #6c5ce7,#00cec9);
+  z-index: 0;
+}
+
+.step{
+  background: #ffffff;
+  padding: 25px;
+  width: 250px;
+  min-height: 140px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.0.12);
+  boredr: 1px solid #f1f1f1;
+  position: relative;
+  z-index: 1;
+  transition: 0.3s;
+}
+
+
+
+/* 🔹 ICON */
+.icon{
+  font-size: 30px;
+  margin-bottom: 12px;
+  color: #0984e3;
+}
+
+.step:hover{
+  transform: translateY(-10px); scale(1.03);
+}
+
+.step h3{
+  margin-bottom: 6px;
+  font-size:18px;
+  font-weight:600;
+}
+.steps p{
+  font-size: 14px;
+  color:#777;
+}
+
+/* 🔹 ARROWS */
+.step::after{
+  content: "→";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: #00b894;
+}
+
+.step:last-child::after{
+  display: none;
+}
+
+@media (max-width: 768px){
+  .timeline{
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .timeline::before{
+    display: none;
+  }
+
+  
+  .step::after{
+    display: none;
+  }
 }
 
 .herosec{
@@ -980,7 +1167,8 @@ url("{% static 'gallery\bckgrnd.jpg.jpeg' %}") center/cover no-repeat;
 
 .hero-overlay{
 background:rgba(0,0,0,0.55);
-padding:80px;
+backdrop-filter:blue(15px);
+padding:50px;
 border-radius:20px;
 text-align:center;
 color:white;
@@ -988,23 +1176,49 @@ max-width:1000px;
 width: 2000%;
 margin: 0 auto;
 backdrop-filter: blur(5px);
-box-shadow:0 20px 60px rgba(0,0,0,0.4);
+{% comment %} box-shadow:0 20px 60px rgba(0,0,0,0.4); {% endcomment %}
+
+    box-shadow: 
+        0 8px 32px rgba(0,0,0,0.3),
+        0 0 20px rgba(0, 255, 255, 0.3);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+
+transition: 0.4s ease;
+}
+hero-overlay:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.4),
+        0 0 30px rgba(0, 255, 255, 0.6);
 }
 
 .hero-text h1{
 font-size:70px;
 font-weight:bold;
 margin-bottom:20px;
-background:linear-gradient(to right,#ff4b2b,#ffb347,#3b82f7);
+
+background:linear-gradient(to right, rgb(241, 180, 180), rgb(161, 228, 134), rgb(241, 180, 180),#8df066, lab(59.42% 57.93 31.1), hsl(197, 73%, 75%), #f3c585, hwb(212 9% 27%),rgb(241, 180, 180), #8df066);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+ 
+    animation: shineText 3s linear infinite;
 }
+
+@keyframes shineText {
+    0% { background-position: -100%; }
+    100% { background-position: 100%; }
+}
+
 
 .hero-text p{
 font-size:16px;
-margin-bottom:22px;
+color: #eee;
+margin-top:10px;
+opacity:0.9;
 }
-
+{% comment %} 
 .cta-btn{
 display:inline-block;
 background: linear-gradient(90deg, #0077ff, #00c6ff);
@@ -1018,15 +1232,15 @@ transition:0.3s;
 text-align:center;
 font-size:20px;
 box-shadow:0 8px 25px rgba(o,o,o,0.2);
-color:white;
+color:white; {% endcomment %}
 
 
 
-}
+{% comment %} }
 
 .cta-btn:hover{
 transform:scale(1.05);
-}
+} {% endcomment %}
   
   </style>  <!-- Hero Section --> 
 
@@ -1041,8 +1255,124 @@ transform:scale(1.05);
 Transform your space with our stunning murals and creative paintings
 and artistic designs. Experience art that breathes life into your walls.
 </p>
+<button class="btn primary" onclick="openForm()">✨ Get Free Consultation</button>
 
-<a href="/explore" class="cta-btn">EXPLORE OUR ART</a>
+
+<div id="consultPopup" class="popup-overlay">
+
+  <div class="consult-form">
+
+    <span class="close-btn" onclick="closeForm()">✖</span></button>
+
+    <form method="POST" action="{% url 'home' %}">
+      {% csrf_token %}
+
+      <div class="input-group">
+        <span class="icon"><i class="fa fa-user"></i></span>
+        <input type="text" name="name" placeholder=" " required>
+        <label>Your Name</label>
+      </div>
+
+      <div class="input-group">
+          <span class="icon"><i class="fa fa-envelope"></i></span>
+        <input type="email" name="email" placeholder=" "   required>
+        <label>Your Email</label>
+      </div>
+
+      <div class="input-group">
+              <span class="icon"><i class="fa fa-phone"></i></span>
+        <input type="text" name="phone"  placeholder=" " required>
+        <label>Phone Number</label>
+      </div>
+
+      <div class="input-group">
+                <span class="icon"><i class="fa fa-comment-dots"></i></span>
+        <textarea   <input type="text" name="message"  placeholder=" " required></textarea>
+        <label>Tell us your requirement</label>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</div>
+</div> 
+<form id="consultationForm" method="POST">
+
+ 
+ 
+ 
+
+
+<script>
+function openForm() {
+    document.getElementById("consultPopup").style.display = "flex";
+
+    // form open hone par success popup hide
+    const popup = document.getElementById("submittedPopup");
+    if (popup) popup.style.display = "none";
+}
+
+function closeForm() {
+    document.getElementById("consultPopup").style.display = "none";
+}
+
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("success") === "1") {
+
+        alert("✅Your consultation request is received!\nOur experts will contact you within 24 hours.");
+
+        // ✅ URL clean (refresh pe alert dubara nahi aayega)
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
+</script>
+
+
+
+{% comment %} 
+{% if success%}
+<script>
+  showSuccess();
+</script>
+{% endif %}
+
+<script>
+function showSuccess() {
+  const popup = document.getElementById("successPopup");
+  if (popup){
+     popup.style.display = "flex";
+
+     setTimeout(() => {
+      popup.style.display ="none";
+     }, 3000);
+    }
+  
+}
+
+function closeSuccess() {
+  const popup = document.getElementById("successPopup");
+  if (popup) popup.style.display = "none";
+}
+</script>
+
+
+<script>
+function openForm() {
+  const popup = document.getElementById("consultPopup");
+  if (popup) {
+    popup.style.display = "flex";
+  }
+}
+
+function closeForm() {
+  const popup = document.getElementById("consultPopup");
+  if (popup) {
+    popup.style.display = "none";
+  }
+}
+</script> {% endcomment %}
+
 {% comment  %}
 
       {% if request.user.is_authenticated %}
@@ -1886,7 +2216,7 @@ and artistic designs. Experience art that breathes life into your walls.
   </div>
 </div>
 
-  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Premium Services" %}</h1>
+  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Premium Services" %}</h1>z
 
 <div class="services-grid">
 
@@ -2273,17 +2603,19 @@ and artistic designs. Experience art that breathes life into your walls.
 
 </div>
 
-  <section class="ba-section">
-  <h2>Before & After Transformations</h2>
+  {% comment %} <section class="ba-section">
+  <h2>See the Magic <span>Transformations</span>
+  </h2>
+  <p>"Watch how we turn damaged wall into stunning artworks"</p>
 
   <div class="ba-wrapper">
 
     <div class="ba-slider">
-      <img src="{% static 'gallery/before.jpeg' %}" class="before-img">
-      <img src="{% static 'gallery/after.jpeg' %}" class="after-img">
+       <img src="{% static 'gallery/after.jpeg' %}" class="before-img">
+        <img src="{% static 'gallery/before.jpeg' %}" class="after-img">
 
       <span class"label before">Before</span>
-<span class"label after">Aefore</span>
+<span class"label after">After</span>
 
       <div class="slider-line"></div>
       <div class="slider-button"></div>
@@ -2291,20 +2623,53 @@ and artistic designs. Experience art that breathes life into your walls.
     </div>
 
   </div>
+</section> {% endcomment %}
+
+
+  <section class="ba-section">
+  <h2>See the Magic <span>Transformations</span>
+  </h2>
+  <p>Watch how we turn damaged wall into stunning artworks</p>
+
+  <div class="ba-wrapper">
+
+
+  <!-- 🔹 Transformation 1 -->
+  <div class="ba-slider">
+    <img src="{% static 'gallery/after.jpeg' %}" class="before-img">
+    <img src="{% static 'gallery/before.jpeg' %}" class="after-img">
+
+    <span class="label before">Before</span>
+    <span class="label after">After</span>
+
+    <div class="slider-line"></div>
+    <div class="slider-button"></div>
+    <input type="range" min="0" max="100" value="50" class="slider-range">
+  </div>
+
+  <!-- 🔹 Transformation 2 -->
+  <div class="ba-slider">
+    <img src="{% static 'gallery/after.jpeg' %}" class="before-img">
+    <img src="{% static 'gallery/before.jpeg' %}" class="after-img">
+
+    <span class="label before">Before</span>
+    <span class="label after">After</span>
+
+    <div class="slider-line"></div>
+    <div class="slider-button"></div>
+    <input type="range" min="0" max="100" value="50" class="slider-range">
+  </div>
+
+</div>
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.querySelectorAll(".ba-slider").forEach((sliderBox) => {
 
-  const slider = document.querySelector(".slider-range");
-  const afterImage = document.querySelector(".after-img");
-  const line = document.querySelector(".slider-line");
-  const button = document.querySelector(".slider-button");
-
-  if (!slider) {
-    console.log("Slider not found ❌");
-    return;
-  }
+  const slider = sliderBox.querySelector(".slider-range");
+  const afterImage = sliderBox.querySelector(".after-img");
+  const line = sliderBox.querySelector(".slider-line");
+  const button = sliderBox.querySelector(".slider-button");
 
   slider.addEventListener("input", (e) => {
     let value = e.target.value;
@@ -2312,6 +2677,66 @@ document.addEventListener("DOMContentLoaded", function () {
     afterImage.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
     line.style.left = value + "%";
     button.style.left = value + "%";
+  });
+
+});
+</script>
+
+<section class="process-section">
+
+  <h2>How We Turn Your Vision Into Reality</h2>
+
+  <p>Artists bring your vision to life with precision & premium quality finish</p>
+
+  <div class="timeline">
+
+    <div class="step">
+      <div class="icon">🎨</div>
+      <h3>Book Service</h3>
+      <p>Choose your preferred art style and share your requirements with us.</p>
+    </div>
+
+    <div class="step">
+      <div class="icon">💡</div>
+      <h3>Design Planning</h3>
+      <p>Our experts creates customized concepts that perfectly match your space and vision.</p>
+    </div>
+
+    <div class="step">
+      <div class="icon">🛠️</div>
+      <h3>Execution</h3>
+      <p>Oue professional artistd brings your vision to life with experts craftsmanship.</p>
+    </div>
+
+    <div class="step">
+      <div class="icon">✨</div>
+      <h3>Final Touch</h3>
+      <p>We deliver a perfectly finished masterpiece that enchances your psaces beautifully.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const steps = document.querySelectorAll(".step");
+
+  window.addEventListener("scroll", function () {
+
+    steps.forEach((step) => {
+
+      const position = step.getBoundingClientRect().top;
+      const screenPosition = window.innerHeight / 1.3;
+
+      if (position < screenPosition) {
+        step.style.opacity = "1";
+        step.style.transform = "translateY(0)";
+      }
+
+    });
+
   });
 
 });

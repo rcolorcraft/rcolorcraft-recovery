@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .models import ServiceImage
 
+
 def service_images_view(request):
     if request.method == "POST":
         try:
@@ -15,11 +16,16 @@ def service_images_view(request):
 
             user_name = "Anonymous"
             user_id = 0
-            if hasattr(request.user, 'is_authenticated') and request.user.is_authenticated:
-                user_id = getattr(request.user, 'id', 0)
-                user_name = (getattr(request.user, 'full_name', None)
-                             or getattr(request.user, 'email', None)
-                             or "Anonymous")
+            if (
+                hasattr(request.user, "is_authenticated")
+                and request.user.is_authenticated
+            ):
+                user_id = getattr(request.user, "id", 0)
+                user_name = (
+                    getattr(request.user, "full_name", None)
+                    or getattr(request.user, "email", None)
+                    or "Anonymous"
+                )
 
             ServiceImage.objects.create(
                 image_name=name,
@@ -31,11 +37,10 @@ def service_images_view(request):
                 userupload_name=user_name,
             )
 
-            return JsonResponse({"success": True, "message": "✅ Service Image added successfully!"})
+            return JsonResponse(
+                {"success": True, "message": "✅ Service Image added successfully!"}
+            )
         except Exception as e:
             return JsonResponse({"success": False, "message": f"❌ {str(e)}"})
 
     return render(request, "service_images.html")
-
-
-    

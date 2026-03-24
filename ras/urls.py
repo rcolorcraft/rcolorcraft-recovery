@@ -45,6 +45,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("", include("home.urls")),
+    path("", include("home.urls")),
     path("accounts/", include("accounts.urls")),
     path("emp/", include("employee.urls")),
     path("api/", include("api.urls")),
@@ -53,3 +54,8 @@ urlpatterns += i18n_patterns(
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

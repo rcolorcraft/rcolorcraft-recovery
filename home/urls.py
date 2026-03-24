@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 
@@ -9,10 +9,12 @@ from . import views
 # app_name = "home"
 
 urlpatterns = [
+    path("", views.home, name="home"),
     path("explore/", views.explore, name="explore"),
+    path("emp/", include("employee.urls")),
     path("", views.home_view, name="home"),  # root: /
     path("about/", views.about, name="about"),
-    path("home/", views.home_view, name="home_page"),  # /home/
+    path("home/", views.home_view, name="home_page"),  # /home
     path("edit_profile/", views.edit_profile_view, name="edit_profile"),
     path("explore/<str:service_type>/", views.explore_service, name="explore_service"),
     path("book/<str:service_type>/", views.book_service, name="book_service"),

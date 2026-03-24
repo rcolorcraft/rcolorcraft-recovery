@@ -41,16 +41,16 @@
             <a href="#" onclick="viewCustomerTerms(event)">Terms & Conditions</a>
           </label>
         </div>
-
+{% comment %} 
         <div class="checkbox-group">
           <input type="checkbox" id="privacy_agreement" name="privacy_agreement" required>
           <label for="privacy_agreement" class="checkbox-label">
             I agree to the 
             <a href="#" onclick="viewCustomerPrivacy(event)">Privacy Policy</a>
           </label>
-        </div>
+        </div> {% endcomment %}
 
-        <div id="termsError" class="terms-error" style="display: none;">Please accept the Terms & Conditions and Privacy Policy to proceed</div>
+        <div id="termsError" class="terms-error" style="display: none;">Please accept the Terms & Conditions to proceed</div>
       </div>
 
       <button type="button" class="btn" onclick="sendOTP()">Register</button>
@@ -100,7 +100,7 @@ body::before {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: url('{% static 'gallery/logoHD.png' %}') center -100px / cover no-repeat fixed, #000;
+  {% comment %} background: url('{% static 'gallery/logoHD.png' %}') center -100px / cover no-repeat fixed, #000; {% endcomment %}
   z-index: 0;
   pointer-events: none;
   top: 0;

@@ -49,9 +49,19 @@ def explore(request):
 #     return render(request, "edit_profile.html")
 
 
-def book_service(request, service_name):
-    # service_name will be "3d-art", "mural", or "normal-paint"
-    return render(request, "book_service.html", {"service_name": service_name})
+def book_service(request):
+    if request.method == "POST":
+
+        ids = request.POST.get("selected_design_ids")
+
+        if ids:
+            ids_list = ids.split(",")
+
+            print(ids_list)  # check
+
+            # example usage
+            for design_id in ids_list:
+                print("Selected ID:", design_id)
 
 
 from django.shortcuts import render
@@ -698,7 +708,7 @@ def edit_profile_view(request):
 
         if request.method == "POST":
             customer.customer_full_name = request.POST.get("name")
-            customer.email = request.POST.get("email")
+            customer.email = request.POST.get("email") or None
             customer.mobile = request.POST.get("contact")
 
             # Handle profile picture
@@ -977,6 +987,8 @@ def save_booking(request):
         total_walls = request.POST.get("total_walls")
         width = request.POST.get("width")
         height = request.POST.get("height")
+        width = float(width) if width else None
+        height = float(height) if height else None
         total_sqft = request.POST.get("total_sqft") or "0"
         appointment_date = request.POST.get("appointment_date")
 
@@ -1437,3 +1449,28 @@ def toggle_artist_status(request, booking_id):
         booking.save(update_fields=["artist_status"])
 
     return redirect("employee_assignments")
+
+
+from django.shortcuts import render, redirect
+from .models import Consultation
+
+
+def home(request):
+    if request.method == "POST":
+        print("🔥 FORM SUBMITTED")
+
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        message = request.POST.get("message")
+
+        Consultation.objects.create(
+            name=name, email=email, phone=phone, message=message
+        )
+
+        return redirect("/en/?success=1")
+
+    return render(
+        request,
+        "home.html",
+    )

@@ -7,9 +7,10 @@
 <div class="auth-container">
   <div class="auth-box">
     <h1>{% trans "Welcome Back 🎨" %}</h1>
-    <p class="subtitle">{% trans "Login to continue exploring amazing artists" %}</p>
+    <p class="subtitle">{% trans "Login to continue exploring amazing artworks" %}</p>
 
-    <form id="loginForm">
+  
+    <form id="loginForm" method="POST">
       {% csrf_token %}
 
       <!-- Email -->

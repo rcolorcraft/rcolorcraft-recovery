@@ -22,19 +22,6 @@ for (let i = 0; i < 15; i++) {
 
 // suji popup
 
- function togglePopup() {
-      const popup = document.getElementById("myPopup");
-      popup.style.display = (popup.style.display === "flex") ? "none" : "flex";
-    }
-
-    // Close popup if clicked outside
-    document.addEventListener("click", function(event) {
-      const popup = document.getElementById("myPopup");
-      const icon = document.querySelector(".nav-icon");
-      if (popup && !popup.contains(event.target) && !icon.contains(event.target)) {
-        popup.style.display = "none";
-      }
-    });
 
 
 

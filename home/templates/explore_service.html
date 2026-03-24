@@ -6,10 +6,19 @@
 {% block content %}
 <section class="hero-section">
   <div class="hero-content">
-    <h1 class="main-heading">{{ heading }}</h1>
-    <p class="hero-subtitle">Discover amazing artworks from our talented artists</p>
+    {% comment %} <h1 class="main-heading">{{ heading }}</h1> {% endcomment %}
+    <p class="hero-subtitle">Discover amazing artworks from our talented artists</p></h1>
+  </section>
+
+
+<div class="note-wrapper">
+    <p class="form-note">
+    <span class="note-icon"> ⚠️</span>
+    <span>
+  Note: All art materials will be<b style="color:#00b894;"> provided by us</b>. Kindly ensure <b style="color:#e17055;">basic site access</b> like electricity, lighting, and ladder support for smooth execution.”</span>
+</p>
   </div>
-</section>
+
 
 <section class="gallery-section">
   {% if db_images %}
@@ -498,9 +507,9 @@ body {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, rgba(123, 47, 247, 0.9), rgba(0, 198, 255, 0.9)), 
+  background: linear-gradient(135deg, hsla(263, 93%, 58%, 0.90), hsla(193, 86%, 48%, 0.90)), 
               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1.5" fill="%23ffffff" opacity="0.05"/><circle cx="50" cy="10" r="0.8" fill="%23ffffff" opacity="0.08"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-  padding: 6rem 2rem 4rem;
+  padding: 3rem 1rem 3rem;
   text-align: center;
   color: white;
   position: relative;
@@ -538,12 +547,43 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.3rem;
+  font-size: 2rem;
   opacity: 0.9;
   font-weight: 300;
   letter-spacing: 0.5px;
   margin-bottom: 0;
 }
+
+.note-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:20px;
+  background:#f9f9f9;
+  padding: 30px 0;
+}
+
+.form-note{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, #f8f9fa, #e6fffa);
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #2d3436;
+  border-left: 5px solid #00b894;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  line-height: 1.6;
+}
+
+.form-note:hover{
+trasnform:traslateY(-2px);
+box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+
 
 .gallery-section {
   padding: 4rem 2rem;     /* ↓ reduces side & vertical space */

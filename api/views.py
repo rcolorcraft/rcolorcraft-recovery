@@ -1711,3 +1711,44 @@ def admin_employee_list_api(request):
     return Response(
         {"success": True, "count": employees.count(), "data": serializer.data}
     )
+
+
+from django.http import JsonResponse
+from django.contrib.auth import login, authenticate, get_user_model
+
+User = get_user_model()
+
+
+def ajax_signup(request):
+    try:
+        if request.method == "POST":
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+
+            if not email or not password:
+                return JsonResponse(
+                    {"success": False, "error": "Email and password required"}
+                )
+
+            user = User.objects.filter(email=email).first()
+
+            if user:
+                user = authenticate(request, username=email, password=password)
+                if user:
+                    login(request, user)
+                    return JsonResponse({"success": True})
+                else:
+                    return JsonResponse({"success": False, "error": "Wrong password"})
+
+            user = User.objects.create_user(
+                username=email, email=email, password=password
+            )
+
+            login(request, user)
+
+            return JsonResponse({"success": True})
+
+        return JsonResponse({"success": False})
+
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})

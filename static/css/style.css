@@ -12,14 +12,13 @@
 }
 
 body {
-  background:#9DD9B1;
-  background-size: 300% 300%;
-  animation: gradientMove 8s ease infinite;
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #6dd53d, #2193b0);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
 @keyframes gradientMove {
@@ -444,21 +443,3 @@ body {
   text-align: center;
 }
 
-.whatsapp-float{
-position: fixed;
-bottom: 20px;
-right: 20px;
-z-index: 9999;
-}
-
-.whatsapp-float img{
-width: 60px;
-height: 60px;
-border-radius: 50%;
-box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-transition: 0.3s;
-}
-
-.whatsapp-float img:hover{
-transform: scale(1.1);
-}

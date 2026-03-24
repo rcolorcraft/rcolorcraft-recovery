@@ -677,17 +677,17 @@ function submitReview() {
     processData: false,
     contentType: false,
     headers: { "X-CSRFToken": csrftoken },
-    success: function(data){
-alert("⭐Thank you for your review! Your feedback helps other customers.");
-const msg =
-      document.getElementById("successMessage");
-      msg.style.display = "block";
+   success: function(data) {
 
-      msg.scrollIntoView({behaviour:"smooth"});
-      document.getElementById("reviewForm").reset();
-      }
-    }
-   
+    alert("✅ Your review has been submitted successfully!\nThank you for your feedback 💙");
+
+    const msg = document.getElementById("successMessage");
+    msg.style.display = "block";
+
+    msg.scrollIntoView({ behavior: "smooth" });
+
+    document.getElementById("reviewForm").reset();
+}
         $("#response").html(`<div style='color:green; margin-bottom:8px'>${data.message}</div>`);
         
         // ✅ Profile pic comes from customer account
