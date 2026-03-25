@@ -271,7 +271,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # settings.py
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # 1. SMTP Host: GoDaddy's Outgoing Server Address
 EMAIL_HOST = "smtpout.secureserver.net"
@@ -287,10 +287,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "info@rcolorcraft.com"
 # **CRITICAL**: Replace 'your_godaddy_password' with the actual password for info@rcolorcraft.com
 # For security, it is highly recommended to use environment variables for the password.
-EMAIL_HOST_PASSWORD = "Rcolorcraft@123"
+EMAIL_HOST_PASSWORD = "ankitaenterprises1342@gmail.com"
 
 # 5. Default Sender Address
-DEFAULT_FROM_EMAIL = "info@rcolorcraft.com"
+DEFAULT_FROM_EMAIL = "95281131@1"
 
 
 REST_FRAMEWORK = {

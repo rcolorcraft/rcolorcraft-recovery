@@ -49,19 +49,9 @@ def explore(request):
 #     return render(request, "edit_profile.html")
 
 
-def book_service(request):
-    if request.method == "POST":
-
-        ids = request.POST.get("selected_design_ids")
-
-        if ids:
-            ids_list = ids.split(",")
-
-            print(ids_list)  # check
-
-            # example usage
-            for design_id in ids_list:
-                print("Selected ID:", design_id)
+def book_service(request, service_name):
+    # service_name will be "3d-art", "mural", or "normal-paint"
+    return render(request, "book_service.html", {"service_name": service_name})
 
 
 from django.shortcuts import render

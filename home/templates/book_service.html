@@ -1,6 +1,5 @@
 {% extends "base1.html" %}
 {% load static %}
-
 {% load i18n %}
 
 {% block title %}Book {{ service_name }}{% endblock %}
@@ -889,54 +888,31 @@ transition:0.3s;
     // Add other services here, with a sensible default if the service_name doesn't match
     "Default": 150 
 };
-const uploadInput = document.getElementById("custom_design_input");
-const preview = document.getElementById("image-preview");
 
-if (uploadInput) {
-    uploadInput.addEventListener("change", function () {
+const uploadInput =
+ document.getElementById('custom_design_input');
+const preview= 
+document.getElementById('image-preview');
 
-        preview.innerHTML = "";
-
-        const files = uploadInput.files;
-
-        if (files.length > 0) {
-
-            Array.from(files).forEach((file) => {
-
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-
-                    const div = document.createElement("div");
-                    div.style.display = "inline-block";
-                    div.style.margin = "10px";
-
-                    const img = document.createElement("img");
-                    img.src = e.target.result;
-                    img.style.width = "120px";
-                    img.style.borderRadius = "8px";
-
-                    const btn = document.createElement("button");
-                    btn.innerText = "Remove";
-                    btn.type = "button";
-                    btn.style.display = "block";
-                    btn.onclick = function () {
-                        div.remove();
-                    };
-
-                    div.appendChild(img);
-                    div.appendChild(btn);
-                    preview.appendChild(div);
-                };
-
-                reader.readAsDataURL(file);
-            });
-
+uploadInput.addEventListener('change', function() {
+    preview.innerHTML = ''; // Clear previous previews
+    Array.from(upload.files).forEach((file ) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+           const div =document.createElement('div');
+           div.style.display = 'inline-block';
+           div.stle.margin="10px"
+           div.innerHTML = `
+            <img src="${e.target.result}" width="120"
+            <br>
+            <button type="button"
+            onclick="this.parentElement.remove()">Remove</button>`;
+            preview.appendChild(div);
         }
-
+        reader.readAsDataURL(file);
     });
-}
- 
+        });
+
     if (files.length > 0) {
         Array.from(files).forEach(file => {
             const reader = new FileReader();
@@ -951,7 +927,7 @@ if (uploadInput) {
             }
             reader.readAsDataURL(file);
         });
-    } 
+    }
 
 // Auto sqft and price calculation
 // const SERVICE_BASE_RATES = {

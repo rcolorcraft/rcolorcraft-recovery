@@ -7,10 +7,13 @@
     .org-toggle-wrap {
     display: flex;
     align-items: center;
+    justify-content:center;
     gap: 12px;
     margin-top: 15px;
     margin-bottom: 10px;
     font-weight: 600;
+    zoom:0.9;
+    background: linear-gradient(135deg,#74ebds,#9face6);
 }
 
 /* Toggle Switch */
@@ -116,9 +119,10 @@ input:checked + .slider:before {
     h1 {
         text-align: center;
         margin: 0 0 40px 0;
-        font-size: 2.5em;
+        font-size: 38px;
         font-weight: 700;
         color: #fff;
+        letter-spacing: 1px;
         text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
@@ -126,19 +130,19 @@ input:checked + .slider:before {
         background: #fff;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-        padding: 50px;
-        max-width: 1100px;
+        padding: 30px;
+        max-width: 850px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: 2fr 1fr;
-        gap: 50px;
+        gap: 25px;
     }
 
     /* Profile Details Section */
     .profile-details {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 12px;
     }
 
     .profile-details .full-width {
@@ -147,19 +151,21 @@ input:checked + .slider:before {
 
     .profile-details label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         font-weight: 600;
         color: #333;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .profile-details input,
     .profile-details select {
+        border-color:#4A6CF7;
+        border-shadow:0 0 0 2px rgba(74, 108,247,0.15);
         border: 2px solid #e0e0e0;
-        padding: 12px 16px;
+        padding: 8px 10px;
         width: 100%;
-        border-radius: 10px;
-        font-size: 15px;
+        border-radius: 6px;
+        font-size: 13px;
         background-color: #f8f9fa;
         transition: all 0.3s ease;
     }
@@ -197,14 +203,14 @@ input:checked + .slider:before {
         align-items: center;
         gap: 15px;
         background: #f8f9fa;
-        padding: 15px;
+        padding: 8px;
         border-radius: 10px;
         border: 2px dashed #e0e0e0;
     }
 
     .aadhar-image-display img {
-        width: 90px;
-        height: 90px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
         border-radius: 10px;
         border: 2px solid #667eea;
@@ -225,17 +231,19 @@ input:checked + .slider:before {
     /* Checkbox Group */
     .checkbox-group {
         grid-column: 1 / -1;
-        display: flex;
+        display: grid;
         flex-wrap: wrap;
-        gap: 15px;
-        padding: 15px;
+        gap: 8px;
+        padding: 10px;
         background: #f8f9fa;
         border-radius: 10px;
+        grid-template-columns:repeat(3, 1fr);
     }
 
     .checkbox-group label {
         display: flex;
         align-items: center;
+        font-size:12px;
         gap: 8px;
         font-weight: 500;
         color: #555;
@@ -258,12 +266,12 @@ input:checked + .slider:before {
     }
 
     .profile-picture img {
-        width: 200px;
-        height: 200px;
+        width: 120px;
+        height: 120px;
         object-fit: cover;
         border-radius: 50%;
-        border: 6px solid #667eea;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        border: 4px solid white;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
         transition: transform 0.3s ease;
     }
@@ -373,23 +381,23 @@ input:checked + .slider:before {
     }
 
     .edit-button button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #4a6cf7 , #6a11cb);
         color: white;
         border: none;
-        padding: 16px 80px;
-        font-size: 18px;
+        padding: 10px 30px;
+        font-size: 14px;
         font-weight: 700;
         border-radius: 30px;
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: 0.3s;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
     .edit-button button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
     .edit-button button:active {

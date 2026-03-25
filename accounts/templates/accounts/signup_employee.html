@@ -409,9 +409,9 @@ function sendEmployeeOTP() {
   const termsError = document.getElementById('termsError');
 
   // Validate terms and privacy checkboxes
-  if (!termsCheckbox.checked || !privacyCheckbox.checked) {
+  if (!termsCheckbox.checked ) {
     termsError.style.display = 'block';
-    showAlert('Please accept both Terms & Conditions and Privacy Policy', 'warning');
+    showAlert('Please accept Terms & Conditions', 'warning');
     return;
   }
   termsError.style.display = 'none';
