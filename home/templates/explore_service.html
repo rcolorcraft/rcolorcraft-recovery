@@ -9,16 +9,57 @@
     {% comment %} <h1 class="main-heading">{{ heading }}</h1> {% endcomment %}
     <p class="hero-subtitle">Discover amazing artworks from our talented artists</p></h1>
   </section>
+  
+
+<div class="form-note">
+  
+    <span class="note-icon">⚠️ Important</span>
+   
+
+    <div class="note-content">
+        <p>
+            <strong>Booking Information:</strong><br>
+            As per your booking, the artist will visit your location and will carry all essential art materials...
+        </p>
 
 
-<div class="note-wrapper">
-    <p class="form-note">
-    <span class="note-icon"> ⚠️</span>
-    <span>
-  Note: All art materials will be<b style="color:#00b894;"> provided by us</b>. Kindly ensure <b style="color:#e17055;">basic site access</b> like electricity, lighting, and ladder support for smooth execution.”</span>
-</p>
-  </div>
+        <div id="moreText" style="display: none;">
 
+            <p>
+                From the customer's side, the following arrangements are required:
+            </p>
+
+            <ul>
+                <li>Stool or ladder (for height access)</li>
+                <li>Water supply</li>
+                <li>Electricity</li>
+                <li>Clear and empty workspace</li>
+            </ul>
+
+            <p><strong>Note:</strong><br>
+            Any required permissions must be arranged by the customer before work begins.</p>
+
+            <p><strong>Important Note:</strong><br>
+            The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
+
+            <p><strong>Note:</strong><br>
+            Issues like water leakage, seepage, mold, etc. are not included.</p>
+
+            <p>
+            The customer is responsible for preparing the workspace before execution.
+            </p>
+
+            <p>
+            We request your cooperation for smooth execution. Thank you for trusting us 💙
+            </p>
+          </div>
+            
+        <a href="#" id="readMoreBtn" onclick="toggleNote(); return false;">
+    Read More ↓
+</a>
+            
+          </div>
+</div>
 
 <section class="gallery-section">
   {% if db_images %}
@@ -81,11 +122,11 @@
   </div>
 {% endif %}
 
-
+{% comment %} 
             <div class="artist-info">
               <i class="fas fa-user-circle"></i>
               <!-- <span>By {{ img.userupload_name }}</span> -->
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
       {% endfor %}
@@ -182,6 +223,7 @@
       }
     });
 
+    
     // Next/Previous buttons
     nextBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -268,6 +310,21 @@
   });
 
   });
+
+
+function toggleNote() {
+    var moreText = document.getElementById("moreText");
+    var btn = document.getElementById("readMoreBtn");
+
+    if (moreText.style.display === "none") {
+        moreText.style.display = "block";
+        btn.innerText = " Read Less ↑";
+    } else {
+        moreText.style.display = "none";
+        btn.innerText = "Read More ↓";
+    }
+}
+
 
 // --- DELETE FUNCTIONALITY ---
 document.querySelectorAll('.delete-btn').forEach(btn => {
@@ -402,7 +459,7 @@ $(document).ready(function() {
 
 <!-- Floating Book Button -->
 <a href="{% url 'book_service' service_slug %}" class="floating-book">
-  Book Now
+ Book Now
 </a>
 <!-- Modal for Image Viewer -->
 
@@ -554,33 +611,171 @@ body {
   margin-bottom: 0;
 }
 
-.note-wrapper{
+ {% comment %} .note-wrapper{
   display:flex;
   justify-content:center;
   align-items:center;
   margin-top:20px;
   background:#f9f9f9;
   padding: 30px 0;
+}  {% endcomment %}
+
+
+.form-note {
+    background: rgba(255,255,255,0.85);   */
+    backdrop-filter: blur(15px);           /
+    padding: 8px 12px;                  /* compact */
+    border-radius: 10px;
+    border-left: 6px solid transparent ;
+    border-image:linear-gradient(to bottom,#ff7a18,#4a6cf7);
+    border-image-slice:1;      /* better highlight */
+    max-width: 600px;
+    margin: 5px auto;
+    font-size: 13px;
+    color: #333;
+    position:relative;
+    line-height: 1;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* NEW */
+    transition:all 0.3s ease;
 }
 
-.form-note{
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  background: linear-gradient(135deg, #f8f9fa, #e6fffa);
-  padding: 14px 16px;
-  border-radius: 12px;
-  font-size: 14px;
-  color: #2d3436;
-  border-left: 5px solid #00b894;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-  line-height: 1.6;
+.form-note::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px; /* pehle bada tha, ab slim */
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
-
 .form-note:hover{
-trasnform:traslateY(-2px);
-box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-transition:0.3s;
+  transform: translateY(-4px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.12);
+  transition: 0.3s ease;
+}
+
+/* Text */
+.note-text{
+    font-size:14px;
+    color:#444;
+    font-weight:500;
+    line-height:1.5;   /* readability */
+}
+
+/* Icon */
+
+  .note-icon {
+    background: linear-gradient(135deg, #ffe082, #ffca28);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+margin-top: 8px;
+    margin-bottom: 10px;
+        padding-left:10px;
+align-items:center;
+gap:6px;
+    display: flex;  /* better alignment */
+}
+
+
+/* Content */
+.note-content{
+  padding: 2px 4px;
+}
+
+.note-content p {
+    padding-left:10px;
+  color:#444;
+  padding-left:10px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+/* Important text */
+
+
+/* List */
+.note-content ul {
+    list-style:none;
+    padding-left:0;
+    margin-left: 10px;   /* reduce gap */
+    margin-bottom: 10px;
+}
+
+.note-content li {
+      padding-left:10px;
+    margin-bottom: 6px;
+    padding-left:7px;
+}
+
+.note-content strong{
+  color:#e63946;
+  font-size:14px;
+}
+
+/* Tick icon */
+.note-content li::before {
+    content: "✔ ";
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Read More */
+#readMoreBtn {
+    display: inline-flex;
+    {% comment %} margin-top: 2px; {% endcomment %}
+    margin-left:5px;
+   padding: 4px 5px;
+    background: linear-gradient(135deg, #4a6cf7, #6c85ff);
+    color: white;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    border: none;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(74,108,247,0.3);
+}
+
+#readMoreBtn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(74,108,247,0.4);
+    background: linear-gradient(135deg, #2f54d0, #4a6cf7);
+    color: white;
+}
+
+@media (max-width: 768px) {
+
+    .form-note {
+        padding: 15px 14px;   /* side se space */
+        margin: 15px 10px;    /* screen se gap */
+        max-width: 100%;      /* full width mobile */
+        border-radius: 12px;
+    }
+
+    .note-content {
+        padding-left: 5px;
+    }
+
+    .note-content p {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .note-content li {
+        font-size: 13px;
+    }
+
+    #readMoreBtn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
 }
 
 
@@ -603,12 +798,17 @@ transition:0.3s;
 
 
 .artwork-card {
-  background: white;
-  border-radius: 20px;
+  background: #fff;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.8);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
+}
+
+.artwork-card p{
+  margin:4px 0;
+  fomt-size: 13px;
 }
 
 .artwork-card:hover {
@@ -616,9 +816,11 @@ transition:0.3s;
   box-shadow: 0 20px 60px rgba(123, 47, 247, 0.25);
 }
 
+
 .image-wrapper {
+  aspect-ration:4/3;
   position: relative;
-  height: 350px; /* Increased for more image area */
+  height: 390px; /* Increased for more image area */
   overflow: hidden;
   background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
 }
@@ -627,6 +829,7 @@ transition:0.3s;
 .gallery-img {
   width: 100%;
   height: 100%;
+  display:block;
   object-fit: cover;
   transition: transform 0.6s ease;
   cursor: pointer;
@@ -673,15 +876,17 @@ transition:0.3s;
 }
 
 .card-content {
-  padding: 1.2rem 1.5rem; /* reduced padding to shrink white space */
+
+  padding: 10px 12px; /* reduced padding to shrink white space */
 }
 
 
 .artwork-title {
-  font-size: 1.4rem;
+  font-size: 21px;
   font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 1rem;
+  color: #222;
+  margin-bottom: 6px;
+  margin: 6px 0;
   line-height: 1.3;
 }
 
@@ -690,27 +895,29 @@ transition:0.3s;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  margin:4px 0;
   gap: 1rem;
 }
 
 .price-tag {
-  background: linear-gradient(135deg, #97d272, #169334);
+  background: linear-gradient(135deg, #00c853, #64dd17);
   color: white;
-  padding: 0.5rem 1.2rem;
-  border-radius: 25px;
+  padding: 5px 12px;
+  border-radius: 20px;
   font-weight: 600; 
-  font-size: 1.1rem;
+  margin:4px 0;
+  font-size: 13px;
   box-shadow: 0 4px 15px rgba(123, 47, 247, 0.3);
 }
 
 .art-type {
-  background: #f7fafc;
-  color: #4a5568;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  background: #eef2ff;
+  color: #4a6cf7;
+  padding: 4px 10px;
+  border-radius: 15px;
   font-weight: 500;
   border: 2px solid #e2e8f0;
-  font-size: 0.9rem;
+  font-size: 12px;
 }
 
 .artist-info {
@@ -721,10 +928,7 @@ transition:0.3s;
   font-weight: 500;
 }
 
-.artist-info i {
-  color: #7b2ff7;
-  font-size: 1.2rem;
-}
+
 
 .empty-state {
   text-align: center;
@@ -887,13 +1091,12 @@ transition:0.3s;
   }
   
   .gallery-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .artwork-card {
-    margin: 0 1rem;
-  }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
   
   .floating-book {
     width: 100px;

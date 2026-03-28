@@ -1464,3 +1464,26 @@ def home(request):
         request,
         "home.html",
     )
+
+
+from .models import Booking
+
+
+def my_assignments(request):
+    bookings = Booking.objects.all()
+
+    return render(request, "employee_bookings.html", {"bookings": bookings})
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Booking
+
+
+def toggle_artist_status(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == "POST":
+        booking.artist_status = not booking.artist_status
+        booking.save()
+
+    return redirect("my_assignments")

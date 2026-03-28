@@ -861,9 +861,11 @@ left: 7rem;
 
 right: 1rem; */
 margin-top: auto;
-
+padding-top:22px;
+padding-bottom: 15px;
 display: flex;
-
+position: relative;
+bottom: 10px;
 justify-content: center;
 
 gap: 50px;
@@ -889,14 +891,30 @@ transition: 0.3s;
 
 }
 
-.book-btn { background: #0072ff; color: #fff; }
+/* 🔥 BOOK BUTTON (MAIN CTA) */
+.book-btn {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,114,255,0.3);
+}
 
-.book-btn:hover { background: #0056cc; }
+.book-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,114,255,0.4);
+}
 
-.explore-btn { background: #eee; color: #333; }
+/* ✨ EXPLORE BUTTON (SECONDARY) */
+.explore-btn {
+    background: white;
+    color: #0072ff;
+    border: 2px solid #0072ff;
+}
 
-.explore-btn:hover { background: #ddd; }
-
+.explore-btn:hover {
+    background: #0072ff;
+    color: white;
+    transform: translateY(-2px);
+}
 
 /* Footer */
 
@@ -929,19 +947,19 @@ box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
 }
 
 .service-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 500;
 
-font-size: 1rem;
+    background: linear-gradient(90deg, #7b2ff7, #00c6ff);
+    background-clip: text;
+    -webkit-background-clip: text;
 
-line-height: 1rem;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
 
-background: linear-gradient(90deg, #7b2ff7, #00c6ff); /* purple to blue gradient */
-
--webkit-background-clip: text;
-
--webkit-text-fill-color: transparent;
-
-font-weight: 500;
-
+    overflow: visible;
+    white-space: normal;
 }
 
 .service-card:hover p {
@@ -1017,11 +1035,80 @@ color:#555;
 margin-bottom:12px;
 }
 
+/* Container */
+.privacy-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, #f8f9ff, #ffffff);
+    padding: 20px 25px;
+    margin-top: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #4A6CF7;
+    transition: all 0.3s ease;
+}
+
+/* Hover Animation */
+.privacy-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Icon */
+.privacy-icon {
+    font-size: 35px;
+    background: #4A6CF7;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
+}
+
+/* Content */
+.privacy-content h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #222;
+    font-weight: 600;
+}
+
+.privacy-content p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Button */
+.privacy-btn {
+    display: inline-block;
+    padding: 8px 18px;
+    background: #4A6CF7;
+    color: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Button Hover */
+.privacy-btn:hover {
+    background: #2f4ed8;
+    transform: scale(1.05);
+}
+
 .about-stats{
 display:flex;
 gap:25px;
 margin-top:25px;
 }
+
+
 
 .stat-box{
 background:linear-gradient(135deg,#1fa2ff,#12d8fa);

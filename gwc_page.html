@@ -1964,7 +1964,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener("click", function(event) {
       const popup = document.getElementById("myPopup");
       const icon = document.querySelector(".nav-icon");
-      if (popup && !popup.contains(event.target) && !icon.contains(event.target)) {
+      if (popup && !popup.contains(event.target)) {
         popup.style.display = "none";
       }
     });

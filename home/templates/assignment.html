@@ -1,0 +1,11 @@
+<h1>My Assignments</h1>
+
+{% for a in assignments %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <h3>{{ a.customer_name }}</h3>
+        <p>City: {{ a.city }}</p>
+        <p>Pincode: {{ a.pincode }}</p>
+    </div>
+{% empty %}
+    <p>No assignments found</p>
+{% endfor %}

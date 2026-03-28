@@ -9,25 +9,271 @@
 
 <style>
 
-.booking-container {
     
+
+.booking-container {  
     padding: 2rem;
 }
 
 .booking-form {
     justify-content:center;
-    max-width:600px;
-    width:100%;
+    max-width:500px;
+    width:90%;
+    margin-top:30px;
+    margin:20px auto 50px auto;
     margin-left:auto;
         margin-right:auto;
-
+        margin-bottom:40px;
+line-height:1.1;
     margin- 40px auto:
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
+.booking-form {
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+}    padding: 10px;
+    border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
-.note-icon{
+
+
+.booking-wrapper{
+    padding-bottom:20px;
+}
+{% comment %} .appointment-date {
+    width: 180px;        /* 👈 size control */
+    padding: 8px 10px;   /* 👈 compact look */
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* hover + focus effect */
+.appointment-date:focus {
+    border-color: #4a6cf7;
+    box-shadow: 0 0 5px rgba(74,108,247,0.3);
+} {% endcomment %}
+
+
+.form-note {
+    background: rgba(255,255,255,0.85);   */
+    backdrop-filter: blur(15px);           /
+    padding: 8px 12px;                  /* compact */
+    border-radius: 10px;
+    border-left: 6px solid transparent ;
+    border-image:linear-gradient(to bottom,#ff7a18,#4a6cf7);
+    border-image-slice:1;      /* better highlight */
+    max-width: 600px;
+    margin: 5px auto;
+    font-size: 13px;
+    color: #333;
+    position:relative;
+    line-height: 1;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* NEW */
+    transition:all 0.3s ease;
+}
+
+.form-note::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px; /* pehle bada tha, ab slim */
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.form-note:hover{
+  transform: translateY(-4px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.12);
+  transition: 0.3s ease;
+}
+
+
+#selectedDesignContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.selected-item {
+    position: relative;
+    display:inline-block;
+        
+}
+
+.selected-item {
+    position: relative;
+    display: inline-block;
+    padding:4px;
+}
+
+/* IMAGE */
+.selected-item img {
+    display:block;
+    margin-bottom: 4px;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    vertical-align:top;
+}
+
+/* ✅ PERFECT REMOVE BUTTON */
+.remove-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    width: 24px !important;
+    height: 24px !important;
+
+    border-radius: 50% !important;
+    background: #ff3b3b !important;
+    color: #fff !important;
+
+    border: 2px solid #fff;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    line-height: 1 !important;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+/* Text */
+.note-text{
+    font-size:14px;
+    color:#444;
+    font-weight:500;
+    line-height:1.5;   /* readability */
+}
+
+/* Icon */
+
+  .note-icon {
+    background: linear-gradient(135deg, #ffe082, #ffca28);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+margin-top: 8px;
+    margin-bottom: 10px;
+        padding-left:10px;
+align-items:center;
+gap:6px;
+    display: flex;  /* better alignment */
+}
+
+
+/* Content */
+.note-content{
+  padding: 2px 4px;
+}
+
+.note-content p {
+    padding-left:10px;
+  color:#444;
+  padding-left:10px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+/* Important text */
+
+
+/* List */
+.note-content ul {
+    list-style:none;
+    padding-left:0;
+    margin-left: 10px;   /* reduce gap */
+    margin-bottom: 10px;
+}
+
+.note-content li {
+      padding-left:10px;
+    margin-bottom: 6px;
+    padding-left:7px;
+}
+
+.note-content strong{
+  color:#e63946;
+  font-size:14px;
+}
+
+/* Tick icon */
+.note-content li::before {
+    content: "✔ ";
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Read More */
+#readMoreBtn {
+    display: inline-flex;
+    {% comment %} margin-top: 10px; {% endcomment %}
+    margin-left:5px;
+padding: 4px 5px;
+    background: linear-gradient(135deg, #4a6cf7, #6c85ff);
+    color: white;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    border: none;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(74,108,247,0.3);
+}
+
+#readMoreBtn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(74,108,247,0.4);
+    background: linear-gradient(135deg, #2f54d0, #4a6cf7);
+    color: white;
+}
+
+@media (max-width: 768px) {
+
+    .form-note {
+        padding: 15px 14px;   /* side se space */
+        margin: 15px 10px;    /* screen se gap */
+        max-width: 100%;      /* full width mobile */
+        border-radius: 12px;
+    }
+
+    .note-content {
+        padding-left: 5px;
+    }
+
+    .note-content p {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .note-content li {
+        font-size: 13px;
+    }
+
+    #readMoreBtn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+}
+{% comment %} .note-icon{
     font-size:10px;
     margin-top:2px;
 }
@@ -45,20 +291,21 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.05);
   line-height: 1.6;
 }
+ {% endcomment %}
 
 
-
-.form-note:hover{
+{% comment %} .form-note:hover{
 trasnform:traslateY(-2px);
 box-shadow: 0 12px 25px rgba(0,0,0,0.08);
 transition:0.3s;
-}
+} {% endcomment %}
 
 
 
 .booking-form h2 {
     font-size:22px;
     font-weight:700;
+    margin-top:20px;
     color:#1e2a38;
     margin-bottom: 15px;
     text-align: center;
@@ -68,7 +315,7 @@ transition:0.3s;
     
     font-size:13px;
     display:block;
-    margin-bottom:3px;
+    margin-bottom:2px;
     margin-top: 1rem;
     font-weight: 500;
 }
@@ -82,7 +329,9 @@ transition:0.3s;
 .booking-form select,
 .booking-form textarea {
     width: 100%;
-    padding: 8px;
+    height:27px;
+    resize:none;
+    padding: 6px 8px;
     font-size:13px;
     margin-top: 0.3rem;
     border-radius: 6px;
@@ -144,14 +393,14 @@ transition:0.3s;
 }
 
 .booking-form button {
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
     width: 100%;
-    padding: 0.8rem;
+    padding: 8px;
     border: none;
     border-radius: 10px;
     background: linear-gradient(135deg, #7b2ff7, #00c6ff);
     color: #fff;
-    font-size: 1rem;
+    font-size: 14px;
     cursor: pointer;
 }
 
@@ -230,7 +479,38 @@ transition:0.3s;
    DESIGN POPUP STYLES - MODERN & CLEAN UI (scoped)
    ====================================================== */
 
-#designPopup.design-popup {
+.search-box {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    width: 70%;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: 2px solid #00bcd4;
+    outline: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.search-box input:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 6px rgba(0,188,212,0.5);
+}
+
+.design-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.design-card {
+    width: 250px;
+}
+
+{% comment %} #designPopup.design-popup {
     position: fixed;
     z-index: 1050;
     left: 0;
@@ -431,6 +711,576 @@ transition:0.3s;
 }
 #clearDesignBtn:hover {
   background: #d93636;
+} {% endcomment %}
+ /* ================================
+   DESIGN POPUP FULL PREMIUM STYLE
+================================ */
+
+#designPopup.design-popup {
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+
+
+#designPopup.design-popup[style*="block"] {
+    display: flex !important;
+}
+
+/* ===============================
+   GRID (3 CARDS PER ROW)
+================================ */
+#designPopup .design-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    #designPopup .design-gallery {
+       
+    }
+}
+
+@media (max-width: 480px) {
+    #designPopup .design-gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===============================
+   CARD
+================================ */
+#designPopup .design-card {
+    position: relative;
+    height: 250px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+.design-card {
+    position: relative;
+    cursor: pointer;
+}
+
+
+.design-card.selected {
+    border: 3px solid #00c853;
+    transform: scale(1.03);
+}
+
+.selection-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #f5f7ff;
+    border-radius: 10px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+
+/* MAIN BAR */
+.selection-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 18px;
+  margin-top: 12px;
+
+  background: #ffffff;
+  border-top: 1px solid #eee;
+
+  border-radius: 0 0 12px 12px;
+}
+
+/* LEFT SIDE */
+.selection-bar .left {
+  display: flex;
+  align-items: center;
+}
+
+/* SELECTED COUNT */
+#selectedCount {
+  background: #f1f3f6;
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #555;
+
+  transition: 0.3s;
+}
+
+/* जब कुछ select हो जाए */
+#selectedCount.active {
+  background: #e6fff4;
+  color: #00a86b;
+}
+
+/* RIGHT SIDE */
+.selection-bar .right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* TOTAL PRICE */
+#totalPrice {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00c853;
+}
+
+/* DONE BUTTON */
+.done-btn {
+  background: linear-gradient(135deg, #00c853, #00a86b);
+  color: #fff;
+
+  border: none;
+  padding: 7px 14px;
+
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.done-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#selectedCount {
+    color: #555;
+    font-size: 14px;
+}
+
+{% comment %} #totalPrice {
+    color: #00c853;
+    font-size: 16px;
+    font-weight: 600;
+} {% endcomment %}
+
+.design-card .tick {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #00c853;
+    color: #fff;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    display: none;
+}
+
+.design-card.selected .tick {
+    display: flex;
+}
+/* overlay */
+.select-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: 0.3s;
+
+    pointer-events: none; /* 🔥 MOST IMPORTANT */
+}
+
+/* show on hover */
+.design-card:hover .select-overlay {
+    opacity: 1;
+}
+
+.done-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 18px;
+    background: #00c853;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* selected state */
+.design-card.selected {
+    border: 3px solid #00ff88;
+    transform: scale(1.05);
+}
+
+
+
+/* IMAGE */
+#designPopup .design-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s;
+}
+
+/* HOVER ZOOM */
+#designPopup .design-card:hover img {
+    transform: scale(1.1);
+}
+
+/* DARK OVERLAY */
+#designPopup .design-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+/* ===============================
+   TEXT OVER IMAGE
+================================ */
+/* 🔥 CARD FIX */
+#designPopup .design-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+/* 🔥 IMAGE */
+#designPopup .design-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+/* 🔥 OVERLAY (better contrast) */
+#designPopup .design-card-details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 14px;
+    align-items:flex-end;
+    gap:8px;
+
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.2),
+        transparent
+    );
+}
+
+/* 🔥 TITLE (MAIN FIX) */
+#designPopup .design-card-details h4 {
+    
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(5, 1, 1, 0.55);
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-shadow: 
+        0 2px 6px rgba(0,0,0,0.9),
+        0 0 10px rgba(0,0,0,0.6);
+
+    
+
+    margin-bottom: 4px;
+}
+
+/* 🔥 PRICE */
+#designPopup .design-card-details .price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #00ffae;
+    display:block;
+    text-align:right;
+margin:0;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+/* 🔥 FINAL HOVER GLOW FIX */
+#designPopup .design-card:hover .design-card-details .price {
+    color: #00ffae !important;
+
+    text-shadow: 
+        0 0 8px #00ffae,
+        0 0 16px #00ffae,
+        0 0 24px #00ffae !important;
+
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+/* 🔥 SIZE */
+#designPopup .design-card-details .size {
+    font-size: 12px;
+    color: #ddd;
+display:block;
+    text-align:right;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    margin:0;
+
+}
+
+/* ===============================
+   CLICK ZOOM MODAL
+================================ */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+.image-modal span {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+/* ================================
+   POPUP BOX
+================================ */
+
+#designPopup .design-popup-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 20px;
+    padding-bottom:80px;
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    animation: popupFade 0.3s ease;
+    position: relative;
+}
+
+@keyframes popupFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ================================
+   HEADER
+================================ */
+
+#designPopup h3 {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* CLOSE BUTTON */
+#designPopup .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 5px 10px;
+    transition: 0.3s;
+}
+
+#designPopup .close-btn:hover {
+    background: #7b2ff7;
+    color: white;
+}
+
+/* ================================
+   DESIGN GRID (MAIN FIX 🔥)
+================================ */
+
+#designPopup .design-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top:1.5rem;
+    width:100%;
+}
+
+/* ================================
+   DESIGN CARD
+================================ */
+
+#designPopup .design-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    height:240px;
+}
+
+/* HOVER EFFECT */
+#designPopup .design-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(123, 47, 247, 0.25);
+}
+
+/* IMAGE */
+#designPopup .design-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s;
+}
+
+#designPopup .design-card:hover img {
+    transform: scale(1.05);
+}
+
+/* DETAILS */
+#designPopup .design-card-details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 12px;
+
+    display: flex;
+    justify-content: space-between; /* 👈 LEFT + RIGHT */
+    align-items: center;
+
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+/* TITLE */
+#designPopup .design-card h4 {
+    margin:0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+/* TEXT */
+#designPopup .design-card p {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* PRICE */
+#designPopup .design-card .price {
+    color: #059669;
+    font-weight: bold;
+}
+
+/* ================================
+   SELECTED CARD HIGHLIGHT
+================================ */
+
+#designPopup .design-card.selected {
+    border: 2px solid #7b2ff7;
+    box-shadow: 0 0 10px rgba(123,47,247,0.4);
+}
+
+/* ================================
+   CLEAR BUTTON
+================================ */
+
+#clearDesignBtn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+#clearDesignBtn:hover {
+    background: #d93636;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+    #designPopup .design-popup-content {
+        max-width:1200px;
+        width:95%;
+        padding: 1.5rem;
+    }
+
+    #designPopup .design-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #designPopup .design-card img {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    #designPopup .design-gallery {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Toast popup */
@@ -682,28 +1532,75 @@ transition:0.3s;
     </form>
 </div>
 
-<div id="bookingForm" class="booking-wrapper" style="pointer-events:none; opacity:0.6;">
+<div id="bookingWrapper" class="booking-wrapper" >
+    <form id="bookingForm" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 <div class="steps">
   <div class="step active" id="step1">
     <div class="circle">1</div>
     Booking
   </div>
+</form>
 </div>
 
 
 
-    <div class="slide active" id="booking-slide">
-        <div class="booking-container">
-<p class="form-note">
-    <span class="note-icon"> ⚠️</span>
-    <span>
-  Note: All art materials will be<b style="color:#00b894;"> provided by us</b>. Kindly ensure <b style="color:#e17055;">basic site access</b> like electricity, lighting, and ladder support for smooth execution.”</span>
-</p>
+<div class="form-note">
+  
+    <span class="note-icon">⚠️ Important</span>
+    
+
+    <div class="note-content">
+        <p>
+            <strong>Booking Information:</strong><br>
+            As per your booking, the artist will visit your location and will carry all essential art materials...
+        </p>
+
+
+        <div id="moreText" style="display: none;">
+
+            <p>
+                From the customer's side, the following arrangements are required:
+            </p>
+
+            <ul>
+                <li>Stool or ladder (for height access)</li>
+                <li>Water supply</li>
+                <li>Electricity</li>
+                <li>Clear and empty workspace</li>
+            </ul>
+
+            <p><strong>Note:</strong><br>
+            Any required permissions must be arranged by the customer before work begins.</p>
+
+            <p><strong>Important Note:</strong><br>
+            The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
+
+            <p><strong>Note:</strong><br>
+            Issues like water leakage, seepage, mold, etc. are not included.</p>
+
+            <p>
+            The customer is responsible for preparing the workspace before execution.
+            </p>
+
+            <p>
+            We request your cooperation for smooth execution. Thank you for trusting us 💙
+            </p>
+          </div>
+            
+        <a href="#" id="readMoreBtn" onclick="toggleNote(); return false;">
+    Read More ↓
+</a>
+            
+          </div>
+</div>
             <form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="booking_amount" name="booking_amount" value="0">
+            
                 <h2>{% trans "Book" %} {{ service_name }}</h2>
 
-                <label>{% trans "Service" %}</label>
+                <label>{% trans "Service Name" %}</label>
                 <input type="text" name="service_name" value="{{ service_name }}" readonly>
 
                 <div class="contact-row">
@@ -717,7 +1614,7 @@ transition:0.3s;
                     </div>
                 </div>
 
-                <label>Address</label>
+                <label>Full Address</label>
                 <textarea name="address" required></textarea>
 
                 <div class="address-row">
@@ -735,65 +1632,60 @@ transition:0.3s;
                     </div>
                 </div>
                 <label>Choose Your Design</label>
+
+                <div id="selectedDesignContainer"></div>
+
 <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-<small><button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button></small>
-{% comment %}  {% endcomment %}
+<input type="file" id="custom_design_input" multiple style="margin-top:10px;">
+<div id="image-preview" style="margin-top:10px;"></div>
+<button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
+
+
 {% comment %} 
-<label>Or Upload Your Own Design</label>
-<form id="bookingForm" method="POST" enctype="multipart/form-data">
-<div id="image-preview" style="margin-top:10px;"></div> {% endcomment %}
-
-
 <div class="form-group inline-row">
   <label>Total Walls</label>
   <input type="number" name="total_walls" class="small-walls" min="1">
+</div> {% endcomment %}
+               <!-- Square Ft Section -->
+<div class="square-appointment-row">
+    <div class="square-ft">
+        <label>Square Ft</label>
+
+       <!-- Square Ft -->
+<div class="square-ft-inputs">
+    <input type="number" id="width" placeholder="Width" min="1">
+    <span>*</span>
+    <input type="number" id="height" placeholder="Height" min="1">
+    <span>=</span>
+    <input type="number" id="total_sqft" placeholder="Total" readonly>
 </div>
-                <div class="square-appointment-row">
-                    <div class="square-ft">
-                        <label>Square Ft</label>
-                        <div class="square-ft-inputs">
-                            <input 
-  type="number" 
-  id="width" 
-  name="width" 
-  placeholder="Width (optional)" 
-  min="5" 
-  step="1" 
-  oninput="validity.valid||(value='');" 
-  required
->
-<span>*</span>
-<input 
-  type="number" 
-  id="height" 
-  name="height" 
-  placeholder="Height (optional)" 
-  min="5" 
-  step="1" 
-  oninput="validity.valid||(value='');" 
-  required
->
-<span>=</span>
 
-                            <input type="number" id="total_sqft" name="total_sqft" readonly>
-                        </div>
-                    </div>
-                </div>
+<!-- Total Walls -->
+<div class="form-group inline-row">
+    <label>Total Walls</label>
+    <input type="number" id="total_walls" min="1" value="1">
+</div>
 
-                <!-- Price Display -->
-                <div class="price-display" id="price-display" style="display: none;">
-                    <div>Estimated Price:</div>
-                    <div class="price" id="calculated-price">₹0</div>
-                    <small>(₹50 per sqft)</small>
-                </div>
+<!-- Hidden Design Price -->
+<input type="hidden" id="design_price" value="0">
+
+<!-- Price Display -->
+<div class="price-display" id="price-display">
+    <div><strong>Estimated Price:</strong></div>
+    <div class="price" id="calculated-price">₹0</div>
+    <small>(₹50 per sqft + design cost per wall)</small>
+</div>
+
 
                 <div class="appointment-date">
                     <label>Appointment Date</label>
                     <input type="date" id="appointment_date" name="appointment_date" required>
                 </div>
-                <input type="hidden" name="total_amount" id="total_amount_input">
 
-                <button type="button" onclick="saveBooking()">Book Now</button>
+<input type="hidden" id="total_amount_input" name="total_amount">
+<input type="hidden" id="booking_amount" name="booking_amount">
+
+                <button type="button" onclick="saveBooking(event)">Book Now</button>
 
             </form>
         </div>
@@ -845,23 +1737,74 @@ transition:0.3s;
 
 </div>
 <div id="designPopup" class="design-popup">
-  <div class="design-popup-content">
-    <span class="close-btn" onclick="closeDesignPopup()">&times;</span>
-    <h3>Select a Design for {{ service_name }}</h3>
-    <div class="design-gallery">
-      {% for img in db_images %}
-      <div class="design-card" onclick="selectDesign('{{ img.id }}','{{ img.image_name }}','{{ img.price }}')">
-        <img src="{{ img.image.url }}" alt="{{ img.image_name }}">
-        
+  <div class="design-popup-content">
+
+    <span class="close-btn" onclick="closeDesignPopup()">&times;</span>
+
+    <h3>Select a Design for {{ service_name }}</h3>
+
+<!-- 🔍 SEARCH BAR -->
+<div class="search-box">
+    <input type="text" id="designSearch" placeholder="Search designs...">
+</div>
+
+    <div class="design-gallery">
+
+      {% for img in db_images %}
+      <div class="design-card"
+           onclick="selectDesign(event,
+            '{{ img.id }}',
+             '{{ img.image_name }}', 
+             '{{ img.image.url }}', 
+             '{{ img.price }}')">
+
+        <img src="{{ img.image.url }}" alt="{{ img.image_name }}">
+            
+
+     <!-- ✅ tick -->
+        <div class="tick">✓</div>
+
+        <!-- overlay -->
+        <div class="select-overlay">Click to Select</div>
+
+        <!-- details -->
         <div class="design-card-details">
-            <h4>{{ img.image_name }}</h4>
-            <p>Price: <strong class="price">₹{{ img.price }}</strong></p>
-            <p>Min Size: <strong>{{ img.min_size }} sqft</strong></p>
+          <h4>{{ img.image_name }}</h4>
+          <div class="price">₹{{ img.price }}</div>
+          <div class="size">{{ img.min_size }} sqft</div>
         </div>
-              </div>
-      {% endfor %}
-    </div>
-  </div>
+
+      </div>
+      {% endfor %}
+    </div>
+    
+    <p id="noResult" style="display:none; text-align:center; color:red;">
+    No design found 😔
+</p>
+
+    <!-- 🔥 SELECTION BAR -->
+    <div class="selection-bar">
+
+      <!-- LEFT -->
+      <div class="left">
+        <span id="selectedCount">0 Selected</span>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right">
+        <span id="totalPrice">₹0</span>
+
+        <button onclick="confirmSelection()" class="done-btn">
+          Done ✅
+        </button>
+      </div>
+
+    </div>
+
+    <!-- hidden -->
+    <input type="hidden" id="selected_designs" name="selected_designs">
+
+  </div>
 </div>
 <div id="toast" class="toast"></div>
 <!-- SCRIPTS -->
@@ -871,15 +1814,93 @@ transition:0.3s;
 
 
 <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    
-    function showSlide(index) {
-        slides.forEach((s, i) => s.classList.toggle('active', i === index));
-        currentSlide = index;
-        document.getElementById("step1").classList.toggle("active", index === 0);
-        // document.getElementById("step2").classList.toggle("active", index === 1);
+
+// GLOBAL (सबसे ऊपर)
+let selectedDesigns = [];
+
+function getDesignTotal() {
+    let total = 0;
+
+    if (typeof selectedDesigns !== "undefined") {
+        selectedDesigns.forEach(item => {
+            total += item.price;
+        });
     }
+
+    return total;
+}
+
+// SELECT FUNCTION
+function selectDesign(event, id, name, image, price) {
+
+    let card = event.currentTarget;
+
+    let index = selectedDesigns.findIndex(item => item.id == id);
+
+    if (index > -1) {
+        // remove
+        selectedDesigns.splice(index, 1);
+        card.classList.remove("selected");
+
+        showToast(name + " removed ❌");
+
+    } else {
+        // add
+        selectedDesigns.push({
+            id: id,
+            name:name,
+            image:image,
+            price: parseFloat(price)
+        });
+        card.classList.add("selected");
+        showToast(name + " added ✅️");
+    }
+
+    updateUI();
+    calculatePrice();
+}
+
+
+function updateUI() {
+    let total = 0;
+
+    selectedDesigns.forEach(item => {
+        total += item.price;
+    });
+    
+
+    // Selected count
+    let countEl = document.getElementById("selectedCount");
+    countEl.innerText = selectedDesigns.length + " Selected";
+
+    // Active style
+    if (selectedDesigns.length > 0) {
+        countEl.classList.add("active");
+    } else {
+        countEl.classList.remove("active");
+    }
+
+    // 🔥 TOTAL PRICE FIX
+    document.getElementById("totalPrice").innerText = "Total ₹" + total;
+
+    // hidden input
+    document.getElementById("selected_designs").value =
+        JSON.stringify(selectedDesigns);
+}
+
+
+
+// OPEN POPUP
+function openDesignPopup() {
+    document.getElementById("designPopup").style.display = "block";
+}
+
+// CLOSE POPUP
+function closeDesignPopup() {
+    document.getElementById("designPopup").style.display = "none";
+}
+
+
 
     const SERVICE_BASE_RATES = {
     "3D Art": 120, // ₹120 per sq ft
@@ -888,6 +1909,91 @@ transition:0.3s;
     // Add other services here, with a sensible default if the service_name doesn't match
     "Default": 150 
 };
+
+function showSelectedDesignsInForm() {
+
+    const container = document.getElementById("selectedDesignContainer");
+    container.innerHTML = "";
+
+    selectedDesigns.forEach(item => {
+
+        const div = document.createElement("div");
+        div.classList.add("selected-item");
+
+        div.innerHTML = `
+            <button class="remove-btn" onclick="removeFromForm('${item.id}')"> ❌</button>
+            <img src="${item.image}" />
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function removeFromForm(id) {
+
+    selectedDesigns = selectedDesigns.filter(item => item.id != id);
+
+    showSelectedDesignsInForm();  // UI update
+    updateUI();   
+    
+    calculatePrice();// price update
+
+    showToast("Removed❌");
+}
+
+function confirmSelection() {
+    
+
+    if (selectedDesigns.length === 0) {
+
+       
+        alert("Please select at least 1 design");
+        return;
+    }
+
+    // hidden input already set है
+    console.log("FINAL SELECTED:", selectedDesigns);
+ 
+        showSelectedDesignsInForm();  // 👈 YE LINE ADD KAR
+
+    // popup close
+    closeDesignPopup();
+
+    // optional toast
+    showToast(selectedDesigns.length + " design selected ✅");
+}
+
+{% comment %} function confirmSelection() {
+
+    showSelectedDesignsInForm();  // 👈 YE LINE ADD KAR
+
+    closeDesignPopup();
+} {% endcomment %}
+{% comment %} function updateUI() {
+    let total = 0;
+
+    selectedDesigns.forEach(item => {
+        total += item.price;
+    });
+
+    let countText = selectedDesigns.length + " Selected";
+
+    let countEl = document.getElementById("selectedCount");
+    countEl.innerText = countText;
+
+    // 🔥 ACTIVE CLASS ADD
+    if (selectedDesigns.length > 0) {
+        countEl.classList.add("active");
+    } else {
+        countEl.classList.remove("active");
+    }
+
+    document.getElementById("totalPrice").innerText =
+        "₹" + total;
+
+    document.getElementById("selected_designs").value =
+        JSON.stringify(selectedDesigns);
+} {% endcomment %}
 
 const uploadInput =
  document.getElementById('custom_design_input');
@@ -913,7 +2019,7 @@ uploadInput.addEventListener('change', function() {
     });
         });
 
-    if (files.length > 0) {
+    {% comment %} if (files.length > 0) {
         Array.from(files).forEach(file => {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -927,7 +2033,7 @@ uploadInput.addEventListener('change', function() {
             }
             reader.readAsDataURL(file);
         });
-    }
+    } {% endcomment %}
 
 // Auto sqft and price calculation
 // const SERVICE_BASE_RATES = {
@@ -937,61 +2043,61 @@ uploadInput.addEventListener('change', function() {
 //     "Default": 50 // Default fallback rate
 // };
 
-// Auto sqft and price calculation listeners
+{% comment %} // Auto sqft and price calculation listeners
 document.getElementById("width").addEventListener("input", calcSqftAndPrice);
 document.getElementById("height").addEventListener("input", calcSqftAndPrice);
-document.querySelector('input[name="total_walls"]').addEventListener("input", calcSqftAndPrice);
+document.querySelector('input[name="total_walls"]').addEventListener("input", calcSqftAndPrice); {% endcomment %}
 
 
-function calcSqftAndPrice() {
+{% comment %} function calcSqftAndPrice() {
     let w = parseFloat(document.getElementById("width").value) || 0;
     let h = parseFloat(document.getElementById("height").value) || 0;
-    
+     {% endcomment %}
     // Total Walls: Use 1 if the user hasn't entered a value yet
-    let totalWalls = parseFloat(document.querySelector('input[name="total_walls"]').value) || 1; 
+    {% comment %} let totalWalls = parseFloat(document.querySelector('input[name="total_walls"]').value) || 1;  {% endcomment %}
 
     // Calculate Square Footage of ONE wall
-    let singleWallSqft = w * h;
+    {% comment %} let singleWallSqft = w * h; {% endcomment %}
     
     // Calculate the TOTAL Square Footage for the job (Area of all walls)
-    let totalSqft = singleWallSqft * totalWalls;
+    {% comment %} let totalSqft = singleWallSqft * totalWalls; {% endcomment %}
 
-    let totalPrice = 0;
+    {% comment %} let totalPrice = 0; {% endcomment %}
     
     // Get the base service name
-    const serviceName = document.querySelector('input[name="service_name"]').value.trim();
+    {% comment %} const serviceName = document.querySelector('input[name="service_name"]').value.trim(); {% endcomment %}
 
     // 1. Check for SELECTED DESIGN PRICE (Treat Design Price as the new Rate per Sq Ft)
-    const designPriceInput = document.getElementById("selected_design_price_input");
-    const selectedDesignPrice = parseFloat(designPriceInput.value) || 0;
+    {% comment %} const designPriceInput = document.getElementById("selected_design_price_input");
+    const selectedDesignPrice = parseFloat(designPriceInput.value) || 0; {% endcomment %}
 
-    if (selectedDesignPrice > 0) {
+    {% comment %} if (selectedDesignPrice > 0) { {% endcomment %}
         // --- FIX IMPLEMENTED HERE ---
         // Treat selectedDesignPrice as the special rate per sq ft for this design.
         // Calculation: Total Area * Design Price (Rate)
-        totalPrice = totalSqft * selectedDesignPrice;
+        {% comment %} totalPrice = totalSqft * selectedDesignPrice; {% endcomment %}
         
         // Update the price display small text
-        document.querySelector('#price-display small').textContent = `(₹${selectedDesignPrice} per sqft - Special Design Rate)`;
-        console.log(`Calculation (Design Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${selectedDesignPrice} (Rate) = ₹${totalPrice}`);
+        {% comment %} document.querySelector('#price-display small').textContent = `(₹${selectedDesignPrice} per sqft - Special Design Rate)`; {% endcomment %}
+        {% comment %} console.log(`Calculation (Design Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${selectedDesignPrice} (Rate) = ₹${totalPrice}`); {% endcomment %}
 
-    } else {
+    {% comment %} } else { {% endcomment %}
         // 2. Use HARDCODED BASE RATE (Per Sq Ft Calculation for custom design/service)
-        let baseRate = SERVICE_BASE_RATES[serviceName] || SERVICE_BASE_RATES["Default"];
+        {% comment %} let baseRate = SERVICE_BASE_RATES[serviceName] || SERVICE_BASE_RATES["Default"]; {% endcomment %}
         
         // Calculation: Total Area * Base Rate
-        totalPrice = totalSqft * baseRate;
+        {% comment %} totalPrice = totalSqft * baseRate; {% endcomment %}
         
         // Update the price display small text
-        document.querySelector('#price-display small').textContent = `(₹${baseRate} per sqft)`;
-        console.log(`Calculation (Base Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${baseRate} (Rate) = ₹${totalPrice}`);
-    }
+        {% comment %} document.querySelector('#price-display small').textContent = `(₹${baseRate} per sqft)`; {% endcomment %}
+        {% comment %} console.log(`Calculation (Base Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${baseRate} (Rate) = ₹${totalPrice}`); {% endcomment %}
+    {% comment %} } {% endcomment %}
     
     // Update square feet display (total area)
-    document.getElementById("total_sqft").value = totalSqft.toFixed(2);
+    {% comment %} document.getElementById("total_sqft").value = totalSqft.toFixed(2); {% endcomment %}
     
     // Update price display
-    if (totalSqft > 0) {
+    {% comment %} if (totalSqft > 0) {
         document.getElementById("price-display").style.display = "block";
         document.getElementById("calculated-price").textContent = "₹" + totalPrice.toFixed(2);
         document.getElementById("booking_amount").value = totalPrice.toFixed(2);
@@ -1000,24 +2106,36 @@ function calcSqftAndPrice() {
         document.getElementById("price-display").style.display = "none";
         document.getElementById("calculated-price").textContent = "₹0";
         document.getElementById("booking_amount").value = 0;
-    }
-}
+    } {% endcomment %}
+
 
     // Datepicker
     flatpickr("#appointment_date", {
         dateFormat: "d-m-Y",
         minDate: "today"
     });
+function saveBooking(event) {
 
-    // Save Booking → Move to Payment
-function saveBooking() {
-    let amount = document.getElementById('booking_amount').value;
-    if (!amount || parseFloat(amount) <= 0) {
-      
+    // 🔥 MOST IMPORTANT LINE
+    if (event) event.preventDefault();
+
+    let form = document.getElementById("bookingForm");
+
+    let amountInput = document.getElementById("booking_amount");
+    if (!amountInput) {
+        alert("booking_amount missing ❌");
+        return;
     }
 
-    let form = $('#bookingForm')[0];
+    let amount = amountInput.value;
+    if (!amount || parseFloat(amount) <= 0) {
+        alert("Invalid amount ❌");
+        return;
+    }
+
     let formData = new FormData(form);
+
+    console.log("FormData ready ✅");
 
     $.ajax({
         url: '/home/save_booking/',
@@ -1025,23 +2143,9 @@ function saveBooking() {
         data: formData,
         processData: false,
         contentType: false,
-        headers: {
-            "X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()
-        },
-      success: function(resp) {
-    console.log(resp);
-
-    // agar backend se response aaya to success maan lo
-    showSlide(1);
-    alert("Booking successful 🎉");
-},
-
-error: function(xhr) {
-    console.log("Error:", xhr.responseText);
-
-    // even error me bhi panic mat karo
-    showSlide(1);
-}
+        success: function(resp) {
+            alert("Booking successful 🎉");
+        }
     });
 }
 
@@ -1205,21 +2309,21 @@ error: function(xhr) {
     }
 
 
-
+{% comment %} 
     function openDesignPopup() {
   document.getElementById("designPopup").style.display = "block";
 }
 function closeDesignPopup() {
   console.log("Close button clicked!"); 
   document.getElementById("designPopup").style.display = "none";
-}
+} {% endcomment %}
      /**
    * Updates the hidden form fields and visible display fields when a design is selected.
      * @param {string} id - The primary key/ID of the design.
      * @param {string} name - The name of the selected design.
      * @param {string} price - The price of the selected design.
      */
-    function selectDesign(id, name, price) {
+    {% comment %} function selectDesign(id, name, price) {
     // 1. Clear custom upload
     document.getElementById("custom_design_input").value = "";
 
@@ -1248,7 +2352,9 @@ document.getElementById("custom_design_input").addEventListener("change", functi
         clearDesignSelection();
         showToast("Custom design uploaded. Design selection cleared.");
     }
-});
+}); {% endcomment %}
+
+
 
 
 function clearDesignSelection() {
@@ -1270,7 +2376,7 @@ function clearDesignSelection() {
 }
 function showToast(msg) {
     const toast = document.getElementById("toast");
-    toast.textContent = msg;
+    toast.innerText = msg;
     toast.classList.add("show");
     setTimeout(() => {
         toast.classList.remove("show");
@@ -1278,6 +2384,59 @@ function showToast(msg) {
 }
 </script>
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let width = document.getElementById("width");
+    let height = document.getElementById("height");
+let walls = document.getElementById("total_walls");
+
+if (width && height && walls) {
+    width.addEventListener("input", calculate);
+    height.addEventListener("input", calculate);
+    walls.addEventListener("input", calculate); // 🔥 MUST
+}
+    {% comment %} let priceBox = document.getElementById("calculated-price");
+    let priceDisplay = document.getElementById("price-display");
+    let totalAmountInput = document.getElementById("total_amount_input");
+
+
+    let rate = 50; // per sqft {% endcomment %}
+
+function calculate() {
+
+    let w = parseFloat(width.value) || 0;
+    let h = parseFloat(height.value) || 0;
+    let totalWalls = parseInt(walls.value) || 1;
+
+    // sqft per wall
+    let sqft = w * h;
+
+    // total sqft (all walls)
+    let totalSqft = sqft * totalWalls;
+
+    // show sqft
+    document.getElementById("total_sqft").value = totalSqft;
+
+    // design price
+    let designTotal = getDesignTotal();
+
+    // FINAL PRICE
+    let price = (totalSqft * 50) + (designTotal * totalWalls);
+
+    document.getElementById("calculated-price").innerText = "₹" + price;
+    document.getElementById("price-display").style.display = "block";
+
+    document.getElementById("total_amount_input").value = price;
+    document.getElementById("booking_amount").value = price;
+}
+
+window.calculatePrice = calculate;
+});
+</script>
+
+
+<script>
+    
 document.addEventListener("DOMContentLoaded", function () {
 
     const signupPopup = document.getElementById("signupPopup");
@@ -1348,6 +2507,53 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+document.addEventListener("DOMContentLoaded", function () {
+
+    let searchInput = document.getElementById("designSearch");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("keyup", function () {
+
+            let searchValue = this.value.toLowerCase();
+            let cards = document.querySelectorAll(".design-card");
+
+            let found = false;
+
+            cards.forEach(card => {
+
+                let name = card.querySelector("h4").innerText.toLowerCase();
+
+                if (name.includes(searchValue)) {
+                    card.style.display = "block";
+                    found = true;
+                } else {
+                    card.style.display = "none";
+                }
+
+            });
+
+            document.getElementById("noResult").style.display = found ? "none" : "block";
+
+        });
+
+    }
+
+});
+
+function toggleNote() {
+    var moreText = document.getElementById("moreText");
+    var btn = document.getElementById("readMoreBtn");
+
+    if (moreText.style.display === "none") {
+        moreText.style.display = "block";
+        btn.innerText = " Read Less ↑";
+    } else {
+        moreText.style.display = "none";
+        btn.innerText = "Read More ↓";
+    }
+}
+
 
 // CSRF
 function getCookie(name) {

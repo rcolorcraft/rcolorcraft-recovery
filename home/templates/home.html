@@ -251,6 +251,11 @@
       transition: all 0.4s ease;
   
     }
+
+    {% comment %} .card-buttons{
+      display:flex;
+      gap:10px;
+    } {% endcomment %}
   
 
   
@@ -435,7 +440,7 @@
     
   
     .service-card {
-       height:100%;
+       
       {% comment %} display:flex; {% endcomment %}
        flex-direction:column;
        justify-content: space-between;
@@ -468,9 +473,8 @@
 
       width:100%;
       
-   height: 350px;
 
-      min-height: 560px;
+      min-height: 450px;
   
       transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -632,11 +636,14 @@
     .service-card p {
   
       font-size: 15px;
-  
+      line-height:1.6;
+      font-weight:500;
+      overflow-visible;
+  white-space:normal;
       margin-bottom: 15px;
-  display:-webkit-box;
+  {% comment %} display:-webkit-box;
   -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
+  -webkit-box-orient:vertical; {% endcomment %}
       color: #666;
   
       flex-grow: 1;
@@ -645,7 +652,7 @@
 
       min-height:60px;
   max-height:65px;
-  overflow:hidden;
+  {% comment %} overflow:hidden; {% endcomment %}
     }
   
     
@@ -677,9 +684,9 @@
       font-weight: 600;
       
   
-      font-size: 14px;
+      font-size: 19px;
   
-      padding: 6px 12px;
+      padding: 10px 20px;
   
       text-decoration: none;
   
@@ -1162,7 +1169,7 @@ align-items:center;
 justify-content:center;
 background:
 linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("{% static 'gallery\bckgrnd.jpg.jpeg' %}") center/cover no-repeat;
+url("{% static 'gallery\hero.background.jpeg' %}") center/cover no-repeat;
 }
 
 .hero-overlay{
@@ -1213,7 +1220,7 @@ background:linear-gradient(to right, rgb(241, 180, 180), rgb(161, 228, 134), rgb
 
 
 .hero-text p{
-font-size:16px;
+font-size:20px;
 color: #eee;
 margin-top:10px;
 opacity:0.9;
@@ -2301,7 +2308,7 @@ function closeForm() {
 
     <h3 style="padding-bottom: 5px;"> <b>{% trans "Metro Advertisement - Be Seen by Thousands" %}</b></h3>
 
-    <p>{% trans "Promote your brand in high-traffic metro spaces with bold visual designs. Our creative advertising art captures attention instantly. Make your brand unforgettable for thousands of daily commuters." %}</p>
+    <p>{% trans "Align your brand with high-traffic metro spaces using bold visuals to reach daily commuters. Stay visible on the move and create a lasting impression that keeps your brand top-of-mind." %}</p>
 
     <div class="card-buttons">
 
@@ -2589,7 +2596,7 @@ function closeForm() {
 
     <h3 style="padding-bottom: 5px;"> <b>{% trans "Home Art - Make Your Home a Work of Art" %}</b></h3>
 
-    <p>{% trans "Enhance your living space with customized wall art and creative designs. Our artwork adds personality, beauty, and elegance to your home. Perfect for interiors that feel truly unique." %}</p>
+    <p>{% trans "Elevate your space with bespoke wall paintings and canvas art that add luxury and uniqueness. Expertly crafted by professional artists, each piece is a perfect masterpiece for your home." %}</p>
 
     <div class="card-buttons">
 

@@ -461,7 +461,7 @@ def api_update_employee_profile(request):
 
     # Banking + org fields
     employee.bank_account_holder_name = request.POST.get("bank_account_holder_name")
-    employee.account_no = request.POST.get("account_no")
+    employee.account_no = request.POST.get("account_no") or None
     employee.ifsc_code = request.POST.get("ifsc_code")
     employee.pan_card = request.POST.get("pan_card")
     employee.gst_no = request.POST.get("gst_no")

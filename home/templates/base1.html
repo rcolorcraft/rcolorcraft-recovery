@@ -1225,9 +1225,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <nav class="nav-right">
       <ul>
         <li>
-          <a href="javascript:void(0)" onclick="togglePopup()">
-            <img src="{% static 'gallery/user.png' %}" alt="Contact" class="nav-icon">
-          </a>
+          <a href="javascript:void(0)" id="userIcon" onclick="togglePopup()">
+    <img src="{% static 'gallery/user.png' %}" class="nav-icon">
+</a>
           <!-- Popup menu -->
           <div id="myPopup" class="popup-menu">
             <a href="{% url 'wallet_dashboard' %}">Wallet</a>
@@ -1371,20 +1371,27 @@ artistic touch to every space we work on.
   
   <!-- UPDATED JAVASCRIPT -->
   <script>
-    // Popup menu toggle
-    function togglePopup() {
-      const popup = document.getElementById("myPopup");
-      popup.style.display = (popup.style.display === "flex") ? "none" : "flex";
-    }
+  // Toggle dropdown
+function togglePopup() {
+    const popup = document.getElementById("myPopup");
 
-    // Close popup if clicked outside
-    document.addEventListener("click", function(event) {
-      const popup = document.getElementById("myPopup");
-      {% comment %} const icon = document.querySelector(".nav-icon"); {% endcomment %}
-      if (popup && !popup.contains(event.target) && !icon.contains(event.target)) {
-        popup.style.display = "flex";
-      }
-    });
+    if (popup.style.display === "block") {
+        popup.style.display = "none";
+    } else {
+        popup.style.display = "block";
+    }
+}
+
+document.addEventListener("click", function(event) {
+    const popup = document.getElementById("myPopup");
+    const icon = document.getElementById("userIcon");
+
+    if (!popup || !icon) return;
+
+    if (!popup.contains(event.target) && !icon.contains(event.target)) {
+        popup.style.display = "none";
+    }
+});
 
     // ===== HAMBURGER MENU FUNCTIONALITY =====
     const hamburger = document.getElementById('hamburgerMenu');
@@ -1476,7 +1483,7 @@ document.getElementById("artSearchInput").addEventListener("keydown", function(e
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
-        includedLanguages: 'hi,mr,pa,bn,gu,en',
+includedLanguages: 'en,hi,bn,mr,ta,te,gu,pa,ur,ar',
         autoDisplay: false
       }, 'google_translate_element');
       

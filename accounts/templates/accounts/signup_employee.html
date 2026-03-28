@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function sendEmployeeOTP() {
   const termsCheckbox = document.getElementById('terms_agreement');
-  const privacyCheckbox = document.getElementById('privacy_agreement');
+  {% comment %} const privacyCheckbox = document.getElementById('privacy_agreement'); {% endcomment %}
   const termsError = document.getElementById('termsError');
 
   // Validate terms and privacy checkboxes
