@@ -506,6 +506,8 @@ from decimal import Decimal
 import time
 from decimal import Decimal
 from wallet.models import Wallet, WalletTransaction
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -548,6 +550,7 @@ def edit_profile_view(request):
         employee = get_object_or_404(Employee, user=user)
 
         if request.method == "POST":
+
             prev_status = employee.status
             employee.fathers_name = request.POST.get("fathers_name")
             employee.dob = request.POST.get("dob")
@@ -561,12 +564,14 @@ def edit_profile_view(request):
             employee.experience = request.POST.get("experience")
 
             # Get multiple selected locations and join them
-            selected_locations = request.POST.getlist("preferred_work_location")
+            selected_locations = request.POST.getlist("preferred_location")
+            print("LOCATIONS:", selected_locations)
             employee.preferred_work_location = ", ".join(selected_locations)
 
             employee.bank_account_holder_name = request.POST.get(
                 "bank_account_holder_name"
             )
+
             employee.account_no = request.POST.get("account_no")
             employee.ifsc_code = request.POST.get("ifsc_code")
 
@@ -942,8 +947,6 @@ def verify_razorpay_payment(request):
         return JsonResponse(
             {"success": False, "error": "Payment signature verification failed"}
         )
-    except Exception as e:
-        return JsonResponse({"success": False, "error": str(e)})
 
 
 # Add this to your views.py or update your existing save_bookings view
@@ -965,12 +968,20 @@ def save_booking(request):
             return JsonResponse(
                 {"success": False, "message": "You must be logged in to book a service"}
             )
+        print("POST DATA:", request.POST)
 
         # --- Standard Fields ---
         service_name = request.POST.get("service_name")
+        customer_name = request.POST.get("customer_name")
+        print("NAME:", customer_name)
+        # 👈 YAHAN ADD KARO
         contact_number = request.POST.get("contact_number")
         email = request.POST.get("email")
         address = request.POST.get("address")
+        if not contact_number or not address:
+            return JsonResponse(
+                {"success": False, "message": "Contact & Address required"}
+            )
         pin_code = request.POST.get("pin_code")
         state = request.POST.get("state")
         city = request.POST.get("city")
@@ -997,7 +1008,6 @@ def save_booking(request):
         required_fields = [
             service_name,
             contact_number,
-            email,
             address,
             pin_code,
             state,
@@ -1092,6 +1102,7 @@ def save_booking(request):
             # --- FINAL AMOUNT FIX ---
             total_amount=total_amount,
         )
+
         # --- SEND BOOKING CONFIRMATION EMAIL ---
         try:
             subject = f"Booking Confirmation - {booking.booking_id}"
@@ -1139,11 +1150,19 @@ def save_booking(request):
                 [email],  # customer email
                 fail_silently=False,
             )
+
+            print("BOOKING SAVED:", booking)
         except Exception as email_error:
             print("EMAIL ERROR:", email_error)
 
         return JsonResponse(
-            {"success": True, "message": "Booking saved successfully", "id": booking.id}
+            {
+                "success": True,
+                "name": customer_name,
+                "booking_id": booking.booking_id,
+                "service": booking.service_name,
+                "amount": booking.total_amount,
+            }
         )
 
     except Exception as e:
@@ -1487,3 +1506,10 @@ def toggle_artist_status(request, booking_id):
         booking.save()
 
     return redirect("my_assignments")
+
+
+from django.shortcuts import render
+
+
+def my_bookings(request):
+    return render(request, "my_bookings.html")

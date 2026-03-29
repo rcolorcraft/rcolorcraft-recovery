@@ -1603,6 +1603,8 @@ display:block;
                 <label>{% trans "Service Name" %}</label>
                 <input type="text" name="service_name" value="{{ service_name }}" readonly>
 
+                <label>Full Name</label>
+<input type="text" name="customer_name" required>
                 <div class="contact-row">
                     <div class="contact-field">
                         <label>Contact Number</label>
@@ -1636,16 +1638,10 @@ display:block;
                 <div id="selectedDesignContainer"></div>
 
 <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-<input type="file" id="custom_design_input" multiple style="margin-top:10px;">
+{% comment %} <input type="file" id="custom_design_input" name="custom_design" multiple> {% endcomment %}
 <div id="image-preview" style="margin-top:10px;"></div>
 <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
 
-
-{% comment %} 
-<div class="form-group inline-row">
-  <label>Total Walls</label>
-  <input type="number" name="total_walls" class="small-walls" min="1">
-</div> {% endcomment %}
                <!-- Square Ft Section -->
 <div class="square-appointment-row">
     <div class="square-ft">
@@ -1653,17 +1649,15 @@ display:block;
 
        <!-- Square Ft -->
 <div class="square-ft-inputs">
-    <input type="number" id="width" placeholder="Width" min="1">
-    <span>*</span>
-    <input type="number" id="height" placeholder="Height" min="1">
-    <span>=</span>
-    <input type="number" id="total_sqft" placeholder="Total" readonly>
+    <input type="number" id="width" name="width" placeholder="Width" min="1">
+<input type="number" id="height" name="height" placeholder="Height" min="1">
+<input type="number" id="total_sqft" name="total_sqft" readonly>
 </div>
 
 <!-- Total Walls -->
 <div class="form-group inline-row">
     <label>Total Walls</label>
-    <input type="number" id="total_walls" min="1" value="1">
+<input type="number" id="total_walls" name="total_walls" min="1" value="1">
 </div>
 
 <!-- Hidden Design Price -->
@@ -1683,10 +1677,9 @@ display:block;
                 </div>
 
 <input type="hidden" id="total_amount_input" name="total_amount">
-<input type="hidden" id="booking_amount" name="booking_amount">
+{% comment %} <input type="hidden" id="booking_amount" name="booking_amount"> {% endcomment %}
 
-                <button type="button" onclick="saveBooking(event)">Book Now</button>
-
+<button type="submit" class="book-btn">Book Now</button>
             </form>
         </div>
     </div>
@@ -1808,6 +1801,7 @@ display:block;
 </div>
 <div id="toast" class="toast"></div>
 <!-- SCRIPTS -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
@@ -2114,6 +2108,8 @@ document.querySelector('input[name="total_walls"]').addEventListener("input", ca
         dateFormat: "d-m-Y",
         minDate: "today"
     });
+
+{% comment %} 
 function saveBooking(event) {
 
     // 🔥 MOST IMPORTANT LINE
@@ -2137,17 +2133,29 @@ function saveBooking(event) {
 
     console.log("FormData ready ✅");
 
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    let contact = document.querySelector('[name="contact_number"]').value;
+let address = document.querySelector('[name="address"]').value;
+
+formData.append("contact_number", contact);
+formData.append("address", address);
+
     $.ajax({
         url: '/home/save_booking/',
-        type: 'POST',
+        type: "POST",
         data: formData,
         processData: false,
         contentType: false,
+            headers: {
+        'X-CSRFToken': csrftoken   // ✅ THIS IS IMPORTANT
+    },
+
         success: function(resp) {
             alert("Booking successful 🎉");
         }
     });
-}
+} {% endcomment %}
 
 // // Handle payment mode change
 // document.getElementById("payment_mode").addEventListener("change", function() {
@@ -2570,6 +2578,76 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+
+$('.book-btn').on('click', function (e) {
+    e.preventDefault();
+
+    let formData = new FormData();
+
+    // 🔥 manually sab bhejo
+    let name = document.querySelector('[name="customer_name"]').value;
+formData.append("customer_name", name);
+    formData.append("service_name", $('[name="service_name"]').val());
+    formData.append("contact_number", $('[name="contact_number"]').val());
+    formData.append("email", $('[name="email"]').val());
+    formData.append("address", $('[name="address"]').val());
+    formData.append("pin_code", $('[name="pin_code"]').val());
+    formData.append("state", $('[name="state"]').val());
+    formData.append("city", $('[name="city"]').val());
+
+    formData.append("width", $("#width").val());
+    formData.append("height", $("#height").val());
+    formData.append("total_walls", $("#total_walls").val());
+    formData.append("total_sqft", $("#total_sqft").val());
+
+    formData.append("appointment_date", $("#appointment_date").val());
+    formData.append("total_amount", $("#total_amount_input").val());
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    $.ajax({
+        url: '/en/home/save_booking/',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+success: function(resp) {
+
+    if(resp.success){
+
+        Swal.fire({
+            title: `🎉 Thank You, ${resp.name}!`,
+            html: `
+                <p>Your booking is <b>confirmed</b> ✅</p>
+                <br>
+                <b>Booking ID:</b> ${resp.booking_id} <br>
+                <b>Service:</b> ${resp.service} <br>
+                <b>Total:</b> ₹${resp.amount}
+            `,
+            icon: 'success',
+            background: '#f0f9ff',
+            confirmButtonColor: '#6366f1'
+        }).then(() => {
+            window.location.href = "/";
+        });
+
+    } else {
+        Swal.fire({
+            title: 'Error ❌',
+            text: resp.message,
+            icon: 'error'
+        });
+    }
+}
+    });
+});
+
 </script>
+
+
 
 {% endblock %}

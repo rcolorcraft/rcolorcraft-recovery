@@ -27,6 +27,7 @@ urlpatterns = [
     path("save_review/", views.save_review, name="save_review"),
     path("logout/", views.logout_view, name="logout"),
     path("artists/", views.artists, name="artists"),
+    path("my-bookings/", views.my_bookings, name="my_bookings"),
     path("bookings/", views.bookings, name="bookings"),
     path(
         "bookings/update-status/<int:booking_id>/",
