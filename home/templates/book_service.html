@@ -2619,28 +2619,49 @@ success: function(resp) {
 
     if(resp.success){
 
-        Swal.fire({
-            title: `🎉 Thank You, ${resp.name}!`,
-            html: `
-                <p>Your booking is <b>confirmed</b> ✅</p>
-                <br>
-                <b>Booking ID:</b> ${resp.booking_id} <br>
-                <b>Service:</b> ${resp.service} <br>
-                <b>Total:</b> ₹${resp.amount}
-            `,
-            icon: 'success',
-            background: '#f0f9ff',
-            confirmButtonColor: '#6366f1'
-        }).then(() => {
-            window.location.href = "/";
-        });
+      Swal.fire({
+    title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
+    html: `
+        <div style="font-size:15px; line-height:1.6;">
+            <b>Your booking has been successfully confirmed ✅</b><br><br>
 
-    } else {
-        Swal.fire({
-            title: 'Error ❌',
-            text: resp.message,
-            icon: 'error'
-        });
+            📌 <b>Booking ID:</b> ${resp.booking_id}<br>
+            🎨 <b>Service:</b> ${resp.service}<br>
+            💰 <b>Total Amount:</b> ₹${resp.amount}<br><br>
+
+            🚀 Our team will contact you shortly.<br>
+            Thank you for choosing us ❤️
+        </div>
+    `,
+    icon: 'success',
+    background: '#f8fbff',
+
+    showCancelButton: true,   // ➕ Book Another
+    showCloseButton: true,    // ❌ Cut button (top corner)
+
+    confirmButtonText: "🏠 Go to Home",
+    cancelButtonText: "➕ Book Another",
+
+    confirmButtonColor: "#4CAF50",
+    cancelButtonColor: "#6c757d"
+
+}).then((result) => {
+
+    if (result.isConfirmed) {
+        // 👉 Home Page
+        window.location.href = "/";
+    } 
+    else if (result.dismiss === Swal.DismissReason.cancel) {
+        // 👉 Book Another → form reset
+        document.querySelector("form").reset();
+        window.location.reload(); // simple way to reset everything
+    } 
+    else if (result.dismiss === Swal.DismissReason.close) {
+        // 👉 ❌ Cut button → kuch nahi (same data rahega)
+        console.log("Popup closed, continue editing");
+    }
+
+});
     }
 }
     });

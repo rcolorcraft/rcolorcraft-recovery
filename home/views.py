@@ -638,11 +638,16 @@ def edit_profile_view(request):
                         }
                     )
             else:
+                employee.full_name = request.POST.get("full_name")
                 employee.status = is_ready
                 employee.save()
                 print("Profile saved")
                 return JsonResponse(
-                    {"success": True, "message": "Profile updated successfully!"}
+                    {
+                        "success": True,
+                        "message": "Profile updated successfully!",
+                        "name": employee.full_name,
+                    }
                 )
 
         # For GET requests - prepare context

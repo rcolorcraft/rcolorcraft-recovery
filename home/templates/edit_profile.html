@@ -548,8 +548,7 @@ input:checked + .slider:before {
                 <div class="grid-2">
                     <div class="full-width">
                         <label>Full Name <span class="star">*</span></label>
-                        <input type="text" value="{{ name|default_if_none:'' }}" required>
-                    </div>
+<input type="text" name="full_name" value="{{ name|default_if_none:'' }}" placeholder="Enter your name" required>                    </div>
 
                     <div>
                         <label>Email <span class="star">*</span></label>
@@ -832,45 +831,53 @@ $(document).ready(function () {
     }
 
     /* ================= FORM SUBMIT ================= */
-    $('.edit-profile-container').on('submit', function (e) {
-        e.preventDefault();
 
-        if (!validateForm()) return;
+   $('.edit-profile-container').on('submit', function (e) {
+    e.preventDefault();  // ✅ page reload रोकेगा
 
-        const formData = new FormData(this);
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+    const formData = new FormData(this);
+    const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
-        $.ajax({
-            url: "{% url 'edit_profile' %}",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: { "X-CSRFToken": csrftoken },
+    $.ajax({
+        url: "{% url 'edit_profile' %}",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: { "X-CSRFToken": csrfToken },
 
-            success: function (res) {
-                console.log("RESPONSE:", res);
+        success: function (res) {
 
-                if (res.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Profile Updated!",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    alert("❌ " + (res.message || "Something went wrong"));
-                }
-            },
+            console.log("RESPONSE:", res); // 🔍 debug
 
-            error: function (err) {
-                console.log("ERROR:", err);
-                alert("❌ Server error");
+            if (res && res.success) {
+
+                const name = res.name || "Artist";  // ✅ FIX
+
+                Swal.fire({
+                    icon: "success",
+                    title: `✨ ${name}, You're Ready to Shine!`,
+                    html: `
+                        🎨 <b>Your Creative Profile is Live</b><br><br>
+                        Clients can now find you 🚀
+                    `,
+                    confirmButtonText: "Let's Go 🔥",
+                    confirmButtonColor: "#ff6b6b"
+                }).then(() => {
+                    window.location.href = "/home/";  // ✅ redirect
+                });
+
+            } else {
+                alert("❌ " + (res.message || "Something went wrong"));
             }
-        });
+        },
+
+        error: function () {
+            alert("❌ Server error");
+        }
     });
+});
+});
 
     /* ================= ORG TOGGLE ================= */
     $('#belong_to_org').on('change', function () {
@@ -906,7 +913,6 @@ $(document).ready(function () {
 
     });
 
-});
 </script>
 
 {% endblock %}
