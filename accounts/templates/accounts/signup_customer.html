@@ -376,7 +376,7 @@ body::before {
   100% { opacity: 0; transform: translateY(-20px); }
 }
 </style>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
 let currentCustomerId = null;
@@ -434,36 +434,43 @@ function sendOTP() {
         }
     });
 }
-
 function verifyOTP() {
-    const otp = $('#otpInput').val();
+    const otp = $("#otpInput").val();
 
-    // Show loader
-    $('#loadingOverlay').css("display", "flex");
-    $('.loader-text').text('Verifying OTP...');
+    $("#loadingOverlay").css("display", "flex");
+    $(".loader-text").text("Verifying OTP...");
 
     $.ajax({
         url: '{% url "accounts:verify_customer_otp" %}',
-        type: 'POST',
-        data: {otp: otp},
+        type: "POST",
+        data: {
+            otp: otp,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+
         success: function(response) {
-            $('#loadingOverlay').hide();
-            
-            if(response.success) {
-                showAlert('Verification successful!', "success");
+            console.log("RESPONSE:", response); // 🔥 debug
+
+            $("#loadingOverlay").hide();
+
+            if (response.success) {
+                showAlert("🎉 Account Created Successfully!", "success");
+
                 closeOtpModal();
+
                 setTimeout(() => {
-                    window.location.href = '/accounts/login/';
-                }, 1000);
+                    window.location.href = "/accounts/login/";
+                }, 1500);
+
             } else {
-                showAlert('Invalid OTP. Please try again.', "error");
-                $('.loader-text').text('Sending OTP...');
+                showAlert(response.error || "Invalid OTP ❌", "error");
             }
         },
+
         error: function(xhr) {
-            $('#loadingOverlay').hide();
-            showAlert('Something went wrong!', "error");
-            $('.loader-text').text('Sending OTP...');
+            console.log("ERROR:", xhr.responseText); // 🔥 debug
+            $("#loadingOverlay").hide();
+            showAlert("Server Error ❌", "error");
         }
     });
 }

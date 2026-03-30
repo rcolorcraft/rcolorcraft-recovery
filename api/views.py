@@ -42,8 +42,27 @@ def save_customer_signup_api(request):
 
             # Send OTP email
             send_mail(
-                subject="Your Painting App OTP",
-                message=f"Hello {full_name},\n\nYour OTP is: {otp}",
+                subject="🎨 Rcolorcraft - Customer Email Verification OTP",
+                message=f"""
+Dear {full_name},
+
+Welcome to Rcolorcraft.. 🎨
+
+Thank you for signing up as a customer.
+
+Your One-Time Password (OTP) for account verification is:
+
+🔐 OTP: {otp}
+
+⏳ This OTP is valid for 2 minutes.
+⚠️ Do not share this OTP with anyone.
+
+If you did not request this, please ignore this email.
+
+Warm Regards,  
+ ** Rcolorcraft Team ** 
+📧 info@rcolorcraft.com
+""",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
                 fail_silently=False,
@@ -583,8 +602,36 @@ def save_employee_signup_api(request):
 
         # Send OTP via email
         send_mail(
-            subject="Your Painting Employee Signup OTP",
-            message=f"Hello {full_name},\n\nYour OTP is: {otp}",
+            subject="🎨 Rcolorcraft - Employee Verification OTP",
+            message=f"""
+Dear {full_name},
+
+Welcome to Rcolorcraft 🎨
+
+Thank you for registering as a team member.
+
+━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 Your One-Time Password (OTP)
+
+👉 {otp}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+
+⏳ This OTP is valid for 2 minutes  
+🔒 Please do not share this OTP with anyone
+
+We are excited to have you on our team!
+
+If you did not request this, please ignore this email.
+
+━━━━━━━━━━━━━━━━━━━━━━━
+
+Best Regards,  
+** Rcolorcraft Team ** 
+📧 info@rcolorcraft.com  
+🌐 www.rcolorcraft.com
+""",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
             fail_silently=False,
