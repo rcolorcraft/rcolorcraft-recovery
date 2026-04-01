@@ -1518,10 +1518,3 @@ from django.shortcuts import render
 
 def my_bookings(request):
     return render(request, "my_bookings.html")
-
-
-import os
-from django.conf import settings
-
-TEMP_DIR = os.path.join(settings.MEDIA_ROOT, "temp")
-os.makedirs(TEMP_DIR, exist_ok=True)
