@@ -178,3 +178,98 @@ table {
     padding: 12px !important;
   }
 }
+
+/* 📱 Mobile */
+@media (max-width: 576px) {
+    .services-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+        padding: 10px;
+    }
+}
+
+/* 📲 Tablet */
+@media (min-width: 577px) and (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* 💻 Desktop */
+@media (min-width: 993px) {
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 🔥 HERO RESPONSIVE FIX */
+
+/* Default */
+.hero-content {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.hero-overlay {
+  padding: 25px;
+  border-radius: 15px;
+}
+
+/* 📱 Mobile */
+@media (max-width: 576px) {
+
+  .hero-section {
+    padding: 40px 10px !important;
+  }
+
+  .hero-content {
+    width: 95% !important;
+  }
+
+  .hero-overlay {
+    padding: 15px !important;
+  }
+
+  .hero-text h1 {
+    font-size: 22px !important;
+  }
+
+  .hero-text p {
+    font-size: 14px !important;
+  }
+
+  .hero-text button {
+    width: 100% !important;
+    font-size: 14px;
+  }
+}
+
+/* 📲 Tablet */
+@media (min-width: 577px) and (max-width: 992px) {
+
+  .hero-content {
+    width: 80%;
+  }
+
+  .hero-text h1 {
+    font-size: 30px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+

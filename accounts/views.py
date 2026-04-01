@@ -38,6 +38,11 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
+import os
+from django.conf import settings
+
+TEMP_DIR = os.path.join(settings.MEDIA_ROOT, "temp")
+os.makedirs(TEMP_DIR, exist_ok=True)
 
 
 @csrf_exempt
@@ -73,8 +78,7 @@ def save_customer_signup(request):
             }
 
             # ✅ PROFESSIONAL EMAIL
-            message = (
-                f"""
+            message = f"""
 Dear {full_name},
 
 
@@ -101,8 +105,7 @@ If you did not request this signup, you can safely ignore this email.
 Best regards,  
 ** RColorCraftTeam ** 
 📧 info@rcolorcraft.com
-""",
-            )
+"""
 
             from django.core.mail import send_mail
 
@@ -128,7 +131,7 @@ def verify_customer_otp(request):
     if request.method == "POST":
 
         otp_entered = str(request.POST.get("otp")).strip()
-        otp_saved = str(request.session.get("otp")).strip()
+        otp_saved = str(request.session.get("otp", "")).strip()
         signup_data = request.session.get("signup_data")
 
         # ❌ removed debug prints

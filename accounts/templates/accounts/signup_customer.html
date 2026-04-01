@@ -447,6 +447,9 @@ function verifyOTP() {
             otp: otp,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
+        xhrFields: {
+    withCredentials: true
+},
 
         success: function(response) {
             console.log("RESPONSE:", response); // 🔥 debug

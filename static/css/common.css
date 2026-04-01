@@ -1,4 +1,4 @@
-{
+/* {
 
 margin: 0;
 
@@ -9,7 +9,7 @@ box-sizing: border-box;
 font-family: Arial, sans-serif;
 
 
-}
+} */
 
 body {
 
@@ -806,7 +806,7 @@ border-radius: 18px;
 
 padding: 14px;
 
-width: 200px;
+/* width: 200px; */
 height:600px;
 
 min-height: 300px;
