@@ -36,7 +36,7 @@ class Booking(models.Model):
     service_name = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=20)
     email = models.EmailField(blank=True, null=True)
-    address = models.TextField()
+    address = models.TextField(blank=True, null=True)
     pin_code = models.CharField(max_length=10)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)

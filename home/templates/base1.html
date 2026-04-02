@@ -113,80 +113,139 @@ body.gt-active header {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
   }
+/* ===== FLOATING LARGE ORDER BUTTON ===== */
+.mobile-large-order {
+  position: fixed;
+  bottom: 110px;
+  right: 55px;
+  z-index: 99999;
+}
 
-  /* ========== LARGE ORDER BUTTON STYLES ========== */
-  
-  /* Mobile Large Order Button Container */
+.large-order-btn-mobile::before {
+  content: "Order Now";
+  position: absolute;
+  top: -35px;
+  right: 0;
+  background: black;
+  color: white;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+/* ===== BUTTON STYLE ===== */
+.large-order-btn-mobile {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+
+  /* Gradient Premium Look */
+  background: linear-gradient(135deg, rgb(64, 36, 226), hsl(219, 93%, 73%));
+  color: #fff;
+  font-size: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Glow Effect */
+  box-shadow: 0 0 15px hsl(239, 56%, 68%),
+              0 0 30px rgba(180, 104, 241, 0.4);
+
+  position: relative;
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
+
+
+/* ===== HOVER EFFECT ===== */
+.large-order-btn-mobile:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 0 25px hsla(226, 93%, 71%, 0.90),
+              0 0 40px hsla(207, 95%, 78%, 0.97);
+}
+
+/* ===== CLICK EFFECT ===== */
+.large-order-btn-mobile:active {
+  transform: scale(0.95);
+}
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 106, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px hsla(204, 79%, 69%, 0.98),
+                0 0 40px rgba(238, 9, 121, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(88, 71, 243, 0.97);
+  }
+}
+
+.large-order-btn-mobile {
+  animation: pulseGlow 1.8s infinite;
+}
+
+/* ===== RIPPLE EFFECT ===== */
+.large-order-btn-mobile::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  animation: ripple 2s infinite;
+  z-index: -1;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* ===== ICON ANIMATION ===== */
+.large-order-btn-mobile i {
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* ===== CHAT BUTTON BELOW ===== */
+.chat-btn,
+.whatsapp-widget {
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 1000 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
   .mobile-large-order {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
+    bottom: 100px;
   }
 
-  /* Mobile Large Order Button - Floating Action Button Style */
-  .large-order-btn-mobile {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    font-size: 1.8rem;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulse 2s infinite;
-  }
-
-  .large-order-btn-mobile:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.7);
-  }
-
-  .large-order-btn-mobile:active {
-    transform: scale(0.95);
-  }
-
-  /* Pulse animation for attention */
-  @keyframes pulse {
-    0%, 100% {
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-    }
-    50% {
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.8), 0 0 0 10px rgba(102, 126, 234, 0.1);
-    }
-  }
-
-  /* Desktop - Large Order Button in Nav */
-  .large-order-btn {
-    background: white;
-    color: #667eea;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255,255,255,0.3);
-    font-size: 0.9rem;
-    margin-left: 10px;
-  }
-
-  .large-order-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  }
-
-  /* Make button work inside nav list */
-  .nav-left ul li {
-    display: inline-block;
-    vertical-align: middle;
-  }
+  
+}
 
   /* ========== POPUP OVERLAY STYLES ========== */
   
@@ -849,11 +908,13 @@ body.gt-active header {
       </nav>
     </div>
 
-<div class="mobile-large-order">
-  <button class="large-order-btn-mobile" onclick="openPopup()">
-    📦
-  </button>
+    <div class="mobile-large-order">
+    <button class="large-order-btn-mobile" onclick="openPopup()">
+        <span class="icon">📦</span>
+        {% comment %} <span class="text">Large Order</span> {% endcomment %}
+    </button>
 </div>
+
 
 <!-- ART SEARCH BAR -->
 <div class="art-search-container">
@@ -1499,7 +1560,7 @@ document.getElementById("artSearchInput").addEventListener("keydown", function(e
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
-includedLanguages: 'en,hi,bn,mr,ta,te,gu,pa',
+includedLanguages: 'en,hi,bn,mr,ta,te,gu,pa,ur,ar',
         autoDisplay: false
       }, 'google_translate_element');
       

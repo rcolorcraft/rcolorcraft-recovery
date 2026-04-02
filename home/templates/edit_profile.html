@@ -63,12 +63,13 @@ h1 {
 
 /* MAIN SELECT BOX */
 .select2-container--default .select2-selection--multiple {
-  min-height: 45px;
+  min-height: 45px !important;
   border-radius: 12px !important;
   border: 1px solid #dcdcdc !important;
-  padding: 6px 8px;
+  padding: 6px 10px;
   display: flex;
-  align-items: center;
+  align-items: center !important;
+  height: auto !important;
   gap: 5px;
   transition: 0.2s;
 }
@@ -119,8 +120,10 @@ h1 {
 
 /* SEARCH INPUT */
 .select2-search__field {
+    {% comment %} text-align: center; {% endcomment %}
+    width: 100%;
   font-size: 14px !important;
-  padding: 5px !important;
+  padding: 1px !important;
 }
 
 /* PLACEHOLDER */
@@ -491,7 +494,7 @@ input:checked + .slider:before {
 </style>
 <main class="edit-profile-page">
 
-    {% if not fathers_name or not dob or not aadhar_card_no or not passport_photo %}
+    {% if not full_name or not dob or not aadhar_card_no  %}
     <div class="warning-alert">
         <strong>⚠️ Profile Incomplete!</strong>
         <p>Please complete all required fields to access other features. You can only access your wallet until your profile is complete..</p>
@@ -561,8 +564,8 @@ input:checked + .slider:before {
                     </div>
 
                     <div>
-                        <label>Father's Name <span class="star">*</span></label>
-                        <input type="text" name="fathers_name" value="{{ fathers_name|default_if_none:'' }}" required>
+                        <label>Father's Name </label>
+                        <input type="text" name="fathers_name" value="{{ fathers_name|default_if_none:'' }}" ....>
                     </div>
 
                     <div>
@@ -583,18 +586,18 @@ input:checked + .slider:before {
 
                 <div class="grid-2">
                     <div class="full-width">
-                        <label>Full Address <span class="star">*</span></label>
-                        <textarea name="full_address" required>{{ full_address|default_if_none:'' }}</textarea>
+                        <label>Full Address</label>
+                        <textarea name="full_address" ..>{{ full_address|default_if_none:'' }}</textarea>
                     </div>
 
                     <div>
-                        <label>State <span class="star">*</span></label>
-                        <input type="text" name="state" value="{{ state|default_if_none:'' }}" required>
+                        <label>State </span></label>
+                        <input type="text" name="state" value="{{ state|default_if_none:'' }}" ....>
                     </div>
 
                     <div>
-                        <label>Pincode <span class="star">*</span></label>
-                        <input type="text" name="pincode" value="{{ pincode|default_if_none:'' }}" required>
+                        <label>Pincode </span></label>
+                        <input type="text" name="pincode" value="{{ pincode|default_if_none:'' }}" ...>
                     </div>
                 </div>
             </div>
@@ -610,8 +613,8 @@ input:checked + .slider:before {
                     </div>
 
                     <div>
-                        <label>PAN Card <span class="star">*</span></label>
-                        <input type="text" name="pan_card" value="{{ pan_card|default_if_none:'' }}" required>
+                        <label>PAN Card</label>
+                        <input type="text" name="pan_card" value="{{ pan_card|default_if_none:'' }}" ...>
                     </div>
 
                     <div class="full-width aadhar-section">
@@ -744,22 +747,22 @@ input:checked + .slider:before {
 
             <!-- BANK DETAILS -->
             <div class="form-section">
-                <h3>Bank Details (Mandatory)</h3>
+                <h3>Bank Details</h3>
 
                 <div class="grid-2">
                     <div>
-                        <label>Account Holder Name <span class="star">*</span></label>
-                        <input type="text" name="bank_account_holder_name" value="{{ bank_account_holder_name|default_if_none:'' }}" required>
+                        <label>Account Holder Name </label>
+                        <input type="text" name="bank_account_holder_name" value="{{ bank_account_holder_name|default_if_none:'' }}" ...>
                     </div>
 
                     <div>
-                        <label>Account No <span class="star">*</span></label>
-                        <input type="text" name="account_no" value="{{ account_no|default_if_none:'' }}" required>
+                        <label>Account No </label>
+                        <input type="text" name="account_no" value="{{ account_no|default_if_none:'' }}" ...>
                     </div>
 
                     <div>
-                        <label>IFSC Code <span class="star">*</span></label>
-                        <input type="text" name="ifsc_code" value="{{ ifsc_code|default_if_none:'' }}" required>
+                        <label>IFSC Code </label>
+                        <input type="text" name="ifsc_code" value="{{ ifsc_code|default_if_none:'' }}" ...>
                     </div>
                 </div>
             </div>

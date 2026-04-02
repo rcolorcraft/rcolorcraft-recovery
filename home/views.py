@@ -552,7 +552,7 @@ def edit_profile_view(request):
         if request.method == "POST":
 
             prev_status = employee.status
-            employee.fathers_name = request.POST.get("fathers_name")
+            employee.fathers_name = request.POST.get("fathers_name") or None
             employee.dob = request.POST.get("dob")
             employee.gender = request.POST.get("gender")
             employee.house_no = request.POST.get("house_no")
@@ -568,12 +568,12 @@ def edit_profile_view(request):
             print("LOCATIONS:", selected_locations)
             employee.preferred_work_location = ", ".join(selected_locations)
 
-            employee.bank_account_holder_name = request.POST.get(
-                "bank_account_holder_name"
+            employee.bank_account_holder_name = (
+                request.POST.get("bank_account_holder_name") or None
             )
 
-            employee.account_no = request.POST.get("account_no")
-            employee.ifsc_code = request.POST.get("ifsc_code")
+            employee.account_no = request.POST.get("account_no") or None
+            employee.ifsc_code = request.POST.get("ifsc_code") or None
 
             # NEW: Handle the three new optional fields
             employee.full_address = request.POST.get("full_address")
