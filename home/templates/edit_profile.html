@@ -854,18 +854,21 @@ $(document).ready(function () {
 
                 const name = res.name || "Artist";  // ✅ FIX
 
-                Swal.fire({
-                    icon: "success",
-                    title: `✨ ${name}, You're Ready to Shine!`,
-                    html: `
-                        🎨 <b>Your Creative Profile is Live</b><br><br>
-                        Clients can now find you 🚀
-                    `,
-                    confirmButtonText: "Let's Go 🔥",
-                    confirmButtonColor: "#ff6b6b"
-                }).then(() => {
-                    window.location.href = "/home/";  // ✅ redirect
-                });
+         Swal.fire({
+    title: "Profile Under Processing",
+    html: `
+        🎉 Your profile is under processing.<br><br>
+        ⏳ KYC process is 50% completed.<br>
+        🕒 It will take 4-5 days.<br><br>
+        📞 You may receive a verification call.<br><br>
+        🚫 Profile will go live after approval.
+    `,
+    icon: "info",
+    confirmButtonText: "OK 👍",
+    confirmButtonColor: "#ff6b6b"
+}).then(() => {
+    window.location.href = "/home/";
+});
 
             } else {
                 alert("❌ " + (res.message || "Something went wrong"));

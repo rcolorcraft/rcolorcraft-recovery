@@ -194,3 +194,6 @@ class Customer(models.Model):
 
 class Artist(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    status = models.BooleanField(default=False)  # LIVE control
+    kyc_status = models.CharField(max_length=20, default="pending")  # KYC status
