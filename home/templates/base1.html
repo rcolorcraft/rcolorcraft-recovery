@@ -351,7 +351,7 @@ body.gt-active header {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    background: #f0f0f0;
+    background: rgb(37, 90, 238);
     border: none;
     width: 35px;
     height: 35px;
@@ -365,14 +365,14 @@ body.gt-active header {
   }
 
   .close-btn:hover {
-    background: #e0e0e0;
+    background: rgb(247, 19, 19);
     transform: rotate(90deg);
   }
 
   .close-btn svg {
     width: 16px;
     height: 16px;
-    fill: #666;
+    fill: rgb(247, 7, 7);
     pointer-events: none;
   }
 
@@ -1003,13 +1003,16 @@ body.gt-active header {
   display: flex;
   gap: 6px;
   z-index: 999;
+  justify-content:flex-start;
 }
 
 .art-search-container input {
   padding: 1px 1px;
+  padding-left:15px;
   border-radius: 10px;
   border: 1px solid #ddd;
   min-width: 100px;
+  width:220px;
   outline: none;
 }
 
@@ -1123,6 +1126,9 @@ body.gt-active header {
     padding: 5px 6px !important;
     max-width: 85px !important;
   }
+  
+  
+  
   .art-search-container {
     padding: 8px 10px;
   }
