@@ -122,7 +122,6 @@ body.gt-active header {
 }
 
 .large-order-btn-mobile::before {
-  content: "Order Now";
   position: absolute;
   top: -35px;
   right: 0;
@@ -135,28 +134,36 @@ body.gt-active header {
 
 /* ===== BUTTON STYLE ===== */
 .large-order-btn-mobile {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
 
-  /* Gradient Premium Look */
-  background: linear-gradient(135deg, rgb(64, 36, 226), hsl(219, 93%, 73%));
-  color: #fff;
-  font-size: 26px;
+    {% comment %} padding: 10px 14px;   /* width/height hatao */ {% endcomment %}
+    border-radius: 30px;  /* circle ki jagah oval */
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+
+    background: linear-gradient(135deg, rgb(64, 36, 226), hsl(219, 93%, 73%));
+    color: #fff;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+
+    transition: all 0.3s ease;
+
 
   /* Glow Effect */
   box-shadow: 0 0 15px hsl(239, 56%, 68%),
               0 0 30px rgba(180, 104, 241, 0.4);
 
-  position: relative;
-  overflow: hidden;
 
   transition: all 0.3s ease;
 }
@@ -217,9 +224,9 @@ body.gt-active header {
 }
 
 /* ===== ICON ANIMATION ===== */
-.large-order-btn-mobile i {
+{% comment %} .large-order-btn-mobile i {
   animation: bounce 1s infinite alternate;
-}
+} {% endcomment %}
 
 @keyframes bounce {
   from {
@@ -897,12 +904,14 @@ body.gt-active header {
 
           <li>
           <button class="large-order-btn" onclick="openPopup()">
-                Large Order? 📦
+                Bulk Order? 📦
             </button>
             </li>
           {% endif %}
           {% if request.user.is_authenticated and request.user.role == "employee" %}
                     <li><a href="{% url 'employee_bookings' %}" class="{% if 'assignments' in request.path %}active{% endif %}">My Assignments</a></li>
+                        <li><a href="{% url 'service_images' %}">Art Images</a></li>
+
                     {% endif %}
         </ul>
       </nav>
@@ -910,8 +919,8 @@ body.gt-active header {
 
     <div class="mobile-large-order">
     <button class="large-order-btn-mobile" onclick="openPopup()">
-        <span class="icon">📦</span>
-        {% comment %} <span class="text">Large Order</span> {% endcomment %}
+        <i class="icon">📦</i>
+        <span class="text">Bulk Order</span>
     </button>
 </div>
 
@@ -1226,7 +1235,7 @@ animation: glow 2s infinite;
                 </svg>
             </div>
             <h2>Bulk Orders Welcome!</h2>
-            <p class="popup-subtitle">We're here to help with your large orders</p>
+            <p class="popup-subtitle">We're here to help with your bulk orders</p>
         </div>
 
         <div class="popup-content">
