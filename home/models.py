@@ -195,5 +195,16 @@ class Customer(models.Model):
 class Artist(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    status = models.BooleanField(default=False)  # LIVE control
-    kyc_status = models.CharField(max_length=20, default="pending")  # KYC status
+    is_active = models.BooleanField(default=False)  # admin approve karega
+    kyc_status = models.CharField(
+        max_length=20,
+        choices=[
+            ("pending", "Pending"),
+            ("approved", "Approved"),
+            ("rejected", "Rejected"),
+        ],
+        default="pending",
+    )
+
+    def __str__(self):
+        return self.user.username

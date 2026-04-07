@@ -515,7 +515,25 @@ def verify_employee_otp(request):
 
 
 def signup_customer(request):
-    return render(request, "accounts/signup_customer.html")
+    if request.method == "POST":
+        try:
+            full_name = request.POST.get("customer_full_name")
+
+            # ✅ VALIDATION
+            if not full_name or full_name.strip() == "":
+                return JsonResponse(
+                    {"success": False, "error": "Full Name is required"}
+                )
+
+            # 👉 baaki signup logic
+            return JsonResponse(
+                {"success": True, "message": "Customer registered successfully"}
+            )
+
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+
+    return JsonResponse({"success": False, "error": "Invalid request method"})
 
 
 def signup_employee(request):

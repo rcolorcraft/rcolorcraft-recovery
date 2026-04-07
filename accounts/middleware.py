@@ -1,6 +1,5 @@
-# accounts/middleware.py
 from django.shortcuts import redirect
-from django.urls import reverse, resolve, Resolver404
+from django.urls import resolve, Resolver404
 from .models import Employee
 
 
@@ -9,7 +8,8 @@ class ProfileCompletionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # List of URLs that don't require profile completion
+        request.profile_incomplete = False  # default
+
         allowed_urls = [
             "/edit_profile/",
             "/wallet/",
@@ -19,14 +19,13 @@ class ProfileCompletionMiddleware:
             "/accounts/verify_employee_otp/",
             "/accounts/save_customer_signup/",
             "/accounts/verify_customer_otp/",
-            "/logout/",  # Added this
-            "/login/",  # Added this for safety
+            "/logout/",
+            "/login/",
             "/media/",
             "/static/",
             "/admin/",
         ]
 
-        # Also allow by URL name
         allowed_url_names = [
             "logout",
             "login",
@@ -34,7 +33,6 @@ class ProfileCompletionMiddleware:
             "wallet",
         ]
 
-        # Check if user is authenticated and is an employee
         if (
             request.user.is_authenticated
             and hasattr(request.user, "role")
@@ -42,10 +40,8 @@ class ProfileCompletionMiddleware:
         ):
             current_path = request.path
 
-            # Check if current path is in allowed URLs
             is_allowed = any(current_path.startswith(url) for url in allowed_urls)
 
-            # Also check by URL name
             if not is_allowed:
                 try:
                     resolved = resolve(current_path)
@@ -54,23 +50,19 @@ class ProfileCompletionMiddleware:
                 except Resolver404:
                     pass
 
-            if not is_allowed:
-                try:
-                    employee = Employee.objects.get(user=request.user)
+            try:
+                employee = Employee.objects.get(user=request.user)
 
-                    # Check if profile is incomplete
-                    if (
-                        not employee.fathers_name
-                        or not employee.dob
-                        or not employee.aadhar_card_no
-                        or not employee.passport_photo
-                    ):
+                if (
+                    not employee.fathers_name
+                    or not employee.dob
+                    or not employee.aadhar_card_no
+                    or not employee.passport_photo
+                ):
+                    request.profile_incomplete = True
 
-                        # Redirect to edit profile
-                        return redirect("/edit_profile/")
-
-                except Employee.DoesNotExist:
-                    pass
+            except Employee.DoesNotExist:
+                pass
 
         response = self.get_response(request)
         return response

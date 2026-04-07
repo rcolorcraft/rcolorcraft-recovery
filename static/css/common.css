@@ -1940,15 +1940,16 @@ align-items: center;
 text-align: center;
 text-decoration: none;
 color: #333; 
-margin:0 25px;
+margin:0 12px;
 font-size: 1rem;
 font-weight: 700; 
 transition: all 0.3s ease;
 flex-shrink: 0; 
 /* FIX 2: Increased width significantly to prevent text truncation */
-width: 150px; 
+width: 120px; 
 /* FIX 1: Added top margin to ensure space above the item, preventing cutoff on hover */
 margin-top: 10px;
+
 }
 This is the text under the circle
 
@@ -2018,9 +2019,9 @@ transform: translateY(-6px) scale(1.05);
 
 .explore-circle {
 
-width: 95px;
+width: 110px;
 
-height: 95px;
+height: 110px;
 
 border-radius: 50%; 
 

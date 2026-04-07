@@ -78,6 +78,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "accounts.middleware.ProfileCompletionMiddleware",
+    # "django.contrib.auth.context_processors.auth",
 ]
 
 ROOT_URLCONF = "ras.urls"
