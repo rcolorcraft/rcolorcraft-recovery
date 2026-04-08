@@ -522,13 +522,14 @@ margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 9999;
 }
 
 /* MAIN POPUP */
 .bulk-popup {
   width: 380px;
   padding: 25px 20px;
+  z-index: 10000;
 
   background: linear-gradient(145deg, #b07a4a, #7a4b28);
 border-radius: 10px;
@@ -546,6 +547,20 @@ border-radius: 10px;
   font-family: 'playfair display',serif;
 }
 
+
+.contact-link {
+  display: block;
+  text-decoration: none;
+  color: #222;
+  font-weight: 600;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.contact-link:hover {
+  color: #2ecc71;
+  transform: translateX(3px);
+}
 
 
 
@@ -569,6 +584,8 @@ border-radius: 10px;
   font-size: 18px;
   cursor: pointer;
   color: #fff;
+  margin-top:10px;
+  z-index:10;
   
 }
 
@@ -579,23 +596,29 @@ border-radius: 10px;
 }
 /* LOGO */
 .logo {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
   font-family: serif;
   opacity: 0.9;
-  color:#f5d7a1;
+  color:#ffd7a1;
 }
 
 
 /* TITLE */
 .bulk-popup h1 {
     color:fff;
-    text-shadow: 0 2px 3px rgba(0,0,0,0.6);
+  text-shadow: 
+    0 2px 3px rgba(0,0,0,0.6),
+    0 0 10px rgba(255,215,0,0.3);
   font-size: 45px;
   font-weight: 800;
   margin: 10px 0;
   letter-spacing: 1px;
+}
+
+.bulk-popup h1 span {
+    color:oklab(82.73700000000001% 0.0498 0.07015);
 }
 
 /* SUBTITLE */
@@ -619,9 +642,9 @@ border-radius: 10px;
   color: #333;
   border-radius: 10px;
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 15px ;
   font-size: 13px;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .close-btn {
@@ -633,6 +656,13 @@ border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size:16px;
+  opacity: 0.8;
+}
+
+.close-btn:hover{
+opacity:1;
+transform:scale(1.1);
 }
 
 .contact-box p {
@@ -643,8 +673,9 @@ border-radius: 10px;
 .cta-btn {
   width: 100%;
   padding: 10px;
+
   background: linear-gradient(135deg, #3ddc97, #2ecc71);
-  font-weight: 600; 
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);  font-weight: 600; 
    border: none;
   border-radius: 6px;
   color: white;
@@ -655,6 +686,7 @@ border-radius: 10px;
 
 .cta-btn:hover {
   background: #27ae60;
+    transform: translateY(-2px);
 }
 
 
