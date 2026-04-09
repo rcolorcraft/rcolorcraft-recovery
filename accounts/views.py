@@ -533,7 +533,7 @@ def signup_customer(request):
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)})
 
-    return JsonResponse({"success": False, "error": "Invalid request method"})
+    return render(request, "accounts/signup_customer.html")
 
 
 def signup_employee(request):
