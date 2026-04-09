@@ -80,7 +80,7 @@ MIDDLEWARE = [
     "accounts.middleware.ProfileCompletionMiddleware",
     # "django.contrib.auth.context_processors.auth",
 ]
-
+# add:updated by palak
 ROOT_URLCONF = "ras.urls"
 
 TEMPLATES = [
