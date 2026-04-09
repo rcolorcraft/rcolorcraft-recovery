@@ -693,6 +693,9 @@ transform:scale(1.1);
 
 /* FORM BOX */
 .consult-form {
+  gap:12px;
+  flex-direction:column;
+  display:flex;
   width: 420px;
   z-index:10000;
   max-width: 90%;
@@ -774,10 +777,11 @@ transform:translateY(-50%);
   resize:none;
   padding: 12px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid #080808;
   outline: none;
   padding-left:40px;
   z-index:1;
+  margin:0;
   background: rgba(255,255,255,0.9);
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 }
