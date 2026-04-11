@@ -122,13 +122,9 @@ WSGI_APPLICATION = "ras.wsgi.application"
 
 
 import dj_database_url
+import os
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        "postgresql://postgres:Qwaszx12345@localhost:5432/rasdb"
-    )
-}
-
+DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 
 # import dj_database_url
 # import os
