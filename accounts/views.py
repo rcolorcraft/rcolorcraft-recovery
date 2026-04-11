@@ -83,7 +83,7 @@ def save_customer_signup(request):
 
             send_mail(
                 subject="OTP Verification",
-message = f"""
+                message=f"""
             # Dear {full_name},
 
             # 🎨 Welcome to Rcolorcraft!
@@ -109,38 +109,11 @@ message = f"""
             # Best regards,
             # ** RColorCraftTeam **
             # 📧 info@rcolorcraft.com
-            # """                from_email=settings.DEFAULT_FROM_EMAIL,
+            # """,
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
                 fail_silently=False,
             )
-
-            message = f"""
-            # Dear {full_name},
-
-            # 🎨 Welcome to Rcolorcraft!
-
-            # We're delighted to have you join us as a valued Customer.
-
-            # To complete your registration, please verify your email address using the One-Time Password (OTP) below:
-
-            # ━━━━━━━━━━━━━━━━━━━
-            # 🔐 OTP: {otp}
-            # ━━━━━━━━━━━━━━━━━━━
-
-            # ⏳ This OTP is valid for the next 2 minutes.
-            # ⚠️ For your security, please do not share this OTP with anyone.
-
-            # Once verified, you'll be able to:
-            # ✔ Explore professional painting services
-            # ✔ Book trusted artists easily
-            # ✔ Manage your bookings and projects seamlessly
-
-            # If you did not request this signup, you can safely ignore this email.
-
-            # Best regards,
-            # ** RColorCraftTeam **
-            # 📧 info@rcolorcraft.com
-            # """
 
             return JsonResponse({"success": True, "message": "OTP sent"})
 
