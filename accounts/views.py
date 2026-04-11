@@ -54,22 +54,24 @@ def save_customer_signup(request):
             email = request.POST.get("email")
             create_password = request.POST.get("customer_password")
 
-            # ✅ Email validation
-            if email:
-                email_regex = r"^[^@\s]+@[^\s@]+\.[^@\s]+$"
-                if not re.match(email_regex, email):
-                    return JsonResponse(
-                        {"success": False, "error": "Invalid email format"}
-                    )
-
             if not email:
                 return JsonResponse({"success": False, "error": "Email is required!"})
 
-            # 🔥 ALWAYS generate new OTP (important fix)
-            otp = str(random.randint(100000, 999999))
-            request.session["otp"] = otp
+            # ✅ Email validation
+            email_regex = r"^[^@\s]+@[^\s@]+\.[^@\s]+$"
+            if not re.match(email_regex, email):
+                return JsonResponse({"success": False, "error": "Invalid email format"})
 
-            # ✅ Save data in session
+            # 🔥 FIX: OTP only generate once
+            if not request.session.get("otp"):
+                otp = str(random.randint(100000, 999999))
+                request.session["otp"] = otp
+            else:
+                otp = request.session.get("otp")
+
+            print("Generated OTP:", otp)
+
+            # ✅ Save data
             request.session["signup_data"] = {
                 "customer_full_name": full_name,
                 "mobile": mobile,
@@ -77,70 +79,44 @@ def save_customer_signup(request):
                 "customer_password": create_password,
             }
 
-            # ✅ PROFESSIONAL EMAIL
-            message = f"""
-Dear {full_name},
-
-
-🎨 Welcome to Rcolorcraft!
-
-We're delighted to have you join us as a valued Customer.
-
-To complete your registration, please verify your email address using the One-Time Password (OTP) below:
-
-━━━━━━━━━━━━━━━━━━━  
-🔐 OTP: {otp}  
-━━━━━━━━━━━━━━━━━━━  
-
-⏳ This OTP is valid for the next 2 minutes.  
-⚠️ For your security, please do not share this OTP with anyone.
-
-Once verified, you'll be able to:
-✔ Explore professional painting services  
-✔ Book trusted artists easily  
-✔ Manage your bookings and projects seamlessly  
-
-If you did not request this signup, you can safely ignore this email.
-
-Best regards,  
-** RColorCraftTeam ** 
-📧 info@rcolorcraft.com
-"""
-
-            from django.core.mail import send_mail
+            request.session.modified = True
 
             send_mail(
-                subject="🎨 Verify Your Email - Customer Signup | Rcolorcraft",
-                message=message,
+                subject="OTP Verification",
+                message=f"Your OTP is {otp}",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
                 fail_silently=False,
             )
 
-            return JsonResponse({"success": True, "message": "OTP sent to your email!"})
+            return JsonResponse({"success": True, "message": "OTP sent"})
 
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)})
 
-    return JsonResponse({"success": False, "error": "Invalid request method"})
+    return JsonResponse({"success": False, "error": "Invalid request"})
 
 
 # 🔥 VERIFY OTP CLEAN VERSION
 @csrf_exempt
 def verify_customer_otp(request):
     if request.method == "POST":
+        try:
+            otp_entered = str(request.POST.get("otp")).strip()
+            otp_saved = str(request.session.get("otp", "")).strip()
+            signup_data = request.session.get("signup_data")
 
-        otp_entered = str(request.POST.get("otp")).strip()
-        otp_saved = str(request.session.get("otp", "")).strip()
-        signup_data = request.session.get("signup_data")
+            print("Entered OTP:", otp_entered)
+            print("Saved OTP:", otp_saved)
 
-        # ❌ removed debug prints
+            if not otp_saved or not signup_data:
+                return JsonResponse({"success": False, "error": "Session expired"})
 
-        if otp_saved and signup_data and otp_entered == otp_saved:
+            if otp_entered != otp_saved:
+                return JsonResponse({"success": False, "error": "Invalid OTP ❌"})
 
-            email = signup_data.get("email") or f"{signup_data['mobile']}@dummy.com"
+            email = signup_data["email"]
 
-            # ❌ optional: allow login instead of error
             if CustomUser.objects.filter(email=email).exists():
                 return JsonResponse(
                     {
@@ -158,12 +134,9 @@ def verify_customer_otp(request):
             )
 
             Customer.objects.create(
-                customer_full_name=signup_data["customer_full_name"],
                 user=user,
                 mobile=signup_data["mobile"],
                 email=email,
-                customer_password=signup_data["customer_password"],
-                is_verified=True,
             )
 
             # ✅ clear session
@@ -174,8 +147,8 @@ def verify_customer_otp(request):
                 {"success": True, "message": "Account created successfully"}
             )
 
-        else:
-            return JsonResponse({"success": False, "error": "Invalid OTP ❌"})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
 
     return JsonResponse({"success": False, "error": "Invalid request"})
 
