@@ -44,15 +44,19 @@ from django.conf import settings
 TEMP_DIR = os.path.join(settings.MEDIA_ROOT, "temp")
 os.makedirs(TEMP_DIR, exist_ok=True)
 
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+import random, re
 
-@csrf_exempt
+
 def save_customer_signup(request):
     if request.method == "POST":
         try:
             full_name = request.POST.get("customer_full_name")
             mobile = request.POST.get("mobile")
             email = request.POST.get("email")
-            create_password = request.POST.get("customer_password")
+            password = request.POST.get("customer_password")
 
             if not email:
                 return JsonResponse({"success": False, "error": "Email is required!"})
@@ -62,27 +66,28 @@ def save_customer_signup(request):
             if not re.match(email_regex, email):
                 return JsonResponse({"success": False, "error": "Invalid email format"})
 
-            # 🔥 FIX: OTP only generate once
-            if not request.session.get("otp"):
-                otp = str(random.randint(100000, 999999))
-                request.session["otp"] = otp
-            else:
-                otp = request.session.get("otp")
+            # 🔥 ALWAYS GENERATE NEW OTP (IMPORTANT FIX)
+            otp = str(random.randint(100000, 999999))
 
-            print("Generated OTP:", otp)
+            print("🔥 Generated OTP:", otp)
 
-            # ✅ Save data
-            request.session["signup_data"] = {
-                "customer_full_name": full_name,
+            # ✅ SAVE SESSION (MATCH VERIFY FUNCTION)
+            request.session["customer_otp"] = otp
+            request.session["customer_signup_data"] = {
+                "full_name": full_name,
                 "mobile": mobile,
-                "email": email,
-                "customer_password": create_password,
+                "email_address": email,
+                "password": password,
             }
 
+            # ✅ force save
             request.session.modified = True
 
+            print("📦 Session keys:", list(request.session.keys()))
+
+            # ✅ Send OTP email
             send_mail(
-                subject="OTP Verification",
+                subject="OTP Verification - Rcolorcraft",
                 message=f"""
             # Dear {full_name},
 
@@ -107,7 +112,7 @@ def save_customer_signup(request):
             # If you did not request this signup, you can safely ignore this email.
 
             # Best regards,
-            # ** RColorCraftTeam **
+            # * RColorCraftTeam *
             # 📧 info@rcolorcraft.com
             # """,
                 from_email=settings.DEFAULT_FROM_EMAIL,
@@ -115,7 +120,7 @@ def save_customer_signup(request):
                 fail_silently=False,
             )
 
-            return JsonResponse({"success": True, "message": "OTP sent"})
+            return JsonResponse({"success": True, "message": "OTP sent to your email!"})
 
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)})
@@ -123,54 +128,58 @@ def save_customer_signup(request):
     return JsonResponse({"success": False, "error": "Invalid request"})
 
 
-# 🔥 VERIFY OTP CLEAN VERSION
-@csrf_exempt
+# from django.http import JsonResponse
+
+
 def verify_customer_otp(request):
     if request.method == "POST":
         try:
             otp_entered = str(request.POST.get("otp")).strip()
-            otp_saved = str(request.session.get("otp", "")).strip()
-            signup_data = request.session.get("signup_data")
+            otp_saved = str(request.session.get("customer_otp", "")).strip()
+            signup_data = request.session.get("customer_signup_data")
 
-            print("Entered OTP:", otp_entered)
-            print("Saved OTP:", otp_saved)
+            print("🔢 Entered OTP:", otp_entered)
+            print("💾 Saved OTP:", otp_saved)
+            print("📦 Session keys:", list(request.session.keys()))
 
+            # ❗ Session check
             if not otp_saved or not signup_data:
                 return JsonResponse({"success": False, "error": "Session expired"})
 
+            # ❗ OTP check
             if otp_entered != otp_saved:
                 return JsonResponse({"success": False, "error": "Invalid OTP ❌"})
 
-            email = signup_data["email"]
+            email = signup_data["email_address"]
 
+            # ✅ Duplicate check
             if CustomUser.objects.filter(email=email).exists():
                 return JsonResponse(
-                    {
-                        "success": False,
-                        "error": "Email already registered. Please login.",
-                    }
+                    {"success": False, "error": "Email already registered"}
                 )
 
+            # ✅ Create user
             user = CustomUser.objects.create_user(
                 email=email,
-                password=signup_data["customer_password"],
-                full_name=signup_data["customer_full_name"],
+                password=signup_data["password"],
+                full_name=signup_data["full_name"],
                 role="customer",
                 is_verified=True,
             )
 
+            # ✅ Create profile
             Customer.objects.create(
                 user=user,
-                mobile=signup_data["mobile"],
+                mobile=signup_data.get("mobile"),
                 email=email,
             )
 
-            # ✅ clear session
-            request.session.pop("otp", None)
-            request.session.pop("signup_data", None)
+            # ✅ Clear session AFTER success
+            for key in ["customer_otp", "customer_signup_data"]:
+                request.session.pop(key, None)
 
             return JsonResponse(
-                {"success": True, "message": "Account created successfully"}
+                {"success": True, "message": "Customer registered successfully!"}
             )
 
         except Exception as e:
@@ -321,36 +330,47 @@ def logout_view(request):
     return redirect("accounts:login")
 
 
-@csrf_exempt
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+import random, re, os
+
+# ❌ csrf_exempt हटाया (session issue avoid करने के लिए)
+
+
 def save_employee_signup(request):
     if request.method == "POST":
         try:
             email = request.POST.get("email_address")
             full_name = request.POST.get("full_name")
 
-            print(f"[DEBUG] Employee Signup - Email: {email}")
-            print(f"[DEBUG] Employee Signup - Full Name: {full_name}")
-            print(f"[DEBUG] Employee Signup - POST data: {request.POST.dict()}")
+            print("📩 Email:", email)
+            print("👤 Name:", full_name)
 
+            # ✅ Email validation
             if email:
                 email_regex = r"^[^@\s]+@[^\s@]+\.[^@\s]+$"
-                print(f"[DEBUG] Validating email: '{email}' with regex: {email_regex}")
                 if not re.match(email_regex, email):
-                    print(f"[DEBUG] Email validation FAILED for: {email}")
                     return JsonResponse(
                         {"success": False, "error": "Invalid email format"}
                     )
-                print(f"[DEBUG] Email validation PASSED for: {email}")
 
-            # Generate OTP
+            # 🔥 OTP generate
             otp = str(random.randint(100000, 999999))
 
-            # Save form fields in session
+            # 🔥 Session में save (MOST IMPORTANT)
+            request.session["employee_otp"] = otp
+            request.session["employee_email"] = email
+
+            print("✅ Generated OTP:", otp)
+            print("✅ Saved OTP in session:", request.session.get("employee_otp"))
+
+            # ✅ Form data save
             signup_data = request.POST.dict()
             request.session["employee_signup_data"] = signup_data
-            request.session["employee_otp"] = otp
 
-            # Save uploaded files to temp folder
+            # ✅ File save
             file_paths = {}
             fs = FileSystemStorage(location=TEMP_DIR)
 
@@ -366,7 +386,7 @@ def save_employee_signup(request):
 
             request.session["employee_file_data"] = file_paths
 
-            # Send OTP via email
+            # 🔥 Email send
             send_mail(
                 subject="🎨 Verify Your Email - Artist Signup | Rcolorcraft",
                 message=f"""
@@ -389,7 +409,7 @@ Once verified, you'll be able to showcase your creativity, connect with clients,
 If you did not request this signup, please ignore this email.
 
 Warm regards,  
-** RcolorcraftTeam ** 
+* RcolorcraftTeam * 
 📧 info@rcolorcraft.com
 """,
                 from_email=settings.DEFAULT_FROM_EMAIL,
@@ -397,13 +417,21 @@ Warm regards,
                 fail_silently=False,
             )
 
-            return JsonResponse({"success": True, "message": "OTP sent to your email!"})
+            return JsonResponse({"success": True, "message": "OTP sent successfully"})
+
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)})
+
     return JsonResponse({"success": False, "error": "Invalid request method"})
 
 
-@csrf_exempt
+from django.http import JsonResponse
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.db import transaction
+import os, shutil
+
+
 def verify_employee_otp(request):
     if request.method == "POST":
         try:
@@ -412,42 +440,34 @@ def verify_employee_otp(request):
             signup_data = request.session.get("employee_signup_data")
             file_data = request.session.get("employee_file_data")
 
-            print("OTP Entered:", otp_entered)
-            print("OTP Saved in Session:", otp_saved)
-            print("Session Keys:", list(request.session.keys()))
+            print("🔢 Entered OTP:", otp_entered)
+            print("💾 Saved OTP:", otp_saved)
 
-            # ✅ OTP validation
-            if not (
-                otp_entered
-                and otp_saved
-                and otp_entered.strip() == str(otp_saved).strip()
-            ):
+            # ✅ SIMPLE OTP CHECK (IMPORTANT FIX)
+            if str(otp_entered).strip() != str(otp_saved).strip():
                 return JsonResponse({"success": False, "error": "Invalid OTP"})
 
             if not signup_data:
-                return JsonResponse(
-                    {"success": False, "error": "Signup data missing in session"}
-                )
+                return JsonResponse({"success": False, "error": "Signup data missing"})
 
             try:
                 final_paths = {}
                 fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
-                # ✅ Process uploaded files
+                # ✅ Files move
                 for field_name, temp_rel_path in (file_data or {}).items():
                     temp_abs_path = os.path.join(settings.MEDIA_ROOT, temp_rel_path)
                     if os.path.exists(temp_abs_path):
                         final_path = os.path.join(
                             settings.MEDIA_ROOT, os.path.basename(temp_abs_path)
                         )
-                        shutil.move(
-                            temp_abs_path, final_path
-                        )  # move instead of saving again
+                        shutil.move(temp_abs_path, final_path)
                         final_paths[field_name] = os.path.basename(final_path)
 
-                # ✅ Database ops inside transaction
+                # ✅ DB save
                 with transaction.atomic():
-                    # Check duplicate email
+
+                    # duplicate check
                     if CustomUser.objects.filter(
                         email=signup_data["email_address"]
                     ).exists():
@@ -455,7 +475,7 @@ def verify_employee_otp(request):
                             {"success": False, "error": "Email already registered"}
                         )
 
-                    # 1. Create CustomUser
+                    # user create
                     user = CustomUser.objects.create_user(
                         email=signup_data["email_address"],
                         password=signup_data["password"],
@@ -464,33 +484,15 @@ def verify_employee_otp(request):
                         is_verified=True,
                     )
 
-                    # 2. Create Employee profile
-                    employee = Employee.objects.create(
+                    # employee create
+                    Employee.objects.create(
                         user=user,
                         full_name=signup_data.get("full_name"),
-                        # fathers_name=signup_data.get('fathers_name'),
-                        # dob=signup_data.get('dob'),
-                        # gender=signup_data.get('gender'),
                         mobile=signup_data.get("mobile"),
                         email_address=signup_data.get("email_address"),
-                        # house_no=signup_data.get('house_no'),
-                        # village=signup_data.get('village'),
-                        # city=signup_data.get('city'),
-                        # state=signup_data.get('state'),
-                        # pincode=signup_data.get('pincode'),
-                        # aadhar_card_no=signup_data.get('aadhar_card_no'),
-                        # experience=signup_data.get('experience'),
-                        # type_of_work=signup_data.get('type_of_work', ''),
-                        # preferred_work_location=signup_data.get('preferred_work_location'),
-                        # bank_account_holder_name=signup_data.get('bank_account_holder_name'),
-                        # account_no=signup_data.get('account_no'),
-                        # ifsc_code=signup_data.get('ifsc_code'),
-                        # aadhar_card_image_front=final_paths.get('aadhar_card_image_front'),
-                        # aadhar_card_image_back=final_paths.get('aadhar_card_image_back'),
-                        # passport_photo=final_paths.get('passport_photo'),
                     )
 
-                # ✅ Clear only after success
+                # ✅ session clear
                 for key in [
                     "employee_otp",
                     "employee_signup_data",
