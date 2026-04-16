@@ -126,9 +126,9 @@ WSGI_APPLICATION = "ras.wsgi.application"
 import cloudinary
 
 cloudinary.config(
-    cloud_name="djpbnsl2t",
-    api_key="129928124765738",
-    api_secret="GWOdjhYKxBkBhK9GZtNnALV1ZdM",
+    cloud_name=os.getenv("djpbnsl2t"),
+    api_key=os.getenv("129928124765738"),
+    api_secret=os.getenv("GWOdjhYKxBkBhK9GZtNnALV1ZdM"),
 )
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
