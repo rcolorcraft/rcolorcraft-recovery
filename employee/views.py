@@ -27,6 +27,11 @@ def service_images_view(request):
                     or "Anonymous"
                 )
 
+                if request.user.is_staff:
+                    approved_status = True
+                else:
+                    approved_status = False
+
             for img in images:
                 ServiceImage.objects.create(
                     image_name=name,
@@ -36,6 +41,7 @@ def service_images_view(request):
                     type_of_art=type_of_art,
                     userupload_id=user_id,
                     userupload_name=user_name,
+                    is_approved=approved_status,  # 👈 ये add करना है
                 )
 
             return JsonResponse(

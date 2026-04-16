@@ -19,9 +19,10 @@ class ServiceImage(models.Model):
         max_length=255, default="Anonymous", null=False, blank=False
     )  # uploader’s name as text
     is_verified_pic = models.BooleanField(default=False)
-    min_size = models.CharField(
-        max_length=50, default=""
-    )  # <-- New field for '10 * 60'
+    min_size = models.CharField(max_length=50, default="")
+    is_approved = models.BooleanField(
+        default=False
+    )  # 👈 YE ADD KARO # <-- New field for '10 * 60'
 
     class Meta:
         db_table = "service_images"

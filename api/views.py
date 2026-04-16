@@ -1159,14 +1159,18 @@ def explore_service_api(request, service_type):
 
     # Filtering logic
     if request.user.is_authenticated and request.user.is_staff:
-        db_images = ServiceImage.objects.filter(type_of_art__icontains=query_term)
+        db_images = ServiceImage.objects.filter(
+            type_of_art__icontains=query_term, is_approved=True
+        )
     elif request.user.is_authenticated:
         db_images = ServiceImage.objects.filter(
             type_of_art__icontains=query_term
-        ).filter(Q(is_verified_pic=True) | Q(userupload_id=request.user.id))
+        ).filter(
+            Q(is_verified_pic=True) | Q(userupload_id=request.user.id), is_approved=True
+        )
     else:
         db_images = ServiceImage.objects.filter(
-            type_of_art__icontains=query_term, is_verified_pic=True
+            type_of_art__icontains=query_term, is_verified_pic=True, is_approved=True
         )
 
     serializer = ServiceImageSerializer(db_images, many=True)

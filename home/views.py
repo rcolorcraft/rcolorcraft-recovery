@@ -95,18 +95,21 @@ def explore_service(request, service_type):
     # ✅ Updated logic
     if request.user.is_authenticated and request.user.is_staff:
         # Admins see everything
-        db_images = ServiceImage.objects.filter(type_of_art__icontains=query_term)
+        db_images = ServiceImage.objects.filter(
+            type_of_art__icontains=query_term, is_approved=True
+        )
     elif request.user.is_authenticated:
         # Employees see their own + verified ones
         db_images = ServiceImage.objects.filter(
             type_of_art__icontains=query_term
-        ).filter(Q(is_verified_pic=True) | Q(userupload_id=request.user.id))
+        ).filter(
+            Q(is_verified_pic=True) | Q(userupload_id=request.user.id), is_approved=True
+        )
     else:
         # Guests see only verified ones
         db_images = ServiceImage.objects.filter(
-            type_of_art__icontains=query_term, is_verified_pic=True
+            type_of_art__icontains=query_term, is_verified_pic=True, is_approved=True
         )
-
     return render(
         request,
         "explore_service.html",
@@ -221,7 +224,9 @@ def book_service(request, service_type):
 
     # Filter images based on the specific query term using icontains
     # This replaces the entire 'if/elif/else' block for filtering
-    db_images = ServiceImage.objects.filter(type_of_art__icontains=query_term)
+    db_images = ServiceImage.objects.filter(
+        type_of_art__icontains=query_term, is_approved=True
+    )
 
     if request.method == "POST":
         # Handle booking form submission if needed
