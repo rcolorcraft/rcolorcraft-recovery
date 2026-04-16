@@ -12,7 +12,7 @@ def service_images_view(request):
             height = request.POST.get("height")
             min_size = f"{width} * {height}"  # combine
             type_of_art = request.POST.get("type_of_art")
-            image = request.FILES.get("image")
+            images = request.FILES.getlist("images")
 
             user_name = "Anonymous"
             user_id = 0
@@ -27,15 +27,16 @@ def service_images_view(request):
                     or "Anonymous"
                 )
 
-            ServiceImage.objects.create(
-                image_name=name,
-                price=price,
-                min_size=min_size,
-                image=image,
-                type_of_art=type_of_art,
-                userupload_id=user_id,
-                userupload_name=user_name,
-            )
+            for img in images:
+                ServiceImage.objects.create(
+                    image_name=name,
+                    price=price,
+                    min_size=min_size,
+                    image=img,
+                    type_of_art=type_of_art,
+                    userupload_id=user_id,
+                    userupload_name=user_name,
+                )
 
             return JsonResponse(
                 {"success": True, "message": "✅ Service Image added successfully!"}
