@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     "wallet",
     "user",
     "rest_framework_simplejwt",
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
 LOGIN_REDIRECT_URL = "landing"
@@ -119,6 +121,17 @@ WSGI_APPLICATION = "ras.wsgi.application"
 # DATABASE_URL = os.environ.get(
 #     "DATABASE_URL", "postgres://postgres:12345678@localhost:5432/rasdb"
 # )
+
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name="djpbnsl2t",
+    api_key="129928124765738",
+    api_secret="GWOdjhYKxBkBhK9GZtNnALV1ZdM",
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 import dj_database_url
 import os
@@ -248,39 +261,11 @@ INSTALLED_APPS += ["storages"]
 
 # Use S3 for uploaded files (media)
 # Use S3 for uploaded files
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-AWS_ACCESS_KEY_ID = "AKIAYPR5D4OCUEEIZFXP"
-AWS_SECRET_ACCESS_KEY = "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"
-
-AWS_STORAGE_BUCKET_NAME = "rasmedia2025"
-AWS_S3_REGION_NAME = "ap-south-1"
-AWS_S3_SIGNATURE_VERSION = "s3v4"
-
-
 # Public file settings (simplest to start)
 # Public file settings
-AWS_DEFAULT_ACL = None
-AWS_QUERYSTRING_AUTH = False  # if you want public, unsigned URLs
-
-MEDIA_URL = "https://rasmedia2025.s3.ap-south-1.amazonaws.com/"
-
-AWS_S3_CUSTOM_DOMAIN = (
-    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-)
-AWS_QUERYSTRING_AUTH = False
-
-# S3 domain
-AWS_S3_CUSTOM_DOMAIN = (
-    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-)
 
 
 # Store uploads inside this folder in S3
-AWS_LOCATION = "service_images"
-
-# Media URL pointing to S3 folder
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
 # Media URL should point to S3, not /media/
 # # MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 # MEDIA_URL = "/media/"
