@@ -1317,12 +1317,19 @@ document.addEventListener('DOMContentLoaded', function() {
           <a href="javascript:void(0)" id="userIcon" onclick="togglePopup()">
     <img src="{% static 'gallery/user.png' %}" class="nav-icon">
 </a>
+
+{% comment %} <p style="color:red;">Role: {{ user.role }}</p> {% endcomment %}
           <!-- Popup menu -->
-          <div id="myPopup" class="popup-menu">
-            <a href="{% url 'wallet_dashboard' %}">Wallet</a>
-            <a href="{% url 'edit_profile' %}">Edit Profile</a>
-    <a href="{% url 'logout' %}">Logout/Login</a>
-       </div>
+         <div id="myPopup" class="popup-menu">
+       <a href="{% url 'wallet_dashboard' %}">Wallet</a>
+
+{% if user.is_authenticated and user.role == "employee" and not user.is_staff %}
+    <a href="{% url 'edit_profile' %}">Edit Profile</a>
+{% endif %}
+
+<a href="{% url 'logout' %}">Logout/Login</a>
+
+</div>
         </li>
       </ul>
     </nav>
