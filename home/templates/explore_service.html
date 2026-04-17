@@ -7,8 +7,9 @@
 <section class="hero-section">
   <div class="hero-content">
     {% comment %} <h1 class="main-heading">{{ heading }}</h1> {% endcomment %}
-    <p class="hero-subtitle">Discover amazing artworks from our talented artists</p></h1>
-  </section>
+<p class="hero-subtitle">
+    Discover <span>amazing artworks</span> from our talented artists
+</p>  </section>
   
 {% if user.is_authenticated and user.role == "customer" and not user.is_staff %}
 <div class="form-note">
@@ -597,12 +598,21 @@ s
 }
 
 .hero-subtitle {
-  font-size: 2rem;
-  opacity: 0.9;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  margin-bottom: 0;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 10px;
+    line-height: 1.4;
+
+    /* Gradient Text */
+    background: linear-gradient(90deg, #02040c, #010102);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Glow Effect */
 }
+
+
 
  {% comment %} .note-wrapper{
   display:flex;
