@@ -19,9 +19,9 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
+MEDIA_URL = "https://res.cloudinary.com/djpbnsl2t/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -30,7 +30,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SECRET_KEY = "django-insecure-am_fw1vlm_u(2pqj*8k7fv=8*+l9!ync@fa&#5x-$u6)k)-!$r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "rcolorcraft.com",  # Your root domain
@@ -315,17 +315,5 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
 }
-
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
