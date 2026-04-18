@@ -130,10 +130,10 @@ cloudinary.config(
     api_key="129928124765738",
     api_secret="GWOdjhYKxBkBhK9GZtNnALV1ZdM",
 )
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 import dj_database_url
 import os
