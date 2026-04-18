@@ -84,33 +84,25 @@
 
 /* ARTIST LIST GRID */
 /* ===== ARTIST LIST ===== */
+/* 🔥 FIXED GRID */
 .artist-list {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-    margin-top: 20px;
-    {% comment %} display: flex;
-    flex-direction: column; {% endcomment %}
-    gap: 25px;
-    justify-content:center;
-    margin:0 auto;
-    max-width:1100px;
-    align-content :start;
-    {% comment %} align-items: center; {% endcomment %}
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
+
 
 /* ===== CARD ===== */
 .artist-item {
-    width: 100% !important;
-
-    display: block;
-    gap: 20px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    {% comment %} max-width: 900px; {% endcomment %}
-    transition: 0.3s;
-    margin:0;
+  display: flex !important;
+  gap: 15px;
+  align-items: flex-start;
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .artist-item:hover {
@@ -119,18 +111,17 @@
 
 /* ===== IMAGE ===== */
 .artist-photo {
-    width:100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #eee;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 /* ===== DETAILS ===== */
 .artist-details {
-    flex: 1;
+  flex: 1;
 }
-
 /* ===== NAME ROW ===== */
 .artist-name {
     font-size: 18px;
@@ -159,10 +150,9 @@
 
 /* ===== INFO GRID ===== */
 .artist-info {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 15px;
-    margin-top: 10px;
-    display:grid;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 15px;
 }
 
 /* ===== INFO ITEM ===== */
