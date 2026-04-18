@@ -147,7 +147,6 @@
 
 /* ===== INFO GRID ===== */
 .artist-info {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px 15px;
     margin-top: 10px;
@@ -364,7 +363,9 @@
   
   <div>
   {{ artist.full_name }}
-
+{% if artist.is_verified %}
+    <span class="verified-badge">✔ Verified</span>
+{% endif %}
   {% if artist.block_status %}
     <span class="blocked-badge">Blocked</span>
   {% else %}
