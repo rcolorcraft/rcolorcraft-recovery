@@ -87,10 +87,10 @@
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+    {% comment %} display: flex;
+    flex-direction: column; {% endcomment %}
     gap: 20px;
-    align-items: center;
+    {% comment %} align-items: center; {% endcomment %}
 }
 
 /* ===== CARD ===== */
