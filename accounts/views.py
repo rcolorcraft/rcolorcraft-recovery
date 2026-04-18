@@ -607,3 +607,54 @@ def password_reset_confirm(request, uidb64, token):
     else:
         # Invalid link → show error
         return render(request, "password_reset.html", {"validlink": False})
+
+
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def edit_profile(request):
+    employee = Employee.objects.get(user=request.user)
+
+    if request.method == "POST":
+
+        employee.full_name = request.POST.get("full_name")
+    employee.fathers_name = request.POST.get("fathers_name")
+    employee.dob = request.POST.get("dob")
+    employee.gender = request.POST.get("gender")
+
+    employee.state = request.POST.get("state")
+    employee.pincode = request.POST.get("pincode")
+    employee.full_address = request.POST.get("full_address")
+
+    employee.aadhar_card_no = request.POST.get("aadhar_card_no")
+
+    employee.type_of_work = ",".join(request.POST.getlist("type_of_work"))
+
+    employee.experience = request.POST.get("experience")
+    employee.working_range = request.POST.get("working_range")
+
+    employee.pan_card = request.POST.get("pan_card")
+    employee.gst_no = request.POST.get("gst_no")
+    employee.organization_name = request.POST.get("organization_name")
+
+    employee.account_no = request.POST.get("account_no")
+    employee.ifsc_code = request.POST.get("ifsc_code")
+    employee.bank_account_holder_name = request.POST.get("bank_account_holder_name")
+
+    # ✅ FILES FIX
+    if request.FILES.get("aadhar_card_image_front"):
+        employee.aadhar_card_image_front = request.FILES.get("aadhar_card_image_front")
+
+    if request.FILES.get("aadhar_card_image_back"):
+        employee.aadhar_card_image_back = request.FILES.get("aadhar_card_image_back")
+
+    if request.FILES.get("passport_photo"):
+        employee.passport_photo = request.FILES.get("passport_photo")
+
+        employee.save()
+    print("✅ Saved Successfully")
+
+    return redirect("edit_profile")
+
+    return render(request, "edit_profile.html", {"employee": employee})

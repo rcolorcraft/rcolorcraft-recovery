@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 
+from .views import edit_profile
+
 app_name = "accounts"
 
 urlpatterns = [
@@ -26,4 +28,5 @@ urlpatterns = [
         views.password_reset_confirm,
         name="password_reset_confirm",
     ),
+    path("edit-profile/", edit_profile, name="edit_profile"),
 ]

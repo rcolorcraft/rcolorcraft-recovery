@@ -555,12 +555,13 @@ input:checked + .slider:before {
 
                     <div>
                         <label>Email <span class="star">*</span></label>
-                        <input type="email" value="{{ email_address }}" required>
+                       <input type="email" name="email" value="{{ email_address }}" required>
+
                     </div>
 
                     <div>
                         <label>Mobile <span class="star">*</span></label>
-                        <input type="text" value="{{ contact }}" required>
+<input type="text" name="mobile" value="{{ contact }}" required>
                     </div>
 
                     <div>
@@ -692,7 +693,7 @@ input:checked + .slider:before {
                   <div class="full-width">
     <label>Preferred Work Location <span class="star">*</span></label>
 
- <select name="preferred_location" multiple="multiple" id="location" required>
+ <select name="preferred_work_location" multiple="multiple" id="location" required>
   <option value="">Select State</option>
 
   <option>Andhra Pradesh</option>

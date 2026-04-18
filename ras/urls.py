@@ -27,6 +27,10 @@ from home import sitemaps
 from home.sitemaps import StaticViewSitemap
 from django.views.generic import TemplateView
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 sitemaps = {
     "static": StaticViewSitemap,
     # You can add more sitemaps here if needed
@@ -54,8 +58,3 @@ urlpatterns += i18n_patterns(
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-from django.conf import settings
-from django.conf.urls.static import static
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

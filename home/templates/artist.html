@@ -82,168 +82,259 @@
 }
 
 /* ARTIST LIST GRID */
+/* ===== ARTIST LIST ===== */
 .artist-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 22px;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* ARTIST CARD */
+/* ===== CARD ===== */
 .artist-item {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 22px;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.10);
-  transition: 0.25s ease;
+    display: flex;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
 }
 
 .artist-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transform: translateY(-3px);
 }
+
+/* ===== IMAGE ===== */
 .artist-photo {
-  width: 80px;
-  height: 80px;
-  border-radius: 14px;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.20);
-  transition: 0.35s ease-in-out;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #eee;
 }
 
-.artist-item:hover .artist-photo {
-  transform: scale(1.07);
-  box-shadow: 0 0 12px rgba(0, 140, 255, 0.9), 0 0 18px rgba(0, 140, 255, 0.5);
-  border-radius: 16px;
+/* ===== DETAILS ===== */
+.artist-details {
+    flex: 1;
 }
 
-
-
-/* CONTENT */
+/* ===== NAME ROW ===== */
 .artist-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1b4e72;
-  margin-bottom: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
 }
 
+/* ===== BADGES ===== */
+.active-badge {
+    background: #d4edda;
+    color: #28a745;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.blocked-badge {
+    background: #f8d7da;
+    color: #dc3545;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+/* ===== INFO GRID ===== */
 .artist-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 14px;
-  font-size: 13px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 15px;
+    margin-top: 10px;
+}
+
+/* ===== INFO ITEM ===== */
+.info-item {
+    font-size: 14px;
 }
 
 .info-label {
-  font-weight: 600;
-  font-size: 11px;
-  color: #637381;
-  text-transform: uppercase;
+    font-weight: 600;
+    color: #555;
+    margin-right: 5px;
 }
 
 .info-value {
-  color: #334155;
-  font-weight: 500;
-  font-size: 13px;
+    color: #222;
+}
+/* ===== KYC SECTION ===== */
+.kyc-section {
+    margin-top: 15px;
 }
 
-/* STATUS BADGES */
-.blocked-badge,
-.active-badge {
+/* ===== IMAGE GRID ===== */
+.kyc-img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.kyc-img:hover {
+  transform: scale(1.05);
+}
+/* ===== CARD STYLE ===== */
+.kyc-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    width: 130px;
+}
+
+/* ===== TITLE ===== */
+.kyc-card p {
+    font-size: 12px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* ===== IMAGE ===== */
+.kyc-card img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+/* ===== HOVER EFFECT ===== */
+.kyc-card img:hover {
+    transform: scale(1.08);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .kyc-images {
+        justify-content: center;
+    }
+}
+
+.verified-badge {
+  background: #e6f9ec;
+  color: #28a745;
   padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 10px;
+  border-radius: 6px;
+  font-size: 12px;
   margin-left: 6px;
 }
-.blocked-badge { background: #e53935; color: #fff; }
-.active-badge { background: #43a047; color: #fff; }
 
-/* BUTTONS */
-.btn-block,
-.btn-unblock {
-  padding: 4px 10px;      /* smaller padding */
-  font-size: 11px;        /* smaller text */
-  border-radius: 14px;    /* slightly reduced roundness */
-  display: inline-block;
-  cursor: pointer;
-  border: none;
-  font-weight: 500;
-  margin-top: 6px;
-  transition: 0.25s ease-in-out;
+
+/* ===== BUTTON ===== */
+.artist-action {
+    margin-top: 15px;
 }
 
-
+/* BLOCK BUTTON */
 .btn-block {
-  background: #d32f2f;
+    background: #dc3545;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
+
 .btn-block:hover {
-  background: #b71c1c;
-  transform: translateY(-2px);
+    background: #c82333;
 }
 
+/* UNBLOCK BUTTON */
 .btn-unblock {
-  background: #1c7c2c;
+    background: #28a745;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
+
 .btn-unblock:hover {
-  background: #145a20;
-  transform: translateY(-2px);
+    background: #218838;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .artist-item {
-    flex-direction: column;
+/* ===== NO DATA ===== */
+.no-artists {
     text-align: center;
-  }
-  .artist-info {
-    grid-template-columns: 1fr;
-  }
+    color: #777;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .artist-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .artist-info {
+        grid-template-columns: 1fr;
+    }
+
+    .artist-name {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* ===== MODAL ===== */
+#imgModal {
+  display: none;
+  position: fixed;
+  z-index: 99999; /* 🔥 increase */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+}
+
+#modalImg {
+  display: block;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
+  margin-top: 60px;
+  border-radius: 10px;
+}
+
+.modal-content {
+  display: block;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
+  margin-top: 50px;
 }
 
 
-.blocked-badge {
-  background: #e53935;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  margin-left: 5px;
+@keyframes zoomIn {
+  from { transform: scale(0.7); }
+  to { transform: scale(1); }
 }
 
-.active-badge {
-  background: #43a047;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  margin-left: 5px;
-}
-/* 
-.btn-block {
-  background: #d32f2f;
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 40px;
   color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
+  font-size: 30px;
   cursor: pointer;
-  margin-top: 10px;
+
+
 }
-
-.btn-unblock {
-  background: #388e3c;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-} */
-
 </style>
 <div class="search-container">
   <h2>Find an Artist</h2>
@@ -272,13 +363,19 @@
         <div class="artist-name" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
   
   <div>
-    {{ artist.full_name }}
-    {% if artist.block_status %}
-      <span class="blocked-badge">Blocked</span>
-    {% else %}
-      <span class="active-badge">Active</span>
-    {% endif %}
-  </div>
+  {{ artist.full_name }}
+
+  {% if artist.aadhar_card_image_front and artist.aadhar_card_image_back %}
+    <span class="verified-badge">✔ Verified</span>
+  {% endif %}
+
+  {% if artist.block_status %}
+    <span class="blocked-badge">Blocked</span>
+  {% else %}
+    <span class="active-badge">Active</span>
+  {% endif %}
+</div>
+
 
   <div style="font-size:14px; font-weight:600; color:#0b4f75;">
     ARTIST ID (RAS{{ artist.id }})
@@ -319,7 +416,29 @@
             <span class="info-label">Email</span>
             <span class="info-value">{{ artist.email_address }}</span>
           </div>
-<div></div>
+
+   <div class="kyc-section">
+
+  <div class="info-item">
+    <span class="info-label">Aadhar Number</span>
+    <span class="info-value">{{ artist.aadhar_card_no }}</span>
+  </div>
+
+  <div class="kyc-images">
+   {% if artist.aadhar_card_image_front %}
+  <img src="{{ artist.aadhar_card_image_front.url }}" 
+       class="kyc-img"
+       onclick="openModal(this)">
+{% endif %}
+
+{% if artist.aadhar_card_image_back %}
+  <img src="{{ artist.aadhar_card_image_back.url }}" 
+       class="kyc-img"
+       onclick="openModal(this)">
+{% endif %}
+  </div>
+
+</div>
           <!-- <div class="info-item">
       <span class="info-label">Artist ID</span>
       <span class="info-value">
@@ -342,15 +461,51 @@
     <button type="submit" class="btn-block">Block</button>
   {% endif %}
 </form>
+</div>
 
-
-      </div>
-    </div>
 
     {% empty %}
     <p class="no-artists">No artists found.</p>
     {% endfor %}
 
+      <div id="imgModal" style="display:none; position:fixed; z-index:9999; padding-top:50px; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9);">
+
+  <span onclick="closeModal()" 
+        style="position:absolute; top:20px; right:35px; color:#fff; font-size:40px; cursor:pointer;">
+        &times;
+  </span>
+
+  <img id="modalImg" 
+       style="margin:auto; display:block; max-width:80%; max-height:80%;">
+</div>
+    </div>
+
+
+
   </div>
 </div>
+
+<script>
+function openModal(img) {
+    const modal = document.getElementById("imgModal");
+    const modalImg = document.getElementById("modalImg");
+
+    if (!modal || !modalImg) {
+        console.error("Modal not found ❌");
+        return;
+    }
+
+    modal.style.display = "block";
+    modalImg.src = img.src;
+}
+
+function closeModal() {
+    const modal = document.getElementById("imgModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 {% endblock %}
+
+
