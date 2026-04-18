@@ -123,16 +123,11 @@ WSGI_APPLICATION = "ras.wsgi.application"
 # )
 
 
-import cloudinary
-
-cloudinary.config(
-    cloud_name="djpbnsl2t",
-    api_key="129928124765738",
-    api_secret="GWOdjhYKxBkBhK9GZtNnALV1ZdM",
-)
-# MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "djpbnsl2t",
+    "API_KEY": "129928124765738",
+    "API_SECRET": "GWOdjhYKxBkBhK9GZtNnALV1ZdM",
+}
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 import dj_database_url
