@@ -72,6 +72,8 @@ class Employee(models.Model):
         upload_to="aadhar_cards/back/", null=True, blank=True
     )
 
+    is_verified = models.BooleanField(default=False)
+
     # Extra fields
     experience = models.PositiveIntegerField(
         null=True, blank=True, help_text="Experience in years"
