@@ -185,17 +185,30 @@
 }
 
 /* ===== IMAGE GRID ===== */
-.kyc-img {
-  width: 120px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+.kyc-images {
+    display: flex;
+    gap: 50px;              /* images के बीच gap */
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content:space-between;  /* left aligned (center भी कर सकते) */
+    justify-content:center;
 }
 
+/* ===== IMAGE STYLE ===== */
+.kyc-img {
+    width: 220px;          /* size बड़ा */
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 2px solid #eee;
+}
+
+/* Hover effect */
 .kyc-img:hover {
-  transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 /* ===== CARD STYLE ===== */
 .kyc-card {
