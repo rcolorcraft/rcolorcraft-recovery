@@ -55,6 +55,7 @@ urlpatterns += i18n_patterns(
     path("api/", include("api.urls")),
     path("wallet/", include("wallet.urls")),
 )
-
+# STATIC add करो outside i18n
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
