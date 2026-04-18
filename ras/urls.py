@@ -44,6 +44,7 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     # path("set_language/", set_language, name="set_language"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+    path("", include("home.urls")),
 ]
 
 urlpatterns += i18n_patterns(

@@ -45,8 +45,11 @@ def explore(request):
     return render(request, "exlore.html")
 
 
-# def edit_profile(request):
-#     return render(request, "edit_profile.html")
+from django.shortcuts import render
+
+
+def edit_profile(request):
+    return render(request, "edit_profile.html")
 
 
 def book_service(request, service_name):
