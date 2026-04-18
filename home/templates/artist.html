@@ -84,6 +84,8 @@
 /* ARTIST LIST GRID */
 /* ===== ARTIST LIST ===== */
 .artist-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -93,13 +95,15 @@
 
 /* ===== CARD ===== */
 .artist-item {
+    width: 100% !important;
+
     display: flex;
     gap: 20px;
     background: #fff;
     padding: 20px;
     border-radius: 14px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    max-width: 900px;
+    max-width: 700px;
     margin:0 auto;
     transition: 0.3s;
 }
