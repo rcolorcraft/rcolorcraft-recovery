@@ -388,7 +388,7 @@
       {% load static %}
 
 <img class="artist-photo"
-  src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}"
+  src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}"
   alt="{{ artist.full_name }}">
       <div class="artist-details">
         <div class="artist-name" style="display:flex; align-items:center; justify-content:space-between;">
