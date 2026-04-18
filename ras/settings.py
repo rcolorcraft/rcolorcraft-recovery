@@ -21,7 +21,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-MEDIA_URL = "https://res.cloudinary.com/djpbnsl2t/"
+# MEDIA_URL = "https://res.cloudinary.com/djpbnsl2t/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -30,7 +30,7 @@ MEDIA_URL = "https://res.cloudinary.com/djpbnsl2t/"
 SECRET_KEY = "django-insecure-am_fw1vlm_u(2pqj*8k7fv=8*+l9!ync@fa&#5x-$u6)k)-!$r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "rcolorcraft.com",  # Your root domain
