@@ -383,13 +383,14 @@
   <h3>Artists</h3>
   <div class="artist-list">
 
-    {% for artist in artists %}
-    <div class="artist-item">
-      {% load static %}
+    {% for artist in artists %}<div class="artist-item">
 
-<img class="artist-photo"
-  src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}"
-  alt="{{ artist.full_name }}">
+  <div class="artist-header">
+    <img class="artist-photo"
+      src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}">
+    
+  </div>
+
       <div class="artist-details">
         <div class="artist-name" style="display:flex; align-items:center; justify-content:space-between;">
   
@@ -514,27 +515,6 @@
   </div>
 </div>
 
-<script>
-function openModal(img) {
-    const modal = document.getElementById("imgModal");
-    const modalImg = document.getElementById("modalImg");
-
-    if (!modal || !modalImg) {
-        console.error("Modal not found ❌");
-        return;
-    }
-
-    modal.style.display = "block";
-    modalImg.src = img.src;
-}
-
-function closeModal() {
-    const modal = document.getElementById("imgModal");
-    if (modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
 {% endblock %}
 
 
