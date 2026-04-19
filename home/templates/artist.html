@@ -4,7 +4,7 @@
 {% block content %}
 <style>
 /* ===== PAGE BACKGROUND ===== */
-.search-container {
+.artist-page .search-container {
   width: 100%;
   margin: 0;
   padding: 50px 0;
@@ -13,7 +13,7 @@
 }
 
 /* ===== HEADINGS ===== */
-.search-container h2 {
+.artist-page .search-container h2 {
   text-align: center;
   color: #0b4f75;
   margin-bottom: 30px;
@@ -21,7 +21,7 @@
   font-weight: 700;
 }
 
-.search-container h3 {
+.artist-page .search-container h3 {
   text-align: center;
   color: #0b4f75;
   margin: 30px 0 20px;
@@ -30,7 +30,7 @@
 }
 
 /* ===== FORM ===== */
-.search-container form {
+.artist-page .search-container form {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -43,7 +43,7 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-.search-container form input {
+.artist-page .search-container form input {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -51,7 +51,7 @@
   font-size: 13px;
 }
 
-.search-container form button {
+.artist-page .search-container form button {
   background-color: #2b6cd6;
   color: #fff;
   padding: 10px 16px;
@@ -62,12 +62,12 @@
   font-weight: 500;
 }
 
-.search-container form button:hover {
+.artist-page .search-container form button:hover {
   background-color: #1e4fa8;
 }
 
 /* ===== GRID FIX ===== */
-.artist-list {
+.artist-page  .artist-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 🔥 FIX */
   gap: 20px;
@@ -77,7 +77,7 @@
 }
 
 /* ===== CARD FIX ===== */
-.artist-item {
+.artist-page .artist-item {
   display: flex;
   flex-direction: column; /* 🔥 vertical layout */
   justify-content: space-between;
@@ -96,19 +96,19 @@ min-height:100%;
   overflow: hidden; /* 🔥 overlap रोकता है */
 }
 
-.artist-item:hover {
+.artist-page .artist-item:hover {
   transform: translateY(-4px);
 }
 
 /* ===== TOP SECTION ===== */
-.artist-top {
+.artist-page .artist-top {
   display: flex;
   gap: 15px;
   align-items: flex-start;
 }
 
 /* ===== IMAGE ===== */
-.artist-photo {
+.artist-page .artist-photo {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -117,13 +117,13 @@ min-height:100%;
 }
 
 /* ===== DETAILS ===== */
-.artist-details {
+.artist-page .artist-details {
   flex: 1;
   min-width: 0; /* 🔥 overflow fix */
 }
 
 /* ===== HEADER ===== */
-.artist-name {
+.artist-page .artist-name {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,7 +134,7 @@ min-height:100%;
 }
 
 /* ===== INFO GRID ===== */
-.artist-info {
+.artist-page .artist-info {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 6px 12px;
@@ -142,31 +142,31 @@ min-height:100%;
 }
 
 /* ===== BADGES ===== */
-.active-badge,
-.blocked-badge,
-.verified-badge {
+.artist-page .active-badge,
+.artist-page .blocked-badge,
+.artist-page .verified-badge {
   padding: 3px 7px;
   border-radius: 6px;
   font-size: 11px;
 }
 
-.active-badge {
+.artist-page .active-badge {
   background: #d4edda;
   color: #28a745;
 }
 
-.blocked-badge {
+.artist-page .blocked-badge {
   background: #f8d7da;
   color: #dc3545;
 }
 
-.verified-badge {
+.artist-page .verified-badge {
   background: #e6f9ec;
   color: #28a745;
 }
 
 /* ===== BUTTON FIX ===== */
-.artist-action {
+.artist-page .artist-action {
   margin-top: 12px;
   position: relative;
   z-index: 5; /* 🔥 FIX CLICK ISSUE */
@@ -177,7 +177,7 @@ min-height:100%;
   z-index: 10; /* 🔥 CLICK LOCK */
 }
 
-.artist-action button {
+.artist-page .artist-action button {
   width: 100%; /* 🔥 equal button */
   padding: 6px;
   font-size: 12px;
@@ -186,25 +186,25 @@ min-height:100%;
   cursor: pointer;
 }
 
-.btn-block {
+.artist-page .btn-block {
   background: #dc3545;
   color: white;
 }
 
-.btn-unblock {
+.artist-page .btn-unblock {
   background: #28a745;
   color: white;
 }
 
 /* ===== KYC ===== */
-.kyc-images {
+.artist-page .kyc-images {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin-top: 8px;
 }
 
-.kyc-img {
+.artist-page .kyc-img {
   width: 85px;
   height: 65px;
   border-radius: 6px;
@@ -213,7 +213,7 @@ min-height:100%;
   transition: 0.3s;
 }
 
-.kyc-img:hover {
+.artist-page .kyc-img:hover {
   transform: scale(1.05);
 }
 
@@ -238,22 +238,23 @@ min-height:100%;
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
 
-  .artist-list {
+  .artist-page .artist-list {
     grid-template-columns: 1fr;
   }
 
-  .artist-top {
+  .artist-page .artist-top {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .artist-info {
+  .artist-page .artist-info {
     grid-template-columns: 1fr;
   }
 
 }
 </style>
+<div class="artist-page">
 <div class="search-container">
   <h2>Find an Artist</h2>
   <form method="get">

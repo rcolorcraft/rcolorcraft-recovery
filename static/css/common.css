@@ -738,7 +738,7 @@ CLOSE BUTTON
 } */
 
 /* INPUT GROUP */
-.input-group {
+/* .input-group {
     
   position: relative;
   margin-bottom: 20px;
@@ -798,7 +798,7 @@ transform:translateY(-50%);
 .input-group textarea {
   height: 80px;
   resize: none;
-}
+} */
 
 /* LABEL */
 .input-group label {
