@@ -119,8 +119,8 @@
 
 /* ===== IMAGE ===== */
 .artist-photo {
-    width:100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #eee;
@@ -187,17 +187,16 @@
 /* ===== IMAGE GRID ===== */
 .kyc-images {
     display: flex;
-    gap: 50px;              /* images के बीच gap */
+    gap: 12px;              /* images के बीच gap */
     margin-top: 10px;
     flex-wrap: wrap;
-    justify-content:space-between;  /* left aligned (center भी कर सकते) */
-    justify-content:center;
+    justify-content: flex-start; /* left aligned (center भी कर सकते) */
 }
 
 /* ===== IMAGE STYLE ===== */
 .kyc-img {
-    width: 220px;          /* size बड़ा */
-    height: 150px;
+    width: 140px;          /* size बड़ा */
+    height: 110px;
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
@@ -383,13 +382,11 @@
   <h3>Artists</h3>
   <div class="artist-list">
 
-    {% for artist in artists %}<div class="artist-item">
-
-  <div class="artist-header">
-    <img class="artist-photo"
-      src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}">
-    
-  </div>
+    {% for artist in artists %}
+    <div class="artist-item">
+      <img class="artist-photo"
+        src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}"
+        alt="{{ artist.full_name }}">
 
       <div class="artist-details">
         <div class="artist-name" style="display:flex; align-items:center; justify-content:space-between;">
@@ -515,6 +512,27 @@
   </div>
 </div>
 
+<script>
+function openModal(img) {
+    const modal = document.getElementById("imgModal");
+    const modalImg = document.getElementById("modalImg");
+
+    if (!modal || !modalImg) {
+        console.error("Modal not found ❌");
+        return;
+    }
+
+    modal.style.display = "block";
+    modalImg.src = img.src;
+}
+
+function closeModal() {
+    const modal = document.getElementById("imgModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 {% endblock %}
 
 

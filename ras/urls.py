@@ -46,15 +46,23 @@ urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("", include("home.urls")),
 ]
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
+
+urlpatterns = [
+    path("i18n/", include("django.conf.urls.i18n")),
+]
 
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
-    path("", include("home.urls")),
-    path("", include("home.urls")),
-    path("accounts/", include("accounts.urls")),
+    # ✅ employee FIRST (IMPORTANT)
     path("emp/", include("employee.urls")),
+    path("accounts/", include("accounts.urls")),
     path("api/", include("api.urls")),
     path("wallet/", include("wallet.urls")),
+    # ✅ home LAST
+    path("", include("home.urls")),
 )
 # STATIC add करो outside i18n
 if settings.DEBUG:
