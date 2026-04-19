@@ -360,13 +360,15 @@
   </div>
 
   <!-- 🔥 BUTTON BOTTOM -->
-  <form method="post" action="{% url 'toggle_block_artist' artist.id %}" class="artist-action">
+<form method="post" action="{% url 'toggle_block_artist' artist.id %}">
     {% csrf_token %}
+
     {% if artist.block_status %}
       <button type="submit" class="btn-unblock">Unblock</button>
     {% else %}
       <button type="submit" class="btn-block">Block</button>
     {% endif %}
+
   </form>
 
 </div>
