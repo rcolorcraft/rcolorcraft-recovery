@@ -33,7 +33,10 @@
   <link rel="stylesheet" href="{% static 'css/responsive-overrides.css' %}">
   <link rel="stylesheet" href="{% static 'css/review_page.css' %}">
 
+  
   <style>
+
+    
     
 /* Default header position */
 header {
@@ -1347,8 +1350,10 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="menu-overlay" id="menuOverlay"></div>
 
   <!-- Main Content -->
-  {% block content %}{% endblock %}
-
+<main style="flex: 1;">
+  {% block content %}
+  {% endblock %}
+</main>
   <!-- Footer -->
  <footer>
         <div class="footer-container">
