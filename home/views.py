@@ -1433,9 +1433,17 @@ from accounts.models import Employee
 
 @login_required
 def toggle_block_artist(request, artist_id):
+    print("CLICKED ID:", artist_id)
+
     artist = get_object_or_404(Employee, id=artist_id)
+
+    print("BEFORE:", artist.block_status)
+
     artist.block_status = not artist.block_status
     artist.save()
+
+    print("AFTER:", artist.block_status)
+
     return redirect(request.META.get("HTTP_REFERER", "/artists/"))
 
 
