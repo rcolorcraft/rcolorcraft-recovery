@@ -75,7 +75,6 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -244,8 +243,8 @@ STATICFILES_DIRS = [
 ]
 
 # Enable WhiteNoise compression and caching
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+# ✅ SAFE VERSION (no break)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # ✅ Media files (user uploads)
 # S3 media storage"AWS_S3_REGION_NAME", "ap-south-1")
 
