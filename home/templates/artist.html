@@ -3,19 +3,20 @@
 
 {% block content %}
 <style>
-/* Search Container */
-/* PAGE BACKGROUND */
+<style>
+
+/* ===== PAGE BACKGROUND ===== */
 .search-container {
   width: 100%;
   margin: 0;
   padding: 50px 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to bottom, #b4e8ff, #d8f5ff, #ffffff);
-  min-height: 100vh;
-  align-items:center;
+  /* ❌ REMOVE THIS */
+  /* min-height: 100vh; */
 }
 
-/* HEADINGS */
+/* ===== HEADINGS ===== */
 .search-container h2 {
   text-align: center;
   color: #0b4f75;
@@ -32,7 +33,7 @@
   font-weight: 600;
 }
 
-/* SEARCH FORM */
+/* ===== FORM ===== */
 .search-container form {
   display: flex;
   flex-wrap: wrap;
@@ -46,206 +47,89 @@
   box-shadow: 0 6px 25px rgba(0,0,0,0.10);
 }
 
-.search-container form input,
-.search-container form button {
-  padding: 12px 14px;
-  border: 1px solid #d4d9e2;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  transition: 0.25s ease;
-}
-
 .search-container form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   min-width: 180px;
 }
 
 .search-container form button {
   background-color: #2b6cd6;
   color: #fff;
-  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  min-width: 120px;
-}
-.search-container form button:hover {
-  background-color: #1e4fa8;
-}
-/* Smaller Block/Unblock Button */
-.artist-action {
-  margin-top: 6px; /* spacing above button */
 }
 
-.artist-action button {
-  padding: 4px 10px;   /* smaller button size */
-  font-size: 12px;     /* smaller text */
-  border-radius: 14px; /* smoother shape */
-}
-
-/* ARTIST LIST GRID */
-/* ===== ARTIST LIST ===== */
+/* ===== GRID ===== */
 .artist-list {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-    margin-top: 20px;
-    {% comment %} display: flex;
-    flex-direction: column; {% endcomment %}
-    gap: 25px;
-    justify-content:center;
-    margin:0 auto;
-    max-width:1100px;
-    align-content :start;
-    {% comment %} align-items: center; {% endcomment %}
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 /* ===== CARD ===== */
 .artist-item {
-    width: 100% !important;
-
-    display: block;
-    gap: 20px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    {% comment %} max-width: 900px; {% endcomment %}
-    transition: 0.3s;
-    margin:0;
+  display: flex;  /* 🔥 FIX */
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: 0.3s;
+  align-items: flex-start;
 }
 
 .artist-item:hover {
-    transform: translateY(-3px);
+  transform: translateY(-3px);
+}
+
+.artist-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* ===== IMAGE ===== */
 .artist-photo {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #eee;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink:0;
 }
 
 /* ===== DETAILS ===== */
 .artist-details {
-    flex: 1;
-}
-
-/* ===== NAME ROW ===== */
-.artist-name {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-/* ===== BADGES ===== */
-.active-badge {
-    background: #d4edda;
-    color: #28a745;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-left: 8px;
-}
-
-.blocked-badge {
-    background: #f8d7da;
-    color: #dc3545;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-left: 8px;
+  flex: 1;
 }
 
 /* ===== INFO GRID ===== */
 .artist-info {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 15px;
-    margin-top: 10px;
-    display:grid;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 15px;
+  margin-top:10px;
 }
 
-/* ===== INFO ITEM ===== */
-.info-item {
-    font-size: 14px;
+/* ===== BADGES ===== */
+.active-badge {
+  background: #d4edda;
+  color: #28a745;
+  padding: 3px 8px;
+  border-radius: 6px;
 }
 
-.info-label {
-    font-weight: 600;
-    color: #555;
-    margin-right: 5px;
-}
-
-.info-value {
-    color: #222;
-}
-/* ===== KYC SECTION ===== */
-.kyc-section {
-    margin-top: 15px;
-}
-
-/* ===== IMAGE GRID ===== */
-.kyc-images {
-    display: flex;
-    gap: 12px;              /* images के बीच gap */
-    margin-top: 10px;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* left aligned (center भी कर सकते) */
-}
-
-/* ===== IMAGE STYLE ===== */
-.kyc-img {
-    width: 140px;          /* size बड़ा */
-    height: 110px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    border: 2px solid #eee;
-}
-
-/* Hover effect */
-.kyc-img:hover {
-    transform: scale(1.08);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-/* ===== CARD STYLE ===== */
-.kyc-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-    width: 130px;
-}
-
-/* ===== TITLE ===== */
-.kyc-card p {
-    font-size: 12px;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #555;
-}
-
-/* ===== IMAGE ===== */
-.kyc-card img {
-    width: 100%;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-/* ===== HOVER EFFECT ===== */
-.kyc-card img:hover {
-    transform: scale(1.08);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .kyc-images {
-        justify-content: center;
-    }
+.blocked-badge {
+  background: #f8d7da;
+  color: #dc3545;
+  padding: 3px 8px;
+  border-radius: 6px;
 }
 
 .verified-badge {
@@ -253,79 +137,44 @@
   color: #28a745;
   padding: 3px 8px;
   border-radius: 6px;
-  font-size: 12px;
-  margin-left: 6px;
 }
-
 
 /* ===== BUTTON ===== */
-.artist-action {
-    margin-top: 15px;
-}
-
-.artist-action button {
-  width: auto;   /* 🔥 full width हटाओ */
-  display: inline-block;
-}
-
-/* BLOCK BUTTON */
 .btn-block {
-    background: #dc3545;
-    color: white;
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  background: #dc3545;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
 }
 
-.btn-block:hover {
-    background: #c82333;
-}
-
-/* UNBLOCK BUTTON */
 .btn-unblock {
-    background: #28a745;
-    color: white;
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  background: #28a745;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
 }
 
-.btn-unblock:hover {
-    background: #218838;
+/* ===== KYC ===== */
+.kyc-images {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-/* ===== NO DATA ===== */
-.no-artists {
-    text-align: center;
-    color: #777;
+.kyc-img {
+  width: 120px;
+  height: 90px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .artist-item {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .artist-info {
-        grid-template-columns: 1fr;
-    }
-
-    .artist-name {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    /* ===== MODAL ===== */
+/* ===== MODAL FIX ===== */
 #imgModal {
   display: none;
   position: fixed;
-  z-index: 99999; /* 🔥 increase */
-  left: 0;
-  top: 0;
+  z-index: 99999;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.9);
@@ -337,33 +186,25 @@
   max-width: 80%;
   max-height: 80%;
   margin-top: 60px;
-  border-radius: 10px;
 }
 
-.modal-content {
-  display: block;
-  margin: auto;
-  max-width: 80%;
-  max-height: 80%;
-  margin-top: 50px;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .artist-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .artist-info {
+    grid-template-columns: 1fr;
+  }
 }
 
-
-@keyframes zoomIn {
-  from { transform: scale(0.7); }
-  to { transform: scale(1); }
+.artist-action button {
+  width: fit-content;
 }
 
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  color: white;
-  font-size: 30px;
-  cursor: pointer;
-
-
-}
+</style>
 </style>
 <div class="search-container">
   <h2>Find an Artist</h2>
