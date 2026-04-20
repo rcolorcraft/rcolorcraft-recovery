@@ -2158,7 +2158,7 @@ overflow: visible;
 }
 
 /* ===== SOFT BORDER GLOW ===== */
-.explore-item::before {
+/* .explore-item::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -2166,20 +2166,20 @@ overflow: visible;
   opacity: 0;
   transition: 0.3s;
   box-shadow: 0 0 0px rgba(255,126,95,0.4);
-}
+} */
 
 /* glow on hover */
-.explore-item:hover::before {
+/* .explore-item:hover::before {
   opacity: 1;
   box-shadow: 0 0 15px rgba(255,126,95,0.3);
-}
+} */
 
 .explore-item:hover  {
 
 color: #ff7e5f; 
-box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+box-shadow: none;
 
-transform: translateY(-6px) scale(1.05);
+transform: translateY(-4px) ;
 
 }
 
