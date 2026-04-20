@@ -128,6 +128,14 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": "GWOdjhYKxBkBhK9GZtNnALV1ZdM",
 }
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+import cloudinary
+
+cloudinary.config(
+    cloud_name="djpbnsl2t",
+    api_key="129928124765738",
+    api_secret="GWOdjhYKxBkBhK9GZtNnALV1ZdM",
+)
+
 
 import dj_database_url
 import os
