@@ -2722,8 +2722,29 @@ function closeForm() {
   </div>
 
 
+  <div class="service-card">
 
-  <div class="service-card" id="cartoon-painting-card">
+    <div class="">
+
+      <img src="{% static 'gallery/st.jpeg' %}" alt="Statue Art" />
+
+    </div>
+
+    <h3 style="padding-bottom: 5px;"> <b>{% trans "Statue Art - Walls Full of Creativity and Life" %}</b></h3>
+
+    <p>{% trans "Bring your walls to life with stunning statue-inspired designs. Our artwork adds depth, creativity, and a unique 3D feel to your space. Perfect for homes, gardens, and commercial areas that need a bold artistic touch." %}</p>
+
+    <div class="card-buttons">
+
+      <a href="{% url 'book_service' 'statue-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
+
+      <a href="{% url 'explore_service' 'statue-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
+
+    </div>
+
+  </div>
+
+  <div class="service-card" >
 
     <div class="">
 
@@ -2747,7 +2768,7 @@ function closeForm() {
 
 
 
-  <div class="service-card" id="home-painting-card">
+  <div class="service-card">
 
     <div class="">
 
