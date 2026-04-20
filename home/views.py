@@ -1534,3 +1534,12 @@ from django.shortcuts import render
 
 def my_bookings(request):
     return render(request, "my_bookings.html")
+
+
+from employee.models import ServiceImage
+
+
+def explore_service(request, service_type):
+    db_images = ServiceImage.objects.filter(is_approved=True)
+
+    return render(request, "explore_service.html", {"db_images": db_images})
