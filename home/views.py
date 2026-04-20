@@ -191,6 +191,7 @@ def book_service(request, service_type):
         "mural-art": "Mural Art",
         "mural": "Mural Art",
         "statue-painting": "Statue Art",
+        "cartoon-painting": "Cartoon Art",
         "metro-advertisement": "Metro Advertisement",
         "outdoor-advertisement": "Outdoor Advertisement",
         "school-painting": "School Art",
@@ -201,7 +202,6 @@ def book_service(request, service_type):
         "scrap-animal-art": "Scrap Animal Art",
         "nature-fountain": "Nature & Water Fountain",
         "fountain-art": "Nature & Water Fountain",
-        "cartoon-painting": "Cartoon Art",
         "home-painting": "Home Art",
         # Mapping for any previous, short slugs (optional, but good for backward compatibility)
         "3d-art": "3D Wall Art",
