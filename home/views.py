@@ -189,7 +189,7 @@ def book_service(request, service_type):
         "3d-wall-art": "3D Wall Art ",
         "3d-floor-art": "3D Floor Art",
         "mural-art": "Mural Art",
-        "School-Painting": "School Art",
+        "School-Painting": "School Painting",
         "mural": "Mural Art",
         "statue-painting": "Statue Art",
         "cartoon-painting": "Cartoon Art",
@@ -214,7 +214,7 @@ def book_service(request, service_type):
         "scrap-yard-art": "Scrap Animal Art",  # Guessing based on common short form
         "spray-art": "Statue",  # Guessing based on context
         "structure-art": "Scrap Animal Art",  # Guessing based on context
-        "School-Painting": "School Painting",  # Guessing based on context
+        "School-Painting": "School Art",  # Guessing based on context
     }
 
     service_name = service_dict.get(service_type, "Service")
