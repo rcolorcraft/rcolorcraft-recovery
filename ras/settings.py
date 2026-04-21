@@ -241,10 +241,10 @@ LANGUAGE_COOKIE_NAME = "django_language"
 
 # ✅ Static files (CSS, JS, Images)
 STATIC_URL = "/static/"
+
+# Folder where 'collectstatic' will put all static files
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Optional: keep this only if you have a 'static' folder in your project
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
