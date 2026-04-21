@@ -112,17 +112,18 @@
     </span>
 
   </span>
+  
+{% if img.min_size %}
+  <div class="min-size-line">
+    Min Size: {{ img.min_size }} ft
+  </div>
+{% endif %}
 
   <span class="art-type">{{ img.type_of_art }}</span>
 </div>
 
 
 
-{% if img.min_size %}
-  <div class="min-size-line">
-    Min Size: {{ img.min_size }} ft
-  </div>
-{% endif %}
 
 {% comment %} 
             <div class="artist-info">
@@ -905,11 +906,14 @@ gap:6px;
 .price-tag {
   background: linear-gradient(135deg, #00c853, #64dd17);
   color: white;
+  right:50%;
+  justify-content:center;
+  align-items:center;
   padding: 5px 12px;
   border-radius: 20px;
   font-weight: 600; 
   margin:4px 0;
-  font-size: 13px;
+  font-size: 18px;
   box-shadow: 0 4px 15px rgba(123, 47, 247, 0.3);
 }
 
@@ -1201,6 +1205,7 @@ gap:6px;
   border-radius: 15px;
   display: inline-block;
 }
+
 .fake-price-badge {
   background: #f1f5f9;
   color: #4a5568;
