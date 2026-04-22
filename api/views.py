@@ -1141,11 +1141,11 @@ def explore_service_api(request, service_type):
         "madhubani-painting": "Madhubani Painting",
         "texture-painting": "Texture Painting",
         "stone-murti": "Stone Murti",
-        "statue": "Statue",
+        "statue": "Statue Painting",
         "scrap-animal-art": "Scrap Animal Art",
         "nature-fountain": "Nature & Water Fountain",
         "fountain-art": "Nature & Water Fountain",
-        "cartoon-painting": "Cartoon Painting",
+        "cartoon-painting": "Cartoon Art",
         "home-painting": "Home Painting",
     }
     service_name = service_dict.get(service_type, "Service")
