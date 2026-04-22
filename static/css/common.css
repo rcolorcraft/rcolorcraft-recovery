@@ -1883,7 +1883,7 @@ gap: 2rem; /* More space between cards */
 /* width: calc(350px * 18); */
 width: max-content;
 
-animation: scroll-left 35s linear infinite;
+animation: scroll-left 70s linear infinite;
 
 }
 
@@ -1897,7 +1897,7 @@ animation: scroll-left 35s linear infinite;
 
       margin-top: 15px;
   
-      animation: scroll-right 35s linear infinite;
+      animation: scroll-right 70s linear infinite;
     }
   /* keft animation */
 
