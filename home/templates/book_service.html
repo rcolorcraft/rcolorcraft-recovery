@@ -632,6 +632,29 @@ transition:0.3s;
 }
 
 
+.card-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    background: #0a0a0a;
+    color: white;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    z-index: 10;
+}
+
 .design-card {
     position: relative;
     cursor: pointer;
@@ -1609,6 +1632,10 @@ display:block;
              '{{ img.image_name }}', 
              '{{ img.image.url }}', 
              '{{ img.price }}')">
+
+             <div class="card-number">
+        {{ forloop.counter }}
+    </div>
 
         <img src="{{ img.image.url }}" alt="{{ img.image_name }}">
             
