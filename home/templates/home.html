@@ -1647,22 +1647,7 @@ function closeForm() {
   </a>
 
 
-
-  <!-- 3. Outdoor Advertisement (Corrected slug) -->
-
-  <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
-
-    <div class="explore-circle">
-
-      <img src="{% static 'gallery/adver.jpg' %}" alt="Outdoor Advertisement" />
-
-    </div>
-
-    <p>{% trans "Outdoor Advertisement" %}</p>
-
-  </a>
-
-   <a href="{% url 'explore_service' 'statue-art' %}" class="explore-item">
+ <a href="{% url 'explore_service' 'statue-art' %}" class="explore-item">
 
     <div class="explore-circle">
 
@@ -1674,10 +1659,19 @@ function closeForm() {
 
   </a>
 
+  
+  <a href="{% url 'explore_service' 'mural' %}" class="explore-item">
 
+    <div class="explore-circle">
 
+      <img src="{% static 'gallery/art11.jpg' %}" alt="mural Art" />
 
-  <!-- 4. Metro Advertisement (Corrected slug) -->
+    </div>
+
+    <p>{% trans "Mural Art" %}</p>
+
+  </a>
+
 
   <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-item">
 
@@ -1693,9 +1687,7 @@ function closeForm() {
 
 
 
-  <!-- 5. School Painting (Corrected slug) -->
-
-  <a href="{% url 'explore_service' 'school-painting' %}" class="explore-item">
+    <a href="{% url 'explore_service' 'school-painting' %}" class="explore-item">
 
     <div class="explore-circle">
 
@@ -1706,6 +1698,34 @@ function closeForm() {
     <p>{% trans "School Art" %}</p>
 
   </a>
+
+
+
+  <!-- 3. Outdoor Advertisement (Corrected slug) -->
+
+  <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/adver.jpg' %}" alt="Outdoor Advertisement" />
+
+    </div>
+
+    <p>{% trans "Outdoor Advertisement" %}</p>
+
+  </a>
+
+  
+
+
+
+  <!-- 4. Metro Advertisement (Corrected slug) -->
+
+  
+
+
+  <!-- 5. School Painting (Corrected slug) -->
+
 
 
 
@@ -1726,19 +1746,6 @@ function closeForm() {
 
 
   <!-- 7. mural (Corrected slug) -->
-
-  <a href="{% url 'explore_service' 'mural' %}" class="explore-item">
-
-    <div class="explore-circle">
-
-      <img src="{% static 'gallery/art11.jpg' %}" alt="mural Art" />
-
-    </div>
-
-    <p>{% trans "Mural Art" %}</p>
-
-  </a>
-
 
 
   <!-- 8. Scrap Animal Art (Corrected slug) -->
