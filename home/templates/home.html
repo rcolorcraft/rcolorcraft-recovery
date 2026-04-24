@@ -1735,17 +1735,7 @@ function closeForm() {
 
   <!-- 9. Nature & Water Fountain / Fountain Art (Slug: fountain-art) -->
 
-  <a href="{% url 'explore_service' 'fountain-art' %}" class="explore-item">
-
-    <div class="explore-circle">
-
-      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Nature and Water Fountain" />
-
-    </div>
-
-    <p>{% trans "Water Tank Art" %}</p>
-
-  </a>
+  
 
 
 
@@ -1760,6 +1750,18 @@ function closeForm() {
     </div>
 
     <p>{% trans "Home Art" %}</p>
+
+  </a>
+
+  <a href="{% url 'explore_service' 'fountain-art' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Nature and Water Fountain" />
+
+    </div>
+
+    <p>{% trans "Water Tank Art" %}</p>
 
   </a>
 
