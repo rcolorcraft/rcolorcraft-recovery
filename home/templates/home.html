@@ -1673,17 +1673,7 @@ function closeForm() {
   </a>
 
 
-  <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-item">
-
-    <div class="explore-circle">
-
-      <img src="{% static 'gallery/ad.jpeg' %}" alt="Metro Advertisement" />
-
-    </div>
-
-    <p>{% trans "Metro Advertisement" %}</p>
-
-  </a>
+ 
 
 
 
@@ -1703,19 +1693,6 @@ function closeForm() {
 
   <!-- 3. Outdoor Advertisement (Corrected slug) -->
 
-  <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
-
-    <div class="explore-circle">
-
-      <img src="{% static 'gallery/adver.jpg' %}" alt="Outdoor Advertisement" />
-
-    </div>
-
-    <p>{% trans "Outdoor Advertisement" %}</p>
-
-  </a>
-
-  
 
 
 
@@ -1785,6 +1762,33 @@ function closeForm() {
     <p>{% trans "Home Art" %}</p>
 
   </a>
+
+   <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/adver.jpg' %}" alt="Outdoor Advertisement" />
+
+    </div>
+
+    <p>{% trans "Outdoor Advertisement" %}</p>
+
+  </a>
+
+   <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-item">
+
+    <div class="explore-circle">
+
+      <img src="{% static 'gallery/ad.jpeg' %}" alt="Metro Advertisement" />
+
+    </div>
+
+    <p>{% trans "Metro Advertisement" %}</p>
+
+  </a>
+
+  
+
 
 </div>
 
