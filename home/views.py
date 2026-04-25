@@ -1536,3 +1536,25 @@ from django.shortcuts import render
 
 def my_bookings(request):
     return render(request, "my_bookings.html")
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from .models import Booking
+
+
+@login_required
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if booking.customer_user_id != request.user.id:
+        return redirect("my_orders")
+
+    if booking.status == "completed":
+        messages.error(request, "❌ Completed order cannot be cancelled!")
+        return redirect("my_orders")
+
+    booking.status = "cancelled"
+    booking.save()
+
+    return redirect("/en/my-orders/?cancelled=true")  # 👈 यही main change है

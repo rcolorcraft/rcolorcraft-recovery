@@ -265,6 +265,16 @@ input:checked + .slider:before {
     font-weight: 600;
 }
 
+.alert-box {
+    background: #22c55e;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
 </style>
 
 <div class="page-container">
@@ -316,6 +326,20 @@ input:checked + .slider:before {
                             </div>
                         </div>
                     </div>
+
+                    <div class="info-row">
+    <div class="info-icon">❌</div>
+    <div class="info-content">
+        <div class="info-label">Order Status</div>
+        <div class="info-value">
+            {% if booking.status == "cancelled" %}
+                <span style="color:red; font-weight:600;">Cancelled</span>
+            {% else %}
+                {{ booking.status }}
+            {% endif %}
+        </div>
+    </div>
+</div>
                     
                     <div class="info-row">
     <div class="info-icon">✅</div>
@@ -355,6 +379,20 @@ input:checked + .slider:before {
                             </div>
                         </div>
                     </div>
+            {% if booking.status != "cancelled" and booking.status != "completed" %}
+
+<div style="margin-top:15px; text-align:center;">
+   <form method="post" action="{% url 'cancel_booking' booking.id %}">
+    {% csrf_token %}
+
+    <button type="button" class="cancel-btn"
+        style="background:red; color:white; padding:8px 15px; border:none; border-radius:8px; cursor:pointer;">
+        Cancel Order
+    </button>
+</form>
+</div>
+
+{% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -364,4 +402,43 @@ input:checked + .slider:before {
         </div>
     {% endif %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.querySelectorAll('.cancel-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const form = this.closest('form');
+
+        Swal.fire({
+            title: 'Cancel Order?',
+            text: "Are you sure you want to cancel this order?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e3342f',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, Cancel it!',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+
+if (urlParams.get('cancelled') === 'true') {
+    Swal.fire({
+        icon: 'success',
+        title: 'Cancelled!',
+        text: 'Your order has been cancelled.',
+        confirmButtonColor: '#10b981'
+    });
+}
+
+</script>
+
+
 {% endblock %}

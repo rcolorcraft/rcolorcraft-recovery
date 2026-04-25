@@ -51,11 +51,17 @@ urlpatterns = [
     path("home/save_booking/", views.save_booking, name="save_booking"),
     path("shop/", views.shop, name="shop"),
     path("my-orders/", views.my_orders, name="my_orders"),
+    path(
+        "cancel-booking/<int:booking_id>/", views.cancel_booking, name="cancel_booking"
+    ),
     path("contact_us/", views.contact_us, name="contact_us"),
     path(
         "create_razorpay_order/",
         views.create_razorpay_order,
         name="create_razorpay_order",
+    ),
+    path(
+        "cancel-booking/<int:booking_id>/", views.cancel_booking, name="cancel_booking"
     ),
     path(
         "verify_razorpay_payment/",
