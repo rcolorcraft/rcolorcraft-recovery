@@ -1141,7 +1141,7 @@ def explore_service_api(request, service_type):
         "madhubani-painting": "Madhubani Painting",
         "texture-painting": "Texture Painting",
         "stone-murti": "Stone Murti",
-        "statue": "Statue Painting",
+        "Zenith-Collection": "Zenith Collection",
         "scrap-animal-art": "Scrap Animal Art",
         "nature-fountain": "Nature & Water Fountain",
         "fountain-art": "Nature & Water Fountain",
