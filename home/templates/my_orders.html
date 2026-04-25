@@ -332,11 +332,19 @@ input:checked + .slider:before {
     <div class="info-content">
         <div class="info-label">Order Status</div>
         <div class="info-value">
-            {% if booking.status == "cancelled" %}
-                <span style="color:red; font-weight:600;">Cancelled</span>
-            {% else %}
-                {{ booking.status }}
-            {% endif %}
+           {% if booking.status == "cancelled" %}
+    <span style="background:#ef4444; color:white; padding:4px 10px; border-radius:12px; font-size:12px;">
+        ❌ Cancelled
+    </span>
+{% elif booking.status == "pending" %}
+    <span style="background:#f59e0b; color:white; padding:4px 10px; border-radius:12px; font-size:12px;">
+        ⏳ Pending
+    </span>
+{% elif booking.status == "completed" %}
+    <span style="background:#10b981; color:white; padding:4px 10px; border-radius:12px; font-size:12px;">
+        ✅ Completed
+    </span>
+{% endif %}
         </div>
     </div>
 </div>
