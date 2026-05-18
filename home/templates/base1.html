@@ -1,1840 +1,631 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WDGCWQT6JZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WDGCWQT6JZ');
-</script>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta name="google-site-verification" content="9Uh7grJ6096aOJewQ-vFHZTiXiA1hGH9c4BteZbn2bo" />
-  <meta name="description" content="3D Wall Art & Mural Painting Services in Gurgaon. Transform your home walls with crative painting designs by RColorcraft's expert artists. Book now for stunning, custom wall art!">
-  <meta name="keyboards" content="3D wall art Gurgaon, mural painting Gurgaon, wall painting artist gurgaon, wall art design">
-  <title>3D Wall Art & Mural Painting Services in Gurgaon|{% block title %}RColorcraft{% endblock %}</title>
-  
-  <!-- CSS link -->
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD5Vn0gT8nNq0UdwQ3N3cQ4A8b6rC8L9Tz1Jb1S9/7g56b0lX6T8z8x8x8x8w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
-  <link rel="stylesheet" href="{% static 'css/common.css' %}">
-  <link rel="stylesheet" href="{% static 'css/responsive-overrides.css' %}">
-  <link rel="stylesheet" href="{% static 'css/review_page.css' %}">
-
-  
-  <style>
-
-    
-    
-/* Default header position */
-header {
-  position: relative;
-  z-index: 100;
-  transition: margin-top 0.2s ease;
-}
-
-/* Space for Google Translate bar */
-body.gt-active header {
-  margin-top: 40px; /* Google bar height */
-}
-
-/* Hide logo text clutter */
-.goog-logo-link,
-.goog-te-gadget span {
-  display: none !important;
-}
-</style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RColorcraft Footer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  
-
-  
-  /* Popup box */
-
-
-
-  .popup-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: #2C61C0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 0;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    z-index: 1000;
-    flex-direction: column;
-    min-width: 160px;
+  :root {
+    --navy-deep: #0d1b3e;
+    --navy-mid:  #142050;
+    --navy-card: #182560;
+    --navy-line: rgba(255,255,255,0.1);
+    --accent:    #5b8dee;
+    --accent2:   #3a6bd4;
+    --text-primary: #e8edf8;
+    --text-muted:   #8da4d4;
+    --white: #fff;
   }
 
-  .popup-menu a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #ffffffff;
-    font-weight: 500;
-  }
+  body { background: #0d1b3e; font-family: 'DM Sans', sans-serif; }
 
-  .popup-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-</style>
-<style>
-  /* Popup box */
-  .popup-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: #2C61C0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 0;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-    z-index: 1000;
-    flex-direction: column;
-    min-width: 160px;
-  }
-
-  .popup-menu a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #ffffffff;
-    font-weight: 500;
-  }
-
-  .popup-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-/* ===== FLOATING LARGE ORDER BUTTON ===== */
-.mobile-large-order {
-  position: fixed;
-  bottom: 110px;
-  right: 55px;
-  z-index: 99999;
-}
-
-.large-order-btn-mobile::before {
-  position: absolute;
-  top: -35px;
-  right: 0;
-  background: black;
-  color: white;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 10px;
-}
-
-/* ===== BUTTON STYLE ===== */
-.large-order-btn-mobile {
-    position: fixed;
-    bottom: 100px;
-    right: 40px;
-
-    {% comment %} padding: 10px 14px;   /* width/height hatao */ {% endcomment %}
-    border-radius: 30px;  /* circle ki jagah oval */
-
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-
-    background: linear-gradient(135deg, rgb(64, 36, 226), hsl(219, 93%, 73%));
-    color: #fff;
-
-    font-size: 15px;
-    font-weight: 500;
-
-    display: flex;
-    align-items: center;
-    gap: 2px;
-
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-
-    transition: all 0.3s ease;
-
-
-  /* Glow Effect */
-  box-shadow: 0 0 15px hsl(239, 56%, 68%),
-              0 0 30px rgba(180, 104, 241, 0.4);
-
-
-  transition: all 0.3s ease;
-}
-
-
-
-/* ===== HOVER EFFECT ===== */
-.large-order-btn-mobile:hover {
-  transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 0 25px hsla(226, 93%, 71%, 0.90),
-              0 0 40px hsla(207, 95%, 78%, 0.97);
-}
-
-/* ===== CLICK EFFECT ===== */
-.large-order-btn-mobile:active {
-  transform: scale(0.95);
-}
-
-/* ===== PULSE ANIMATION ===== */
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 10px rgba(255, 106, 0, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 25px hsla(204, 79%, 69%, 0.98),
-                0 0 40px rgba(238, 9, 121, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(88, 71, 243, 0.97);
-  }
-}
-
-.large-order-btn-mobile {
-  animation: pulseGlow 1.8s infinite;
-}
-
-/* ===== RIPPLE EFFECT ===== */
-.large-order-btn-mobile::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  animation: ripple 2s infinite;
-  z-index: -1;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.8);
-    opacity: 0;
-  }
-}
-
-/* ===== ICON ANIMATION ===== */
-{% comment %} .large-order-btn-mobile i {
-  animation: bounce 1s infinite alternate;
-} {% endcomment %}
-
-@keyframes bounce {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-4px);
-  }
-}
-
-/* ===== CHAT BUTTON BELOW ===== */
-.chat-btn,
-.whatsapp-widget {
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 1000 !important;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .mobile-large-order {
-    bottom: 100px;
-  }
-
-  
-}
-
-  /* ========== POPUP OVERLAY STYLES ========== */
-  
-  /* Popup Overlay */
-  .popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-    z-index: 10000;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .popup-overlay.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Popup Content */
-  .popup {
-    background: white;
-    border-radius: 20px;
-    padding: 3rem;
-    max-width: 500px;
-    width: 90%;
+  /* ===== FOOTER ===== */
+  footer {
+    background: linear-gradient(160deg, #0d1b3e 0%, #142050 60%, #0f1e47 100%);
+    color: var(--text-primary);
+    padding: 56px 0 0;
     position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    animation: slideUp 0.4s ease;
+    overflow: hidden;
+  }
+
+  /* subtle background stars */
+  footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(91,141,238,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 10%, rgba(91,141,238,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 55%, rgba(91,141,238,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 70%, rgba(91,141,238,0.3) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .footer-wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
     z-index: 1;
   }
 
-  .popup-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  /* ===== TOP GRID ===== */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 280px 200px 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--navy-line);
   }
 
-  .popup-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* --- Brand col --- */
+  .brand-col {}
+
+  .brand-logo-box {
+    width: 120px;
+    height: 90px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--navy-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: 1px solid rgba(91,141,238,0.25);
+  }
+
+  .brand-logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-logo-box .logo-placeholder {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    line-height: 1;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .brand-underline {
+    width: 48px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin-bottom: 18px;
+  }
+
+  .brand-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* --- Quick Links col --- */
+  .col-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .col-underline {
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin-bottom: 22px;
+    margin-top: -14px;
+  }
+
+  .quick-links { list-style: none; }
+
+  .quick-links li {
+    border-bottom: 1px solid var(--navy-line);
+  }
+
+  .quick-links li:first-child {
+    border-top: 1px solid var(--navy-line);
+  }
+
+  .quick-links li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.25s, gap 0.25s;
+  }
+
+  .quick-links li a .arr {
+    color: var(--accent);
+    font-size: 12px;
+    transition: transform 0.25s;
+  }
+
+  .quick-links li a:hover {
+    color: var(--white);
+    gap: 14px;
+  }
+
+  .quick-links li a:hover .arr {
+    transform: translateX(3px);
+  }
+
+  /* --- Trending Services col --- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .service-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 8px;
+    border-bottom: 1px solid var(--navy-line);
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.25s, background 0.25s;
+    border-radius: 6px;
+  }
+
+  .service-item:hover {
+    color: var(--white);
+    background: rgba(91,141,238,0.08);
+  }
+
+  .svc-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(91,141,238,0.12);
+    border: 1px solid rgba(91,141,238,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.25s;
+  }
+
+  .service-item:hover .svc-icon {
+    background: rgba(91,141,238,0.22);
+  }
+
+  .svc-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ===== BOTTOM BAR ===== */
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 0;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* Social */
+  .social-section {}
+
+  .social-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .social-underline {
+    width: 36px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin-bottom: 16px;
+    margin-top: -8px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .social-icon {
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-  }
-
-  .popup-icon svg {
-    width: 40px;
-    height: 40px;
-    fill: white;
-  }
-
-  .popup h2 {
-    color: #333;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .popup-subtitle {
-    color: #667eea;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  .popup-content {
-    text-align: center;
-    color: #666;
-    line-height: 1.8;
-    margin-bottom: 2rem;
-  }
-
-  .contact-info {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin-bottom: 1.5rem;
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0.75rem 0;
-    color: #333;
-    font-weight: 500;
-  }
-
-  .contact-item svg {
-    width: 20px;
-    height: 20px;
-    fill: #667eea;
-  }
-
-  .close-btn {
-  background: #2c3e50;
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-  .close-btn:hover {
-    background: rgb(247, 19, 19);
-    transform: rotate(90deg);
-  }
-
-  .close-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: rgb(247, 7, 7);
-    pointer-events: none;
-  }
-
-  .cta-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-  }
-
-  .cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* ========== RESPONSIVE STYLES ========== */
-  
-  /* Mobile View */
-  @media (max-width: 767px) {
-    /* Show floating button on mobile */
-    .mobile-large-order {
-      display: block;
-    }
-    
-    /* Style button in hamburger menu */
-    .nav-left .large-order-btn {
-      margin: 10px 0;
-      width: calc(100% - 20px);
-      display: block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-    }
-    
-    .nav-left ul li {
-      display: block;
-    }
-
-    .popup {
-      padding: 2rem;
-      width: 95%;
-    }
-
-    .popup h2 {
-      font-size: 1.5rem;
-    }
-  }
-
-  /* Tablet View */
-  @media (min-width: 768px) and (max-width: 1024px) {
-    .large-order-btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-      margin-left: 5px;
-    }
-  }
-
-/* Mobile responsive */
-@media (max-width: 767px) {
-    .large-order-btn {
-        margin: 10px 0;
-        width: 100%;
-        display: block;
-    }
-    
-    .nav-left ul li {
-        display: block;
-    }
-}
-@media screen and (max-width: 600px) {
-  .nav-icon {
-    margin-top: 0;
-    margin-left: 0;
-  }
-}
-@media (max-width: 480px) {
-    .card-buttons {
-        max-width: 150px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-/* Add this CSS to your existing styles (update the .contact-item class) */
-
-.contact-info {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin-bottom: 1.5rem;
-}
-
-/* Updated Contact Item - Now clickable */
-.contact-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0.75rem 0;
-    color: #333;
-    font-weight: 500;
-}
-
-/* Contact Link Styles */
-.contact-link {
-  font-weight:700;
-  font-size:15px;
-  color:#2c3e50;
-  display:block;
-  margin-bottom:5px;
     text-decoration: none;
-    color: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .social-icon:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  .social-icon svg { width: 20px; height: 20px; fill: #fff; }
+
+  .si-fb   { background: linear-gradient(135deg, #1877f2, #0d5fc9); }
+  .si-ig   { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+  .si-tw   { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+  .si-li   { background: linear-gradient(135deg, #0077b5, #005885); }
+  .si-wa   { background: linear-gradient(135deg, #25d366, #1da851); }
+
+  /* Copyright */
+  .copyright-block {
+    text-align: center;
+    flex: 1;
+  }
+
+  .copyright-block p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .copyright-block .heart { color: #e74c3c; }
+
+  /* CTA buttons */
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-}
+    border: none;
+    min-width: 200px;
+    justify-content: space-between;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
 
-.contact-link:hover {
-    background: rgba(102, 126, 234, 0.1);
-    color: #667eea;
-    transform: translateX(5px);
-}
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
 
-.contact-link:active {
-    transform: scale(0.98);
-}
+  .cta-btn .btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.2);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
 
-.contact-item svg {
-    width: 20px;
-    height: 20px;
-    fill: #667eea;
-    transition: all 0.3s ease;
-}
+  .cta-btn .btn-text { flex: 1; text-align: center; }
 
-.contact-link:hover svg {
-    fill: #764ba2;
-    transform: scale(1.1);
-}
-    </style>
-    <style>
-        /* ========== Site footer (mockup design) ========== */
-        .site-footer {
-            background: #0a1931;
-            color: #e8eef7;
-            padding: 48px 24px 32px;
-            margin-top: auto;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
+  .cta-btn .btn-arrow {
+    font-size: 18px;
+    opacity: 0.8;
+  }
 
-        .site-footer .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+  .btn-bulk {
+    background: linear-gradient(135deg, #4a3fcf, #7b6ee8);
+    color: #fff;
+  }
 
-        .site-footer .footer-heading {
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #fff;
-            margin: 0 0 14px;
-            position: relative;
-            padding-bottom: 10px;
-        }
+  .btn-chat {
+    background: linear-gradient(135deg, #25d366, #1aab52);
+    color: #fff;
+  }
 
-        .site-footer .footer-heading::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 48px;
-            height: 3px;
-            background: linear-gradient(90deg, #7c3aed, #3b82f6);
-            border-radius: 2px;
-        }
+  /* ===== VERY BOTTOM ===== */
+  .footer-line {
+    border-top: 1px solid var(--navy-line);
+    margin-top: 28px;
+    padding: 18px 0;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(141,164,212,0.5);
+    letter-spacing: 0.5px;
+  }
 
-        .site-footer .footer-content {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr 1.4fr;
-            gap: 40px 32px;
-            padding-bottom: 36px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 240px 180px 1fr;
+      gap: 32px;
+    }
+  }
 
-        .site-footer .footer-brand img {
-            width: 120px;
-            height: auto;
-            display: block;
-            margin-bottom: 12px;
-        }
+  @media (max-width: 768px) {
+    footer { padding: 40px 0 0; }
 
-        .site-footer .footer-brand .footer-heading::after {
-            width: 40px;
-        }
+    .footer-wrap { padding: 0 20px; }
 
-        .site-footer .footer-brand p {
-            font-size: 0.9rem;
-            line-height: 1.65;
-            color: #b8c5d9;
-            margin: 0;
-            max-width: 320px;
-        }
-
-        .site-footer .footer-links-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .site-footer .footer-links-list li {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .site-footer .footer-links-list li:last-child {
-            border-bottom: none;
-        }
-
-        .site-footer .footer-links-list a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 0;
-            color: #e8eef7;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s ease, padding-left 0.2s ease;
-        }
-
-        .site-footer .footer-links-list a i.fa-chevron-right {
-            color: #5eb8ff;
-            font-size: 0.7rem;
-        }
-
-        .site-footer .footer-links-list a:hover {
-            color: #fff;
-            padding-left: 4px;
-        }
-
-        .site-footer .footer-services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0 20px;
-        }
-
-        .site-footer .footer-service-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-            color: #e8eef7;
-            text-decoration: none;
-            font-size: 0.88rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: color 0.2s ease;
-        }
-
-        .site-footer .footer-service-link i {
-            color: #5eb8ff;
-            width: 18px;
-            text-align: center;
-            font-size: 0.95rem;
-            flex-shrink: 0;
-        }
-
-        .site-footer .footer-service-link:hover {
-            color: #fff;
-        }
-
-        .site-footer .footer-lower {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: start;
-            gap: 24px 32px;
-            padding-top: 28px;
-        }
-
-        .site-footer .footer-follow .footer-heading {
-            margin-bottom: 16px;
-        }
-
-        .site-footer .footer-social-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .site-footer .footer-social-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid rgba(94, 184, 255, 0.55);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #5eb8ff;
-            text-decoration: none;
-            transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
-        }
-
-        .site-footer .footer-social-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .site-footer .footer-social-icon:hover {
-            background: rgba(94, 184, 255, 0.15);
-            border-color: #5eb8ff;
-            transform: translateY(-2px);
-        }
-
-        .site-footer .footer-copyright {
-            text-align: center;
-            align-self: center;
-        }
-
-        .site-footer .footer-copyright p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #c5d0e0;
-            line-height: 1.6;
-        }
-
-        .site-footer .footer-copyright .heart {
-            color: #ef4444;
-        }
-
-        .site-footer .footer-cta-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 280px;
-            margin-left: auto;
-            width: 100%;
-        }
-
-        .site-footer .footer-cta-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
-            border-radius: 14px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .site-footer .footer-cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-        }
-
-        .site-footer .footer-cta-btn .cta-icon {
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .site-footer .footer-cta-btn .cta-label {
-            flex: 1;
-            text-align: left;
-        }
-
-        .site-footer .footer-cta-btn .cta-arrow {
-            opacity: 0.9;
-            font-size: 0.85rem;
-        }
-
-        .site-footer .footer-cta-bulk {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%);
-        }
-
-        .site-footer .footer-cta-whatsapp {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        }
-
-        @media (max-width: 992px) {
-            .site-footer .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .site-footer .footer-brand {
-                grid-column: 1 / -1;
-            }
-
-            .site-footer .footer-brand p {
-                max-width: 100%;
-            }
-
-            .site-footer .footer-lower {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .site-footer .footer-copyright {
-                grid-column: 1 / -1;
-                order: 3;
-            }
-
-            .site-footer .footer-cta-stack {
-                margin-left: 0;
-                max-width: none;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .site-footer {
-                padding: 36px 16px 28px;
-            }
-
-            .site-footer .footer-content {
-                grid-template-columns: 1fr;
-                gap: 28px;
-            }
-
-            .site-footer .footer-heading::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .site-footer .footer-brand,
-            .site-footer .footer-section-col {
-                text-align: center;
-            }
-
-            .site-footer .footer-brand img {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .site-footer .footer-links-list a {
-                justify-content: center;
-            }
-
-            .site-footer .footer-services-grid {
-                grid-template-columns: 1fr;
-                max-width: 280px;
-                margin: 0 auto;
-            }
-
-            .site-footer .footer-lower {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .site-footer .footer-follow .footer-heading::after,
-            .site-footer .footer-brand .footer-heading::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .site-footer .footer-social-row {
-                justify-content: center;
-            }
-
-            .site-footer .footer-cta-stack {
-                margin: 0 auto;
-            }
-        }
-    </style>
-    <style>
-      
-    /* Social Media Section */
-    .social-section {
-        background: white;
-        border-radius: 20px;
-        padding: 3rem;
-        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.1);
-        text-align: center;
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
     }
 
-    .social-section h2 {
-        color: #0277bd;
-        font-size: 2rem;
-        margin-bottom: 1rem;
+    .brand-col {
+      grid-column: 1 / -1;
     }
 
-    .social-section p {
-        color: #546e7a;
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
+    .services-col {
+      grid-column: 1 / -1;
     }
 
-    .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
     }
 
-    .social-link {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    .copyright-block {
+      order: 3;
+      width: 100%;
     }
 
-    .social-link:hover {
-        transform: translateY(-5px) scale(1.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    .cta-buttons {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      width: 100%;
+      order: 2;
     }
 
-    .social-link svg {
-        width: 35px;
-        height: 35px;
-        fill: white;
+    .cta-btn {
+      min-width: 160px;
+      flex: 1;
     }
 
-    .social-facebook {
-        background: linear-gradient(135deg, #1877f2, #0d5fc9);
+    .social-section { order: 1; }
+  }
+
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
     }
 
-    .social-instagram {
-        background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    .services-grid {
+      grid-template-columns: 1fr 1fr;
     }
 
-    .social-twitter {
-        background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+    .cta-buttons {
+      flex-direction: column;
     }
 
-    .social-linkedin {
-        background: linear-gradient(135deg, #0077b5, #005885);
+    .cta-btn {
+      width: 100%;
     }
-
-    .social-whatsapp {
-        background: linear-gradient(135deg, #25d366, #1da851);
-    }
-
-  
-
-    
-
-        .contact-grid {
-            grid-template-columns: 1fr;
-        }
-
-       
-
-        .social-links {
-            gap: 1rem;
-        }
-
-        .social-link {
-            width: 60px;
-            height: 60px;
-        }
-
-    </style>
-
-    <style>
-      /* Google Translate cleanup - style the select dropdown only */
-      .goog-logo-link,
-      .goog-te-gadget span {
-        display: none !important;
-      }
-
-      .goog-te-gadget {
-        font-size: 0 !important;
-      }
-
-      #google_translate_element select {
-        font-size: 13px;
-        padding: 6px 10px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-        background: white;
-        cursor: pointer;
-      }
-
-      /* Style Google Translate bar to match header */
-      .goog-te-banner-frame {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
-        border-bottom: 2px solid rgba(255,255,255,0.1) !important;
-      }
-
-      /* Style banner content */
-      .goog-te-banner-frame:not(body) {
-        font-family: inherit !important;
-      }
-
-      .goog-te-banner-frame div {
-        background: transparent !important;
-      }
-
-      /* Style text in banner */
-      .goog-te-banner-frame .goog-te-gadget {
-        color: #fff !important;
-      }
-
-      .goog-te-banner-frame .goog-te-combo {
-        background: rgba(255,255,255,0.2) !important;
-        color: #fff !important;
-        border: 1px solid rgba(255,255,255,0.3) !important;
-      }
-
-      .goog-te-banner-frame .goog-te-combo option {
-        background: #2a5298 !important;
-        color: #fff !important;
-      }
-
-      /* Allow space for Google Translate bar when it appears */
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-        transition: margin-top 0.3s ease;
-      }
-
-      html {
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      
-      header {
-        margin-top: 0 !important;
-      }
-    </style>
-
+  }
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="bubble-container"></div>
 
-    <div class="left-group">
-      <div class="logo">
-        <h1 class="site-logo-text">RColorcraft</h1> 
-      </div>
+<footer>
+  <div class="footer-wrap">
 
-      <!-- HAMBURGER MENU BUTTON (visible only on mobile) -->
-       <!-- <div class="hamburger-menu" id="hamburgerMenu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div> -->
-      
+    <!-- TOP GRID -->
+    <div class="footer-grid">
 
-      <!-- NAVIGATION MENU -->
-      <nav class="nav-left" id="navMenu">
-        <ul>
-         <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
-            <li><a href="{% url 'about'%}" 
-              class="{% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
-               <li><a href="/reviews/" class="{% if request.path == '/reviews/' %}active{% endif %}">Reviews & Feedback</a></li>
-          {# Only visible to admin #}
-{% if user.is_authenticated and user.is_staff %}
-    <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
-    <li><a href="/artists/" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
-    <li><a href="{% url 'service_images' %}">Art Images</a></li>
-{% endif %}
-
-
-          {% if request.user.is_authenticated and request.user.role == "customer" %}
-          <li><a href="{% url 'my_orders' %}">My Orders</a></li>
-          {% if user.is_authenticated and user.role == 'customer' or user.is_authenticated and user.role == 'employee' %}
-            <li><a href="{% url 'contact_us' %}">Contact us</a></li>
-        {% endif %}
-
-          <li>
-          <button class="large-order-btn" onclick="openPopup()">
-                Bulk Order? 📦
-            </button>
-            </li>
-          {% endif %}
-          {% if request.user.is_authenticated and request.user.role == "employee" %}
-                    <li><a href="{% url 'employee_bookings' %}" class="{% if 'assignments' in request.path %}active{% endif %}">My Assignments</a></li>
-                        <li><a href="{% url 'service_images' %}">Art Images</a></li>
-
-                    {% endif %}
-        </ul>
-      </nav>
-    </div>
-
-    <div class="mobile-large-order">
-    <button class="large-order-btn-mobile" onclick="openPopup()">
-        <i class="icon">📦</i>
-        <span class="text">Bulk Order</span>
-    </button>
-</div>
-
-
-<!-- ART SEARCH BAR -->
-<div class="art-search-container">
-  <input
-    type="text"
-    id="artSearchInput"
-    placeholder="Search art type…"
-    list="artServices"
-  />
-  <button onclick="searchArtService()">
-    <i class="fas fa-search"></i>
-  </button>
-
-  <!-- Suggestions -->
-  <datalist id="artServices">
-    <option value="3D Wall Art">
-    <option value="3D Floor Art">
-    <option value="Mural Art">
-    <option value="Metro Advertisement">
-    <option value="Outdoor Advertisement">
-    <option value="School Art">
-    <option value="Selfie Art">
-    <option value="Madhubani Art">
-    <option value="Texture Art">
-    <option value="Pillere Art">
-    <option value="Scrap Animal Art">
-    <option value="Water Tank Art">
-    <option value="Cartoon Art">
-    <option value="Home Art">
-          <option value="Zenith Collection">
-
-  </datalist>
-</div>
-
-
-<!-- Language Switcher -->
-<!-- <div class="language-switcher">
-  <form action="{% url 'set_language' %}" method="post" id="languageForm">
-    {% csrf_token %}
-    <input type="hidden" name="next" id="nextInput" value="">
-    <select name="language" id="languageSelect" onchange="changeLanguage()" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd; cursor: pointer; background: white; font-weight: 500;">
-      <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-      <option value="hi" {% if LANGUAGE_CODE == 'hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
-      <option value="pa" {% if LANGUAGE_CODE == 'pa' %}selected{% endif %}>ਪੰਜਾਬੀ (Punjabi)</option>
-      <option value="mr" {% if LANGUAGE_CODE == 'mr' %}selected{% endif %}>मराठी (Marathi)</option>
-      <option value="bn" {% if LANGUAGE_CODE == 'bn' %}selected{% endif %}>বাংলা (Bengali)</option>
-      <option value="gu" {% if LANGUAGE_CODE == 'gu' %}selected{% endif %}>ગુજરાતી (Gujarati)</option>
-      <option value="gwc" {% if LANGUAGE_CODE == 'gwc' %}selected{% endif %}>गढ़वाली (Garhwali)</option>
-     <option value="bho" {% if LANGUAGE_CODE == 'bho' %}selected{% endif %}>भोजपुरी (Bhojpuri)</option> -->
-    <!-- </select>
-  </form>
-</div> -->
-
-<style>
-  .language-switcher {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 90px;
-    z-index: 999;
-  }
-  
-  .language-switcher select {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    transition: all 0.3s ease;
-  }
-  
-  .language-switcher select:hover {
-    background-color: #e9ecef;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .language-switcher select:focus {
-    outline: none;
-    border-color: #2C61C0;
-    box-shadow: 0 0 5px rgba(44, 97, 192, 0.3);
-  }
-
-  /* ===== HEADER SEARCH BAR ===== */
-
-.art-search-container {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 280px;
-  display: flex;
-  gap: 6px;
-  z-index: 999;
-  justify-content:flex-start;
-}
-
-.art-search-container input {
-  padding: 1px 1px;
-  padding-left:15px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  min-width: 100px;
-  width:210px;
-  outline: none;
-}
-
-.art-search-container button {
-  border: none;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  cursor: pointer;
-}
-
-/* Tablet - adjust positions */
-@media (max-width: 991px) {
-  .art-search-container {
-    right: 180px;
-    min-width: 160px;
-  }
-  .art-search-container input {
-    min-width: 140px;
-  }
-  .language-switcher {
-    right: 70px;
-  }
-}
-
-/* Mobile - stacked layout with proper alignment */
-@media (max-width: 768px) {
-  body {
-    padding-top: 120px; /* Extra space for header + search bar row */
-  }
-  header {
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 60px;
-    padding-bottom: 0;
-    align-content: flex-start;
-  }
-
-  /* Top row: logo | spacer | language | user | hamburger */
-  .left-group {
-    order: 1;
-  }
-  .language-switcher {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
-    order: 2;
-    margin-left: auto;
-    margin-right: 8px;
-  }
-  .nav-right {
-    order: 3;
-  }
-  .hamburger-menu {
-    order: 4;
-  }
-  .art-search-container {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
-    order: 10;
-    flex-basis: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 10px 15px;
-    gap: 8px;
-    box-sizing: border-box;
-  }
-  .art-search-container input {
-    flex: 1;
-    min-width: 0;
-  }
-  .mobile-large-order {
-    order: 11;
-  }
-
-  /* Hamburger menu & overlay: start below header + search bar (120px) so they don't overlap */
-  .nav-left {
-    top: 120px !important;
-    height: calc(100vh - 120px) !important;
-    z-index: 10010 !important; /* Above overlay so menu items are tappable */
-  }
-  /* Overlay only covers the dimmed area to the RIGHT of the menu - not over the menu itself.
-     This allows tapping menu items without the overlay closing the menu. */
-  .menu-overlay {
-    top: 120px !important;
-    left: 280px !important; /* Start after the 280px-wide nav menu */
-    width: calc(100% - 280px) !important;
-    height: calc(100vh - 120px) !important;
-    z-index: 10009 !important;
-  }
-}
-
-/* Small mobile - ensure language dropdown fits */
-@media (max-width: 480px) {
-  .language-switcher {
-    margin-right: 4px;
-  }
-  .language-switcher,
-  #google_translate_element {
-    overflow: hidden;
-  }
-  .language-switcher select,
-  #google_translate_element select,
-  .goog-te-combo {
-    font-size: 11px !important;
-    padding: 5px 6px !important;
-    max-width: 85px !important;
-  }
-  
-  
-  
-  .art-search-container {
-    padding: 8px 10px;
-  }
-}
-
-.whatsapp-pro{
-position: fixed;
-bottom: 25px;
-right: 25px;
-display: flex;
-align-items: center;
-gap: 10px;
-background: linear-gradient(135deg, #25D366, #128C7E);
-padding: 12px 18px;
-border-radius: 50px;
-color: white;
-font-weight: 600;
-font-size: 14px;
-text-decoration: none;
-box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-z-index: 9999;
-transition: all 0.3s ease;
-}
-
-.whatsapp-pro .icon{
-background: rgba(255,255,255,0.2);
-padding: 6px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.whatsapp-pro img{
-width: 22px;
-height: 22px;
-}
-
-.whatsapp-pro:hover{
-transform: translateY(-3px) scale(1.05);
-box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-}
-
-/* Glow effect */
-@keyframes glow{
-0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6);}
-70%{box-shadow:0 0 0 15px rgba(37,211,102,0);}
-100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
-}
-
-.whatsapp-pro{
-animation: glow 2s infinite;
-}
-
-</style>
-
-
-
-<script>
-  function changeLanguage() {
-    // Get the current pathname
-    let pathname = window.location.pathname;
-    
-    // Remove the language prefix (e.g., /hi/, /en/, /gu/, /gwc/)
-    // Match patterns like /xx/ or /xxx/ at the beginning
-    let pathWithoutLang = pathname.replace(/^\/[a-z]{2,3}\//, '/');
-    
-    // If pathname didn't change, it might be root, so use /
-    if (pathWithoutLang === pathname && pathname !== '/') {
-      pathWithoutLang = pathname;
-    }
-    
-    // Set the next parameter to the path without language prefix
-    document.getElementById('nextInput').value = pathWithoutLang + window.location.search;
-    document.getElementById('languageForm').submit();
-  }
-
-  
-</script>
-
-     <!-- Replace your popup-overlay section with this updated version -->
-
-<!-- POPUP OVERLAY -->
-<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
-  
-  <div class="bulk-popup" onclick="event.stopPropagation()">
-
-    <!-- CLOSE BUTTON -->
-    <span class="close-btn" onclick="closePopup()">✖</span>
-
-    <!-- LOGO -->
-    <div class="logo"> RcolorCraft</div>
-
-    <!-- TITLE -->
-    <h1><span>CORPORATE</span><br>ORDERS</h1>
-
-    <!-- SUBTEXT -->
-    <p class="subtitle">
-      PLANNING A LARGE PROJECT <br>
-      OR BULK ART SUPPLY ORDER?
-    </p>
-
-    <p class="desc">
-      We are here to help!<br>
-      Visit the counter or talk to our consultants <br>
-      to discuss your custom large orders, palette<br>
-      curation, and studio supply needs.
-    </p>
-
-    <!-- CONTACT BOX -->
-    <div class="contact-box">
-  <a href="mailto:info@rcolorcraft.com" class="contact-link">
-   <strong> 📧 info@rcolorcraft.com </strong>
-  </a>
-
-  <a href="tel:+919759013133" class="contact-link">
-   <strong> 📞 +91 97590 13133</strong>
-  </a>
-</div>
-    <!-- BUTTON -->
-    <button class="cta-btn">Get in Touch</button>
-
-  </div>
-</div>
-    <script>
-        // Replace your existing popup script with this updated version
-
-function openPopup() {
-    const overlay = document.getElementById('popupOverlay');
-    if (overlay) {
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closePopup(event) {
-    const overlay = document.getElementById('popupOverlay');
-    if (overlay) {
-        // Close if clicking overlay background OR if called directly (close button)
-        if (!event || event.target === overlay || event.currentTarget.classList.contains('close-btn')) {
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    }
-}
-
-// Close popup with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const overlay = document.getElementById('popupOverlay');
-        if (overlay && overlay.classList.contains('active')) {
-            closePopup();
-        }
-    }
-});
-
-// Ensure close button works - add this after DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    const closeBtn = document.querySelector('.close-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            closePopup();
-        });
-    }
-});
-    </script>
-
-    <!-- ========== GOOGLE TRANSLATE LANGUAGE SELECTOR ========== -->
-    <div class="language-switcher">
-      <div id="google_translate_element"></div>
-    </div>
-
-    <!-- USER ICON (stays on the right) -->
-    <nav class="nav-right">
-      <ul>
-        <li>
-          <a href="javascript:void(0)" id="userIcon" onclick="togglePopup()">
-    <img src="{% static 'gallery/user.png' %}" class="nav-icon">
-</a>
-
-{% comment %} <p style="color:red;">Role: {{ user.role }}</p> {% endcomment %}
-          <!-- Popup menu -->
-         <div id="myPopup" class="popup-menu">
-       <a href="{% url 'wallet_dashboard' %}">Wallet</a>
-
-{% if user.is_authenticated and user.role == "employee" and not user.is_staff %}
-    <a href="{% url 'edit_profile' %}">Edit Profile</a>
-{% endif %}
-
-<a href="{% url 'logout' %}">Logout/Login</a>
-
-</div>
-        </li>
-      </ul>
-    </nav>
-    <div class="hamburger-menu" id="hamburgerMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-  </header>
-
-  <!-- OVERLAY FOR MOBILE MENU -->
-  <div class="menu-overlay" id="menuOverlay"></div>
-
-  <!-- Main Content -->
-<main style="flex: 1;">
-  {% block content %}
-  {% endblock %}
-</main>
-  <!-- Footer -->
-  <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <!-- About Section -->
-                <div class="footer-brand">
-                    <img src="{% static 'gallery/logohome.png' %}" alt="Rcolorcraft logo">
-                    <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
-                    <p>
-                        RColorcraft is a creative wall art and mural painting company that transforms
-                        homes, offices, and commercial spaces with beautiful and unique designs.
-                        Our team of professional artists specializes in 3D wall art, mural painting,
-                        cartoon art, and customized wall designs.
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="footer-section-col">
-                    <h3 class="footer-heading">Quick Links</h3>
-                    <ul class="footer-links-list">
-                        <li><a href="{% url 'home' %}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Home</a></li>
-                        <li><a href="{% url 'book_service' '3d-wall-art' %}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Booking</a></li>
-                        <li><a href="{% url 'contact_us' %}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Contact Us</a></li>
-                        <li><a href="{% url 'reviews_page' %}"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i> Reviews &amp; Feedback</a></li>
-                    </ul>
-                </div>
-
-                <!-- Services -->
-                <div class="footer-section-col">
-                    <h3 class="footer-heading">Trending Services</h3>
-                    <div class="footer-services-grid">
-                        <div class="footer-services-col">
-                            <a href="{% url 'explore_service' 'home-painting' %}" class="footer-service-link"><i class="fa-solid fa-house"></i> Home Art</a>
-                            <a href="{% url 'explore_service' 'school-painting' %}" class="footer-service-link"><i class="fa-solid fa-graduation-cap"></i> School Art</a>
-                            <a href="{% url 'explore_service' 'texture-painting' %}" class="footer-service-link"><i class="fa-solid fa-shapes"></i> Texture Art</a>
-                            <a href="{% url 'explore_service' '3d-wall-art' %}" class="footer-service-link"><i class="fa-solid fa-cube"></i> 3D Wall Art</a>
-                            <a href="{% url 'explore_service' 'Zenith-Collection' %}" class="footer-service-link"><i class="fa-solid fa-gem"></i> Zenith Collection</a>
-                            <a href="{% url 'explore_service' 'metro-advertisement' %}" class="footer-service-link"><i class="fa-solid fa-train"></i> Metro Advertisement</a>
-                        </div>
-                        <div class="footer-services-col">
-                            <a href="{% url 'explore_service' 'mural' %}" class="footer-service-link"><i class="fa-solid fa-paint-roller"></i> Mural Art</a>
-                            <a href="{% url 'explore_service' 'cartoon-painting' %}" class="footer-service-link"><i class="fa-solid fa-face-smile"></i> Cartoon Art</a>
-                            <a href="{% url 'explore_service' 'fountain-art' %}" class="footer-service-link"><i class="fa-solid fa-droplet"></i> Water Tank</a>
-                            <a href="{% url 'explore_service' '3d-floor-art' %}" class="footer-service-link"><i class="fa-solid fa-layer-group"></i> 3D Floor Art</a>
-                            <a href="{% url 'explore_service' 'madhubani-painting' %}" class="footer-service-link"><i class="fa-solid fa-palette"></i> Madhubani Art</a>
-                            <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="footer-service-link"><i class="fa-solid fa-image"></i> Outdoor Advertisement</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Info -->
-                <!-- <div class="footer-section">
-                    <h3>Contact Us</h3>
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <i>📍</i>
-                            <span>Delhi, India</span>
-                        </div>
-                        <div class="contact-item">
-                            <i>📧</i>
-                            <span>info@rcolorcraft.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i>📞</i>
-                            <span>+91 XXX XXX XXXX</span>
-                        </div>
-                        <div class="contact-item">
-                            <i>🕒</i>
-                            <span>Mon - Sat: 9AM - 7PM</span>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-
-            <div class="footer-lower">
-                <div class="footer-follow">
-                    <h3 class="footer-heading">Follow Us</h3>
-                    <div class="footer-social-row">
-                <a href="https://facebook.com/RcolorCraft" target="_blank" rel="noopener" class="footer-social-icon" title="Facebook" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </a>
-
-                <a href="https://instagram.com/rcolorcraft_" target="_blank" rel="noopener" class="footer-social-icon" title="Instagram" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </a>
-
-                <a href="https://x.com/RcolorCraft" target="_blank" rel="noopener" class="footer-social-icon" title="Twitter" aria-label="Twitter">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-
-                <a href="https://linkedin.com/company/rcolorcraft" target="_blank" rel="noopener" class="footer-social-icon" title="LinkedIn" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                </a>
-
-                <a href="https://wa.me/919759013133" target="_blank" rel="noopener" class="footer-social-icon" title="WhatsApp" aria-label="WhatsApp">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                    </svg>
-                </a>
-
-                <!-- <a href="https://youtube.com/@rcolorcraft" target="_blank" class="social-link social-youtube" title="YouTube">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                </a> -->
-
-                    </div>
-                </div>
-
-                <div class="footer-copyright">
-                    <p>&copy; 2017 RColorcraft. All Rights Reserved.</p>
-                    <p>Made with <span class="heart" aria-hidden="true">&#10084;&#65039;</span> in India</p>
-                </div>
-
-                <!-- <div class="footer-cta-stack">
-                    <button type="button" class="footer-cta-btn footer-cta-bulk" onclick="openPopup()">
-                        <span class="cta-icon" aria-hidden="true">&#128230;</span>
-                        <span class="cta-label">Bulk Order</span>
-                        <span class="cta-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
-                    </button>
-                    <a href="https://wa.me/919759013133" target="_blank" rel="noopener" class="footer-cta-btn footer-cta-whatsapp">
-                        <span class="cta-icon" aria-hidden="true"><i class="fa-brands fa-whatsapp"></i></span>
-                        <span class="cta-label">Chat with us</span>
-                        <span class="cta-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
-                    </a>
-                </div> -->
-            </div>
+      <!-- Brand -->
+      <div class="brand-col">
+        <div class="brand-logo-box">
+          <!-- Replace src with {% static 'gallery/logohome.png' %} in Django -->
+          <img src="{% static 'gallery/logohome.png' %}" alt="Rcolorcraft logo">
         </div>
-    </footer>
-  <!-- JS file -->
-  <script src="{% static 'js/script.js' %}"></script>
-  
-  <!-- UPDATED JAVASCRIPT -->
-  <script>
-  // Toggle dropdown
-function togglePopup() {
-    const popup = document.getElementById("myPopup");
+        <div class="brand-underline"></div>
+        <p class="brand-desc">
+          RColorcraft is a creative wall art and mural painting company that transforms
+          homes, offices, and commercial spaces with beautiful and unique designs.
+          Our team of professional artists specializes in 3D wall art, mural painting,
+          cartoon art, and customized wall designs.
+        </p>
+      </div>
 
-    if (popup.style.display === "block") {
-        popup.style.display = "none";
-    } else {
-        popup.style.display = "block";
-    }
-}
+      <!-- Quick Links -->
+      <div class="links-col">
+        <h3 class="col-title">Quick Links</h3>
+        <div class="col-underline"></div>
+        <ul class="quick-links">
+          <li><a href="/"><span class="arr">›</span> Home</a></li>
+          <li><a href="/"><span class="arr">›</span> Booking</a></li>
+          <li><a href="/en/contact_us/"><span class="arr">›</span> Contact Us</a></li>
+          <li><a href="/en/reviews/"><span class="arr">›</span> Reviews &amp; Feedback</a></li>
+        </ul>
+      </div>
 
-document.addEventListener("click", function(event) {
-    const popup = document.getElementById("myPopup");
-    const icon = document.getElementById("userIcon");
+      <!-- Trending Services -->
+      <div class="services-col">
+        <h3 class="col-title">Trending Services</h3>
+        <div class="col-underline"></div>
+        <div class="services-grid">
 
-    if (!popup || !icon) return;
+          <a href="/explore/home-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            Home Art
+          </a>
 
-    if (!popup.contains(event.target) && !icon.contains(event.target)) {
-        popup.style.display = "none";
-    }
-});
+          <a href="/explore/mural/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            Mural art
+          </a>
 
-    // ===== HAMBURGER MENU FUNCTIONALITY =====
-    const hamburger = document.getElementById('hamburgerMenu');
-    const navMenu = document.getElementById('navMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
+          <a href="/explore/school-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            School art
+          </a>
 
-    // Toggle menu when hamburger is clicked
-    hamburger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('active');
-      menuOverlay.classList.toggle('active');
-      
-      // Prevent body scroll when menu is open
-      if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
-    });
+          <a href="/explore/cartoon-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            </div>
+            Cartoon art
+          </a>
 
-    // Close menu when overlay is clicked
-    menuOverlay.addEventListener('click', function() {
-      hamburger.classList.remove('active');
-      navMenu.classList.remove('active');
-      menuOverlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    });
+          <a href="/explore/texture-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            Texture art
+          </a>
 
-    // Close menu when a menu item is clicked
-    const menuLinks = navMenu.querySelectorAll('a');
-    menuLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
-      });
-    });
+          <a href="/explore/nature-fountain/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+            </div>
+            Water Tank
+          </a>
 
-    // Close menu on window resize if open
-    window.addEventListener('resize', function() {
-      if (window.innerWidth > 767) {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
-      }
-    });
+          <a href="/explore/3d-wall-art/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            3D wall art
+          </a>
 
+          <a href="/explore/3d-floor-art/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            3D Floor art
+          </a>
 
-    function searchArtService() {
-  const input = document.getElementById("artSearchInput").value.trim().toLowerCase();
+          <a href="/explore/Zenith-Collection/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            Zenith Collection
+          </a>
 
-  const serviceMap = {
-    "3d wall art": "3d-wall-art",
-    "3d floor art": "3d-floor-art",
-    "mural art": "mural",
-    "metro advertisement": "metro-advertisement",
-    "outdoor advertisement": "outdoor-advertisement",
-    "school painting": "school-painting",
-    "selfie painting": "selfie-painting",
-    "madhubani painting": "madhubani-painting",
-    "texture painting": "texture-painting",
-    "pillere painting": "pillere-painting",
-    "scrap animal art": "scrap-animal-art",
-    "water tank": "nature-fountain",
-    "cartoon painting": "cartoon-painting",
-    "home painting": "home-painting"
-  };
+          <a href="/explore/madhubani-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            Madhubani art
+          </a>
 
-  if (serviceMap[input]) {
-    window.location.href = `/explore/${serviceMap[input]}/`;
-  } else {
-    alert("Service not found. Try selecting from the list.");
-  }
-}
+          <a href="/explore/metro-advertisement" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            Metro advertisement
+          </a>
 
-/* ENTER key support */
-document.getElementById("artSearchInput").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    searchArtService();
-  }
-});
-  </script>
+          <a href="/explore/outdoor-painting/" class="service-item">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            </div>
+            Outdoor advertisement
+          </a>
 
-  <!-- Google Translate -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-includedLanguages: 'en,hi,bn,mr,ta,te,gu,pa',
-        autoDisplay: false
-      }, 'google_translate_element');
-      
-      // Monitor for Google Translate bar and adjust spacing
-      monitorGoogleTranslateBar();
-    }
-    
-    function monitorGoogleTranslateBar() {
-      // Ensure body starts with 0 margin using !important
-      document.body.style.setProperty('margin-top', '0px', 'important');
-      
-      // Check every 300ms if the bar exists and adjust body margin
-      const checkBar = setInterval(() => {
-        const bar = document.querySelector('.goog-te-banner-frame');
-        
-        // Check if bar exists AND is visible (not just in DOM)
-        if (bar && bar.offsetParent !== null && bar.offsetHeight > 0 && window.getComputedStyle(bar).display !== 'none') {
-          const barHeight = bar.offsetHeight + 5; // Add 5px extra for spacing
-          document.body.style.setProperty('margin-top', barHeight + 'px', 'important');
-        } else {
-          // Always remove margin when bar is not visible
-          document.body.style.setProperty('margin-top', '0px', 'important');
-        }
-      }, 300);
-    }
-  </script>
+        </div>
+      </div>
 
-  
+    </div><!-- /footer-grid -->
 
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <script>
-setTimeout(function(){
-const wp =
-    document.getElementById("whatsapp-popup"); 
-    if(wp) {
-        wp.style.display = "block";
-    }
-}, 4000);
-</script>
+    <!-- BOTTOM BAR -->
+    <div class="footer-bottom">
 
-<script src="//translate.google.com/"></script>
+      <!-- Social -->
+      <div class="social-section">
+        <p class="social-label">Follow Us</p>
+        <div class="social-underline"></div>
+        <div class="social-icons">
 
-<a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service"
-class="whatsapp-pro"
-target="_blank">
-<span class="icon">
-<img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-</span>
+          <a href="https://facebook.com/RcolorCraft" target="_blank" class="social-icon si-fb" title="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
 
-<span class="text">Chat with us</span>
+          <a href="https://instagram.com/rcolorcraft_" target="_blank" class="social-icon si-ig" title="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
 
-</a>
+          <a href="https://x.com/RcolorCraft" target="_blank" class="social-icon si-tw" title="Twitter / X">
+            <svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          </a>
 
-</a>
+          <a href="https://linkedin.com/company/rcolorcraft" target="_blank" class="social-icon si-li" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+
+          <a href="https://wa.me/919759013133" target="_blank" class="social-icon si-wa" title="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="copyright-block">
+        <p>© 2017 RColorcraft. All Rights Reserved. | Made with <span class="heart">❤️</span> in India</p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <button class="cta-btn btn-bulk" onclick="openPopup()">
+          <div class="btn-icon">📦</div>
+          <span class="btn-text">Bulk Order</span>
+          <span class="btn-arrow">›</span>
+        </button>
+        <a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service" target="_blank" class="cta-btn btn-chat">
+          <div class="btn-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </div>
+          <span class="btn-text">Chat with us</span>
+          <span class="btn-arrow">›</span>
+        </a>
+      </div>
+
+    </div><!-- /footer-bottom -->
+
+    <div class="footer-line">
+      RColorcraft · 3D Wall Art &amp; Mural Painting Services · Gurgaon, India
+    </div>
+
+  </div><!-- /footer-wrap -->
+</footer>
+
 </body>
 </html>
