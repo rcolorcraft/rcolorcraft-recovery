@@ -467,18 +467,24 @@ input:checked + .slider:before {
                             </div>
                         </div>
                     </div>
-            {% if booking.status != "cancelled" and booking.status != "completed" %}
+    {% if booking.status != "cancelled" and booking.status != "completed" %}
 
-<div style="margin-top:15px; text-align:center;">
-   <form method="post" action="{% url 'cancel_booking' booking.id %}">
-    {% csrf_token %}
+    {% if booking.can_cancel %}
+        <!-- ✅ 2 घंटे के अंदर -->
+        <form method="post" action="{% url 'cancel_booking' booking.id %}">
+            {% csrf_token %}
+            <button type="submit" class="cancel-btn">
+                Cancel Order
+            </button>
+        </form>
 
-    <button type="button" class="cancel-btn"
-        style="background:red; color:white; padding:8px 15px; border:none; border-radius:8px; cursor:pointer;">
-        Cancel Order
-    </button>
-</form>
-</div>
+    {% else %}
+        <!-- ❌ 2 घंटे के बाद -->
+        <button type="button" class="cancel-btn" onclick="showContactAlert()">
+            Cancel Request
+        </button>
+
+    {% endif %}
 
 {% endif %}
                 </div>
@@ -494,25 +500,40 @@ input:checked + .slider:before {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-document.querySelectorAll('.cancel-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const form = this.closest('form');
+document.addEventListener("DOMContentLoaded", function () {
 
-        Swal.fire({
-            title: 'Cancel Order?',
-            text: "Are you sure you want to cancel this order?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#e3342f',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, Cancel it!',
-            cancelButtonText: 'No'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
+    // ✅ ONLY real cancel buttons
+    document.querySelectorAll('.real-cancel').forEach(button => {
+
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const form = this.closest('form');
+
+            if (!form) {
+                console.log("Form not found ❌");
+                return;
             }
+
+            Swal.fire({
+                title: 'Cancel Order?',
+                text: "Are you sure you want to cancel this order?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, Cancel it!',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();  // 🔥 FINAL SUBMIT
+                }
+            });
+
         });
+
     });
+
 });
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -523,6 +544,28 @@ if (urlParams.get('cancelled') === 'true') {
         title: 'Cancelled!',
         text: 'Your order has been cancelled.',
         confirmButtonColor: '#10b981'
+    });
+}
+
+function showContactAlert() {
+    Swal.fire({
+        icon: 'info',
+        title: 'Cannot Cancel Now',
+        html: `
+            ⏳ <b>Order already processed</b><br><br>
+Contact us to cancel order<br><br>
+            📞 Call us: <br>
+            <a href="tel:+919876543210" style="color:#3b82f6; font-weight:bold;">
+                +91 9717452619
+            </a><br><br>
+
+            📧 Email us:<br>
+            <a href="mailto:support@yourdomain.com" style="color:#10b981; font-weight:bold;">
+                info@rcolorcraft.com
+            </a>
+        `,
+        confirmButtonColor: '#3b82f6',
+        confirmButtonText: 'OK'
     });
 }
 

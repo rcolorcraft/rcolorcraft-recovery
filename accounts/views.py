@@ -85,36 +85,20 @@ def save_customer_signup(request):
 
             print("📦 Session keys:", list(request.session.keys()))
 
-            # ✅ Send OTP email
+            # ✅ Send OTP email (plain text — must not use # prefix; that hid the OTP in the body)
             send_mail(
                 subject="OTP Verification - Rcolorcraft",
-                message=f"""
-            # Dear {full_name},
-
-            # 🎨 Welcome to Rcolorcraft!
-
-            # We're delighted to have you join us as a valued Customer.
-
-            # To complete your registration, please verify your email address using the One-Time Password (OTP) below:
-
-            # ━━━━━━━━━━━━━━━━━━━
-            # 🔐 OTP: {otp}
-            # ━━━━━━━━━━━━━━━━━━━
-
-            # ⏳ This OTP is valid for the next 2 minutes.
-            # ⚠️ For your security, please do not share this OTP with anyone.
-
-            # Once verified, you'll be able to:
-            # ✔ Explore professional painting services
-            # ✔ Book trusted artists easily
-            # ✔ Manage your bookings and projects seamlessly
-
-            # If you did not request this signup, you can safely ignore this email.
-
-            # Best regards,
-            # * RColorCraftTeam *
-            # 📧 info@rcolorcraft.com
-            # """,
+                message=(
+                    f"Dear {full_name},\n\n"
+                    "Welcome to Rcolorcraft.\n\n"
+                    "Your One-Time Password (OTP) for account verification is:\n\n"
+                    f"OTP: {otp}\n\n"
+                    "This OTP is valid for 2 minutes.\n"
+                    "Do not share this OTP with anyone.\n\n"
+                    "If you did not request this signup, you can ignore this email.\n\n"
+                    "— RColorCraft Team\n"
+                    "info@rcolorcraft.com\n"
+                ),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
                 fail_silently=False,

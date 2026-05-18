@@ -1531,30 +1531,57 @@ def toggle_artist_status(request, booking_id):
     return redirect("my_assignments")
 
 
-from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
 
 
 def my_bookings(request):
-    return render(request, "my_bookings.html")
+    bookings = Booking.objects.filter(customer_user=request.user)
+
+    for b in bookings:
+        time_diff = timezone.now() - b.created
+        b.can_cancel = time_diff <= timedelta(hours=2)
+
+    return render(request, "my_bookings.html", {"bookings": bookings})
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
-from .models import Booking
+from django.utils import timezone
+from datetime import timedelta
+from django.contrib import messages
 
 
 @login_required
 def cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
 
+    # 🔒 only owner
     if booking.customer_user_id != request.user.id:
         return redirect("my_orders")
 
+    # ⏱ time check
+    now = timezone.now()
+    time_diff = now - booking.created  # ✅ FIXED
+
+    # ❌ after 2 hours
+    if time_diff > timedelta(hours=2):
+        messages.error(
+            request, "❌ Order is already processed. Please contact support to cancel."
+        )
+        return redirect("my_orders")
+
+    # ❌ completed
     if booking.status == "completed":
         messages.error(request, "❌ Completed order cannot be cancelled!")
         return redirect("my_orders")
 
+    # ❌ already cancelled
+    if booking.status == "cancelled":
+        messages.warning(request, "⚠️ Order already cancelled.")
+        return redirect("my_orders")
+
+    # ✅ cancel
     booking.status = "cancelled"
     booking.save()
 
-    return redirect("/en/my-orders/?cancelled=true")  # 👈 यही main change है
+    messages.success(request, "✅ Order cancelled successfully!")
+    return redirect("/my-orders/?cancelled=true")
