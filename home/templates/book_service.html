@@ -75,22 +75,14 @@
 }
 
 .booking-form {
-    justify-content:center;
-    max-width:500px;
-    width:90%;
-    margin-top:30px;
-    margin:20px auto 50px auto;
-    margin-left:auto;
-    margin-right:auto;
-    margin-bottom:40px;
-    line-height:1.1;
-    margin:40px auto;
-}
-.booking-form {
-    background: linear-gradient(135deg, #e0f7fa, #ffffff);
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    max-width: 750px;
+    margin: 40px auto;
 }
 
 
@@ -364,40 +356,107 @@ transition:0.3s;
 
 
 .booking-form h2 {
-    font-size:22px;
-    font-weight:700;
-    margin-top:20px;
-    color:#1e2a38;
-    margin-bottom: 15px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 25px;
     text-align: center;
+    background: linear-gradient(135deg, #1e293b, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
 }
 
 .booking-form label {
-    
-    font-size:13px;
-    display:block;
-    margin-bottom:2px;
-    margin-top: 1rem;
-    font-weight: 500;
-}
-.walls-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .booking-form input,
 .booking-form select,
 .booking-form textarea {
     width: 100%;
-    height:27px;
-    resize:none;
-    padding: 6px 8px;
-    font-size:13px;
-    margin-top: 0.3rem;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05)
+    height: auto;
+    padding: 12px 15px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+    color: #1e293b;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: #3b82f6;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.booking-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.square-ft-box {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+}
+
+.square-ft-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.square-ft-inputs input {
+    flex: 1;
+}
+
+.cross-icon, .equals-icon {
+    font-weight: bold;
+    color: #64748b;
+    font-size: 18px;
+}
+
+.design-btn {
+    background: #f8fafc;
+    color: #3b82f6;
+    border: 2px dashed #3b82f6;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.design-btn:hover {
+    background: #eff6ff;
+    transform: translateY(-2px);
 }
 
 /* Confirmation Box */
@@ -453,87 +512,54 @@ transition:0.3s;
     }
 }
 
-.booking-form button {
-    margin-top: 1.2rem;
+.book-btn {
+    margin-top: 10px;
     width: 100%;
-    padding: 8px;
+    padding: 14px;
     border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.booking-form button:hover {
-    opacity: 0.9;
-}
-
-.contact-row,
-.address-row,
-.card-row {
-    display: flex;
-    gap: 1rem;
-}
-
-.contact-field,
-.address-field,
-.card-field {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.square-ft-inputs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Mobile layout fixes (stack rows, avoid overflow) */
-@media (max-width: 768px) {
-    .contact-row,
-    .address-row,
-    .card-row {
-        flex-direction: column;
-    }
-
-    .square-ft-inputs {
-        flex-wrap: wrap;
-    }
-
-    .steps {
-        gap: 24px;
-    }
-
-    .steps::before,
-    .steps::after {
-        left: 8%;
-        right: 8%;
-    }
-}
-
-.popup-box {
-    text-align: center;
-    padding: 2rem;
-    background: #fff;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
 }
 
-/* Price calculation display */
+.book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+}
+
 .price-display {
-    background: #e8f5e9;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-top: 1rem;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    padding: 20px;
+    border-radius: 12px;
     text-align: center;
+    border: 1px solid #bbf7d0;
 }
 
 .price-display .price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2e7d32;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #166534;
+    margin: 5px 0;
+}
+
+.price-display small {
+    color: #15803d;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .booking-form {
+        padding: 25px 20px;
+        margin: 20px 10px;
+    }
 }
 
 /* ======================================================
@@ -1483,86 +1509,92 @@ display:block;
                 <input type="hidden" id="booking_amount" name="booking_amount" value="0">
 
                 <h2>{% trans "Book" %} {{ service_name }}</h2>
-                <label>{% trans "Service Name" %}</label>
-                <input type="text" name="service_name" value="{{ service_name }}" readonly>
 
-                <label>Full Name</label>
-<input type="text" name="customer_name" required>
-                <div class="contact-row">
-                    <div class="contact-field">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>{% trans "Service Name" %}</label>
+                        <input type="text" name="service_name" value="{{ service_name }}" readonly>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Full Name</label>
+                        <input type="text" name="customer_name" required>
+                    </div>
+
+                    <div class="form-group">
                         <label>Contact Number</label>
                         <input type="text" name="contact_number" required>
                     </div>
-                    <div class="contact-field">
+                    
+                    <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="email" placeholder="Email (optional)">
                     </div>
-                </div>
 
-                <label>Full Address</label>
-                <textarea name="address" required></textarea>
+                    <div class="form-group full-width">
+                        <label>Full Address</label>
+                        <textarea name="address" required></textarea>
+                    </div>
 
-                <div class="address-row">
-                    <div class="address-field">
+                    <div class="form-group">
                         <label>Pin Code</label>
                         <input type="text" name="pin_code" required>
                     </div>
-                    <div class="address-field">
+                    
+                    <div class="form-group">
                         <label>State</label>
                         <input type="text" name="state" required>
                     </div>
-                    <div class="address-field">
+                    
+                    <div class="form-group">
                         <label>City</label>
                         <input type="text" name="city" required>
                     </div>
+
+                    <div class="form-group full-width">
+                        <label>Choose Your Design</label>
+                        <div id="selectedDesignContainer"></div>
+                        <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
+                        <div id="image-preview" style="margin-top:10px;"></div>
+                        <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
+                    </div>
+
+                    <div class="form-group square-ft-box full-width">
+                        <label>Dimensions (Square Ft)</label>
+                        <div class="square-ft-inputs">
+                            <input type="number" id="width" name="width" placeholder="Width" min="1">
+                            <span class="cross-icon">×</span>
+                            <input type="number" id="height" name="height" placeholder="Height" min="1">
+                            <span class="equals-icon">=</span>
+                            <input type="number" id="total_sqft" name="total_sqft" placeholder="Total Sq Ft" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Walls</label>
+                        <input type="number" id="total_walls" name="total_walls" min="1" value="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Appointment Date</label>
+                        <input type="date" id="appointment_date" name="appointment_date" required>
+                    </div>
+
+                    <!-- Hidden Design Price -->
+                    <input type="hidden" id="design_price" value="0">
+                    <input type="hidden" id="total_amount_input" name="total_amount">
+
+                    <!-- Price Display -->
+                    <div class="price-display full-width" id="price-display">
+                        <div><strong>Estimated Price:</strong></div>
+                        <div class="price" id="calculated-price">₹0</div>
+                        <small>(₹50 per sqft + design cost per wall)</small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button type="submit" class="book-btn">Book Now</button>
+                    </div>
                 </div>
-                <label>Choose Your Design</label>
-
-                <div id="selectedDesignContainer"></div>
-
-<button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-{% comment %} <input type="file" id="custom_design_input" name="custom_design" multiple> {% endcomment %}
-<div id="image-preview" style="margin-top:10px;"></div>
-<button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
-
-               <!-- Square Ft Section -->
-<div class="square-appointment-row">
-    <div class="square-ft">
-        <label>Square Ft</label>
-
-       <!-- Square Ft -->
-<div class="square-ft-inputs">
-    <input type="number" id="width" name="width" placeholder="Width" min="1">
-<input type="number" id="height" name="height" placeholder="Height" min="1">
-<input type="number" id="total_sqft" name="total_sqft" readonly>
-</div>
-
-<!-- Total Walls -->
-<div class="form-group inline-row">
-    <label>Total Walls</label>
-<input type="number" id="total_walls" name="total_walls" min="1" value="1">
-</div>
-
-<!-- Hidden Design Price -->
-<input type="hidden" id="design_price" value="0">
-
-<!-- Price Display -->
-<div class="price-display" id="price-display">
-    <div><strong>Estimated Price:</strong></div>
-    <div class="price" id="calculated-price">₹0</div>
-    <small>(₹50 per sqft + design cost per wall)</small>
-</div>
-
-
-                <div class="appointment-date">
-                    <label>Appointment Date</label>
-                    <input type="date" id="appointment_date" name="appointment_date" required>
-                </div>
-
-<input type="hidden" id="total_amount_input" name="total_amount">
-{% comment %} <input type="hidden" id="booking_amount" name="booking_amount"> {% endcomment %}
-
-<button type="submit" class="book-btn">Book Now</button>
             </form>
         </div>
     </div>
