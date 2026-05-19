@@ -1393,56 +1393,27 @@ body.gt-active header {
   }
 }
 
-.whatsapp-pro{
-position: fixed;
-bottom: 25px;
-right: 25px;
-display: flex;
-align-items: center;
-gap: 10px;
-background: linear-gradient(135deg, #25D366, #128C7E);
-padding: 12px 18px;
-border-radius: 50px;
-color: white;
-font-weight: 600;
-font-size: 14px;
-text-decoration: none;
-box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-z-index: 9999;
-transition: all 0.3s ease;
+/* whatsapp css code start here */
+.wp-button{
+	margin-top:14px;
 }
-
-.whatsapp-pro .icon{
-background: rgba(255,255,255,0.2);
-padding: 6px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#25d366;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+  font-size:35px;
+	box-shadow: 2px 2px 3px #999;
+  z-index:100;
 }
-
-.whatsapp-pro img{
-width: 22px;
-height: 22px;
-}
-
-.whatsapp-pro:hover{
-transform: translateY(-3px) scale(1.05);
-box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-}
-
-/* Glow effect */
-@keyframes glow{
-0%{box-shadow:0 0 0 0 rgba(37,211,102,0.6);}
-70%{box-shadow:0 0 0 15px rgba(37,211,102,0);}
-100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
-}
-
-.whatsapp-pro{
-animation: glow 2s infinite;
-}
-
 </style>
+
+/* whatsapp css code end here */
 
 
 
@@ -1888,16 +1859,27 @@ const wp =
 
 <script src="//translate.google.com/"></script>
 
-<a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service"
+<!-- whatsapp button code start -->
+
+<!-- <a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service"
 class="whatsapp-pro"
 target="_blank">
 <span class="icon">
 <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
 </span>
-
 <span class="text">Chat with us</span>
+</a> -->
 
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service" class="float" target="_blank">
+<i class="fa fa-whatsapp wp-button"></i>
 </a>
+<!-- whatsapp button code End -->
 
 </a>
 </body>
