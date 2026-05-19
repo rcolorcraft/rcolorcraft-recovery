@@ -280,6 +280,20 @@ body.gt-active header {
     animation: fadeIn 0.3s ease;
   }
 
+
+    /* Copyright */
+    .copyright-block {
+    text-align: center;
+    flex: 1;
+  }
+
+  .copyright-block p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .copyright-block .heart { color: #e74c3c; }
+
   .popup-overlay.active {
     display: flex;
     justify-content: center;
@@ -896,14 +910,14 @@ body.gt-active header {
   margin-bottom: 12px;
 }
 
-.social-underline {
+/* .social-underline {
   width: 36px;
   height: 2px;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
   margin-bottom: 16px;
   margin-top: -8px;
-}
+} */
 
 .social-icons {
   display: flex;
@@ -1667,7 +1681,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
            <!-- Social -->
       <div class="social-section">
-        <p class="social-label">Follow Us</p>
+       
         <div class="social-underline"></div>
         <div class="social-icons">
 
@@ -1692,6 +1706,14 @@ document.addEventListener('DOMContentLoaded', function() {
           </a>
 
         </div>
+      </div>
+
+
+
+
+
+      <div class="copyright-block">
+        <p>© 2017 RColorcraft. All Rights Reserved. | Made with <span class="heart">❤️</span> in India</p>
       </div>
 
         </div>
