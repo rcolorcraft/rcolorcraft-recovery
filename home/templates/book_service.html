@@ -8,1434 +8,1482 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
-
-    
-
-.booking-container {  
-    padding: 2rem;
-}
-
-#bookingWrapper {
-    position: relative;
-}
-
-/* 🔥 Smooth glass blur */
-.form-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background: rgba(255, 255, 255, 0.3); /* light glass */
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(8px);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 999;
-}
-
-/* 🔥 Modern popup (glass style) */
-.overlay-box {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-
-    padding: 20px 25px;
-    border-radius: 16px;
-
-    text-align: center;
-    width: 280px;
-
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-/* text */
-.overlay-box h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-}
-
-.overlay-box p {
-    font-size: 14px;
-    color: #555;
-}
-
-/* 🔥 clean button */
-.overlay-box button {
-    margin-top: 12px;
-    background: linear-gradient(45deg, #6c63ff, #5f9cff);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.booking-form {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    max-width: 750px;
-    margin: 40px auto;
-}
-
-
-.booking-wrapper{
-    padding-bottom:20px;
-}
-{% comment %} 
-.appointment-date {
-    width: 180px;        /* 👈 size control */
-    padding: 8px 10px;   /* 👈 compact look */
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
-    transition: 0.3s;
-}
-
-/* hover + focus effect */
-.appointment-date:focus {
-    border-color: #4a6cf7;
-    box-shadow: 0 0 5px rgba(74,108,247,0.3);
-} {% endcomment %}
-
-
-.form-note {
-    background: rgba(255,255,255,0.85);   
-    backdrop-filter: blur(15px);           
-    padding: 8px 12px;                  /* compact */
-    border-radius: 10px;
-    border-left: 6px solid transparent ;
-    border-image:linear-gradient(to bottom,#ff7a18,#4a6cf7);
-    border-image-slice:1;      /* better highlight */
-    max-width: 600px;
-    margin: 5px auto;
-    font-size: 13px;
-    color: #333;
-    position:relative;
-    line-height: 1;
-    font-weight: 500;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* NEW */
-    transition:all 0.3s ease;
-}
-
-.form-note::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px; /* pehle bada tha, ab slim */
-    background: linear-gradient(90deg, #FFD700, #FFA500);
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-.form-note:hover{
-  transform: translateY(-4px);
-  box-shadow:0 14px 30px rgba(0,0,0,0.12);
-  transition: 0.3s ease;
-}
-
-
-#selectedDesignContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.selected-item {
-    position: relative;
-    display:inline-block;
-        
-}
-
-.selected-item {
-    position: relative;
-    display: inline-block;
-    padding:4px;
-}
-
-/* IMAGE */
-.selected-item img {
-    display:block;
-    margin-bottom: 4px;
-    width: 90px;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 12px;
-    vertical-align:top;
-}
-
-/* ✅ PERFECT REMOVE BUTTON */
-.remove-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-
-    width: 24px !important;
-    height: 24px !important;
-
-    border-radius: 50% !important;
-    background: #ff3b3b !important;
-    color: #fff !important;
-
-    border: 2px solid #fff;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0 !important;
-    margin: 0 !important;
-
-    line-height: 1 !important;
-
-    cursor: pointer;
-
-    z-index: 10;
-}
-
-/* Text */
-.note-text{
-    font-size:14px;
-    color:#444;
-    font-weight:500;
-    line-height:1.5;   /* readability */
-}
-
-/* Icon */
-
-  .note-icon {
-    background: linear-gradient(135deg, #ffe082, #ffca28);
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-margin-top: 8px;
-    margin-bottom: 10px;
-        padding-left:10px;
-align-items:center;
-gap:6px;
-    display: flex;  /* better alignment */
-}
-
-
-/* Content */
-.note-content{
-  padding: 2px 4px;
-}
-
-.note-content p {
-    padding-left:10px;
-  color:#444;
-  padding-left:10px;
-    margin-bottom: 8px;
-    line-height: 1.3;
-}
-
-/* Important text */
-
-
-/* List */
-.note-content ul {
-    list-style:none;
-    padding-left:0;
-    margin-left: 10px;   /* reduce gap */
-    margin-bottom: 10px;
-}
-
-.note-content li {
-      padding-left:10px;
-    margin-bottom: 6px;
-    padding-left:7px;
-}
-
-.note-content strong{
-  color:#e63946;
-  font-size:14px;
-}
-
-/* Tick icon */
-.note-content li::before {
-    content: "✔ ";
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-/* Read More */
-#readMoreBtn {
-    display: inline-flex;
-    {% comment %} margin-top: 10px; {% endcomment %}
-    margin-left:5px;
-padding: 4px 5px;
-    background: linear-gradient(135deg, #4a6cf7, #6c85ff);
-    color: white;
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 13px;
-    border: none;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(74,108,247,0.3);
-}
-
-#readMoreBtn:hover {
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(74,108,247,0.4);
-    background: linear-gradient(135deg, #2f54d0, #4a6cf7);
-    color: white;
-}
-
-@media (max-width: 768px) {
-
-    .form-note {
-        padding: 15px 14px;   /* side se space */
-        margin: 15px 10px;    /* screen se gap */
-        max-width: 100%;      /* full width mobile */
-        border-radius: 12px;
+    .booking-container {
+        padding: 2rem;
     }
 
+    #bookingWrapper {
+        position: relative;
+    }
+
+    /* 🔥 Smooth glass blur */
+    .form-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background: rgba(255, 255, 255, 0.3);
+        /* light glass */
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(8px);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 999;
+    }
+
+    /* 🔥 Modern popup (glass style) */
+    .overlay-box {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+
+        padding: 20px 25px;
+        border-radius: 16px;
+
+        text-align: center;
+        width: 280px;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* text */
+    .overlay-box h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .overlay-box p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* 🔥 clean button */
+    .overlay-box button {
+        margin-top: 12px;
+        background: linear-gradient(45deg, #6c63ff, #5f9cff);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .booking-form {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        max-width: 750px;
+        margin: 40px auto;
+    }
+
+
+    .booking-wrapper {
+        padding-bottom: 20px;
+    }
+
+        {
+        % comment %
+    }
+
+    .appointment-date {
+        width: 180px;
+        /* 👈 size control */
+        padding: 8px 10px;
+        /* 👈 compact look */
+        font-size: 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    /* hover + focus effect */
+    .appointment-date:focus {
+        border-color: #4a6cf7;
+        box-shadow: 0 0 5px rgba(74, 108, 247, 0.3);
+    }
+
+        {
+        % endcomment %
+    }
+
+
+    .form-note {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(15px);
+        padding: 8px 12px;
+        /* compact */
+        border-radius: 10px;
+        border-left: 6px solid transparent;
+        border-image: linear-gradient(to bottom, #ff7a18, #4a6cf7);
+        border-image-slice: 1;
+        /* better highlight */
+        max-width: 600px;
+        margin: 5px auto;
+        font-size: 13px;
+        color: #333;
+        position: relative;
+        line-height: 1;
+        font-weight: 500;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        /* NEW */
+        transition: all 0.3s ease;
+    }
+
+    .form-note::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        /* pehle bada tha, ab slim */
+        background: linear-gradient(90deg, #FFD700, #FFA500);
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .form-note:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        transition: 0.3s ease;
+    }
+
+
+    #selectedDesignContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .selected-item {
+        position: relative;
+        display: inline-block;
+
+    }
+
+    .selected-item {
+        position: relative;
+        display: inline-block;
+        padding: 4px;
+    }
+
+    /* IMAGE */
+    .selected-item img {
+        display: block;
+        margin-bottom: 4px;
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 12px;
+        vertical-align: top;
+    }
+
+    /* ✅ PERFECT REMOVE BUTTON */
+    .remove-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+
+        width: 24px !important;
+        height: 24px !important;
+
+        border-radius: 50% !important;
+        background: #ff3b3b !important;
+        color: #fff !important;
+
+        border: 2px solid #fff;
+
+        font-size: 14px;
+        font-weight: bold;
+
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        line-height: 1 !important;
+
+        cursor: pointer;
+
+        z-index: 10;
+    }
+
+    /* Text */
+    .note-text {
+        font-size: 14px;
+        color: #444;
+        font-weight: 500;
+        line-height: 1.5;
+        /* readability */
+    }
+
+    /* Icon */
+
+    .note-icon {
+        background: linear-gradient(135deg, #ffe082, #ffca28);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 8px;
+        margin-bottom: 10px;
+        padding-left: 10px;
+        align-items: center;
+        gap: 6px;
+        display: flex;
+        /* better alignment */
+    }
+
+
+    /* Content */
     .note-content {
-        padding-left: 5px;
+        padding: 2px 4px;
     }
 
     .note-content p {
-        font-size: 13px;
-        line-height: 1.6;
+        padding-left: 10px;
+        color: #444;
+        padding-left: 10px;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    /* Important text */
+
+
+    /* List */
+    .note-content ul {
+        list-style: none;
+        padding-left: 0;
+        margin-left: 10px;
+        /* reduce gap */
+        margin-bottom: 10px;
     }
 
     .note-content li {
-        font-size: 13px;
+        padding-left: 10px;
+        margin-bottom: 6px;
+        padding-left: 7px;
     }
 
+    .note-content strong {
+        color: #e63946;
+        font-size: 14px;
+    }
+
+    /* Tick icon */
+    .note-content li::before {
+        content: "✔ ";
+        color: #4CAF50;
+        font-weight: bold;
+    }
+
+    /* Read More */
     #readMoreBtn {
-        font-size: 12px;
-        padding: 5px 10px;
+        display: inline-flex;
+
+            {
+            % comment %
+        }
+
+        margin-top: 10px;
+
+            {
+            % endcomment %
+        }
+
+        margin-left:5px;
+        padding: 4px 5px;
+        background: linear-gradient(135deg, #4a6cf7, #6c85ff);
+        color: white;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 13px;
+        border: none;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
     }
 
-}
-{% comment %} .note-icon{
-    font-size:10px;
-    margin-top:2px;
-}
-
-.form-note{
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  background: linear-gradient(135deg, #f8f9fa, #e6fffa);
-  padding: 14px 16px;
-  border-radius: 12px;
-  font-size: 14px;
-  color: #2d3436;
-  border-left: 5px solid #00b894;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-  line-height: 1.6;
-}
- {% endcomment %}
-
-
-{% comment %} .form-note:hover{
-trasnform:traslateY(-2px);
-box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-transition:0.3s;
-} {% endcomment %}
-
-
-
-.booking-form h2 {
-    font-size: 26px;
-    text-transform: capitalize;
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 25px;
-    text-align: center;
-    background: linear-gradient(135deg, #1e293b, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px 20px;
-}
-
-.grid-3-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 15px 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
-
-.booking-form label {
-    font-size: 12px;
-    color: #475569;
-    font-weight: 600;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.booking-form input,
-.booking-form select,
-.booking-form textarea {
-    width: 100%;
-    height: auto;
-    padding: 10px 14px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    background: #f9fafb;
-    transition: all 0.3s ease;
-    color: #1e293b;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
-}
-
-.booking-form input:focus,
-.booking-form select:focus,
-.booking-form textarea:focus {
-    border-color: #3b82f6;
-    background: #fff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-.booking-form textarea {
-    resize: vertical;
-    min-height: 70px;
-}
-
-.square-ft-box {
-    background: #f1f5f9;
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px dashed #cbd5e1;
-}
-
-.square-ft-inputs {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.square-ft-inputs input {
-    flex: 1;
-}
-
-.cross-icon, .equals-icon {
-    font-weight: bold;
-    color: #64748b;
-    font-size: 18px;
-}
-
-.design-btn {
-    background: #f8fafc;
-    color: #3b82f6;
-    border: 2px dashed #3b82f6;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.design-btn:hover {
-    background: #eff6ff;
-    transform: translateY(-2px);
-}
-
-/* Confirmation Box */
-.confirmation-box {
-    text-align: center;
-    padding: 3rem 2rem;
-    background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-    color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 0.8s ease-out;
-}
-
-.confirmation-box h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
-}
-
-.confirmation-box p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-}
-
-.confirmation-box button {
-    padding: 0.8rem 2rem;
-    border: none;
-    border-radius: 30px;
-    background: #fff;
-    color: #7b2ff7;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-
-.confirmation-box button:hover {
-    background: #f1f1f1;
-    transform: scale(1.05);
-}
-
-/* Animation */
-@keyframes fadeInUp {
-    0% { 
-        opacity: 0; 
-        transform: translateY(40px); 
+    #readMoreBtn:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.4);
+        background: linear-gradient(135deg, #2f54d0, #4a6cf7);
+        color: white;
     }
-    100% { 
-        opacity: 1; 
-        transform: translateY(0); 
+
+    @media (max-width: 768px) {
+
+        .form-note {
+            padding: 15px 14px;
+            /* side se space */
+            margin: 15px 10px;
+            /* screen se gap */
+            max-width: 100%;
+            /* full width mobile */
+            border-radius: 12px;
+        }
+
+        .note-content {
+            padding-left: 5px;
+        }
+
+        .note-content p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .note-content li {
+            font-size: 13px;
+        }
+
+        #readMoreBtn {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
     }
-}
 
-.book-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 9px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-}
+        {
+        % comment %
+    }
 
-.book-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
-}
+    .note-icon {
+        font-size: 10px;
+        margin-top: 2px;
+    }
 
-.price-display {
-    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-    padding: 10px;
-    border-radius: 12px;
-    text-align: center;
-    border: 1px solid #bbf7d0;
-}
+    .form-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: linear-gradient(135deg, #f8f9fa, #e6fffa);
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        color: #2d3436;
+        border-left: 5px solid #00b894;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        line-height: 1.6;
+    }
 
-.price-display .price {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #166534;
-    margin: 5px 0;
-}
+        {
+        % endcomment %
+    }
 
-.price-display small {
-    color: #15803d;
-}
 
-@media (max-width: 768px) {
+        {
+        % comment %
+    }
+
+    .form-note:hover {
+        trasnform: traslateY(-2px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+    }
+
+        {
+        % endcomment %
+    }
+
+
+
+    .booking-form h2 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 25px;
+        text-align: center;
+        background: linear-gradient(135deg, #1e293b, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
     .form-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
     }
-    .grid-3-col {
-        grid-template-columns: 1fr;
-    }
-    .booking-form {
-        padding: 25px 20px;
-        margin: 20px 10px;
-    }
-}
 
-/* ======================================================
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .booking-form label {
+        font-size: 13px;
+        color: #475569;
+        font-weight: 600;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+        width: 100%;
+        height: auto;
+        padding: 12px 15px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+        background: #f8fafc;
+        transition: all 0.3s ease;
+        color: #1e293b;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .booking-form input:focus,
+    .booking-form select:focus,
+    .booking-form textarea:focus {
+        border-color: #3b82f6;
+        background: #fff;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    .booking-form textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .square-ft-box {
+        background: #f1f5f9;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px dashed #cbd5e1;
+    }
+
+    .square-ft-inputs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .square-ft-inputs input {
+        flex: 1;
+    }
+
+    .cross-icon,
+    .equals-icon {
+        font-weight: bold;
+        color: #64748b;
+        font-size: 18px;
+    }
+
+    .design-btn {
+        background: #f8fafc;
+        color: #3b82f6;
+        border: 2px dashed #3b82f6;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .design-btn:hover {
+        background: #eff6ff;
+        transform: translateY(-2px);
+    }
+
+    /* Confirmation Box */
+    .confirmation-box {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+        color: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .confirmation-box h3 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .confirmation-box p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .confirmation-box button {
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 30px;
+        background: #fff;
+        color: #7b2ff7;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .confirmation-box button:hover {
+        background: #f1f1f1;
+        transform: scale(1.05);
+    }
+
+    /* Animation */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .book-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .book-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+    }
+
+    .price-display {
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid #bbf7d0;
+    }
+
+    .price-display .price {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #166534;
+        margin: 5px 0;
+    }
+
+    .price-display small {
+        color: #15803d;
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-form {
+            padding: 25px 20px;
+            margin: 20px 10px;
+        }
+    }
+
+    /* ======================================================
    DESIGN POPUP STYLES - MODERN & CLEAN UI (scoped)
    ====================================================== */
 
-.search-box {
-    text-align: center;
-    margin-bottom: 15px;
-}
+    .search-box {
+        text-align: center;
+        margin-bottom: 15px;
+    }
 
-.search-box input {
-    width: 70%;
-    padding: 12px 18px;
-    border-radius: 30px;
-    border: 2px solid #00bcd4;
-    outline: none;
-    font-size: 15px;
-    transition: 0.3s;
-}
+    .search-box input {
+        width: 70%;
+        padding: 12px 18px;
+        border-radius: 30px;
+        border: 2px solid #00bcd4;
+        outline: none;
+        font-size: 15px;
+        transition: 0.3s;
+    }
 
-.search-box input:focus {
-    border-color: #00bcd4;
-    box-shadow: 0 0 6px rgba(0,188,212,0.5);
-}
+    .search-box input:focus {
+        border-color: #00bcd4;
+        box-shadow: 0 0 6px rgba(0, 188, 212, 0.5);
+    }
 
-.design-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-}
+    .design-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
 
-.design-card {
-    width: 250px;
-}
+    .design-card {
+        width: 250px;
+    }
 
 
- /* ================================
+    /* ================================
    DESIGN POPUP FULL PREMIUM STYLE
 ================================ */
 
-#designPopup.design-popup {
-    position: fixed;
-    z-index: 1050;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(10px);
-    display: none;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-    overflow-y: auto;
-}
+    #designPopup.design-popup {
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(10px);
+        display: none;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 2rem;
+        overflow-y: auto;
+    }
 
 
 
-#designPopup.design-popup[style*="block"] {
-    display: flex !important;
-}
+    #designPopup.design-popup[style*="block"] {
+        display: flex !important;
+    }
 
-/* ===============================
+    /* ===============================
    GRID (3 CARDS PER ROW)
 ================================ */
-#designPopup .design-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    width:100%;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
     #designPopup .design-gallery {
-       
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        width: 100%;
     }
-}
 
-@media (max-width: 480px) {
-    #designPopup .design-gallery {
-        grid-template-columns: 1fr;
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        #designPopup .design-gallery {}
     }
-}
 
-/* ===============================
+    @media (max-width: 480px) {
+        #designPopup .design-gallery {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===============================
    CARD
 ================================ */
-#designPopup .design-card {
-    position: relative;
-    height: 300px;
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.3s;
-}
+    #designPopup .design-card {
+        position: relative;
+        height: 300px;
+        border-radius: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
 
-.card-number {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    .card-number {
+        position: absolute;
+        top: 10px;
+        left: 10px;
 
-    background: #0a0a0a;
-    color: white;
+        background: #0a0a0a;
+        color: white;
 
-    width: 30px;
-    height: 30px;
+        width: 30px;
+        height: 30px;
 
-    border-radius: 50%;
+        border-radius: 50%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    font-size: 16px;
-    font-weight: bold;
+        font-size: 16px;
+        font-weight: bold;
 
-    z-index: 10;
-}
+        z-index: 10;
+    }
 
-.design-card {
-    position: relative;
-    cursor: pointer;
-}
-
-
-.design-card.selected {
-    border: 3px solid #00c853;
-    transform: scale(1.03);
-}
-
-.selection-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    padding: 12px 15px;
-    background: #f5f7ff;
-    border-radius: 10px;
-    font-weight: 500;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
+    .design-card {
+        position: relative;
+        cursor: pointer;
+    }
 
 
-/* MAIN BAR */
-.selection-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    .design-card.selected {
+        border: 3px solid #00c853;
+        transform: scale(1.03);
+    }
 
-  padding: 12px 18px;
-  margin-top: 12px;
-
-  background: #ffffff;
-  border-top: 1px solid #eee;
-
-  border-radius: 0 0 12px 12px;
-}
-
-/* LEFT SIDE */
-.selection-bar .left {
-  display: flex;
-  align-items: center;
-}
-
-/* SELECTED COUNT */
-#selectedCount {
-  background: #f1f3f6;
-  padding: 6px 12px;
-
-  border-radius: 20px;
-
-  font-size: 13px;
-  font-weight: 600;
-
-  color: #555;
-
-  transition: 0.3s;
-}
-
-/* जब कुछ select हो जाए */
-#selectedCount.active {
-  background: #e6fff4;
-  color: #00a86b;
-}
-
-/* RIGHT SIDE */
-.selection-bar .right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* TOTAL PRICE */
-#totalPrice {
-  font-size: 16px;
-  font-weight: bold;
-  color: #00c853;
-}
-
-/* DONE BUTTON */
-.done-btn {
-  background: linear-gradient(135deg, #00c853, #00a86b);
-  color: #fff;
-
-  border: none;
-  padding: 7px 14px;
-
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.done-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-#selectedCount {
-    color: #555;
-    font-size: 14px;
-}
-
-{% comment %} #totalPrice {
-    color: #00c853;
-    font-size: 16px;
-    font-weight: 600;
-} {% endcomment %}
-
-.design-card .tick {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #00c853;
-    color: #fff;
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    display: none;
-}
-
-.design-card.selected .tick {
-    display: flex;
-}
-/* overlay */
-.select-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    opacity: 0;
-    transition: 0.3s;
-
-    pointer-events: none; /* 🔥 MOST IMPORTANT */
-}
-
-/* show on hover */
-.design-card:hover .select-overlay {
-    opacity: 1;
-}
-
-.done-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 18px;
-    background: #00c853;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* selected state */
-.design-card.selected {
-    border: 3px solid #00ff88;
-    transform: scale(1.05);
-}
+    .selection-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        padding: 12px 15px;
+        background: #f5f7ff;
+        border-radius: 10px;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
 
 
+    /* MAIN BAR */
+    .selection-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-/* IMAGE */
-#designPopup .design-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.4s;
-}
+        padding: 12px 18px;
+        margin-top: 12px;
 
-/* HOVER ZOOM */
-#designPopup .design-card:hover img {
-    transform: scale(1.1);
-}
+        background: #ffffff;
+        border-top: 1px solid #eee;
 
-/* DARK OVERLAY */
-#designPopup .design-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-}
+        border-radius: 0 0 12px 12px;
+    }
 
-/* ===============================
+    /* LEFT SIDE */
+    .selection-bar .left {
+        display: flex;
+        align-items: center;
+    }
+
+    /* SELECTED COUNT */
+    #selectedCount {
+        background: #f1f3f6;
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        color: #555;
+
+        transition: 0.3s;
+    }
+
+    /* जब कुछ select हो जाए */
+    #selectedCount.active {
+        background: #e6fff4;
+        color: #00a86b;
+    }
+
+    /* RIGHT SIDE */
+    .selection-bar .right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* TOTAL PRICE */
+    #totalPrice {
+        font-size: 16px;
+        font-weight: bold;
+        color: #00c853;
+    }
+
+    /* DONE BUTTON */
+    .done-btn {
+        background: linear-gradient(135deg, #00c853, #00a86b);
+        color: #fff;
+
+        border: none;
+        padding: 7px 14px;
+
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .done-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #selectedCount {
+        color: #555;
+        font-size: 14px;
+    }
+
+        {
+        % comment %
+    }
+
+    #totalPrice {
+        color: #00c853;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+        {
+        % endcomment %
+    }
+
+    .design-card .tick {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #00c853;
+        color: #fff;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        display: none;
+    }
+
+    .design-card.selected .tick {
+        display: flex;
+    }
+
+    /* overlay */
+    .select-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        opacity: 0;
+        transition: 0.3s;
+
+        pointer-events: none;
+        /* 🔥 MOST IMPORTANT */
+    }
+
+    /* show on hover */
+    .design-card:hover .select-overlay {
+        opacity: 1;
+    }
+
+    .done-btn {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 18px;
+        background: #00c853;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    /* selected state */
+    .design-card.selected {
+        border: 3px solid #00ff88;
+        transform: scale(1.05);
+    }
+
+
+
+    /* IMAGE */
+    #designPopup .design-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.4s;
+    }
+
+    /* HOVER ZOOM */
+    #designPopup .design-card:hover img {
+        transform: scale(1.1);
+    }
+
+    /* DARK OVERLAY */
+    #designPopup .design-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    }
+
+    /* ===============================
    TEXT OVER IMAGE
 ================================ */
-/* 🔥 CARD FIX */
-#designPopup .design-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-}
+    /* 🔥 CARD FIX */
+    #designPopup .design-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+    }
 
-/* 🔥 IMAGE */
-#designPopup .design-card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-}
+    /* 🔥 IMAGE */
+    #designPopup .design-card img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
 
-/* 🔥 OVERLAY (better contrast) */
-#designPopup .design-card-details {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 14px;
-    align-items:flex-end;
-    gap:8px;
+    /* 🔥 OVERLAY (better contrast) */
+    #designPopup .design-card-details {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 14px;
+        align-items: flex-end;
+        gap: 8px;
 
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.85),
-        rgba(0,0,0,0.55),
-        rgba(0,0,0,0.2),
-        transparent
-    );
-}
+        background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.85),
+                rgba(0, 0, 0, 0.55),
+                rgba(0, 0, 0, 0.2),
+                transparent);
+    }
 
-/* 🔥 TITLE (MAIN FIX) */
-#designPopup .design-card-details h4 {
-    
-    font-size: 15px;
-    font-weight: 700;
-    color: #ffffff;
-    background: rgba(5, 1, 1, 0.55);
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 6px;
-    text-shadow: 
-        0 2px 6px rgba(0,0,0,0.9),
-        0 0 10px rgba(0,0,0,0.6);
+    /* 🔥 TITLE (MAIN FIX) */
+    #designPopup .design-card-details h4 {
 
-    
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        background: rgba(5, 1, 1, 0.55);
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 6px;
+        text-shadow:
+            0 2px 6px rgba(0, 0, 0, 0.9),
+            0 0 10px rgba(0, 0, 0, 0.6);
 
-    margin-bottom: 4px;
-}
 
-/* 🔥 PRICE */
-#designPopup .design-card-details .price {
-    font-size: 13px;
-    font-weight: 700;
-    color: #00ffae;
-    display:block;
-    text-align:right;
-margin:0;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-}
-/* 🔥 FINAL HOVER GLOW FIX */
-#designPopup .design-card:hover .design-card-details .price {
-    color: #00ffae !important;
 
-    text-shadow: 
-        0 0 8px #00ffae,
-        0 0 16px #00ffae,
-        0 0 24px #00ffae !important;
+        margin-bottom: 4px;
+    }
 
-    transform: scale(1.1);
-    transition: all 0.3s ease;
-}
+    /* 🔥 PRICE */
+    #designPopup .design-card-details .price {
+        font-size: 13px;
+        font-weight: 700;
+        color: #00ffae;
+        display: block;
+        text-align: right;
+        margin: 0;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+    }
 
-/* 🔥 SIZE */
-#designPopup .design-card-details .size {
-    font-size: 12px;
-    color: #ddd;
-display:block;
-    text-align:right;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-    margin:0;
+    /* 🔥 FINAL HOVER GLOW FIX */
+    #designPopup .design-card:hover .design-card-details .price {
+        color: #00ffae !important;
 
-}
+        text-shadow:
+            0 0 8px #00ffae,
+            0 0 16px #00ffae,
+            0 0 24px #00ffae !important;
 
-/* ===============================
+        transform: scale(1.1);
+        transition: all 0.3s ease;
+    }
+
+    /* 🔥 SIZE */
+    #designPopup .design-card-details .size {
+        font-size: 12px;
+        color: #ddd;
+        display: block;
+        text-align: right;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+        margin: 0;
+
+    }
+
+    /* ===============================
    CLICK ZOOM MODAL
 ================================ */
-.image-modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    justify-content: center;
-    align-items: center;
-}
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        justify-content: center;
+        align-items: center;
+    }
 
-.image-modal img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-}
+    .image-modal img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+    }
 
-.image-modal span {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-}
+    .image-modal span {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+    }
 
-/* ================================
+    /* ================================
    POPUP BOX
 ================================ */
 
-#designPopup .design-popup-content {
-    background: #ffffff;
-    width: 100%;
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 20px;
-    padding-bottom:80px;
-    border-radius: 12px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-    animation: popupFade 0.3s ease;
-    position: relative;
-}
-
-@keyframes popupFade {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
+    #designPopup .design-popup-content {
+        background: #ffffff;
+        width: 100%;
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 20px;
+        padding-bottom: 80px;
+        border-radius: 12px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        animation: popupFade 0.3s ease;
+        position: relative;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
 
-/* ================================
+    @keyframes popupFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* ================================
    HEADER
 ================================ */
 
-#designPopup h3 {
-    text-align: center;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
+    #designPopup h3 {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
 
-/* CLOSE BUTTON */
-#designPopup .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #555;
-    background: #f1f5f9;
-    border-radius: 8px;
-    padding: 5px 10px;
-    transition: 0.3s;
-}
+    /* CLOSE BUTTON */
+    #designPopup .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+        color: #555;
+        background: #f1f5f9;
+        border-radius: 8px;
+        padding: 5px 10px;
+        transition: 0.3s;
+    }
 
-#designPopup .close-btn:hover {
-    background: #7b2ff7;
-    color: white;
-}
+    #designPopup .close-btn:hover {
+        background: #7b2ff7;
+        color: white;
+    }
 
-/* ================================
+    /* ================================
    DESIGN GRID (MAIN FIX 🔥)
 ================================ */
 
-#designPopup .design-gallery {
-    display: grid;
-    grid-template-columns: repeat(3 , 1fr);
-    gap: 15px;
-    width:100%;
-    margin-top:1.5rem;
-}
+    #designPopup .design-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
 
-/* ================================
+    /* ================================
    DESIGN CARD
 ================================ */
 
-#designPopup .design-card {
-    background: #fff;
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
-    position: relative;
-    height:240px;
-    width:100%;
-    height:280px;
-}
+    #designPopup .design-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+        position: relative;
+        height: 240px;
+        width: 100%;
+        height: 280px;
+    }
 
-/* HOVER EFFECT */
-#designPopup .design-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(123, 47, 247, 0.25);
-}
+    /* HOVER EFFECT */
+    #designPopup .design-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(123, 47, 247, 0.25);
+    }
 
-/* IMAGE */
-#designPopup .design-card img {
-    width: 100%;
-    height: 220;
-    object-fit: cover;
-    transition: 0.4s;
-}
+    /* IMAGE */
+    #designPopup .design-card img {
+        width: 100%;
+        height: 220;
+        object-fit: cover;
+        transition: 0.4s;
+    }
 
-#designPopup .design-card:hover img {
-    transform: scale(1.05);
-}
+    #designPopup .design-card:hover img {
+        transform: scale(1.05);
+    }
 
-/* DETAILS */
-#designPopup .design-card-details {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px 12px;
+    /* DETAILS */
+    #designPopup .design-card-details {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 12px;
 
-    display: flex;
-    justify-content: space-between; /* 👈 LEFT + RIGHT */
-    align-items: center;
+        display: flex;
+        justify-content: space-between;
+        /* 👈 LEFT + RIGHT */
+        align-items: center;
 
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    }
 
-/* TITLE */
-#designPopup .design-card h4 {
-    margin:0;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 5px;
-}
+    /* TITLE */
+    #designPopup .design-card h4 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+    }
 
-/* TEXT */
-#designPopup .design-card p {
-    font-size: 0.8rem;
-    color: #64748b;
-    display: flex;
-    justify-content: space-between;
-}
+    /* TEXT */
+    #designPopup .design-card p {
+        font-size: 0.8rem;
+        color: #64748b;
+        display: flex;
+        justify-content: space-between;
+    }
 
-/* PRICE */
-#designPopup .design-card .price {
-    color: #059669;
-    font-weight: bold;
-}
+    /* PRICE */
+    #designPopup .design-card .price {
+        color: #059669;
+        font-weight: bold;
+    }
 
-/* ================================
+    /* ================================
    SELECTED CARD HIGHLIGHT
 ================================ */
 
-#designPopup .design-card.selected {
-    border: 2px solid #7b2ff7;
-    box-shadow: 0 0 10px rgba(123,47,247,0.4);
-}
+    #designPopup .design-card.selected {
+        border: 2px solid #7b2ff7;
+        box-shadow: 0 0 10px rgba(123, 47, 247, 0.4);
+    }
 
-/* ================================
+    /* ================================
    CLEAR BUTTON
 ================================ */
 
-#clearDesignBtn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    font-size: 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-left: 8px;
-}
+    #clearDesignBtn {
+        background: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 8px;
+    }
 
-#clearDesignBtn:hover {
-    background: #d93636;
-}
+    #clearDesignBtn:hover {
+        background: #d93636;
+    }
 
-/* ================================
+    /* ================================
    RESPONSIVE
 ================================ */
 
-@media (max-width: 768px) {
-    #designPopup .design-popup-content {
-        max-width:1200px;
-        width:95%;
-        padding: 1.5rem;
+    @media (max-width: 768px) {
+        #designPopup .design-popup-content {
+            max-width: 1200px;
+            width: 95%;
+            padding: 1.5rem;
+        }
+
+        #designPopup .design-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        #designPopup .design-card img {
+            height: 150px;
+        }
     }
 
-    #designPopup .design-gallery {
-        grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 480px) {
+        #designPopup .design-gallery {
+            grid-template-columns: 1fr;
+        }
     }
 
-    #designPopup .design-card img {
-        height: 150px;
+    /* Toast popup */
+    .toast {
+        visibility: hidden;
+        min-width: 250px;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        padding: 12px;
+        position: fixed;
+        z-index: 10000;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.4s, bottom 0.4s;
     }
-}
 
-@media (max-width: 480px) {
-    #designPopup .design-gallery {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Toast popup */
-.toast {
-  visibility: hidden;
-  min-width: 250px;
-  background: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 12px;
-  position: fixed;
-  z-index: 10000;
-  left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%);
-  font-size: 14px;
-  opacity: 0;
-  transition: opacity 0.4s, bottom 0.4s;
-}
-.toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px;
-}
-/* Step Indicator */
-.steps {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0 3rem;
-  gap: 60px;
-  position: relative;
-}
-
-.steps::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  right: 15%;
-  height: 4px;
-  background:none;
-  z-index: 1;
-  border-radius: 2px;
-}
-
-.step {
-  position: relative;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #888;
-  z-index: 2;
-  transition: 0.3s;
-}
-
-.step .circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 10px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: 0.3s;
-  box-shadow:0 015px rgba(0,184,148,0.5);
-}
-
-.step.active .circle {
-  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-  color: #fff;
-  box-shadow: 0 0 12px rgba(123,47,247,0.5);
-}
-
-.step.active {
-  color: #7b2ff7;
-}
-
-.step.completed .circle {
-  background: #2ecc71;
-  color: #fff;
-}
-
-.step.completed {
-  color: #2ecc71;
-}
-
-.steps::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 15%;
-  height: 4px;
-  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-  width: 0%;
-  z-index: 1;
-  border-radius: 2px;
-  transition: width 0.5s ease-in-out;
-}
-/* Step indicator */
-.steps {
-    text-align: center;
-    font-size: 1.2rem;
-    margin: 1rem 0 2rem;
-    font-weight: bold;
-}
-
-.steps .step.active {
-    color: #7b2ff7;
-}
-
-.separator {
-    margin: 0 1rem;
-    color: #888;
-}
-
-
-/* 🔥 Overlay (background blur) */
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(6px);
-
-    display: none;
-    z-index: 999;
-}
-
-/* 🚀 Popup Card */
-#signupPopup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-
-    background: #ffffff;
-    padding: 25px 20px;
-    border-radius: 15px;
-
-    width: 320px;
-    text-align: center;
-
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    z-index: 1000;
-
-    animation: popupFade 0.3s ease forwards;
-}
-
-/* ✨ Animation */
-@keyframes popupFade {
-    to {
-        transform: translate(-50%, -50%) scale(1);
+    .toast.show {
+        visibility: visible;
         opacity: 1;
+        bottom: 50px;
     }
-}
 
-/* 📝 Title */
-#signupPopup h3 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    color: #333;
-}
+    /* Step Indicator */
+    .steps {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0 3rem;
+        gap: 60px;
+        position: relative;
+    }
 
-/* 📱 Inputs */
-#signupPopup input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
+    .steps::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 15%;
+        right: 15%;
+        height: 4px;
+        background: none;
+        z-index: 1;
+        border-radius: 2px;
+    }
 
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    .step {
+        position: relative;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #888;
+        z-index: 2;
+        transition: 0.3s;
+    }
 
-    font-size: 14px;
-    outline: none;
+    .step .circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: 0.3s;
+        box-shadow: 0 015px rgba(0, 184, 148, 0.5);
+    }
 
-    transition: 0.3s;
-}
+    .step.active .circle {
+        background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+        color: #fff;
+        box-shadow: 0 0 12px rgba(123, 47, 247, 0.5);
+    }
 
-#signupPopup input:focus {
-    border-color: #4facfe;
-    box-shadow: 0 0 5px rgba(79,172,254,0.5);
-}
+    .step.active {
+        color: #7b2ff7;
+    }
 
-/* 🔘 Button */
-#signupPopup button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    .step.completed .circle {
+        background: #2ecc71;
+        color: #fff;
+    }
 
-    border: none;
-    border-radius: 8px;
+    .step.completed {
+        color: #2ecc71;
+    }
 
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    color: white;
-    font-size: 15px;
+    .steps::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 15%;
+        height: 4px;
+        background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+        width: 0%;
+        z-index: 1;
+        border-radius: 2px;
+        transition: width 0.5s ease-in-out;
+    }
 
-    cursor: pointer;
-    transition: 0.3s;
-}
+    /* Step indicator */
+    .steps {
+        text-align: center;
+        font-size: 1.2rem;
+        margin: 1rem 0 2rem;
+        font-weight: bold;
+    }
 
-#signupPopup button:hover {
-    transform: scale(1.05);
-}
+    .steps .step.active {
+        color: #7b2ff7;
+    }
 
-/* 🔒 Disabled form effect */
-#bookingForm {
-    transition: 0.3s;
-}
-
-
-.booking-wrapper {
-    max-width: 900px;
-    margin: auto;
-}
-
-.slide {
-    display: none;
-}
-
-.slide.active {
-    display: block;
-}
+    .separator {
+        margin: 0 1rem;
+        color: #888;
+    }
 
 
+    /* 🔥 Overlay (background blur) */
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(6px);
+
+        display: none;
+        z-index: 999;
+    }
+
+    /* 🚀 Popup Card */
+    #signupPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+
+        background: #ffffff;
+        padding: 25px 20px;
+        border-radius: 15px;
+
+        width: 320px;
+        text-align: center;
+
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        z-index: 1000;
+
+        animation: popupFade 0.3s ease forwards;
+    }
+
+    /* ✨ Animation */
+    @keyframes popupFade {
+        to {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* 📝 Title */
+    #signupPopup h3 {
+        margin-bottom: 15px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    /* 📱 Inputs */
+    #signupPopup input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        font-size: 14px;
+        outline: none;
+
+        transition: 0.3s;
+    }
+
+    #signupPopup input:focus {
+        border-color: #4facfe;
+        box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+    }
+
+    /* 🔘 Button */
+    #signupPopup button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+
+        border: none;
+        border-radius: 8px;
+
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: white;
+        font-size: 15px;
+
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #signupPopup button:hover {
+        transform: scale(1.05);
+    }
+
+    /* 🔒 Disabled form effect */
+    #bookingForm {
+        transition: 0.3s;
+    }
+
+
+    .booking-wrapper {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .slide {
+        display: none;
+    }
+
+    .slide.active {
+        display: block;
+    }
 </style>
 
 
@@ -1452,22 +1500,23 @@ display:block;
     </div>
 
     <!-- 👇 YOUR EXISTING FORM -->
-    <form id="bookingForm" method="POST" enctype="multipart/form-data">    <form id="bookingForm" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-<div class="steps">
-  <div class="step active" id="step1">
-    <div class="circle">1</div>
-    Booking
-  </div>
-</form>
+    <form id="bookingForm" method="POST" enctype="multipart/form-data">
+        <form id="bookingForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="steps">
+                <div class="step active" id="step1">
+                    <div class="circle">1</div>
+                    Booking
+                </div>
+        </form>
 </div>
 
 {% if user.is_authenticated and user.role == "customer" and not user.is_staff %}
 
 <div class="form-note">
-  
+
     <span class="note-icon">⚠️ Important</span>
-    
+
 
     <div class="note-content">
         <p>
@@ -1490,129 +1539,128 @@ display:block;
             </ul>
 
             <p><strong>Note:</strong><br>
-            Any required permissions must be arranged by the customer before work begins.</p>
+                Any required permissions must be arranged by the customer before work begins.</p>
 
             <p><strong>Important Note:</strong><br>
-            The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
+                The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
 
             <p><strong>Note:</strong><br>
-            Issues like water leakage, seepage, mold, etc. are not included.</p>
+                Issues like water leakage, seepage, mold, etc. are not included.</p>
 
             <p>
-            The customer is responsible for preparing the workspace before execution.
+                The customer is responsible for preparing the workspace before execution.
             </p>
 
             <p>
-            We request your cooperation for smooth execution. Thank you for trusting us 💙
+                We request your cooperation for smooth execution. Thank you for trusting us 💙
             </p>
-          </div>
-            
+        </div>
+
         <a href="#" id="readMoreBtn" onclick="toggleNote(); return false;">
-    Read More ↓
-</a>
-            
-          </div>
+            Read More ↓
+        </a>
+
+    </div>
 </div>
 {% endif %}
-            <form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" id="booking_amount" name="booking_amount" value="0">
+<form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" id="booking_amount" name="booking_amount" value="0">
 
-                <h2>{% trans "Book" %} {{ service_name }}</h2>
+    <h2>{% trans "Book" %} {{ service_name }}</h2>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>{% trans "Service Name" %}</label>
-                        <input type="text" name="service_name" value="{{ service_name }}" readonly>
-                    </div>
+    <div class="form-grid">
+        <div class="form-group full-width">
+            <label>{% trans "Service Name" %}</label>
+            <input type="text" name="service_name" value="{{ service_name }}" readonly>
+        </div>
 
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="customer_name" required>
-                    </div>
+        <div class="form-group full-width">
+            <label>Full Name</label>
+            <input type="text" name="customer_name" required>
+        </div>
 
-                    <div class="form-group">
-                        <label>Contact Number</label>
-                        <input type="text" name="contact_number" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="Email (optional)">
-                    </div>
+        <div class="form-group">
+            <label>Contact Number</label>
+            <input type="text" name="contact_number" required>
+        </div>
 
-                    <div class="form-group full-width">
-                        <label>Full Address</label>
-                        <textarea name="address" required rows="2"></textarea>
-                    </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Email (optional)">
+        </div>
 
-                    <div class="form-group full-width">
-                        <div class="grid-3-col">
-                            <div class="form-group">
-                                <label>City</label>
-                                <input type="text" name="city" required>
-                            </div>
-                            <div class="form-group">
-                                <label>State</label>
-                                <input type="text" name="state" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Pin Code</label>
-                                <input type="text" name="pin_code" required>
-                            </div>
-                        </div>
-                    </div>
+        <div class="form-group full-width">
+            <label>Full Address</label>
+            <textarea name="address" required></textarea>
+        </div>
 
-                    <div class="form-group full-width">
-                        <label>Choose Your Design</label>
-                        <div id="selectedDesignContainer"></div>
-                        <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-                        <div id="image-preview" style="margin-top:10px;"></div>
-                        <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
-                    </div>
+        <div class="form-group">
+            <label>Pin Code</label>
+            <input type="text" name="pin_code" required>
+        </div>
 
-                    <div class="form-group square-ft-box full-width">
-                        <label>Dimensions (Square Ft)</label>
-                        <div class="square-ft-inputs">
-                            <input type="number" id="width" name="width" placeholder="Width" min="1">
-                            <span class="cross-icon">×</span>
-                            <input type="number" id="height" name="height" placeholder="Height" min="1">
-                            <span class="equals-icon">=</span>
-                            <input type="number" id="total_sqft" name="total_sqft" placeholder="Total Sq Ft" readonly>
-                        </div>
-                    </div>
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" name="state" required>
+        </div>
 
-                    <div class="form-group">
-                        <label>Total Walls</label>
-                        <input type="number" id="total_walls" name="total_walls" min="1" value="1">
-                    </div>
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" name="city" required>
+        </div>
 
-                    <div class="form-group">
-                        <label>Appointment Date</label>
-                        <input type="date" id="appointment_date" name="appointment_date" required>
-                    </div>
+        <div class="form-group full-width">
+            <label>Choose Your Design</label>
+            <div id="selectedDesignContainer"></div>
+            <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
+            <div id="image-preview" style="margin-top:10px;"></div>
+            <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear
+                Design</button>
+        </div>
 
-                    <!-- Hidden Design Price -->
-                    <input type="hidden" id="design_price" value="0">
-                    <input type="hidden" id="total_amount_input" name="total_amount">
+        <div class="form-group square-ft-box full-width">
+            <label>Dimensions (Square Ft)</label>
+            <div class="square-ft-inputs">
+                <input type="number" id="width" name="width" placeholder="Width" min="1">
+                <span class="cross-icon">×</span>
+                <input type="number" id="height" name="height" placeholder="Height" min="1">
+                <span class="equals-icon">=</span>
+                <input type="number" id="total_sqft" name="total_sqft" placeholder="Total Sq Ft" readonly>
+            </div>
+        </div>
 
-                    <!-- Price Display -->
-                    <div class="price-display full-width" id="price-display">
-                        <div><strong>Estimated Price:</strong></div>
-                        <div class="price" id="calculated-price">₹0</div>
-                        <small>(₹50 per sqft + design cost per wall)</small>
-                    </div>
+        <div class="form-group">
+            <label>Total Walls</label>
+            <input type="number" id="total_walls" name="total_walls" min="1" value="1">
+        </div>
 
-                    <div class="form-group full-width">
-                        <button type="submit" class="book-btn">Book Now</button>
-                    </div>
-                </div>
-            </form>
+        <div class="form-group">
+            <label>Appointment Date</label>
+            <input type="date" id="appointment_date" name="appointment_date" required>
+        </div>
+
+        <!-- Hidden Design Price -->
+        <input type="hidden" id="design_price" value="0">
+        <input type="hidden" id="total_amount_input" name="total_amount">
+
+        <!-- Price Display -->
+        <div class="price-display full-width" id="price-display">
+            <div><strong>Estimated Price:</strong></div>
+            <div class="price" id="calculated-price">₹0</div>
+            <small>(₹50 per sqft + design cost per wall)</small>
+        </div>
+
+        <div class="form-group full-width">
+            <button type="submit" class="book-btn">Book Now</button>
         </div>
     </div>
+</form>
+</div>
+</div>
 
-    <!-- PAYMENT SLIDE -->
-     <!-- <div class="slide" id="payment-slide">
+<!-- PAYMENT SLIDE -->
+<!-- <div class="slide" id="payment-slide">
         <div class="booking-container">
             <form class="booking-form" id="paymentForm">
                 {% csrf_token %}
@@ -1626,7 +1674,7 @@ display:block;
 <label style="display:none;">Amount</label>
 <input type="text" id="booking_amount" name="booking_amount" value="0" readonly style="display:none;">
 
-                            <!-- <div id="cash-note-box" style="display:none; margin-top: 1rem;">
+<!-- <div id="cash-note-box" style="display:none; margin-top: 1rem;">
                 <p style="color: red; font-weight: 600;">
                     💡 Note: At least 40% of the total amount must be paid now rest after service completion.
                 </p>
@@ -1642,97 +1690,96 @@ display:block;
             </form>
         </div>
     </div>  -->
-    
 
-    <div class="slide" id="confirmation-slide">
-  <div class="confirmation-box">
-      <h3>🎉 Booking Confirmed!</h3>
-      <p>
-          Your booking for <strong>{{ service_name }}</strong> is successful.<br>
-          ✅ Our team will get in touch with you within 24 hrs.
-      </p>
-      <button onclick="goHome()">Go to Home</button>
-  </div>
+
+<div class="slide" id="confirmation-slide">
+    <div class="confirmation-box">
+        <h3>🎉 Booking Confirmed!</h3>
+        <p>
+            Your booking for <strong>{{ service_name }}</strong> is successful.<br>
+            ✅ Our team will get in touch with you within 24 hrs.
+        </p>
+        <button onclick="goHome()">Go to Home</button>
+    </div>
 </div>
 
 </div>
 <div id="designPopup" class="design-popup">
-  <div class="design-popup-content">
+    <div class="design-popup-content">
 
-    <span class="close-btn" onclick="closeDesignPopup()">&times;</span>
+        <span class="close-btn" onclick="closeDesignPopup()">&times;</span>
 
-    <h3>Select a Design for {{ service_name }}</h3>
+        <h3>Select a Design for {{ service_name }}</h3>
 
-<!-- 🔍 SEARCH BAR -->
-<div class="search-box">
-    <input type="text" id="designSearch" placeholder="Search designs...">
-</div>
+        <!-- 🔍 SEARCH BAR -->
+        <div class="search-box">
+            <input type="text" id="designSearch" placeholder="Search designs...">
+        </div>
 
-    <div class="design-gallery">
+        <div class="design-gallery">
 
-      {% for img in db_images %}
-      <div class="design-card"
-           onclick="selectDesign(event,
+            {% for img in db_images %}
+            <div class="design-card" onclick="selectDesign(event,
             '{{ img.id }}',
              '{{ img.image_name }}', 
              '{{ img.image.url }}', 
              '{{ img.price }}')">
 
-             <div class="card-number">
-        {{ forloop.counter }}
-    </div>
+                <div class="card-number">
+                    {{ forloop.counter }}
+                </div>
 
-        <img src="{{ img.image.url }}" alt="{{ img.image_name }}">
-            
+                <img src="{{ img.image.url }}" alt="{{ img.image_name }}">
 
-     <!-- ✅ tick -->
-        <div class="tick">✓</div>
 
-        <!-- overlay -->
-        <div class="select-overlay">Click to Select</div>
+                <!-- ✅ tick -->
+                <div class="tick">✓</div>
 
-        <!-- details -->
-        <div class="design-card-details">
-          <h4>{{ img.image_name }}</h4>
-          <div class="price">₹{{ img.price }}</div>
-          <div class="size">{{ img.min_size }} sqft</div>
+                <!-- overlay -->
+                <div class="select-overlay">Click to Select</div>
+
+                <!-- details -->
+                <div class="design-card-details">
+                    <h4>{{ img.image_name }}</h4>
+                    <div class="price">₹{{ img.price }}</div>
+                    <div class="size">{{ img.min_size }} sqft</div>
+                </div>
+
+            </div>
+            {% endfor %}
         </div>
 
-      </div>
-      {% endfor %}
+        <p id="noResult" style="display:none; text-align:center; color:red;">
+            No design found 😔
+        </p>
+
+        <!-- 🔥 SELECTION BAR -->
+        <div class="selection-bar">
+
+            <!-- LEFT -->
+            <div class="left">
+                <span id="selectedCount">0 Selected</span>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="right">
+                <span id="totalPrice">₹0</span>
+
+                <button onclick="confirmSelection()" class="done-btn">
+                    Done ✅
+                </button>
+            </div>
+
+        </div>
+
+        <!-- hidden -->
+        <input type="hidden" id="selected_designs" name="selected_designs">
+
     </div>
-    
-    <p id="noResult" style="display:none; text-align:center; color:red;">
-    No design found 😔
-</p>
-
-    <!-- 🔥 SELECTION BAR -->
-    <div class="selection-bar">
-
-      <!-- LEFT -->
-      <div class="left">
-        <span id="selectedCount">0 Selected</span>
-      </div>
-
-      <!-- RIGHT -->
-      <div class="right">
-        <span id="totalPrice">₹0</span>
-
-        <button onclick="confirmSelection()" class="done-btn">
-          Done ✅
-        </button>
-      </div>
-
-    </div>
-
-    <!-- hidden -->
-    <input type="hidden" id="selected_designs" name="selected_designs">
-
-  </div>
 </div>
 <div id="toast" class="toast"></div>
 <!-- SCRIPTS -->
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
@@ -1740,214 +1787,214 @@ display:block;
 
 <script>
 
-// GLOBAL (सबसे ऊपर)
-let selectedDesigns = [];
+    // GLOBAL (सबसे ऊपर)
+    let selectedDesigns = [];
 
-function getDesignTotal() {
-    let total = 0;
+    function getDesignTotal() {
+        let total = 0;
 
-    if (typeof selectedDesigns !== "undefined") {
+        if (typeof selectedDesigns !== "undefined") {
+            selectedDesigns.forEach(item => {
+                total += item.price;
+            });
+        }
+
+        return total;
+    }
+
+    // SELECT FUNCTION
+    function selectDesign(event, id, name, image, price) {
+
+        let card = event.currentTarget;
+
+        let index = selectedDesigns.findIndex(item => item.id == id);
+
+        if (index > -1) {
+            // remove
+            selectedDesigns.splice(index, 1);
+            card.classList.remove("selected");
+
+            showToast(name + " removed ❌");
+
+        } else {
+            // add
+            selectedDesigns.push({
+                id: id,
+                name: name,
+                image: image,
+                price: parseFloat(price)
+            });
+            card.classList.add("selected");
+            showToast(name + " added ✅️");
+        }
+
+        updateUI();
+        calculatePrice();
+    }
+
+
+    function updateUI() {
+        let total = 0;
+
         selectedDesigns.forEach(item => {
             total += item.price;
         });
+
+
+        // Selected count
+        let countEl = document.getElementById("selectedCount");
+        countEl.innerText = selectedDesigns.length + " Selected";
+
+        // Active style
+        if (selectedDesigns.length > 0) {
+            countEl.classList.add("active");
+        } else {
+            countEl.classList.remove("active");
+        }
+
+        // 🔥 TOTAL PRICE FIX
+        document.getElementById("totalPrice").innerText = "Total ₹" + total;
+
+        // hidden input
+        document.getElementById("selected_designs").value =
+            JSON.stringify(selectedDesigns);
     }
 
-    return total;
-}
 
-// SELECT FUNCTION
-function selectDesign(event, id, name, image, price) {
 
-    let card = event.currentTarget;
-
-    let index = selectedDesigns.findIndex(item => item.id == id);
-
-    if (index > -1) {
-        // remove
-        selectedDesigns.splice(index, 1);
-        card.classList.remove("selected");
-
-        showToast(name + " removed ❌");
-
-    } else {
-        // add
-        selectedDesigns.push({
-            id: id,
-            name:name,
-            image:image,
-            price: parseFloat(price)
-        });
-        card.classList.add("selected");
-        showToast(name + " added ✅️");
+    // OPEN POPUP
+    function openDesignPopup() {
+        document.getElementById("designPopup").style.display = "block";
     }
 
-    updateUI();
-    calculatePrice();
-}
-
-
-function updateUI() {
-    let total = 0;
-
-    selectedDesigns.forEach(item => {
-        total += item.price;
-    });
-    
-
-    // Selected count
-    let countEl = document.getElementById("selectedCount");
-    countEl.innerText = selectedDesigns.length + " Selected";
-
-    // Active style
-    if (selectedDesigns.length > 0) {
-        countEl.classList.add("active");
-    } else {
-        countEl.classList.remove("active");
+    // CLOSE POPUP
+    function closeDesignPopup() {
+        document.getElementById("designPopup").style.display = "none";
     }
-
-    // 🔥 TOTAL PRICE FIX
-    document.getElementById("totalPrice").innerText = "Total ₹" + total;
-
-    // hidden input
-    document.getElementById("selected_designs").value =
-        JSON.stringify(selectedDesigns);
-}
-
-
-
-// OPEN POPUP
-function openDesignPopup() {
-    document.getElementById("designPopup").style.display = "block";
-}
-
-// CLOSE POPUP
-function closeDesignPopup() {
-    document.getElementById("designPopup").style.display = "none";
-}
 
 
 
     const SERVICE_BASE_RATES = {
-    "3D Art": 120, // ₹120 per sq ft
-    "Normal Paint": 100, // ₹100 per sq ft
-    "Mural": 800, // ₹800 per sq ft
-    // Add other services here, with a sensible default if the service_name doesn't match
-    "Default": 150 
-};
+        "3D Art": 120, // ₹120 per sq ft
+        "Normal Paint": 100, // ₹100 per sq ft
+        "Mural": 800, // ₹800 per sq ft
+        // Add other services here, with a sensible default if the service_name doesn't match
+        "Default": 150
+    };
 
-function showSelectedDesignsInForm() {
+    function showSelectedDesignsInForm() {
 
-    const container = document.getElementById("selectedDesignContainer");
-    container.innerHTML = "";
+        const container = document.getElementById("selectedDesignContainer");
+        container.innerHTML = "";
 
-    selectedDesigns.forEach(item => {
+        selectedDesigns.forEach(item => {
 
-        const div = document.createElement("div");
-        div.classList.add("selected-item");
+            const div = document.createElement("div");
+            div.classList.add("selected-item");
 
-        div.innerHTML = `
+            div.innerHTML = `
             <button class="remove-btn" onclick="removeFromForm('${item.id}')"> ❌</button>
             <img src="${item.image}" />
         `;
 
-        container.appendChild(div);
-    });
-}
-
-function removeFromForm(id) {
-
-    selectedDesigns = selectedDesigns.filter(item => item.id != id);
-
-    showSelectedDesignsInForm();  // UI update
-    updateUI();   
-    
-    calculatePrice();// price update
-
-    showToast("Removed❌");
-}
-
-function confirmSelection() {
-    
-
-    if (selectedDesigns.length === 0) {
-
-       
-        alert("Please select at least 1 design");
-        return;
+            container.appendChild(div);
+        });
     }
 
-    // hidden input already set है
-    console.log("FINAL SELECTED:", selectedDesigns);
- 
+    function removeFromForm(id) {
+
+        selectedDesigns = selectedDesigns.filter(item => item.id != id);
+
+        showSelectedDesignsInForm();  // UI update
+        updateUI();
+
+        calculatePrice();// price update
+
+        showToast("Removed❌");
+    }
+
+    function confirmSelection() {
+
+
+        if (selectedDesigns.length === 0) {
+
+
+            alert("Please select at least 1 design");
+            return;
+        }
+
+        // hidden input already set है
+        console.log("FINAL SELECTED:", selectedDesigns);
+
         showSelectedDesignsInForm();  // 👈 YE LINE ADD KAR
 
-    // popup close
-    closeDesignPopup();
+        // popup close
+        closeDesignPopup();
 
-    // optional toast
-    showToast(selectedDesigns.length + " design selected ✅");
-}
-
-{% comment %} function confirmSelection() {
-
-    showSelectedDesignsInForm();  // 👈 YE LINE ADD KAR
-
-    closeDesignPopup();
-} {% endcomment %}
-{% comment %} function updateUI() {
-    let total = 0;
-
-    selectedDesigns.forEach(item => {
-        total += item.price;
-    });
-
-    let countText = selectedDesigns.length + " Selected";
-
-    let countEl = document.getElementById("selectedCount");
-    countEl.innerText = countText;
-
-    // 🔥 ACTIVE CLASS ADD
-    if (selectedDesigns.length > 0) {
-        countEl.classList.add("active");
-    } else {
-        countEl.classList.remove("active");
+        // optional toast
+        showToast(selectedDesigns.length + " design selected ✅");
     }
 
-    document.getElementById("totalPrice").innerText =
-        "₹" + total;
+    {% comment %} function confirmSelection() {
 
-    document.getElementById("selected_designs").value =
-        JSON.stringify(selectedDesigns);
-} {% endcomment %}
+        showSelectedDesignsInForm();  // 👈 YE LINE ADD KAR
 
-const uploadInput =
- document.getElementById('custom_design_input');
-const preview= 
-document.getElementById('image-preview');
+        closeDesignPopup();
+    } {% endcomment %}
+    {% comment %} function updateUI() {
+        let total = 0;
 
-uploadInput.addEventListener('change', function() {
-    preview.innerHTML = ''; // Clear previous previews
-    Array.from(upload.files).forEach((file ) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-           const div =document.createElement('div');
-           div.style.display = 'inline-block';
-           div.stle.margin="10px"
-           div.innerHTML = `
+        selectedDesigns.forEach(item => {
+            total += item.price;
+        });
+
+        let countText = selectedDesigns.length + " Selected";
+
+        let countEl = document.getElementById("selectedCount");
+        countEl.innerText = countText;
+
+        // 🔥 ACTIVE CLASS ADD
+        if (selectedDesigns.length > 0) {
+            countEl.classList.add("active");
+        } else {
+            countEl.classList.remove("active");
+        }
+
+        document.getElementById("totalPrice").innerText =
+            "₹" + total;
+
+        document.getElementById("selected_designs").value =
+            JSON.stringify(selectedDesigns);
+    } {% endcomment %}
+
+    const uploadInput =
+        document.getElementById('custom_design_input');
+    const preview =
+        document.getElementById('image-preview');
+
+    uploadInput.addEventListener('change', function () {
+        preview.innerHTML = ''; // Clear previous previews
+        Array.from(upload.files).forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const div = document.createElement('div');
+                div.style.display = 'inline-block';
+                div.stle.margin = "10px"
+                div.innerHTML = `
             <img src="${e.target.result}" width="120"
             <br>
             <button type="button"
             onclick="this.parentElement.remove()">Remove</button>`;
-            preview.appendChild(div);
-        }
-        reader.readAsDataURL(file);
-    });
+                preview.appendChild(div);
+            }
+            reader.readAsDataURL(file);
         });
+    });
 
     {% comment %} if (files.length > 0) {
         Array.from(files).forEach(file => {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.style.maxWidth = '150px';
@@ -1960,599 +2007,603 @@ uploadInput.addEventListener('change', function() {
         });
     } {% endcomment %}
 
-// Auto sqft and price calculation
-// const SERVICE_BASE_RATES = {
-//     "3D Art": 120, // ₹120 per sq ft
-//     "Normal Paint": 100, // ₹100 per sq ft
-//     "Mural": 800, // ₹800 per sq ft
-//     "Default": 50 // Default fallback rate
-// };
-
-{% comment %} // Auto sqft and price calculation listeners
-document.getElementById("width").addEventListener("input", calcSqftAndPrice);
-document.getElementById("height").addEventListener("input", calcSqftAndPrice);
-document.querySelector('input[name="total_walls"]').addEventListener("input", calcSqftAndPrice); {% endcomment %}
-
-
-{% comment %} function calcSqftAndPrice() {
-    let w = parseFloat(document.getElementById("width").value) || 0;
-    let h = parseFloat(document.getElementById("height").value) || 0;
-     {% endcomment %}
-    // Total Walls: Use 1 if the user hasn't entered a value yet
-    {% comment %} let totalWalls = parseFloat(document.querySelector('input[name="total_walls"]').value) || 1;  {% endcomment %}
-
-    // Calculate Square Footage of ONE wall
-    {% comment %} let singleWallSqft = w * h; {% endcomment %}
-    
-    // Calculate the TOTAL Square Footage for the job (Area of all walls)
-    {% comment %} let totalSqft = singleWallSqft * totalWalls; {% endcomment %}
-
-    {% comment %} let totalPrice = 0; {% endcomment %}
-    
-    // Get the base service name
-    {% comment %} const serviceName = document.querySelector('input[name="service_name"]').value.trim(); {% endcomment %}
-
-    // 1. Check for SELECTED DESIGN PRICE (Treat Design Price as the new Rate per Sq Ft)
-    {% comment %} const designPriceInput = document.getElementById("selected_design_price_input");
-    const selectedDesignPrice = parseFloat(designPriceInput.value) || 0; {% endcomment %}
-
-    {% comment %} if (selectedDesignPrice > 0) { {% endcomment %}
-        // --- FIX IMPLEMENTED HERE ---
-        // Treat selectedDesignPrice as the special rate per sq ft for this design.
-        // Calculation: Total Area * Design Price (Rate)
-        {% comment %} totalPrice = totalSqft * selectedDesignPrice; {% endcomment %}
-        
-        // Update the price display small text
-        {% comment %} document.querySelector('#price-display small').textContent = `(₹${selectedDesignPrice} per sqft - Special Design Rate)`; {% endcomment %}
-        {% comment %} console.log(`Calculation (Design Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${selectedDesignPrice} (Rate) = ₹${totalPrice}`); {% endcomment %}
-
-    {% comment %} } else { {% endcomment %}
-        // 2. Use HARDCODED BASE RATE (Per Sq Ft Calculation for custom design/service)
-        {% comment %} let baseRate = SERVICE_BASE_RATES[serviceName] || SERVICE_BASE_RATES["Default"]; {% endcomment %}
-        
-        // Calculation: Total Area * Base Rate
-        {% comment %} totalPrice = totalSqft * baseRate; {% endcomment %}
-        
-        // Update the price display small text
-        {% comment %} document.querySelector('#price-display small').textContent = `(₹${baseRate} per sqft)`; {% endcomment %}
-        {% comment %} console.log(`Calculation (Base Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${baseRate} (Rate) = ₹${totalPrice}`); {% endcomment %}
-    {% comment %} } {% endcomment %}
-    
-    // Update square feet display (total area)
-    {% comment %} document.getElementById("total_sqft").value = totalSqft.toFixed(2); {% endcomment %}
-    
-    // Update price display
-    {% comment %} if (totalSqft > 0) {
-        document.getElementById("price-display").style.display = "block";
-        document.getElementById("calculated-price").textContent = "₹" + totalPrice.toFixed(2);
-        document.getElementById("booking_amount").value = totalPrice.toFixed(2);
-        document.getElementById("total_amount_input").value = totalPrice.toFixed(2);
-    } else {
-        document.getElementById("price-display").style.display = "none";
-        document.getElementById("calculated-price").textContent = "₹0";
-        document.getElementById("booking_amount").value = 0;
-    } {% endcomment %}
-
-
-    // Datepicker
-    flatpickr("#appointment_date", {
-        dateFormat: "d-m-Y",
-        minDate: "today"
-    });
-
-{% comment %} 
-function saveBooking(event) {
-
-    // 🔥 MOST IMPORTANT LINE
-    if (event) event.preventDefault();
-
-    let form = document.getElementById("bookingForm");
-
-    let amountInput = document.getElementById("booking_amount");
-    if (!amountInput) {
-        alert("booking_amount missing ❌");
-        return;
-    }
-
-    let amount = amountInput.value;
-    if (!amount || parseFloat(amount) <= 0) {
-        alert("Invalid amount ❌");
-        return;
-    }
-
-    let formData = new FormData(form);
-
-    console.log("FormData ready ✅");
-
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    let contact = document.querySelector('[name="contact_number"]').value;
-let address = document.querySelector('[name="address"]').value;
-
-formData.append("contact_number", contact);
-formData.append("address", address);
-
-    $.ajax({
-        url: '/home/save_booking/',
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-            headers: {
-        'X-CSRFToken': csrftoken   // ✅ THIS IS IMPORTANT
-    },
-
-        success: function(resp) {
-            alert("Booking successful 🎉");
-        }
-    });
-} {% endcomment %}
-
-// // Handle payment mode change
-// document.getElementById("payment_mode").addEventListener("change", function() {
-//     const mode = this.value;
-//     const totalAmount = parseFloat(document.getElementById("booking_amount").value) || 0;
-
-//     if (mode === "cash") {
-//         // Show note box
-//         document.getElementById("cash-note-box").style.display = "block";
-
-//         // Calculate 40%
-//         let advance = (totalAmount * 0.40).toFixed(2);
-//         document.getElementById("cash_advance").value = advance;
-
-//     } else {
-//         // Hide note box for Online payment
-//         document.getElementById("cash-note-box").style.display = "none";
-//         document.getElementById("cash_advance").value = "";
-//     }
-// });
-
-//     // PAYMENT FUNCTIONS
-//    function initiatePayment() {
-//     const paymentMode = document.getElementById('payment_mode').value;
-//     let amount = parseFloat(document.getElementById('booking_amount').value);
-
-//     if (paymentMode === 'cash') {
-//         // Take only 40% for Razorpay
-//         const advance = parseFloat(document.getElementById('cash_advance').value);
-//         if (!advance || advance <= 0) {
-//             alert("Invalid advance amount calculation.");
-//             return;
-//         }
-//         amount = advance; // override amount
-//     }
-
-//     if (paymentMode === 'cash') {
-//         startRazorpayPayment(amount); // pay only advance
-//     } else if (paymentMode === 'razorpay') {
-//         startRazorpayPayment(amount); // pay full amount
-//     }
-// }
-
-    // function startRazorpayPayment(amount) {
-    // if (!amount || amount <= 0) {
-    //     alert('Invalid amount. Please check the booking amount.');
-    //     return;
-    // }
-
-    // showPaymentLoading(true);
-
-//     $.ajax({
-//         url: '/create_razorpay_order/',
-//         type: 'POST',
-//         data: {
-//             'amount': amount, // send only advance if cash
-//             'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
-//         },
-//         success: function(response) {
-//             showPaymentLoading(false);
-//             if (response.success) {
-//                 openRazorpayCheckout(response);
-//             } else {
-//                 alert('Error creating payment order: ' + response.error);
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             showPaymentLoading(false);
-//             alert('Something went wrong while creating payment order: ' + error);
-//         }
-//     });
-// }
-
-
-    // function openRazorpayCheckout(orderData) {
-    //     // Get customer details from booking form
-    //     const contactNumber = document.querySelector('input[name="contact_number"]').value;
-    //     const email = document.querySelector('input[name="email"]').value;
-    //     const customerName = "Customer";
-
-    //     const options = {
-    //         "key": orderData.key_id,
-    //         "amount": orderData.amount,
-    //         "currency": orderData.currency,
-    //         "name": "Home Services", // Replace with your business name
-    //         "description": "Service Booking Payment",
-    //         "order_id": orderData.order_id,
-    //         "handler": function (response) {
-    //             verifyPayment(response);
-    //         },
-    //         "prefill": {
-    //             "name": customerName,
-    //             "email": email,
-    //             "contact": contactNumber
-    //         },
-    //         "notes": {
-    //             "service": "{{ service_name }}"
-    //         },
-    //         "theme": {
-    //             "color": "#7b2ff7"
-    //         },
-    //         "modal": {
-    //             "ondismiss": function(){
-    //                 showPaymentLoading(false);
-    //                 alert('Payment was cancelled');
-    //             }
-    //         }
-    //     };
-        
-    //     const rzp = new Razorpay(options);
-    //     rzp.open();
-    // }
-
-    // function verifyPayment(response) {
-    //     showPaymentLoading(true);
-        
-    //     $.ajax({
-    //         url: '/verify_razorpay_payment/',
-    //         type: 'POST',
-    //         contentType: 'application/json',
-    //         data: JSON.stringify({
-    //             'razorpay_order_id': response.razorpay_order_id,
-    //             'razorpay_payment_id': response.razorpay_payment_id,
-    //             'razorpay_signature': response.razorpay_signature
-    //         }),
-    //         headers: {
-    //             "X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()
-    //         },
-    //         success: function(verifyResponse) {
-    //             showPaymentLoading(false);
-    //             if (verifyResponse.success) {
-    //                 // Payment successful - go to confirmation
-    //                 showSlide(2);
-    //             } else {
-    //                 alert('Payment verification failed: ' + verifyResponse.error);
-    //             }
-    //         },
-    //         error: function() {
-    //             showPaymentLoading(false);
-    //             alert('Error verifying payment!');
-    //         }
-    //     });
-    // }
-
-    // function showPaymentLoading(show) {
-    //     if (show) {
-    //         document.getElementById('payment-btn-text').style.display = 'none';
-    //         document.getElementById('payment-loader').style.display = 'inline';
-    //         document.getElementById('payment-btn').disabled = true;
-    //     } else {
-    //         document.getElementById('payment-btn-text').style.display = 'inline';
-    //         document.getElementById('payment-loader').style.display = 'none';
-    //         document.getElementById('payment-btn').disabled = false;
-    //     }
-    // }
-
-    function goHome() {
-        window.location.href = "{% url 'home' %}";
-    }
-
-
-{% comment %} 
-    function openDesignPopup() {
-  document.getElementById("designPopup").style.display = "block";
-}
-function closeDesignPopup() {
-  console.log("Close button clicked!"); 
-  document.getElementById("designPopup").style.display = "none";
-} {% endcomment %}
-     /**
-   * Updates the hidden form fields and visible display fields when a design is selected.
-     * @param {string} id - The primary key/ID of the design.
-     * @param {string} name - The name of the selected design.
-     * @param {string} price - The price of the selected design.
-     */
-    {% comment %} function selectDesign(id, name, price) {
-    // 1. Clear custom upload
-    document.getElementById("custom_design_input").value = "";
-
-    // 2. Update hidden fields
-    document.getElementById("selected_design_id_input").value = id;
-    document.getElementById("selected_design_name_input").value = name;
-    document.getElementById("selected_design_price_input").value = price;
-
-    // 3. Update visible fields
-    document.getElementById("design_name_display").value = name;
-    document.getElementById("design_price_display").value = price;
-    document.getElementById("selected-design-info").style.display = 'flex';
-
-    // 4. Show clear button
-    document.getElementById("clearDesignBtn").style.display = "inline-block";
-
-    // 5. Recalculate
-    calcSqftAndPrice();
-
-    // 6. Toast
-    showToast("Design selected: " + name + " (₹" + price + ")");
-    closeDesignPopup();
-}
-document.getElementById("custom_design_input").addEventListener("change", function() {
-    if (this.files.length > 0) {
-        clearDesignSelection();
-        showToast("Custom design uploaded. Design selection cleared.");
-    }
-}); {% endcomment %}
-
-
-
-
-function clearDesignSelection() {
-    // Clear hidden fields
-    document.getElementById("selected_design_id_input").value = '';
-    document.getElementById("selected_design_name_input").value = '';
-    document.getElementById("selected_design_price_input").value = '0';
-
-    // Hide and clear visible display
-    document.getElementById("design_name_display").value = '';
-    document.getElementById("design_price_display").value = '';
-    document.getElementById("selected-design-info").style.display = 'none';
-
-    // Hide clear button
-    document.getElementById("clearDesignBtn").style.display = "none";
-
-    // Recalculate with base rate
-    calcSqftAndPrice();
-}
-function showToast(msg) {
-    const toast = document.getElementById("toast");
-    toast.innerText = msg;
-    toast.classList.add("show");
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2500);
-}
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    let width = document.getElementById("width");
-    let height = document.getElementById("height");
-let walls = document.getElementById("total_walls");
-
-if (width && height && walls) {
-    width.addEventListener("input", calculate);
-    height.addEventListener("input", calculate);
-    walls.addEventListener("input", calculate); // 🔥 MUST
-}
-    {% comment %} let priceBox = document.getElementById("calculated-price");
-    let priceDisplay = document.getElementById("price-display");
-    let totalAmountInput = document.getElementById("total_amount_input");
-
-
-    let rate = 50; // per sqft {% endcomment %}
-
-function calculate() {
-
-    let w = parseFloat(width.value) || 0;
-    let h = parseFloat(height.value) || 0;
-    let totalWalls = parseInt(walls.value) || 1;
-
-    // sqft per wall
-    let sqft = w * h;
-
-    // total sqft (all walls)
-    let totalSqft = sqft * totalWalls;
-
-    // show sqft
-    document.getElementById("total_sqft").value = totalSqft;
-
-    // design price
-    let designTotal = getDesignTotal();
-
-    // FINAL PRICE
-    let price = (totalSqft * 50) + (designTotal * totalWalls);
-
-    document.getElementById("calculated-price").innerText = "₹" + price;
-    document.getElementById("price-display").style.display = "block";
-
-    document.getElementById("total_amount_input").value = price;
-    document.getElementById("booking_amount").value = price;
-}
-
-window.calculatePrice = calculate;
-});
-</script>
-
-
-<script>
-    
-document.addEventListener("DOMContentLoaded", function () {
-
-    const signupPopup = document.getElementById("signupPopup");
-    const bookingForm = document.getElementById("bookingForm");
-    const signupForm = document.getElementById("signupForm");
-    const overlay = document.getElementById("overlay");
-
-    // safety check
-    if (!signupPopup || !bookingForm || !signupForm) {
-        console.log("Element missing");
-        return;
-    }
-
-    let isLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}";
-
-    // show popup if not logged in
-    if (isLoggedIn === "true") {
-        bookingForm.style.pointerEvents = "auto";
-        bookingForm.style.opacity = "1";
-    } else {
-        bookingForm.style.pointerEvents = "none";
-        bookingForm.style.opacity = "0.6";
-
-        signupPopup.style.display = "block";
-        overlay.style.display = "block";
-    }
-
-    // signup submit
-    signupForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        let phone = document.querySelector('input[name="phone"]').value;
-        let email = document.querySelector('input[name="email"]').value;
-        let password = document.querySelector('input[name="password"]').value;
-
-        if (phone.length !== 10 || isNaN(phone)) {
-            alert("Enter valid phone number");
-            return;
-        }
-
-        let formData = new FormData(this);
-
-        fetch("/en/api/ajax-signup/", {
-            method: "POST",
-            body: formData,
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")
+    // Auto sqft and price calculation
+    // const SERVICE_BASE_RATES = {
+    //     "3D Art": 120, // ₹120 per sq ft
+    //     "Normal Paint": 100, // ₹100 per sq ft
+    //     "Mural": 800, // ₹800 per sq ft
+    //     "Default": 50 // Default fallback rate
+    // };
+
+    {% comment %} // Auto sqft and price calculation listeners
+    document.getElementById("width").addEventListener("input", calcSqftAndPrice);
+    document.getElementById("height").addEventListener("input", calcSqftAndPrice);
+    document.querySelector('input[name="total_walls"]').addEventListener("input", calcSqftAndPrice); {% endcomment %}
+
+
+    {% comment %} function calcSqftAndPrice() {
+        let w = parseFloat(document.getElementById("width").value) || 0;
+        let h = parseFloat(document.getElementById("height").value) || 0;
+        {% endcomment %}
+        // Total Walls: Use 1 if the user hasn't entered a value yet
+        {% comment %} let totalWalls = parseFloat(document.querySelector('input[name="total_walls"]').value) || 1; {% endcomment %}
+
+        // Calculate Square Footage of ONE wall
+        {% comment %} let singleWallSqft = w * h; {% endcomment %}
+
+        // Calculate the TOTAL Square Footage for the job (Area of all walls)
+        {% comment %} let totalSqft = singleWallSqft * totalWalls; {% endcomment %}
+
+        {% comment %} let totalPrice = 0; {% endcomment %}
+
+        // Get the base service name
+        {% comment %} const serviceName = document.querySelector('input[name="service_name"]').value.trim(); {% endcomment %}
+
+        // 1. Check for SELECTED DESIGN PRICE (Treat Design Price as the new Rate per Sq Ft)
+        {% comment %} const designPriceInput = document.getElementById("selected_design_price_input");
+        const selectedDesignPrice = parseFloat(designPriceInput.value) || 0; {% endcomment %}
+
+        {% comment %} if (selectedDesignPrice > 0) {
+            {% endcomment %}
+            // --- FIX IMPLEMENTED HERE ---
+            // Treat selectedDesignPrice as the special rate per sq ft for this design.
+            // Calculation: Total Area * Design Price (Rate)
+            {% comment %} totalPrice = totalSqft * selectedDesignPrice; {% endcomment %}
+
+            // Update the price display small text
+            {% comment %} document.querySelector('#price-display small').textContent = `(₹${selectedDesignPrice} per sqft - Special Design Rate)`; {% endcomment %}
+            {% comment %} console.log(`Calculation (Design Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${selectedDesignPrice} (Rate) = ₹${totalPrice}`); {% endcomment %}
+
+            {% comment %}
+        } else {
+            {% endcomment %}
+            // 2. Use HARDCODED BASE RATE (Per Sq Ft Calculation for custom design/service)
+            {% comment %} let baseRate = SERVICE_BASE_RATES[serviceName] || SERVICE_BASE_RATES["Default"]; {% endcomment %}
+
+            // Calculation: Total Area * Base Rate
+            {% comment %} totalPrice = totalSqft * baseRate; {% endcomment %}
+
+            // Update the price display small text
+            {% comment %} document.querySelector('#price-display small').textContent = `(₹${baseRate} per sqft)`; {% endcomment %}
+            {% comment %} console.log(`Calculation (Base Rate): ${totalSqft.toFixed(2)} (Total SqFt) * ${baseRate} (Rate) = ₹${totalPrice}`); {% endcomment %}
+            {% comment %}
+        } {% endcomment %}
+
+        // Update square feet display (total area)
+        {% comment %} document.getElementById("total_sqft").value = totalSqft.toFixed(2); {% endcomment %}
+
+        // Update price display
+        {% comment %} if (totalSqft > 0) {
+            document.getElementById("price-display").style.display = "block";
+            document.getElementById("calculated-price").textContent = "₹" + totalPrice.toFixed(2);
+            document.getElementById("booking_amount").value = totalPrice.toFixed(2);
+            document.getElementById("total_amount_input").value = totalPrice.toFixed(2);
+        } else {
+            document.getElementById("price-display").style.display = "none";
+            document.getElementById("calculated-price").textContent = "₹0";
+            document.getElementById("booking_amount").value = 0;
+        } {% endcomment %}
+
+
+        // Datepicker
+        flatpickr("#appointment_date", {
+            dateFormat: "d-m-Y",
+            minDate: "today"
+        });
+
+        {% comment %}
+        function saveBooking(event) {
+
+            // 🔥 MOST IMPORTANT LINE
+            if (event) event.preventDefault();
+
+            let form = document.getElementById("bookingForm");
+
+            let amountInput = document.getElementById("booking_amount");
+            if (!amountInput) {
+                alert("booking_amount missing ❌");
+                return;
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                alert("Signup successful ✅");
 
-                signupPopup.style.display = "none";
-                overlay.style.display = "none";
+            let amount = amountInput.value;
+            if (!amount || parseFloat(amount) <= 0) {
+                alert("Invalid amount ❌");
+                return;
+            }
 
+            let formData = new FormData(form);
+
+            console.log("FormData ready ✅");
+
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            let contact = document.querySelector('[name="contact_number"]').value;
+            let address = document.querySelector('[name="address"]').value;
+
+            formData.append("contact_number", contact);
+            formData.append("address", address);
+
+            $.ajax({
+                url: '/home/save_booking/',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': csrftoken   // ✅ THIS IS IMPORTANT
+                },
+
+                success: function (resp) {
+                    alert("Booking successful 🎉");
+                }
+            });
+        } {% endcomment %}
+
+        // // Handle payment mode change
+        // document.getElementById("payment_mode").addEventListener("change", function() {
+        //     const mode = this.value;
+        //     const totalAmount = parseFloat(document.getElementById("booking_amount").value) || 0;
+
+        //     if (mode === "cash") {
+        //         // Show note box
+        //         document.getElementById("cash-note-box").style.display = "block";
+
+        //         // Calculate 40%
+        //         let advance = (totalAmount * 0.40).toFixed(2);
+        //         document.getElementById("cash_advance").value = advance;
+
+        //     } else {
+        //         // Hide note box for Online payment
+        //         document.getElementById("cash-note-box").style.display = "none";
+        //         document.getElementById("cash_advance").value = "";
+        //     }
+        // });
+
+        //     // PAYMENT FUNCTIONS
+        //    function initiatePayment() {
+        //     const paymentMode = document.getElementById('payment_mode').value;
+        //     let amount = parseFloat(document.getElementById('booking_amount').value);
+
+        //     if (paymentMode === 'cash') {
+        //         // Take only 40% for Razorpay
+        //         const advance = parseFloat(document.getElementById('cash_advance').value);
+        //         if (!advance || advance <= 0) {
+        //             alert("Invalid advance amount calculation.");
+        //             return;
+        //         }
+        //         amount = advance; // override amount
+        //     }
+
+        //     if (paymentMode === 'cash') {
+        //         startRazorpayPayment(amount); // pay only advance
+        //     } else if (paymentMode === 'razorpay') {
+        //         startRazorpayPayment(amount); // pay full amount
+        //     }
+        // }
+
+        // function startRazorpayPayment(amount) {
+        // if (!amount || amount <= 0) {
+        //     alert('Invalid amount. Please check the booking amount.');
+        //     return;
+        // }
+
+        // showPaymentLoading(true);
+
+        //     $.ajax({
+        //         url: '/create_razorpay_order/',
+        //         type: 'POST',
+        //         data: {
+        //             'amount': amount, // send only advance if cash
+        //             'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
+        //         },
+        //         success: function(response) {
+        //             showPaymentLoading(false);
+        //             if (response.success) {
+        //                 openRazorpayCheckout(response);
+        //             } else {
+        //                 alert('Error creating payment order: ' + response.error);
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             showPaymentLoading(false);
+        //             alert('Something went wrong while creating payment order: ' + error);
+        //         }
+        //     });
+        // }
+
+
+        // function openRazorpayCheckout(orderData) {
+        //     // Get customer details from booking form
+        //     const contactNumber = document.querySelector('input[name="contact_number"]').value;
+        //     const email = document.querySelector('input[name="email"]').value;
+        //     const customerName = "Customer";
+
+        //     const options = {
+        //         "key": orderData.key_id,
+        //         "amount": orderData.amount,
+        //         "currency": orderData.currency,
+        //         "name": "Home Services", // Replace with your business name
+        //         "description": "Service Booking Payment",
+        //         "order_id": orderData.order_id,
+        //         "handler": function (response) {
+        //             verifyPayment(response);
+        //         },
+        //         "prefill": {
+        //             "name": customerName,
+        //             "email": email,
+        //             "contact": contactNumber
+        //         },
+        //         "notes": {
+        //             "service": "{{ service_name }}"
+        //         },
+        //         "theme": {
+        //             "color": "#7b2ff7"
+        //         },
+        //         "modal": {
+        //             "ondismiss": function(){
+        //                 showPaymentLoading(false);
+        //                 alert('Payment was cancelled');
+        //             }
+        //         }
+        //     };
+
+        //     const rzp = new Razorpay(options);
+        //     rzp.open();
+        // }
+
+        // function verifyPayment(response) {
+        //     showPaymentLoading(true);
+
+        //     $.ajax({
+        //         url: '/verify_razorpay_payment/',
+        //         type: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             'razorpay_order_id': response.razorpay_order_id,
+        //             'razorpay_payment_id': response.razorpay_payment_id,
+        //             'razorpay_signature': response.razorpay_signature
+        //         }),
+        //         headers: {
+        //             "X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()
+        //         },
+        //         success: function(verifyResponse) {
+        //             showPaymentLoading(false);
+        //             if (verifyResponse.success) {
+        //                 // Payment successful - go to confirmation
+        //                 showSlide(2);
+        //             } else {
+        //                 alert('Payment verification failed: ' + verifyResponse.error);
+        //             }
+        //         },
+        //         error: function() {
+        //             showPaymentLoading(false);
+        //             alert('Error verifying payment!');
+        //         }
+        //     });
+        // }
+
+        // function showPaymentLoading(show) {
+        //     if (show) {
+        //         document.getElementById('payment-btn-text').style.display = 'none';
+        //         document.getElementById('payment-loader').style.display = 'inline';
+        //         document.getElementById('payment-btn').disabled = true;
+        //     } else {
+        //         document.getElementById('payment-btn-text').style.display = 'inline';
+        //         document.getElementById('payment-loader').style.display = 'none';
+        //         document.getElementById('payment-btn').disabled = false;
+        //     }
+        // }
+
+        function goHome() {
+            window.location.href = "{% url 'home' %}";
+        }
+
+
+        {% comment %}
+        function openDesignPopup() {
+            document.getElementById("designPopup").style.display = "block";
+        }
+        function closeDesignPopup() {
+            console.log("Close button clicked!");
+            document.getElementById("designPopup").style.display = "none";
+        } {% endcomment %}
+        /**
+      * Updates the hidden form fields and visible display fields when a design is selected.
+        * @param {string} id - The primary key/ID of the design.
+        * @param {string} name - The name of the selected design.
+        * @param {string} price - The price of the selected design.
+        */
+        {% comment %} function selectDesign(id, name, price) {
+            // 1. Clear custom upload
+            document.getElementById("custom_design_input").value = "";
+
+            // 2. Update hidden fields
+            document.getElementById("selected_design_id_input").value = id;
+            document.getElementById("selected_design_name_input").value = name;
+            document.getElementById("selected_design_price_input").value = price;
+
+            // 3. Update visible fields
+            document.getElementById("design_name_display").value = name;
+            document.getElementById("design_price_display").value = price;
+            document.getElementById("selected-design-info").style.display = 'flex';
+
+            // 4. Show clear button
+            document.getElementById("clearDesignBtn").style.display = "inline-block";
+
+            // 5. Recalculate
+            calcSqftAndPrice();
+
+            // 6. Toast
+            showToast("Design selected: " + name + " (₹" + price + ")");
+            closeDesignPopup();
+        }
+        document.getElementById("custom_design_input").addEventListener("change", function () {
+            if (this.files.length > 0) {
+                clearDesignSelection();
+                showToast("Custom design uploaded. Design selection cleared.");
+            }
+        }); {% endcomment %}
+
+
+
+
+        function clearDesignSelection() {
+            // Clear hidden fields
+            document.getElementById("selected_design_id_input").value = '';
+            document.getElementById("selected_design_name_input").value = '';
+            document.getElementById("selected_design_price_input").value = '0';
+
+            // Hide and clear visible display
+            document.getElementById("design_name_display").value = '';
+            document.getElementById("design_price_display").value = '';
+            document.getElementById("selected-design-info").style.display = 'none';
+
+            // Hide clear button
+            document.getElementById("clearDesignBtn").style.display = "none";
+
+            // Recalculate with base rate
+            calcSqftAndPrice();
+        }
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let width = document.getElementById("width");
+        let height = document.getElementById("height");
+        let walls = document.getElementById("total_walls");
+
+        if (width && height && walls) {
+            width.addEventListener("input", calculate);
+            height.addEventListener("input", calculate);
+            walls.addEventListener("input", calculate); // 🔥 MUST
+        }
+        {% comment %} let priceBox = document.getElementById("calculated-price");
+        let priceDisplay = document.getElementById("price-display");
+        let totalAmountInput = document.getElementById("total_amount_input");
+
+
+        let rate = 50; // per sqft {% endcomment %}
+
+        function calculate() {
+
+            let w = parseFloat(width.value) || 0;
+            let h = parseFloat(height.value) || 0;
+            let totalWalls = parseInt(walls.value) || 1;
+
+            // sqft per wall
+            let sqft = w * h;
+
+            // total sqft (all walls)
+            let totalSqft = sqft * totalWalls;
+
+            // show sqft
+            document.getElementById("total_sqft").value = totalSqft;
+
+            // design price
+            let designTotal = getDesignTotal();
+
+            // FINAL PRICE
+            let price = (totalSqft * 50) + (designTotal * totalWalls);
+
+            document.getElementById("calculated-price").innerText = "₹" + price;
+            document.getElementById("price-display").style.display = "block";
+
+            document.getElementById("total_amount_input").value = price;
+            document.getElementById("booking_amount").value = price;
+        }
+
+        window.calculatePrice = calculate;
+    });
+</script>
+
+
+<script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const signupPopup = document.getElementById("signupPopup");
+            const bookingForm = document.getElementById("bookingForm");
+            const signupForm = document.getElementById("signupForm");
+            const overlay = document.getElementById("overlay");
+
+            // safety check
+            if (!signupPopup || !bookingForm || !signupForm) {
+                console.log("Element missing");
+                return;
+            }
+
+            let isLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}";
+
+            // show popup if not logged in
+            if (isLoggedIn === "true") {
                 bookingForm.style.pointerEvents = "auto";
                 bookingForm.style.opacity = "1";
             } else {
-                alert(data.error || "Error");
+                bookingForm.style.pointerEvents = "none";
+                bookingForm.style.opacity = "0.6";
+
+                signupPopup.style.display = "block";
+                overlay.style.display = "block";
             }
-        })
-        .catch(() => {
-            alert("Server error!");
-        });
 
-    });
+            // signup submit
+            signupForm.addEventListener("submit", function (e) {
+                e.preventDefault();
 
-});
-document.addEventListener("DOMContentLoaded", function () {
+                let phone = document.querySelector('input[name="phone"]').value;
+                let email = document.querySelector('input[name="email"]').value;
+                let password = document.querySelector('input[name="password"]').value;
 
-    let searchInput = document.getElementById("designSearch");
-
-    if (searchInput) {
-
-        searchInput.addEventListener("keyup", function () {
-
-            let searchValue = this.value.toLowerCase();
-            let cards = document.querySelectorAll(".design-card");
-
-            let found = false;
-
-            cards.forEach(card => {
-
-                let name = card.querySelector("h4").innerText.toLowerCase();
-
-                if (name.includes(searchValue)) {
-                    card.style.display = "block";
-                    found = true;
-                } else {
-                    card.style.display = "none";
+                if (phone.length !== 10 || isNaN(phone)) {
+                    alert("Enter valid phone number");
+                    return;
                 }
+
+                let formData = new FormData(this);
+
+                fetch("/en/api/ajax-signup/", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Signup successful ✅");
+
+                            signupPopup.style.display = "none";
+                            overlay.style.display = "none";
+
+                            bookingForm.style.pointerEvents = "auto";
+                            bookingForm.style.opacity = "1";
+                        } else {
+                            alert(data.error || "Error");
+                        }
+                    })
+                    .catch(() => {
+                        alert("Server error!");
+                    });
 
             });
 
-            document.getElementById("noResult").style.display = found ? "none" : "block";
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let searchInput = document.getElementById("designSearch");
+
+            if (searchInput) {
+
+                searchInput.addEventListener("keyup", function () {
+
+                    let searchValue = this.value.toLowerCase();
+                    let cards = document.querySelectorAll(".design-card");
+
+                    let found = false;
+
+                    cards.forEach(card => {
+
+                        let name = card.querySelector("h4").innerText.toLowerCase();
+
+                        if (name.includes(searchValue)) {
+                            card.style.display = "block";
+                            found = true;
+                        } else {
+                            card.style.display = "none";
+                        }
+
+                    });
+
+                    document.getElementById("noResult").style.display = found ? "none" : "block";
+
+                });
+
+            }
 
         });
 
-    }
+        function toggleNote() {
+            var moreText = document.getElementById("moreText");
+            var btn = document.getElementById("readMoreBtn");
 
-});
-
-function toggleNote() {
-    var moreText = document.getElementById("moreText");
-    var btn = document.getElementById("readMoreBtn");
-
-    if (moreText.style.display === "none") {
-        moreText.style.display = "block";
-        btn.innerText = " Read Less ↑";
-    } else {
-        moreText.style.display = "none";
-        btn.innerText = "Read More ↓";
-    }
-}
-
-
-// CSRF
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        let cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim();
-            if (cookie.startsWith(name + "=")) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+            if (moreText.style.display === "none") {
+                moreText.style.display = "block";
+                btn.innerText = " Read Less ↑";
+            } else {
+                moreText.style.display = "none";
+                btn.innerText = "Read More ↓";
             }
         }
-    }
-    return cookieValue;
-}
 
 
-$('.book-btn').on('click', function (e) {
-    e.preventDefault();
+        // CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
 
-    let formData = new FormData();
 
-    // 🔥 manually sab bhejo
-    let name = document.querySelector('[name="customer_name"]').value;
-formData.append("customer_name", name);
-    formData.append("service_name", $('[name="service_name"]').val());
-    formData.append("contact_number", $('[name="contact_number"]').val());
-    formData.append("email", $('[name="email"]').val());
-    formData.append("address", $('[name="address"]').val());
-    formData.append("pin_code", $('[name="pin_code"]').val());
-    formData.append("state", $('[name="state"]').val());
-    formData.append("city", $('[name="city"]').val());
+        $('.book-btn').on('click', function (e) {
+            e.preventDefault();
 
-    formData.append("width", $("#width").val());
-    formData.append("height", $("#height").val());
-    formData.append("total_walls", $("#total_walls").val());
-    formData.append("total_sqft", $("#total_sqft").val());
+            let formData = new FormData();
 
-    formData.append("appointment_date", $("#appointment_date").val());
-    formData.append("total_amount", $("#total_amount_input").val());
+            // 🔥 manually sab bhejo
+            let name = document.querySelector('[name="customer_name"]').value;
+            formData.append("customer_name", name);
+            formData.append("service_name", $('[name="service_name"]').val());
+            formData.append("contact_number", $('[name="contact_number"]').val());
+            formData.append("email", $('[name="email"]').val());
+            formData.append("address", $('[name="address"]').val());
+            formData.append("pin_code", $('[name="pin_code"]').val());
+            formData.append("state", $('[name="state"]').val());
+            formData.append("city", $('[name="city"]').val());
 
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            formData.append("width", $("#width").val());
+            formData.append("height", $("#height").val());
+            formData.append("total_walls", $("#total_walls").val());
+            formData.append("total_sqft", $("#total_sqft").val());
 
-    $.ajax({
-        url: '/en/home/save_booking/',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-success: function(resp) {
+            formData.append("appointment_date", $("#appointment_date").val());
+            formData.append("total_amount", $("#total_amount_input").val());
 
-    if(resp.success){
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-      Swal.fire({
-    title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
-    html: `
+            $.ajax({
+                url: '/en/home/save_booking/',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function (resp) {
+
+                    if (resp.success) {
+
+                        Swal.fire({
+                            title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
+                            html: `
         <div style="font-size:15px; line-height:1.6;">
             <b>Your booking has been successfully confirmed ✅</b><br><br>
 
@@ -2564,58 +2615,58 @@ success: function(resp) {
             Thank you for choosing us ❤️
         </div>
     `,
-    icon: 'success',
-    background: '#f8fbff',
+                            icon: 'success',
+                            background: '#f8fbff',
 
-    showCancelButton: true,   // ➕ Book Another
-    showCloseButton: true,    // ❌ Cut button (top corner)
+                            showCancelButton: true,   // ➕ Book Another
+                            showCloseButton: true,    // ❌ Cut button (top corner)
 
-    confirmButtonText: "🏠 Go to Home",
-    cancelButtonText: "➕ Book Another",
+                            confirmButtonText: "🏠 Go to Home",
+                            cancelButtonText: "➕ Book Another",
 
-    confirmButtonColor: "#4CAF50",
-    cancelButtonColor: "#6c757d"
+                            confirmButtonColor: "#4CAF50",
+                            cancelButtonColor: "#6c757d"
 
-}).then((result) => {
+                        }).then((result) => {
 
-    if (result.isConfirmed) {
-        // 👉 Home Page
-        window.location.href = "/";
-    } 
-    else if (result.dismiss === Swal.DismissReason.cancel) {
-        // 👉 Book Another → form reset
-        document.querySelector("form").reset();
-        window.location.reload(); // simple way to reset everything
-    } 
-    else if (result.dismiss === Swal.DismissReason.close) {
-        // 👉 ❌ Cut button → kuch nahi (same data rahega)
-        console.log("Popup closed, continue editing");
-    }
+                            if (result.isConfirmed) {
+                                // 👉 Home Page
+                                window.location.href = "/";
+                            }
+                            else if (result.dismiss === Swal.DismissReason.cancel) {
+                                // 👉 Book Another → form reset
+                                document.querySelector("form").reset();
+                                window.location.reload(); // simple way to reset everything
+                            }
+                            else if (result.dismiss === Swal.DismissReason.close) {
+                                // 👉 ❌ Cut button → kuch nahi (same data rahega)
+                                console.log("Popup closed, continue editing");
+                            }
 
-});
-    }
-}
-    });
-});
-
-window.onload = function() {
-    const isLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}";
-
-    if (isLoggedIn === "false") {
-        document.getElementById("formOverlay").style.display = "flex";
-
-        document.querySelectorAll("#bookingForm input, #bookingForm select, #bookingForm textarea, #bookingForm button").forEach(el => {
-            el.disabled = true;
+                        });
+                    }
+                }
+            });
         });
-    }
-};
 
-function goToSignup() {
-    window.location.href = "/accounts/signup/?next=" + window.location.pathname;
-}
+        window.onload = function () {
+            const isLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}";
+
+            if (isLoggedIn === "false") {
+                document.getElementById("formOverlay").style.display = "flex";
+
+                document.querySelectorAll("#bookingForm input, #bookingForm select, #bookingForm textarea, #bookingForm button").forEach(el => {
+                    el.disabled = true;
+                });
+            }
+        };
+
+        function goToSignup() {
+            window.location.href = "/accounts/signup/?next=" + window.location.pathname;
+        }
 
 </script>
 
 
 
-{% endblock %}  
+{% endblock %}
