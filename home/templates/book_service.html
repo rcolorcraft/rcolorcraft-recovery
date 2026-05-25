@@ -423,6 +423,12 @@
         gap: 15px 20px;
     }
 
+    .grid-4-col {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px 20px;
+    }
+
     .form-group {
         display: flex;
         flex-direction: column;
@@ -479,12 +485,24 @@
 
     .square-ft-inputs {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         gap: 10px;
     }
 
-    .square-ft-inputs input {
+    .sf-field {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .field-label {
+        font-size: 11px;
+        font-weight: bold;
+        color: #475569;
+        text-transform: uppercase;
+        text-align: center;
+        white-space: nowrap;
     }
 
     .cross-icon,
@@ -492,6 +510,7 @@
         font-weight: bold;
         color: #64748b;
         font-size: 18px;
+        margin-bottom: 12px;
     }
 
     .design-btn {
@@ -610,7 +629,8 @@
             grid-template-columns: 1fr;
         }
 
-        .grid-3-col {
+        .grid-3-col,
+        .grid-4-col {
             grid-template-columns: 1fr;
         }
 
@@ -1576,37 +1596,36 @@
 <form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="hidden" id="booking_amount" name="booking_amount" value="0">
+    <input type="hidden" name="service_name" value="{{ service_name }}">
 
     <h2>{% trans "Book" %} {{ service_name }}</h2>
 
     <div class="form-grid">
-        <div class="form-group">
-            <label>{% trans "Service Name" %}</label>
-            <input type="text" name="service_name" value="{{ service_name }}" readonly>
-        </div>
-
+        <!-- Row 1: FULL NAME & EMAIL ID -->
         <div class="form-group">
             <label>Full Name</label>
             <input type="text" name="customer_name" required>
         </div>
 
         <div class="form-group">
-            <label>Contact Number</label>
+            <label>Email ID</label>
+            <input type="email" name="email" placeholder="Email (optional)">
+        </div>
+
+        <!-- Row 2: CONTACT NO & FULL ADDRESS -->
+        <div class="form-group">
+            <label>Contact No</label>
             <input type="text" name="contact_number" required>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="Email (optional)">
-        </div>
-
-        <div class="form-group full-width">
             <label>Full Address</label>
-            <textarea name="address" required rows="2"></textarea>
+            <input type="text" name="address" required placeholder="Full Address">
         </div>
 
+        <!-- Row 3: CITY, STATE, PIN CODE, APPOINTMENT DATE -->
         <div class="form-group full-width">
-            <div class="grid-3-col">
+            <div class="grid-4-col">
                 <div class="form-group">
                     <label>City</label>
                     <input type="text" name="city" required>
@@ -1619,50 +1638,63 @@
                     <label>Pin Code</label>
                     <input type="text" name="pin_code" required>
                 </div>
+                <div class="form-group">
+                    <label>Appointment Date</label>
+                    <input type="date" id="appointment_date" name="appointment_date" required>
+                </div>
             </div>
         </div>
 
-        <div class="form-group full-width">
+        <!-- Row 4: CHOOSE YOUR DESIGN & ESTIMATE COST -->
+        <div class="form-group">
             <label>Choose Your Design</label>
             <div id="selectedDesignContainer"></div>
             <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
             <div id="image-preview" style="margin-top:10px;"></div>
-            <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear
-                Design</button>
+            <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
         </div>
 
-        <div class="form-group square-ft-box full-width">
-            <label>Dimensions (Square Ft)</label>
-            <div class="square-ft-inputs">
-                <input type="number" id="width" name="width" placeholder="Width" min="1">
-                <span class="cross-icon">×</span>
-                <input type="number" id="height" name="height" placeholder="Height" min="1">
-                <span class="equals-icon">=</span>
-                <input type="number" id="total_sqft" name="total_sqft" placeholder="Total Sq Ft" readonly>
+        <div class="form-group">
+            <label>Estimate Cost</label>
+            <div class="price-display" id="price-display">
+                <div class="price" id="calculated-price">₹0</div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Total Walls</label>
-            <input type="number" id="total_walls" name="total_walls" min="1" value="1">
+        <!-- Row 5: Dimensions (Square Ft) -->
+        <div class="form-group square-ft-box full-width">
+            <label>Dimensions (Square Ft)</label>
+            <div class="square-ft-inputs">
+                <div class="sf-field">
+                    <span class="field-label">WIDTH *</span>
+                    <input type="number" id="width" name="width" placeholder="Width" min="1">
+                </div>
+                <span class="cross-icon">*</span>
+                <div class="sf-field">
+                    <span class="field-label">HEIGHT =</span>
+                    <input type="number" id="height" name="height" placeholder="Height" min="1">
+                </div>
+                <span class="equals-icon">=</span>
+                <div class="sf-field">
+                    <span class="field-label">Total Sqft</span>
+                    <input type="number" id="total_sqft" name="total_sqft" placeholder="Total Sq Ft" readonly>
+                </div>
+                <div class="sf-field">
+                    <span class="field-label">Total Wall</span>
+                    <input type="number" id="total_walls" name="total_walls" min="1" value="1">
+                </div>
+                <div class="sf-field">
+                    <span class="field-label">Total Floor</span>
+                    <input type="number" id="total_floor" name="total_floor" min="1" value="1">
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>Appointment Date</label>
-            <input type="date" id="appointment_date" name="appointment_date" required>
-        </div>
-
-        <!-- Hidden Design Price -->
+        <!-- Hidden Design Price and Amount -->
         <input type="hidden" id="design_price" value="0">
         <input type="hidden" id="total_amount_input" name="total_amount">
 
-        <!-- Price Display -->
-        <div class="price-display full-width" id="price-display">
-            <div><strong>Estimated Price:</strong></div>
-            <div class="price" id="calculated-price">₹0</div>
-            <small>(₹50 per sqft + design cost per wall)</small>
-        </div>
-
+        <!-- Row 6: Book Now (full-width) -->
         <div class="form-group full-width">
             <button type="submit" class="book-btn">Book Now</button>
         </div>
@@ -2386,54 +2418,54 @@
         }
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-        let width = document.getElementById("width");
-        let height = document.getElementById("height");
-        let walls = document.getElementById("total_walls");
+            let width = document.getElementById("width");
+            let height = document.getElementById("height");
+            let walls = document.getElementById("total_walls");
 
-        if (width && height && walls) {
-            width.addEventListener("input", calculate);
-            height.addEventListener("input", calculate);
-            walls.addEventListener("input", calculate); // 🔥 MUST
-        }
-        {% comment %} let priceBox = document.getElementById("calculated-price");
-        let priceDisplay = document.getElementById("price-display");
-        let totalAmountInput = document.getElementById("total_amount_input");
+            if (width && height && walls) {
+                width.addEventListener("input", calculate);
+                height.addEventListener("input", calculate);
+                walls.addEventListener("input", calculate); // 🔥 MUST
+            }
+            {% comment %} let priceBox = document.getElementById("calculated-price");
+            let priceDisplay = document.getElementById("price-display");
+            let totalAmountInput = document.getElementById("total_amount_input");
 
 
-        let rate = 50; // per sqft {% endcomment %}
+            let rate = 50; // per sqft {% endcomment %}
 
-        function calculate() {
+            function calculate() {
 
-            let w = parseFloat(width.value) || 0;
-            let h = parseFloat(height.value) || 0;
-            let totalWalls = parseInt(walls.value) || 1;
+                let w = parseFloat(width.value) || 0;
+                let h = parseFloat(height.value) || 0;
+                let totalWalls = parseInt(walls.value) || 1;
 
-            // sqft per wall
-            let sqft = w * h;
+                // sqft per wall
+                let sqft = w * h;
 
-            // total sqft (all walls)
-            let totalSqft = sqft * totalWalls;
+                // total sqft (all walls)
+                let totalSqft = sqft * totalWalls;
 
-            // show sqft
-            document.getElementById("total_sqft").value = totalSqft;
+                // show sqft
+                document.getElementById("total_sqft").value = totalSqft;
 
-            // design price
-            let designTotal = getDesignTotal();
+                // design price
+                let designTotal = getDesignTotal();
 
-            // FINAL PRICE
-            let price = (totalSqft * 50) + (designTotal * totalWalls);
+                // FINAL PRICE
+                let price = (totalSqft * 50) + (designTotal * totalWalls);
 
-            document.getElementById("calculated-price").innerText = "₹" + price;
-            document.getElementById("price-display").style.display = "block";
+                document.getElementById("calculated-price").innerText = "₹" + price;
+                document.getElementById("price-display").style.display = "block";
 
-            document.getElementById("total_amount_input").value = price;
-            document.getElementById("booking_amount").value = price;
-        }
+                document.getElementById("total_amount_input").value = price;
+                document.getElementById("booking_amount").value = price;
+            }
 
-        window.calculatePrice = calculate;
-    });
+            window.calculatePrice = calculate;
+        });
 </script>
 
 
