@@ -184,37 +184,35 @@ def book_service(request, service_type):
     """
     service_type: could be any of the defined service keys.
     """
-    # Use the comprehensive, consistent slug map
     service_dict = {
-        "3d-wall-art": "3D Wall Art ",
+        "3d-wall-art": "3D Wall Art",
         "3d-floor-art": "3D Floor Art",
         "mural-art": "Mural Art",
         "school-painting": "School Painting",
         "mural": "Mural Art",
         "Zenith-Collection": "Zenith Collection",
-        "cartoon-painting": "Cartoon Art",
+        "cartoon-painting": "Cartoon Painting",
         "metro-advertisement": "Metro Advertisement",
         "outdoor-advertisement": "Outdoor Advertisement",
         "pillere-painting": "Pillere Art",
-        "selfie-painting": "Selfie Art",
-        "madhubani-painting": "Madhubani Art",
-        "texture-painting": "Texture Art",
+        "selfie-painting": "Selfie Painting",
+        "madhubani-painting": "Madhubani Painting",
+        "texture-painting": "Texture Painting",
         # "statue": "Statue",
         "scrap-animal-art": "Scrap Animal Art",
         "nature-fountain": "Nature & Water Fountain",
         "fountain-art": "Nature & Water Fountain",
-        "home-painting": "Home Art",
+        "home-painting": "Home Painting",
         # Mapping for any previous, short slugs (optional, but good for backward compatibility)
         "3d-art": "3D Wall Art",
         "advertisement-art": "Metro Advertisement",  # Guessing based on common short form
         "aesthetic-art": "Outdoor Advertisement",  # Guessing based on common short form
-        "madhubani-art": "Madhubani Art",  # Guessing based on common short form
-        "cartoon-art": "Cartoon Art",  # Guessing based on common short form
+        "madhubani-art": "Madhubani Painting",  # Guessing based on common short form
+        "cartoon-art": "Cartoon Painting",  # Guessing based on common short form
         "nature-art": "Nature & Water Fountain",  # Guessing based on common short form
         "scrap-yard-art": "Scrap Animal Art",  # Guessing based on common short form
         "spray-art": "Statue",  # Guessing based on context
         "structure-art": "Scrap Animal Art",  # Guessing based on context
-        "school-painting": "School Art",  # Guessing based on context
     }
 
     service_name = service_dict.get(service_type, "Service")
