@@ -576,8 +576,9 @@ body.gt-active header {
         }
 
         .site-footer .footer-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .site-footer .footer-heading {
@@ -604,8 +605,8 @@ body.gt-active header {
 
         .site-footer .footer-content {
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr 1.4fr;
-            gap: 40px 32px;
+            grid-template-columns: 1.25fr 0.85fr 1fr 1fr 1fr;
+            gap: 40px 24px;
             padding-bottom: 36px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         }
@@ -1577,7 +1578,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-content">
-                <!-- About Section -->
+                <!-- About Section (Column 1) -->
                 <div class="footer-brand">
                     <img src="{% static 'gallery/logohome.png' %}" alt="Rcolorcraft logo">
                     <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
@@ -1589,7 +1590,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </p>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Quick Links (Column 2) -->
                 <div class="footer-section-col">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links-list">
@@ -1601,28 +1602,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     </ul>
                 </div>
 
-                <!-- Services -->
+                <!-- Trending Services Part 1 (Column 3) -->
                 <div class="footer-section-col">
                     <h3 class="footer-heading">Trending Services</h3>
-                    <div class="footer-services-grid">
-                        <div class="footer-services-col">
-                            <a href="{% url 'explore_service' 'home-painting' %}" class="footer-service-link"><i class="fa-solid fa-house"></i> Home Art</a>
-                            <a href="{% url 'explore_service' 'school-painting' %}" class="footer-service-link"><i class="fa-solid fa-graduation-cap"></i> School Art</a>
-                            <a href="{% url 'explore_service' 'texture-painting' %}" class="footer-service-link"><i class="fa-solid fa-shapes"></i> Texture Art</a>
-                            <a href="{% url 'explore_service' '3d-wall-art' %}" class="footer-service-link"><i class="fa-solid fa-cube"></i> 3D Wall Art</a>
-                            <a href="{% url 'explore_service' 'Zenith-Collection' %}" class="footer-service-link"><i class="fa-solid fa-gem"></i> Zenith Collection</a>
-                            <a href="{% url 'explore_service' 'metro-advertisement' %}" class="footer-service-link"><i class="fa-solid fa-train"></i> Metro Advertisement</a>
-                            <a href="{% url 'explore_service' 'selfie-painting' %}" class="footer-service-link"><i class="fa-solid fa-face-smile"></i> selfie-Art</a>
-                        </div>
-                        <div class="footer-services-col">
-                            <a href="{% url 'explore_service' 'mural' %}" class="footer-service-link"><i class="fa-solid fa-paint-roller"></i> Mural Art</a>
-                            <a href="{% url 'explore_service' 'cartoon-painting' %}" class="footer-service-link"><i class="fa-solid fa-face-smile"></i> Cartoon Art</a>
-                            <a href="{% url 'explore_service' 'fountain-art' %}" class="footer-service-link"><i class="fa-solid fa-droplet"></i> Water Tank</a>
-                            <a href="{% url 'explore_service' '3d-floor-art' %}" class="footer-service-link"><i class="fa-solid fa-layer-group"></i> 3D Floor Art</a>
-                            <a href="{% url 'explore_service' 'madhubani-painting' %}" class="footer-service-link"><i class="fa-solid fa-palette"></i> Madhubani Art</a>
-                            <a href="{% url 'explore_service' 'selfie-painting' %}" class="footer-service-link"><i class="fa-solid fa-image"></i> Outdoor Advertisement</a>
-                            <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="footer-service-link"><i class="fa-solid fa-shapes"></i> Scrap Art</a>
-                        </div>
+                    <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
+                        <a href="{% url 'explore_service' 'home-painting' %}" class="footer-service-link"><i class="fa-solid fa-house"></i> Home Art</a>
+                        <a href="{% url 'explore_service' 'school-painting' %}" class="footer-service-link"><i class="fa-solid fa-graduation-cap"></i> School Art</a>
+                        <a href="{% url 'explore_service' 'texture-painting' %}" class="footer-service-link"><i class="fa-solid fa-shapes"></i> Texture Art</a>
+                        <a href="{% url 'explore_service' '3d-wall-art' %}" class="footer-service-link"><i class="fa-solid fa-cube"></i> 3D Wall Art</a>
+                        <a href="{% url 'explore_service' 'Zenith-Collection' %}" class="footer-service-link"><i class="fa-solid fa-gem"></i> Zenith Collection</a>
+                    </div>
+                </div>
+
+                <!-- Trending Services Part 2 (Column 4) -->
+                <div class="footer-section-col">
+                    <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
+                    <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
+                        <a href="{% url 'explore_service' 'metro-advertisement' %}" class="footer-service-link"><i class="fa-solid fa-train"></i> Metro Advertisement</a>
+                        <a href="{% url 'explore_service' 'selfie-painting' %}" class="footer-service-link"><i class="fa-solid fa-face-smile"></i> selfie-Art</a>
+                        <a href="{% url 'explore_service' 'mural' %}" class="footer-service-link"><i class="fa-solid fa-paint-roller"></i> Mural Art</a>
+                        <a href="{% url 'explore_service' 'cartoon-painting' %}" class="footer-service-link"><i class="fa-solid fa-face-smile"></i> Cartoon Art</a>
+                        <a href="{% url 'explore_service' 'fountain-art' %}" class="footer-service-link"><i class="fa-solid fa-droplet"></i> Water Tank</a>
+                    </div>
+                </div>
+
+                <!-- Trending Services Part 3 (Column 5) -->
+                <div class="footer-section-col">
+                    <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
+                    <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
+                        <a href="{% url 'explore_service' '3d-floor-art' %}" class="footer-service-link"><i class="fa-solid fa-layer-group"></i> 3D Floor Art</a>
+                        <a href="{% url 'explore_service' 'madhubani-painting' %}" class="footer-service-link"><i class="fa-solid fa-palette"></i> Madhubani Art</a>
+                        <a href="{% url 'explore_service' 'selfie-painting' %}" class="footer-service-link"><i class="fa-solid fa-image"></i> Outdoor Advertisement</a>
+                        <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="footer-service-link"><i class="fa-solid fa-shapes"></i> Scrap Art</a>
                     </div>
                 </div>
 
