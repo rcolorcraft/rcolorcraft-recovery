@@ -1211,8 +1211,7 @@
 
           {% if request.user.is_authenticated and request.user.role == "customer" %}
           <li><a href="{% url 'my_orders' %}">My Orders</a></li>
-          {% if user.is_authenticated and user.role == 'customer' or user.is_authenticated and user.role == 'employee'
-          %}
+          {% if user.is_authenticated and user.role == 'customer' or user.is_authenticated and user.role == 'employee' %}
           <li><a href="{% url 'contact_us' %}">Contact us</a></li>
           {% endif %}
 
