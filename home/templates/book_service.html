@@ -2692,12 +2692,11 @@
                 return;
             }
 
-            // Word count validation for address (minimum 40 words)
-            let addressWords = address.split(/\s+/).filter(word => word.length > 0);
-            if (addressWords.length < 40) {
+            // Length validation for address (minimum 40 characters)
+            if (address.length < 40) {
                 Swal.fire({
                     title: '⚠️ Address Too Short',
-                    text: 'Please enter a detailed full address with at least 40 words. (Current word count: ' + addressWords.length + ')',
+                    text: 'Please enter a detailed full address with at least 40 characters. (Current length: ' + address.length + ')',
                     icon: 'warning',
                     background: '#f8fbff',
                     confirmButtonColor: '#3b82f6',
