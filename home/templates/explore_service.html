@@ -326,7 +326,7 @@ function toggleNote() {
 
     if (moreText.style.display === "none") {
         moreText.style.display = "block";
-        btn.innerText = " Read Less ↑";
+        btn.innerText = "Read Less !";
     } else {
         moreText.style.display = "none";
         btn.innerText = "Read More ↓";
@@ -631,19 +631,20 @@ s
 
 
 .form-note {
-    background: rgba(255,255,255,0.85);   */
-    backdrop-filter: blur(15px);           /
-    padding: 8px 12px;                  /* compact */
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    padding: 16px 20px;
     border-radius: 10px;
     border-left: 6px solid transparent ;
     border-image:linear-gradient(to bottom,#ff7a18,#4a6cf7);
     border-image-slice:1;      /* better highlight */
-    max-width: 600px;
-    margin: 5px auto;
-    font-size: 13px;
+    max-width: 1200px;
+    width: 90%;
+    margin: 15px auto;
+    font-size: 14px;
     color: #333;
     position:relative;
-    line-height: 1;
+    line-height: 1.5;
     font-weight: 500;
     box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* NEW */
     transition:all 0.3s ease;
