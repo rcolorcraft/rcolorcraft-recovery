@@ -2366,35 +2366,60 @@ transition: all 0.3s ease;
 
 /* discount bar */
 
-    .discount-bar{
-background: linear-gradient(270deg,hsl(0, 97%, 34%),hsl(103, 89%, 18%),lch(29.12% 40.12 28.47),hsl(197, 79%, 30%),#6e4813,lch(39.07% 47.29 280.51),hsl(156, 86%, 22%));
-background-size: 400% 400%;
-animation: gradientMove 6s ease infinite;
-
-color:white;
-text-align:center;
-padding:14px;
-font-size:28px;
-font-weight:600;
-border-radius:12px;
-margin:20px auto;
-width:85%;
-
-box-shadow:0 6px 20px rgba(0,0,0,0.25);
-letter-spacing:1px;
+.discount-bar {
+    background: linear-gradient(270deg, hsl(0, 97%, 34%), hsl(103, 89%, 18%), lch(29.12% 40.12 28.47), hsl(197, 79%, 30%), #6e4813, lch(39.07% 47.29 280.51), hsl(156, 86%, 22%));
+    background-size: 400% 400%;
+    animation: gradientMove 6s ease infinite;
+    color: white;
+    padding: 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    margin: 15px auto;
+    width: 85%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-@keyframes gradientMove{
-
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-
+.discount-scroll-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-discount-text 25s linear infinite;
 }
 
-.discount-bar:hover{
-    transform: scale(1.02);
-    transition: 0.3s;
+.discount-scroll-content {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding-right: 4rem;
+}
+
+@keyframes scroll-discount-text {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.discount-bar:hover {
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+
+.discount-bar:hover .discount-scroll-track {
+    animation-play-state: paused;
 }
 /* Responsive adjustment for mobile screens */
 
