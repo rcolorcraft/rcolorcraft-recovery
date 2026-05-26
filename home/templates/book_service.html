@@ -429,6 +429,14 @@
         gap: 15px 20px;
     }
 
+    .col-span-3 {
+        grid-column: span 3;
+    }
+
+    .col-span-1 {
+        grid-column: span 1;
+    }
+
     .form-group {
         display: flex;
         flex-direction: column;
@@ -526,17 +534,23 @@
         background: #f8fafc;
         color: #3b82f6;
         border: 2px dashed #3b82f6;
-        padding: 12px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 10px;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 16px;
         cursor: pointer;
         transition: all 0.3s ease;
         text-align: center;
+        width: 100%;
     }
 
     .design-btn:hover {
         background: #eff6ff;
-        transform: translateY(-2px);
+        border-color: #2563eb;
+        color: #2563eb;
     }
 
     /* Confirmation Box */
@@ -619,18 +633,18 @@
         padding: 5px 15px;
         border-radius: 10px;
         text-align: center;
-        border: 2px solid #bbf7d0;
-        height: 60px;
+        border: 2.5px solid #bbf7d0;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        width: 50%;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
     }
 
     .price-display .price {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 800;
         color: #166534;
         margin: 0;
@@ -670,6 +684,11 @@
 
         .price-display {
             width: 100%;
+        }
+
+        .col-span-3,
+        .col-span-1 {
+            grid-column: 1 / -1;
         }
 
         .booking-form {
@@ -1684,19 +1703,22 @@
         </div>
 
         <!-- Row 4: CHOOSE YOUR DESIGN & ESTIMATE COST -->
-        <div class="form-group">
-            <label>Choose Your Design</label>
-            <div id="selectedDesignContainer"></div>
-            <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-            <div id="image-preview" style="margin-top:10px;"></div>
-            <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear
-                Design</button>
-        </div>
+        <div class="form-group full-width">
+            <div class="grid-4-col">
+                <div class="form-group col-span-3">
+                    <label>Choose Your Design</label>
+                    <div id="selectedDesignContainer"></div>
+                    <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
+                    <div id="image-preview" style="margin-top:10px;"></div>
+                    <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖ Clear Design</button>
+                </div>
 
-        <div class="form-group text-center">
-            <label>Estimate Cost</label>
-            <div class="price-display" id="price-display">
-                <div class="price" id="calculated-price">₹0</div>
+                <div class="form-group col-span-1">
+                    <label style="text-align: center; width: 100%;">Estimate Cost</label>
+                    <div class="price-display" id="price-display">
+                        <div class="price" id="calculated-price">₹0</div>
+                    </div>
+                </div>
             </div>
         </div>
 
