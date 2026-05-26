@@ -1641,7 +1641,7 @@
     <div class="form-grid">
         <!-- Row 1: FULL NAME & EMAIL ID -->
         <div class="form-group">
-            <label>Full Name</label>
+            <label>Full Name <span style="color: red;">*</span></label>
             <input type="text" name="customer_name" required>
         </div>
 
@@ -1652,12 +1652,12 @@
 
         <!-- Row 2: CONTACT NO & FULL ADDRESS -->
         <div class="form-group">
-            <label>Contact No</label>
+            <label>Contact No <span style="color: red;">*</span></label>
             <input type="text" name="contact_number" required>
         </div>
 
         <div class="form-group">
-            <label>Full Address</label>
+            <label>Full Address <span style="color: red;">*</span></label>
             <input type="text" name="address" required placeholder="Full Address">
         </div>
 
@@ -1665,19 +1665,19 @@
         <div class="form-group full-width">
             <div class="grid-4-col">
                 <div class="form-group">
-                    <label>City</label>
+                    <label>City <span style="color: red;">*</span></label>
                     <input type="text" name="city" required>
                 </div>
                 <div class="form-group">
-                    <label>State</label>
+                    <label>State <span style="color: red;">*</span></label>
                     <input type="text" name="state" required>
                 </div>
                 <div class="form-group">
-                    <label>Pin Code</label>
+                    <label>Pin Code <span style="color: red;">*</span></label>
                     <input type="text" name="pin_code" required>
                 </div>
                 <div class="form-group">
-                    <label>Appointment Date</label>
+                    <label>Appointment Date <span style="color: red;">*</span></label>
                     <input type="date" id="appointment_date" name="appointment_date" required>
                 </div>
             </div>
@@ -2648,25 +2648,72 @@
         $('.book-btn').on('click', function (e) {
             e.preventDefault();
 
+            // Validate mandatory fields
+            let name = (document.querySelector('[name="customer_name"]').value || '').trim();
+            let contact = (document.querySelector('[name="contact_number"]').value || '').trim();
+            let address = (document.querySelector('[name="address"]').value || '').trim();
+            let state = (document.querySelector('[name="state"]').value || '').trim();
+            let city = (document.querySelector('[name="city"]').value || '').trim();
+            let pin_code = (document.querySelector('[name="pin_code"]').value || '').trim();
+            let appointment_date = (document.querySelector('[name="appointment_date"]').value || '').trim();
+
+            if (!name || !contact || !address || !state) {
+                Swal.fire({
+                    title: '⚠️ Mandatory Fields Required',
+                    text: 'Please fill in all mandatory fields: Full Name, Contact No, Full Address, and State.',
+                    icon: 'warning',
+                    background: '#f8fbff',
+                    confirmButtonColor: '#3b82f6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            if (!city || !pin_code || !appointment_date) {
+                Swal.fire({
+                    title: '⚠️ Required Fields Missing',
+                    text: 'Please fill in City, Pin Code, and Appointment Date to complete your booking.',
+                    icon: 'warning',
+                    background: '#f8fbff',
+                    confirmButtonColor: '#3b82f6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            let width = $("#width").val();
+            let height = $("#height").val();
+
+            if (!width || parseFloat(width) <= 0 || !height || parseFloat(height) <= 0) {
+                Swal.fire({
+                    title: '⚠️ Dimensions Required',
+                    text: 'Please enter valid width and height to calculate the dimensions and cost.',
+                    icon: 'warning',
+                    background: '#f8fbff',
+                    confirmButtonColor: '#3b82f6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
             let formData = new FormData();
 
             // 🔥 manually sab bhejo
-            let name = document.querySelector('[name="customer_name"]').value;
             formData.append("customer_name", name);
             formData.append("service_name", $('[name="service_name"]').val());
-            formData.append("contact_number", $('[name="contact_number"]').val());
+            formData.append("contact_number", contact);
             formData.append("email", $('[name="email"]').val());
-            formData.append("address", $('[name="address"]').val());
-            formData.append("pin_code", $('[name="pin_code"]').val());
-            formData.append("state", $('[name="state"]').val());
-            formData.append("city", $('[name="city"]').val());
+            formData.append("address", address);
+            formData.append("pin_code", pin_code);
+            formData.append("state", state);
+            formData.append("city", city);
 
-            formData.append("width", $("#width").val());
-            formData.append("height", $("#height").val());
+            formData.append("width", width);
+            formData.append("height", height);
             formData.append("total_walls", $("#total_walls").val());
             formData.append("total_sqft", $("#total_sqft").val());
 
-            formData.append("appointment_date", $("#appointment_date").val());
+            formData.append("appointment_date", appointment_date);
             formData.append("total_amount", $("#total_amount_input").val());
 
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
