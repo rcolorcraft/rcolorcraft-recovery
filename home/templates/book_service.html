@@ -153,6 +153,91 @@
         transition: 0.3s ease;
     }
 
+    /* Text */
+    .note-text {
+        font-size: 14px;
+        color: #444;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    /* Icon */
+    .note-icon {
+        background: linear-gradient(135deg, #ffe082, #ffca28);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 8px;
+        margin-bottom: 10px;
+        padding-left: 10px;
+        align-items: center;
+        gap: 6px;
+        display: flex;
+    }
+
+    /* Content */
+    .note-content {
+        padding: 2px 4px;
+    }
+
+    .note-content p {
+        padding-left: 10px;
+        color: #444;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    /* List */
+    .note-content ul {
+        list-style: none;
+        padding-left: 0;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .note-content li {
+        padding-left: 10px;
+        margin-bottom: 6px;
+        padding-left: 7px;
+    }
+
+    .note-content strong {
+        color: #e63946;
+        font-size: 14px;
+    }
+
+    /* Tick icon */
+    .note-content li::before {
+        content: "✔ ";
+        color: #4CAF50;
+        font-weight: bold;
+    }
+
+    /* Read More */
+    #readMoreBtn {
+        display: inline-flex;
+        margin-left: 5px;
+        padding: 4px 5px;
+        background: linear-gradient(135deg, #4a6cf7, #6c85ff);
+        color: white;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 13px;
+        border: none;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+    }
+
+    #readMoreBtn:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.4);
+        background: linear-gradient(135deg, #2f54d0, #4a6cf7);
+        color: white;
+    }
+
 
     #selectedDesignContainer {
         display: flex;
@@ -352,49 +437,6 @@
         }
 
     }
-
-        {
-        % comment %
-    }
-
-    .note-icon {
-        font-size: 10px;
-        margin-top: 2px;
-    }
-
-    .form-note {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        background: linear-gradient(135deg, #f8f9fa, #e6fffa);
-        padding: 14px 16px;
-        border-radius: 12px;
-        font-size: 14px;
-        color: #2d3436;
-        border-left: 5px solid #00b894;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        line-height: 1.6;
-    }
-
-        {
-        % endcomment %
-    }
-
-
-        {
-        % comment %
-    }
-
-    .form-note:hover {
-        trasnform: traslateY(-2px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
-        transition: 0.3s;
-    }
-
-        {
-        % endcomment %
-    }
-
 
 
     .booking-form h2 {
