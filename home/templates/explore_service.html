@@ -7,154 +7,157 @@
 <section class="hero-section">
   <div class="hero-content">
     {% comment %} <h1 class="main-heading">{{ heading }}</h1> {% endcomment %}
-<p class="hero-subtitle">
-    Discover <span>amazing artworks</span> from our talented artists
-</p>  </section>
-  
+    <p class="hero-subtitle">
+      Discover <span>amazing artworks</span> from our talented artists
+    </p>
+</section>
+
 {% if user.is_authenticated and user.role == "customer" and not user.is_staff %}
 <div class="form-note">
-  
-    <span class="note-icon">⚠️ Important</span>
-   
 
-    <div class="note-content">
-        <p>
-            <strong>Booking Information:</strong><br>
-            As per your booking, the artist will visit your location and will carry all essential art materials...
-        </p>
+  <span class="note-icon">⚠️ Important</span>
 
 
-        <div id="moreText" style="display: none;">
+  <div class="note-content">
+    <p>
+      <strong>Booking Information:</strong><br>
+      As per your booking, the artist will visit your location and will carry all essential art materials...
+    </p>
 
-            <p>
-                From the customer's side, the following arrangements are required:
-            </p>
 
-            <ul>
-                <li>Stool or ladder (for height access)</li>
-                <li>Water supply</li>
-                <li>Electricity</li>
-                <li>Clear and empty workspace</li>
-            </ul>
+    <div id="moreText" style="display: none;">
 
-            <p><strong>Note:</strong><br>
-            Any required permissions must be arranged by the customer before work begins.</p>
+      <p>
+        From the customer's side, the following arrangements are required:
+      </p>
 
-            <p><strong>Important Note:</strong><br>
-            The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
+      <ul>
+        <li>Stool or ladder (for height access)</li>
+        <li>Water supply</li>
+        <li>Electricity</li>
+        <li>Clear and empty workspace</li>
+      </ul>
 
-            <p><strong>Note:</strong><br>
-            Issues like water leakage, seepage, mold, etc. are not included.</p>
+      <p><strong>Note:</strong><br>
+        Any required permissions must be arranged by the customer before work begins.</p>
 
-            <p>
-            The customer is responsible for preparing the workspace before execution.
-            </p>
+      <p><strong>Important Note:</strong><br>
+        The surface must be in proper condition. Repair cost: ₹10-₹30/sq ft (if needed).</p>
 
-            <p>
-            We request your cooperation for smooth execution. Thank you for trusting us 💙
-            </p>
-          </div>
-            
-        <a href="#" id="readMoreBtn" onclick="toggleNote(); return false;">
-    Read More ↓
-</a>
-            
-          </div>
+      <p><strong>Note:</strong><br>
+        Issues like water leakage, seepage, mold, etc. are not included.</p>
+
+      <p>
+        The customer is responsible for preparing the workspace before execution.
+      </p>
+
+      <p>
+        We request your cooperation for smooth execution. Thank you for trusting us 💙
+      </p>
+    </div>
+
+    <a href="#" id="readMoreBtn" onclick="toggleNote(); return false;">
+      Read More ↓
+    </a>
+
+  </div>
 </div>
 {%endif%}
 
 <section class="gallery-section">
   {% if db_images %}
-    <div class="gallery-container">
-      {% for img in db_images %}
-        <div class="artwork-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-<div class="card-number">
+  <div class="gallery-container">
+    {% for img in db_images %}
+    <div class="artwork-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+      <div class="card-number">
         {{ forloop.counter }}
-    </div>
-          <div class="image-wrapper gallery-item" style="position: relative;">
+      </div>
+      <div class="image-wrapper gallery-item" style="position: relative;">
 
-            
-            <img src="{{ img.image.url }}" alt="{{ img.image_name }}" class="gallery-img" data-index="{{ forloop.counter0 }}">
 
-            <div class="image-overlay">
-              <div class="overlay-content">
-                <i class="fas fa-search-plus"></i>
-                <p>Click to view</p>
-              </div>
-            </div>
+        <img src="{{ img.image.url }}" alt="{{ img.image_name }}" class="gallery-img"
+          data-index="{{ forloop.counter0 }}">
+
+        <div class="image-overlay">
+          <div class="overlay-content">
+            <i class="fas fa-search-plus"></i>
+            <p>Click to view</p>
           </div>
+        </div>
+      </div>
 
-          <div class="card-content">
-            <h3 class="artwork-title">{{ img.image_name }}</h3>
+      <div class="card-content">
+        <h3 class="artwork-title">{{ img.image_name }}</h3>
 
-            <!-- ✅ Approve button (only visible to admin for unverified images) -->
-            <div class="action-btn">
-  {% if request.user.is_staff %}
-    {% if not img.is_verified_pic %}
-      <button class="approve-btn" data-id="{{ img.id }}">✅</button>
-    {% endif %}
-    <button class="edit-price-btn" data-id="{{ img.id }}" data-price="{{ img.price }}">💰</button>
+        <!-- ✅ Approve button (only visible to admin for unverified images) -->
+        <div class="action-btn">
+          {% if request.user.is_staff %}
+          {% if not img.is_verified_pic %}
+          <button class="approve-btn" data-id="{{ img.id }}">✅</button>
+          {% endif %}
+          <button class="edit-price-btn" data-id="{{ img.id }}" data-price="{{ img.price }}">💰</button>
 
-    <button class="delete-btn" data-id="{{ img.id }}">❌</button>
-  {% elif img.userupload_id == request.user.id %}
-    <button class="delete-btn" data-id="{{ img.id }}">❌</button>
-  {% endif %}
-</div>
+          <button class="delete-btn" data-id="{{ img.id }}">❌</button>
+          {% elif img.userupload_id == request.user.id %}
+          <button class="delete-btn" data-id="{{ img.id }}">❌</button>
+          {% endif %}
+        </div>
 
-<div class="artwork-details">
-  <span class="price-wrapper">
+        <div class="artwork-details">
+          <span class="price-wrapper">
 
-   <span class="fake-price-badge">
-  <span class="fake-price-value">
-    ₹{% widthratio img.price 1 5 %} / sqft
-  </span>
-  <div class="price-note">Price</div>
-</span>
+            <span class="fake-price-badge">
+              <span class="fake-price-value">
+                <!-- ₹{% widthratio img.price 1 5 %} / sqft -->
+                ₹{% widthratio img.price 100 130 %} / sqft
+              </span>
+              <div class="price-note">Price</div>
+            </span>
 
-    <span class="price-tag">
-      ₹{{ img.price }} / sq ft
-      <div class="price-note">Discounted Price</div>
-    </span>
+            <span class="price-tag">
+              ₹{{ img.price }} / sq ft
+              <div class="price-note">Discounted Price</div>
+            </span>
 
-  </span>
-  
-{% if img.min_size %}
-  <div class="min-size-line">
-    Min Size: {{ img.min_size }} ft
+          </span>
+
+          {% if img.min_size %}
+          <div class="min-size-line">
+            Min Size: {{ img.min_size }} ft
+          </div>
+          {% endif %}
+
+          <span class="art-type">{{ img.type_of_art }}</span>
+        </div>
+
+
+
+
+        {% comment %}
+        <div class="artist-info">
+          <i class="fas fa-user-circle"></i>
+          <!-- <span>By {{ img.userupload_name }}</span> -->
+        </div> {% endcomment %}
+      </div>
+    </div>
+    {% endfor %}
   </div>
-{% endif %}
-
-  <span class="art-type">{{ img.type_of_art }}</span>
-</div>
-
-
-
-
-{% comment %} 
-            <div class="artist-info">
-              <i class="fas fa-user-circle"></i>
-              <!-- <span>By {{ img.userupload_name }}</span> -->
-            </div> {% endcomment %}
-          </div>
-        </div>
-      {% endfor %}
-    </div>
   {% else %}
-    {% if request.user.is_authenticated %}
-      {% if request.user.is_staff or request.user.role == "employee" %}
-        <div class="empty-state">
-          <div class="empty-icon">
-            <i class="fas fa-palette"></i>
-          </div>
-          <h3>No Artworks Yet</h3>
-          <p>Be the first to share your amazing {{ heading|lower }} with our community!</p>
-          <a href="{% url 'service_images' %}" class="cta-button">
-            <i class="fas fa-plus"></i>
-            Upload Your Art
-          </a>
-        </div>
-      {% endif %}
-    {% endif %}
+  {% if request.user.is_authenticated %}
+  {% if request.user.is_staff or request.user.role == "employee" %}
+  <div class="empty-state">
+    <div class="empty-icon">
+      <i class="fas fa-palette"></i>
+    </div>
+    <h3>No Artworks Yet</h3>
+    <p>Be the first to share your amazing {{ heading|lower }} with our community!</p>
+    <a href="{% url 'service_images' %}" class="cta-button">
+      <i class="fas fa-plus"></i>
+      Upload Your Art
+    </a>
+  </div>
+  {% endif %}
+  {% endif %}
   {% endif %}
 </section>
 
@@ -170,8 +173,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   // This ensures the code only runs after the whole HTML page is loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    
+  document.addEventListener('DOMContentLoaded', function () {
+
     // --- Element Selection ---
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
@@ -184,8 +187,8 @@
 
     // --- Safety Check ---
     if (!modal || !modalImg || !closeBtn) {
-        console.error('Modal components not found! Check your HTML IDs and class names.');
-        return;
+      console.error('Modal components not found! Check your HTML IDs and class names.');
+      return;
     }
 
     console.log('Modal initialized successfully'); // Debug message
@@ -197,10 +200,10 @@
         modal.style.display = 'block';
         modalImg.src = imgElement.src;
         currentIndex = index;
-        document.body.style.overflow = 'hidden'; 
+        document.body.style.overflow = 'hidden';
       }
     };
-    
+
     const closeModal = () => {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto'; // Restore scrolling
@@ -209,7 +212,7 @@
 
     // --- Event Listeners ---
     galleryItems.forEach(item => {
-      item.addEventListener('click', function() {
+      item.addEventListener('click', function () {
         const img = this.querySelector('.gallery-img');
         const index = parseInt(img.dataset.index);
         showImage(index);
@@ -217,7 +220,7 @@
     });
 
     // Close button click event
-    closeBtn.addEventListener('click', function(e) {
+    closeBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
       console.log('Close button clicked'); // Debug message
@@ -225,22 +228,22 @@
     });
 
     // Click outside modal to close
-    modal.addEventListener('click', function(event) {
+    modal.addEventListener('click', function (event) {
       if (event.target === modal) {
         closeModal();
       }
     });
 
-    
+
     // Next/Previous buttons
-    nextBtn.addEventListener('click', function(e) {
+    nextBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
       const nextIndex = (currentIndex + 1) % galleryImages.length;
       showImage(nextIndex);
     });
 
-    prevBtn.addEventListener('click', function(e) {
+    prevBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
       const prevIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
@@ -248,109 +251,27 @@
     });
 
     // Keyboard navigation
-    document.addEventListener('keydown', function(event) {
-        if (modal.style.display === 'block') {
-            if (event.key === 'ArrowRight') {
-              const nextIndex = (currentIndex + 1) % galleryImages.length;
-              showImage(nextIndex);
-            }
-            if (event.key === 'ArrowLeft') {
-              const prevIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-              showImage(prevIndex);
-            }
-            if (event.key === 'Escape') closeModal();
+    document.addEventListener('keydown', function (event) {
+      if (modal.style.display === 'block') {
+        if (event.key === 'ArrowRight') {
+          const nextIndex = (currentIndex + 1) % galleryImages.length;
+          showImage(nextIndex);
         }
+        if (event.key === 'ArrowLeft') {
+          const prevIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+          showImage(prevIndex);
+        }
+        if (event.key === 'Escape') closeModal();
+      }
     });
-  
+
 
     document.querySelectorAll('.approve-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const imgId = this.dataset.id;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const imgId = this.dataset.id;
 
-      fetch("{% url 'approve_service_image' %}", {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": "{{ csrf_token }}",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: imgId })
-      })
-      .then(response => response.json())
-      .then(data => {
-  if (data.success) {
-    Swal.fire({
-      icon: "success",
-      title: "Approved Successfully!",
-      text: "The artwork has been approved.",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      background: "#ffffff",
-      color: "#333",
-      backdrop: `
-        rgba(0,0,0,0.3)
-        left top
-        no-repeat
-      `
-    });
-
-    // Slight delay before reload (for smoothness)
-    setTimeout(() => {
-      location.reload();
-    }, 1600);
-
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Oops!",
-      text: data.message || "Something went wrong!",
-      confirmButtonColor: "#d33"
-    });
-  }
-})
-
-      .catch(err => {
-        console.error(err);
-        alert("❌ Something went wrong!");
-      });
-    });
-  });
-
-  });
-
-
-function toggleNote() {
-    var moreText = document.getElementById("moreText");
-    var btn = document.getElementById("readMoreBtn");
-
-    if (moreText.style.display === "none") {
-        moreText.style.display = "block";
-        btn.innerText = "Read Less !";
-    } else {
-        moreText.style.display = "none";
-        btn.innerText = "Read More ↓";
-    }
-}
-
-
-// --- DELETE FUNCTIONALITY ---
-document.querySelectorAll('.delete-btn').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const imgId = this.dataset.id;
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This image will be permanently deleted!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch("{% url 'delete_service_image' %}", {
+        fetch("{% url 'approve_service_image' %}", {
           method: "POST",
           headers: {
             "X-CSRFToken": "{{ csrf_token }}",
@@ -358,132 +279,222 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
           },
           body: JSON.stringify({ id: imgId })
         })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            Swal.fire({
-              icon: "success",
-              title: "Deleted!",
-              text: "The image has been deleted.",
-              showConfirmButton: false,
-              timer: 1500
-            });
-            setTimeout(() => location.reload(), 1600);
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Error!",
-              text: data.message || "Something went wrong."
-            });
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Failed to delete the image."
-          });
-        });
-      }
-    });
-  });
-});
-
-$(document).ready(function() {
-  $(".edit-price-btn").on("click", function(e) {
-    e.stopPropagation();
-    var imgId = $(this).data("id");
-    var oldPrice = $(this).data("price");
-
-    // 🧾 SweetAlert styled input popup
-    Swal.fire({
-      title: '💰 Update Artwork Price',
-      input: 'number',
-      inputLabel: 'Enter the new price for this artwork',
-      inputValue: oldPrice,
-      inputAttributes: { min: 0 },
-      showCancelButton: true,
-      confirmButtonText: '💾 Save',
-      cancelButtonText: '❌ Cancel',
-      confirmButtonColor: '#7b2ff7',
-      cancelButtonColor: '#d33',
-      background: '#f9f9f9',
-      color: '#333',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
-    }).then((result) => {
-      if (result.isConfirmed && result.value !== oldPrice) {
-        var newPrice = result.value;
-
-        $.ajax({
-          url: "{% url 'update_service_price' %}",
-          type: "POST",
-          data: JSON.stringify({ id: imgId, price: newPrice }),
-          headers: { "X-CSRFToken": "{{ csrf_token }}" },
-          contentType: "application/json",
-          success: function(response) {
-            if (response.success) {
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
               Swal.fire({
-                icon: 'success',
-                title: '✅ Price Updated!',
-                text: 'The new price has been saved successfully.',
+                icon: "success",
+                title: "Approved Successfully!",
+                text: "The artwork has been approved.",
                 showConfirmButton: false,
                 timer: 1500,
-                background: '#ffffff',
-                color: '#333',
-                timerProgressBar: true
+                timerProgressBar: true,
+                background: "#ffffff",
+                color: "#333",
+                backdrop: `
+        rgba(0,0,0,0.3)
+        left top
+        no-repeat
+      `
               });
-              setTimeout(() => location.reload(), 1600);
+
+              // Slight delay before reload (for smoothness)
+              setTimeout(() => {
+                location.reload();
+              }, 1600);
+
             } else {
               Swal.fire({
+                icon: "error",
+                title: "Oops!",
+                text: data.message || "Something went wrong!",
+                confirmButtonColor: "#d33"
+              });
+            }
+          })
+
+          .catch(err => {
+            console.error(err);
+            alert("❌ Something went wrong!");
+          });
+      });
+    });
+
+  });
+
+
+  function toggleNote() {
+    var moreText = document.getElementById("moreText");
+    var btn = document.getElementById("readMoreBtn");
+
+    if (moreText.style.display === "none") {
+      moreText.style.display = "block";
+      btn.innerText = "Read Less !";
+    } else {
+      moreText.style.display = "none";
+      btn.innerText = "Read More ↓";
+    }
+  }
+
+
+  // --- DELETE FUNCTIONALITY ---
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const imgId = this.dataset.id;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "This image will be permanently deleted!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch("{% url 'delete_service_image' %}", {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: imgId })
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                Swal.fire({
+                  icon: "success",
+                  title: "Deleted!",
+                  text: "The image has been deleted.",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                setTimeout(() => location.reload(), 1600);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error!",
+                  text: data.message || "Something went wrong."
+                });
+              }
+            })
+            .catch(err => {
+              console.error(err);
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Failed to delete the image."
+              });
+            });
+        }
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    $(".edit-price-btn").on("click", function (e) {
+      e.stopPropagation();
+      var imgId = $(this).data("id");
+      var oldPrice = $(this).data("price");
+
+      // 🧾 SweetAlert styled input popup
+      Swal.fire({
+        title: '💰 Update Artwork Price',
+        input: 'number',
+        inputLabel: 'Enter the new price for this artwork',
+        inputValue: oldPrice,
+        inputAttributes: { min: 0 },
+        showCancelButton: true,
+        confirmButtonText: '💾 Save',
+        cancelButtonText: '❌ Cancel',
+        confirmButtonColor: '#7b2ff7',
+        cancelButtonColor: '#d33',
+        background: '#f9f9f9',
+        color: '#333',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      }).then((result) => {
+        if (result.isConfirmed && result.value !== oldPrice) {
+          var newPrice = result.value;
+
+          $.ajax({
+            url: "{% url 'update_service_price' %}",
+            type: "POST",
+            data: JSON.stringify({ id: imgId, price: newPrice }),
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+            contentType: "application/json",
+            success: function (response) {
+              if (response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '✅ Price Updated!',
+                  text: 'The new price has been saved successfully.',
+                  showConfirmButton: false,
+                  timer: 1500,
+                  background: '#ffffff',
+                  color: '#333',
+                  timerProgressBar: true
+                });
+                setTimeout(() => location.reload(), 1600);
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops!',
+                  text: response.message || 'Something went wrong!',
+                  confirmButtonColor: '#d33'
+                });
+              }
+            },
+            error: function () {
+              Swal.fire({
                 icon: 'error',
-                title: 'Oops!',
-                text: response.message || 'Something went wrong!',
+                title: 'Error!',
+                text: '⚠️ Failed to update price. Try again.',
                 confirmButtonColor: '#d33'
               });
             }
-          },
-          error: function() {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error!',
-              text: '⚠️ Failed to update price. Try again.',
-              confirmButtonColor: '#d33'
-            });
-          }
-        });
-      }
+          });
+        }
+      });
     });
   });
-});
 
 </script>
 
 
 <!-- Floating Book Button -->
 <a href="{% url 'book_service' service_slug %}" class="floating-book">
- Book Now
+  Book Now
 </a>
 <!-- Modal for Image Viewer -->
 
 <style>
   /* The Modal (background) */
   .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    padding-top: 50px; /* Location of the box */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1000;
+    /* Sit on top */
+    padding-top: 50px;
+    /* Location of the box */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
   }
 
   /* Modal Content (the image) */
@@ -498,8 +509,13 @@ $(document).ready(function() {
 
   /* Animation */
   @keyframes zoom {
-    from {transform: scale(0.4)}
-    to {transform: scale(1)}
+    from {
+      transform: scale(0.4)
+    }
+
+    to {
+      transform: scale(1)
+    }
   }
 
   /* The Close Button */
@@ -520,9 +536,10 @@ $(document).ready(function() {
     text-decoration: none;
     cursor: pointer;
   }
-  
+
   /* Next & previous buttons */
-  .prev-btn, .next-btn {
+  .prev-btn,
+  .next-btn {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -542,68 +559,66 @@ $(document).ready(function() {
     right: 0;
     border-radius: 3px 0 0 3px;
   }
-  
+
   .prev-btn {
     left: 0;
     border-radius: 0 3px 3px 0;
   }
 
-  .prev-btn:hover, .next-btn:hover {
+  .prev-btn:hover,
+  .next-btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
 
   /* Make image wrappers clickable */
   .gallery-item {
-      cursor: pointer;
+    cursor: pointer;
   }
-
 </style>
 <style>
-* {
-  box-sizing: border-box;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
 
-s
+  s .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
 
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
-  pointer-events: none;
-}
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  margin: 0 auto;
-}
+  .main-heading {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #ffffff, #f0f8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+  }
 
-.main-heading {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background: linear-gradient(45deg, #ffffff, #f0f8ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  line-height: 1.2;
-}
-
-.hero-subtitle {
+  .hero-subtitle {
     text-align: center;
     font-size: 30px;
     font-weight: 700;
@@ -616,66 +631,79 @@ s
     -webkit-text-fill-color: transparent;
 
     /* Glow Effect */
-}
+  }
 
 
 
- {% comment %} .note-wrapper{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top:20px;
-  background:#f9f9f9;
-  padding: 30px 0;
-}  {% endcomment %}
+    {
+    % comment %
+  }
+
+  .note-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 30px 0;
+  }
+
+    {
+    % endcomment %
+  }
 
 
-.form-note {
-    background: rgba(255,255,255,0.85);
+  .form-note {
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(15px);
     padding: 16px 20px;
     border-radius: 10px;
-    border-left: 6px solid transparent ;
-    border-image:linear-gradient(to bottom,#ff7a18,#4a6cf7);
-    border-image-slice:1;      /* better highlight */
+    border-left: 6px solid transparent;
+    border-image: linear-gradient(to bottom, #ff7a18, #4a6cf7);
+    border-image-slice: 1;
+    /* better highlight */
     max-width: 1200px;
     width: 90%;
     margin: 15px auto;
     font-size: 14px;
     color: #333;
-    position:relative;
+    position: relative;
     line-height: 1.5;
     font-weight: 500;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12); /* NEW */
-    transition:all 0.3s ease;
-}
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    /* NEW */
+    transition: all 0.3s ease;
+  }
 
-.form-note::before {
+  .form-note::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 5px; /* pehle bada tha, ab slim */
+    height: 5px;
+    /* pehle bada tha, ab slim */
     background: linear-gradient(90deg, #FFD700, #FFA500);
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-}
-.form-note:hover{
-  transform: translateY(-4px);
-  box-shadow:0 14px 30px rgba(0,0,0,0.12);
-  transition: 0.3s ease;
-}
+  }
 
-/* Text */
-.note-text{
-    font-size:14px;
-    color:#444;
-    font-weight:500;
-    line-height:1.5;   /* readability */
-}
+  .form-note:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+    transition: 0.3s ease;
+  }
 
-/* Icon */
+  /* Text */
+  .note-text {
+    font-size: 14px;
+    color: #444;
+    font-weight: 500;
+    line-height: 1.5;
+    /* readability */
+  }
+
+  /* Icon */
 
   .note-icon {
     background: linear-gradient(135deg, #ffe082, #ffca28);
@@ -683,63 +711,75 @@ s
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-margin-top: 8px;
+    margin-top: 8px;
     margin-bottom: 10px;
-        padding-left:10px;
-align-items:center;
-gap:6px;
-    display: flex;  /* better alignment */
-}
+    padding-left: 10px;
+    align-items: center;
+    gap: 6px;
+    display: flex;
+    /* better alignment */
+  }
 
 
-/* Content */
-.note-content{
-  padding: 2px 4px;
-}
+  /* Content */
+  .note-content {
+    padding: 2px 4px;
+  }
 
-.note-content p {
-    padding-left:10px;
-  color:#444;
-  padding-left:10px;
+  .note-content p {
+    padding-left: 10px;
+    color: #444;
+    padding-left: 10px;
     margin-bottom: 8px;
     line-height: 1.3;
-}
+  }
 
-/* Important text */
+  /* Important text */
 
 
-/* List */
-.note-content ul {
-    list-style:none;
-    padding-left:0;
-    margin-left: 10px;   /* reduce gap */
+  /* List */
+  .note-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 10px;
+    /* reduce gap */
     margin-bottom: 10px;
-}
+  }
 
-.note-content li {
-      padding-left:10px;
+  .note-content li {
+    padding-left: 10px;
     margin-bottom: 6px;
-    padding-left:7px;
-}
+    padding-left: 7px;
+  }
 
-.note-content strong{
-  color:#e63946;
-  font-size:14px;
-}
+  .note-content strong {
+    color: #e63946;
+    font-size: 14px;
+  }
 
-/* Tick icon */
-.note-content li::before {
+  /* Tick icon */
+  .note-content li::before {
     content: "✔ ";
     color: #4CAF50;
     font-weight: bold;
-}
+  }
 
-/* Read More */
-#readMoreBtn {
+  /* Read More */
+  #readMoreBtn {
     display: inline-flex;
-    {% comment %} margin-top: 2px; {% endcomment %}
+
+      {
+      % comment %
+    }
+
+    margin-top: 2px;
+
+      {
+      % endcomment %
+    }
+
     margin-left:5px;
-   padding: 4px 5px;
+    padding: 4px 5px;
     background: linear-gradient(135deg, #4a6cf7, #6c85ff);
     color: white;
     border-radius: 25px;
@@ -749,141 +789,146 @@ gap:6px;
     border: none;
     transition: all 0.3s ease;
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(74,108,247,0.3);
-}
+    box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+  }
 
-#readMoreBtn:hover {
+  #readMoreBtn:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(74,108,247,0.4);
+    box-shadow: 0 6px 18px rgba(74, 108, 247, 0.4);
     background: linear-gradient(135deg, #2f54d0, #4a6cf7);
     color: white;
-}
+  }
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
 
     .form-note {
-        padding: 15px 14px;   /* side se space */
-        margin: 15px 10px;    /* screen se gap */
-        max-width: 100%;      /* full width mobile */
-        border-radius: 12px;
+      padding: 15px 14px;
+      /* side se space */
+      margin: 15px 10px;
+      /* screen se gap */
+      max-width: 100%;
+      /* full width mobile */
+      border-radius: 12px;
     }
 
     .note-content {
-        padding-left: 5px;
+      padding-left: 5px;
     }
 
     .note-content p {
-        font-size: 13px;
-        line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.6;
     }
 
     .note-content li {
-        font-size: 13px;
+      font-size: 13px;
     }
 
     #readMoreBtn {
-        font-size: 12px;
-        padding: 5px 10px;
+      font-size: 12px;
+      padding: 5px 10px;
     }
 
-}
+  }
 
 
 
-.gallery-section {
-  padding: 4rem 2rem;     /* ↓ reduces side & vertical space */
-  background: #f8fafc;
-  min-height: 60vh;
-}
+  .gallery-section {
+    padding: 4rem 2rem;
+    /* ↓ reduces side & vertical space */
+    background: #f8fafc;
+    min-height: 60vh;
+  }
 
 
-.gallery-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+  .gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 
 
 
-.artwork-card {
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  position: relative;
-}
-
-.artwork-card p{
-  margin:4px 0;
-  fomt-size: 13px;
-}
-
-.artwork-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(123, 47, 247, 0.25);
-}
-
-
-.image-wrapper {
-  aspect-ration:4/3;
-  position: relative;
-  height: 390px; /* Increased for more image area */
-  overflow: hidden;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-}
-
-
-.gallery-img {
-  width: 100%;
-  height: 100%;
-  display:block;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-  cursor: pointer;
-}
-
-.artwork-card:hover .gallery-img {
-  transform: scale(1.1);
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(123, 47, 247, 0.8), rgba(0, 198, 255, 0.8));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.artwork-card:hover .image-overlay {
-  opacity: 1;
-}
-
-.overlay-content {
-  text-align: center;
-  color: white;
-  transform: translateY(20px);
-  transition: transform 0.3s ease;
-}
-
-.artwork-card:hover .overlay-content {
-  transform: translateY(0);
-}
-
-.artwork-card {
+  .artwork-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
-}
+  }
 
-.card-number {
+  .artwork-card p {
+    margin: 4px 0;
+    fomt-size: 13px;
+  }
+
+  .artwork-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(123, 47, 247, 0.25);
+  }
+
+
+  .image-wrapper {
+    aspect-ration: 4/3;
+    position: relative;
+    height: 390px;
+    /* Increased for more image area */
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  }
+
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    cursor: pointer;
+  }
+
+  .artwork-card:hover .gallery-img {
+    transform: scale(1.1);
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(123, 47, 247, 0.8), rgba(0, 198, 255, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .artwork-card:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-content {
+    text-align: center;
+    color: white;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .artwork-card:hover .overlay-content {
+    transform: translateY(0);
+  }
+
+  .artwork-card {
+    position: relative;
+  }
+
+  .card-number {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -904,372 +949,411 @@ gap:6px;
     font-weight: bold;
 
     z-index: 10;
-}
+  }
 
-.overlay-content i {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  display: block;
-}
+  .overlay-content i {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
 
-.card-content {
+  .card-content {
 
-  padding: 10px 12px; /* reduced padding to shrink white space */
-}
+    padding: 10px 12px;
+    /* reduced padding to shrink white space */
+  }
 
 
-.artwork-title {
-  font-size: 21px;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 6px;
-  margin: 6px 0;
-  line-height: 1.3;
-}
+  .artwork-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 6px;
+    margin: 6px 0;
+    line-height: 1.3;
+  }
 
-.artwork-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  margin:4px 0;
-  gap: 1rem;
-}
+  .artwork-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin: 4px 0;
+    gap: 1rem;
+  }
 
-.price-tag {
-  background: linear-gradient(135deg, #00c853, #64dd17);
-  color: white;
-  right:50%;
-  justify-content:center;
-  align-items:center;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: 600; 
-  margin:4px 0;
-  font-size: 18px;
-  box-shadow: 0 4px 15px rgba(123, 47, 247, 0.3);
-}
+  .price-tag {
+    background: linear-gradient(135deg, #00c853, #64dd17);
+    color: white;
+    right: 50%;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin: 4px 0;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(123, 47, 247, 0.3);
+  }
 
-.art-type {
+  .art-type {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: rgba(0, 123, 255, 0.8); /* blue bg */
+    background: rgba(0, 123, 255, 0.8);
+    /* blue bg */
     color: white;
     padding: 5px 10px;
     font-size: 12px;
     border-radius: 20px;
     font-weight: 600;
-}
-
-.artist-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #718096;
-  font-weight: 500;
-}
-
-
-
-.empty-state {
-  text-align: center;
-  padding: 6rem 2rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.empty-icon {
-  margin-bottom: 2rem;
-}
-
-.empty-icon i {
-  font-size: 5rem;
-  color: #cbd5e0;
-  opacity: 0.7;
-}
-
-.empty-state h3 {
-  font-size: 2rem;
-  color: #4a5568;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.empty-state p {
-  font-size: 1.2rem;
-  color: #718096;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
-}
-
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  box-shadow: 0 8px 25px rgba(123, 47, 247, 0.4);
-  transition: all 0.3s ease;
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(123, 47, 247, 0.6);
-}
-
-/* Lightbox Styles */
-.lightbox {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  padding-top: 80px;
-  left: 0; 
-  top: 0;
-  width: 100%; 
-  height: 100%;
-  background-color: rgba(0,0,0,0.95);
-  backdrop-filter: blur(10px);
-}
-
-.lightbox-content {
-  max-width: 90%;
-  max-height: 85%;
-  margin: auto;
-  display: block;
-  border-radius: 15px;
-  box-shadow: 0 0 50px rgba(255,255,255,0.3);
-  animation: lightboxFadeIn 0.3s ease;
-}
-
-@keyframes lightboxFadeIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.close {
-  position: absolute;
-  top: 20px; 
-  right: 35px;
-  color: #fff;
-  font-size: 50px;
-  font-weight: 300;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 20px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 50px;
-  transition: all 0.3s ease;
-  user-select: none;
-  background: rgba(0,0,0,0.3);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-}
-
-.prev { left: 5%; }
-.next { right: 5%; }
-
-.prev:hover, .next:hover, .close:hover {
-  color: #00c6ff;
-  background: rgba(0, 198, 255, 0.1);
-  transform: scale(1.1);
-}
-
-/* Floating Book Button */
-.floating-book {
-  position: fixed;
-  bottom: 40px;
-  left:20px;
-  right: auto;
-  z-index: 9999;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #7b2ff7, #00c6ff);
-  color: white;
-  font-weight: bold;
-  font-size: 1.1rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 30px rgba(123, 47, 247, 0.4);
-  cursor: pointer;
-  z-index: 1000;
-  animation: float 3s ease-in-out infinite;
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(5deg); }
-}
-
-.floating-book:hover {
-  transform: scale(1.15) translateY(-5px);
-  box-shadow: 0 15px 40px rgba(123, 47, 247, 0.6);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .main-heading {
-    font-size: 2.5rem;
   }
-  
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 22px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-  
-  .floating-book {
-    width: 100px;
-    height: 100px;
-    font-size: 1rem;
-    bottom: 30px;
-    right: 30px;
-  }
-  
-  .prev, .next {
-    font-size: 40px;
-    padding: 15px;
-  }
-  
-  .prev { left: 2%; }
-  .next { right: 2%; }
-}
 
-@media (max-width: 480px) {
-  
-  .hero-section {
-    padding: 4rem 1rem 3rem;
-  }
-  
-  .main-heading {
-    font-size: 2rem;
-  }
-  
-  .gallery-section {
-    padding: 3rem 1rem;
-  }
-  
-  .card-content {
-    padding: 1.5rem;
-  }
-  
-  .artwork-details {
-    flex-direction: column;
+  .artist-info {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
-    align-items: flex-start;
+    color: #718096;
+    font-weight: 500;
   }
-}
 
-/* Common button styles */
-.action-btn {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  display: flex;
-  gap: 8px;
-  z-index: 10;
-}
 
-.action-btn button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  {% comment %} width: 38px;
-  height: 38px; {% endcomment %}
-  font-size: 18px;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-  transition: all 0.2s ease;
-}
 
-.action-btn button.delete-btn {
-  background-color: #dc3545;
-}
+  .empty-state {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
 
-.action-btn button:hover {
-  transform: scale(1.1);
-}
+  .empty-icon {
+    margin-bottom: 2rem;
+  }
 
-.action-btn button.delete-btn:hover {
-  background-color: #c82333;
-}
+  .empty-icon i {
+    font-size: 5rem;
+    color: #cbd5e0;
+    opacity: 0.7;
+  }
 
-.price-tag {
+  .empty-state h3 {
+    font-size: 2rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .empty-state p {
+    font-size: 1.2rem;
+    color: #718096;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 25px rgba(123, 47, 247, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(123, 47, 247, 0.6);
+  }
+
+  /* Lightbox Styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 80px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  .lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    margin: auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+    animation: lightboxFadeIn 0.3s ease;
+  }
+
+  @keyframes lightboxFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 50px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 20px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 50px;
+    transition: all 0.3s ease;
+    user-select: none;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+  }
+
+  .prev {
+    left: 5%;
+  }
+
+  .next {
+    right: 5%;
+  }
+
+  .prev:hover,
+  .next:hover,
+  .close:hover {
+    color: #00c6ff;
+    background: rgba(0, 198, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  /* Floating Book Button */
+  .floating-book {
+    position: fixed;
+    bottom: 40px;
+    left: 20px;
+    right: auto;
+    z-index: 9999;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(123, 47, 247, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    animation: float 3s ease-in-out infinite;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-10px) rotate(5deg);
+    }
+  }
+
+  .floating-book:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(123, 47, 247, 0.6);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .main-heading {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .floating-book {
+      width: 100px;
+      height: 100px;
+      font-size: 1rem;
+      bottom: 30px;
+      right: 30px;
+    }
+
+    .prev,
+    .next {
+      font-size: 40px;
+      padding: 15px;
+    }
+
+    .prev {
+      left: 2%;
+    }
+
+    .next {
+      right: 2%;
+    }
+  }
+
+  @media (max-width: 480px) {
+
+    .hero-section {
+      padding: 4rem 1rem 3rem;
+    }
+
+    .main-heading {
+      font-size: 2rem;
+    }
+
+    .gallery-section {
+      padding: 3rem 1rem;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    .artwork-details {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+  }
+
+  /* Common button styles */
+  .action-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .action-btn button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+
+      {
+      % comment %
+    }
+
+    width: 38px;
+    height: 38px;
+
+      {
+      % endcomment %
+    }
+
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+  }
+
+  .action-btn button.delete-btn {
+    background-color: #dc3545;
+  }
+
+  .action-btn button:hover {
+    transform: scale(1.1);
+  }
+
+  .action-btn button.delete-btn:hover {
+    background-color: #c82333;
+  }
+
+  .price-tag {
     white-space: nowrap;
-}
+  }
 
-.min-size {
-   white-space: nowrap;
-}
-
-
-
-.min-size-line {
-  margin-top: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #4a5568;
-  background: #f1f5f9;
-  padding: 5px 10px;
-  border-radius: 15px;
-  display: inline-block;
-}
-
-.fake-price-badge {
-  background: #f1f5f9;
-  color: #4a5568;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 0.95rem;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  white-space: nowrap;
-  gap: 3px;
-}
-
-.fake-price-value {
-  text-decoration: line-through;
-}
+  .min-size {
+    white-space: nowrap;
+  }
 
 
-.price-note {
-  font-size: 0.75rem;
-  opacity: 0.85;
-  text-decoration: none;
-}
 
-.price-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  .min-size-line {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4a5568;
+    background: #f1f5f9;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+  }
 
+  .fake-price-badge {
+    background: #f1f5f9;
+    color: #4a5568;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    gap: 3px;
+  }
+
+  .fake-price-value {
+    text-decoration: line-through;
+  }
+
+
+  .price-note {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    text-decoration: none;
+  }
+
+  .price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 </style>
 
 
