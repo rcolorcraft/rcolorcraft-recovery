@@ -7,77 +7,71 @@
 <section class="form-section">
   <h1>Add Service Image</h1>
   <form id="serviceImageForm" method="POST" enctype="multipart/form-data" class="styled-form">
-  {% csrf_token %}
+    {% csrf_token %}
 
-  <!-- Row 1: Name + Price -->
-  <div class="form-row">
-    <div class="form-group">
-      <label>Name of Photo:</label>
-      <input type="text" name="image_name" required>
-    </div>
-
-    <div class="form-group">
-      <label>Price:</label>
-      <div class="price-input">
-        <input 
-          type="number" 
-          name="price" 
-          min="0" 
-          step="1" 
-          oninput="validity.valid||(value='');" 
-          required
-        >
-        <span class="unit">₹ / sq ft</span>
+    <!-- Row 1: Name + Price -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name of Photo:</label>
+        <input type="text" name="image_name" required>
       </div>
-    </div>
-  </div>
 
-  <!-- Row 2: Size + Image + Type -->
-  <div class="form-row">
-    <div class="form-group">
-      <label>Minimum Size (Width * Height):</label>
-      <div class="size-input">
-        <input type="number" name="width" placeholder="Width" min="1" required>
-        <span class="multiply-symbol">*</span>
-        <input type="number" name="height" placeholder="Height" min="1" required>
+      <div class="form-group">
+        <label>Price:</label>
+        <div class="price-input">
+          <input type="number" name="price" min="0" step="1" oninput="validity.valid||(value='');" required>
+          <span class="unit">₹ / sq ft</span>
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label>Image:</label>
-      <input type="file" name="images" accept="image/*" multiple class="file-input">
+    <!-- Row 2: Size + Image + Type -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Minimum Size (Width * Height):</label>
+        <div class="size-input">
+          <input type="number" name="width" placeholder="Width" min="1" required>
+          <span class="multiply-symbol">*</span>
+          <input type="number" name="height" placeholder="Height" min="1" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Image:</label>
+        <input type="file" name="images" accept="image/*" multiple class="file-input">
+      </div>
+
+      <div class="form-group">
+        <label>Type of Art:</label>
+        <select name="type_of_art" required>
+          <option value="">-- Select Type --</option>
+
+          <option value="3D Wall Art">3D Wall Craft</option>
+          <option value="3D Floor Art">3D Floor Magic</option>
+          <option value="Mural Art">Mural Works</option>
+          <option value="Metro Advertisement">Metro & Piller Art</option>
+          <option value="Outdoor Advertisement">Outdoor Advertisement</option>
+          <option value="School Painting">School Art</option>
+          <option value="Selfie Painting">Selfie Spot</option>
+          <option value="Madhubani Painting">Madhubani Art</option>
+          <option value="Texture Painting">Texture Wall</option>
+          <option value="Stone Murti">Stone Murti</option>
+          <option value="Pillere Art">Pillar Art</option>
+          <option value="Scrap Animal Art">Scrap Craft</option>
+          <option value="Nature & Water Fountain">Tank Art</option>
+          <option value="Cartoon Painting">Cartoon Craft</option>
+          <option value="Home Painting">Home Decore Art</option>
+          <option value="Zenith Collection">Zenith Collection</option>
+
+        </select>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Type of Art:</label>
-    <select name="type_of_art" required>
-    <option value="">-- Select Type --</option>
+    <img id="imagePreview"
+      style="display:none; margin-top:10px; max-width:250px; border-radius:10px; cursor:pointer;" />
 
-    <option value="3D Wall Art">3D Wall Art</option>
-    <option value="3D Floor Art">3D Floor Art</option>
-    <option value="Mural Art">Mural Art</option>
-    <option value="Metro Advertisement">Metro Advertisement</option>
-    <option value="Outdoor Advertisement">Outdoor Advertisement</option>
-    <option value="School Painting">School Art</option>
-    <option value="Selfie Painting">Selfie Art</option>
-    <option value="Madhubani Painting">Madhubani Art</option>
-    <option value="Texture Painting">Texture Art</option>
-    <option value="Stone Murti">Stone Murti</option>
-    <option value="Pillere Art">Pillere Art</option>
-    <option value="Scrap Animal Art">Scrap Animal Art</option>
-    <option value="Nature & Water Fountain">Water Tank</option>
-    <option value="Cartoon Painting">Cartoon Art</option>
-    <option value="Home Painting">Home Art</option>
-    <option value="Zenith Collection">Zenith Collection</option>
-
-</select>
-    </div>
-  </div>
-
-  <img id="imagePreview" style="display:none; margin-top:10px; max-width:250px; border-radius:10px; cursor:pointer;" />
-
-  <button type="submit" class="submit-btn">Submit</button>
-</form>
+    <button type="submit" class="submit-btn">Submit</button>
+  </form>
 
 
   <div id="responseMessage" class="response-message"></div>
@@ -90,279 +84,282 @@
   <img class="modal-content" id="modalImage">
 </div>
 <script>
-document.getElementById("serviceImageForm").addEventListener("submit", function(e) {
-    e.preventDefault(); 
+  document.getElementById("serviceImageForm").addEventListener("submit", function (e) {
+    e.preventDefault();
     let form = e.target;
     let formData = new FormData(form);
 
     fetch("{% url 'service_images' %}", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
-        },
-        body: formData
+      method: "POST",
+      headers: {
+        "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+      },
+      body: formData
     })
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         let msgDiv = document.getElementById("responseMessage");
         if (data.success) {
-            msgDiv.innerHTML = `<p class="success-msg">${data.message}</p>`;
-            form.reset();
+          msgDiv.innerHTML = `<p class="success-msg">${data.message}</p>`;
+          form.reset();
         } else {
-            msgDiv.innerHTML = `<p class="error-msg">❌ ${data.message}</p>`;
+          msgDiv.innerHTML = `<p class="error-msg">❌ ${data.message}</p>`;
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error("Error:", error);
         document.getElementById("responseMessage").innerHTML = `<p class="error-msg">⚠️ Something went wrong!</p>`;
-    });
-});
+      });
+  });
 
 
-document.querySelector('input[name="image"]').addEventListener('change', function(event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const preview = document.getElementById('imagePreview');
-      preview.src = e.target.result;
-      preview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-  }
-});
+  document.querySelector('input[name="image"]').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const preview = document.getElementById('imagePreview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
-// Show full image on click
-document.getElementById('imagePreview').addEventListener('click', function() {
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImage');
-  modal.style.display = 'flex';
-  modalImg.src = this.src;
-});
+  // Show full image on click
+  document.getElementById('imagePreview').addEventListener('click', function () {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.style.display = 'flex';
+    modalImg.src = this.src;
+  });
 
-// Close modal on clicking the ×
-document.querySelector('.close-btn').addEventListener('click', function(e) {
-  e.stopPropagation(); // prevent modal click event
-  document.getElementById('imageModal').style.display = 'none';
-});
+  // Close modal on clicking the ×
+  document.querySelector('.close-btn').addEventListener('click', function (e) {
+    e.stopPropagation(); // prevent modal click event
+    document.getElementById('imageModal').style.display = 'none';
+  });
 
-// Also close if user clicks outside image
-document.getElementById('imageModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    this.style.display = 'none';
-  }
-});
+  // Also close if user clicks outside image
+  document.getElementById('imageModal').addEventListener('click', function (e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
+  });
 </script>
 
 <style>
-/* Form Section */
-.form-section {
-  max-width: 800px;
-  margin: 50px auto;
-  background: #e6f7e6; /* pale green background */
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.form-section h1 {
-  font-size: 2rem;
-  margin-bottom: 25px;
-  color: #2c3e50;
-}
-
-/* Form Styling */
-.styled-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-group {
-  text-align: left;
-  flex: 1;
-}
-
-label {
-  font-weight: 600;
-  color: #34495e;
-  display: block;
-  margin-bottom: 8px;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="file"],
-select {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #b2d8b2;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: #f9fff9;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-
-input:focus,
-select:focus {
-  border-color: #28a745;
-  outline: none;
-  box-shadow: 0 0 6px rgba(40,167,69,0.3);
-}
-
-/* Row layout */
-.form-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* Price Unit */
-.price-input {
-  display: flex;
-  align-items: center;
-}
-
-.price-input input {
-  flex: 1;
-}
-
-.price-input .unit {
-  margin-left: 10px;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-/* File Input Custom Style */
-.file-input {
-  padding: 8px;
-  background: #f9fff9;
-  cursor: pointer;
-}
-
-.file-input::-webkit-file-upload-button {
-  background: #28a745;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.file-input::-webkit-file-upload-button:hover {
-  background: #218838;
-}
-
-/* Dropdown */
-select {
-  appearance: none;
-  background: #f9fff9 url("data:image/svg+xml;utf8,<svg fill='green' height='24' viewBox='0 0 24 24' width='24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
-  background-size: 16px;
-}
-
-/* Submit Button */
-.submit-btn {
-  background: linear-gradient(135deg, #28a745, #218838);
-  color: #fff;
-  border: none;
-  padding: 14px 20px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.submit-btn:hover {
-  background: linear-gradient(135deg, #218838, #1c6f2d);
-  transform: translateY(-2px);
-}
-
-/* Messages */
-.response-message {
-  margin-top: 20px;
-  font-size: 1rem;
-}
-
-.success-msg {
-  color: green;
-  font-weight: 600;
-}
-
-.error-msg {
-  color: red;
-  font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
+  /* Form Section */
+  .form-section {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #e6f7e6;
+    /* pale green background */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
-}
 
-/* Fullscreen modal */
-.image-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
+  .form-section h1 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #2c3e50;
+  }
 
-/* Modal image */
-#imageModal .modal-content {
+  /* Form Styling */
+  .styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    text-align: left;
+    flex: 1;
+  }
+
+  label {
+    font-weight: 600;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="file"],
+  select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #b2d8b2;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #f9fff9;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
+  }
+
+  /* Row layout */
+  .form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* Price Unit */
+  .price-input {
+    display: flex;
+    align-items: center;
+  }
+
+  .price-input input {
+    flex: 1;
+  }
+
+  .price-input .unit {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  /* File Input Custom Style */
+  .file-input {
+    padding: 8px;
+    background: #f9fff9;
+    cursor: pointer;
+  }
+
+  .file-input::-webkit-file-upload-button {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .file-input::-webkit-file-upload-button:hover {
+    background: #218838;
+  }
+
+  /* Dropdown */
+  select {
+    appearance: none;
+    background: #f9fff9 url("data:image/svg+xml;utf8,<svg fill='green' height='24' viewBox='0 0 24 24' width='24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
+    background-size: 16px;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #218838, #1c6f2d);
+    transform: translateY(-2px);
+  }
+
+  /* Messages */
+  .response-message {
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+
+  .success-msg {
+    color: green;
+    font-weight: 600;
+  }
+
+  .error-msg {
+    color: red;
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+
+  /* Fullscreen modal */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal image */
+  #imageModal .modal-content {
     width: 100%;
     height: 100%;
     background: black;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
 
-#imageModal img {
+  #imageModal img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     background: black;
-}
+  }
 
-/* Close button */
-.image-modal .close-btn {
-  position: absolute;
-  top: 20px; right: 30px;
-  color: white;
-  font-size: 35px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.3s;
-}
+  /* Close button */
+  .image-modal .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
 
-.image-modal .close-btn:hover {
-  color: #ff4444;
-}
+  .image-modal .close-btn:hover {
+    color: #ff4444;
+  }
 
-.size-input {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  .size-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-.size-input input {
-  width: 80px;
-  text-align: center;
-}
+  .size-input input {
+    width: 80px;
+    text-align: center;
+  }
 
-.multiply-symbol {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
+  .multiply-symbol {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
 </style>
 {% endblock %}
