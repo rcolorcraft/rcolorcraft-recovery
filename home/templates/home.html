@@ -125,6 +125,19 @@
       animation-play-state: paused;
   
     }
+
+    @media (prefers-reduced-motion: reduce), (max-width: 768px) {
+      .slider-track,
+      .slider-track-2 {
+        animation: none !important;
+        transform: none !important;
+      }
+
+      .trending-card,
+      .trending-card img {
+        transition: none !important;
+      }
+    }
   
      .slider-track-2:hover {
   
@@ -8718,24 +8731,49 @@ document.querySelectorAll(".ba-slider").forEach((sliderBox) => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
   const steps = document.querySelectorAll(".step");
-
-  window.addEventListener("scroll", function () {
-
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, threshold: 0.1, rootMargin: "0px 0px -15% 0px" }
+    );
+    steps.forEach((step) => observer.observe(step));
+  } else {
     steps.forEach((step) => {
-
-      const position = step.getBoundingClientRect().top;
-      const screenPosition = window.innerHeight / 1.3;
-
-      if (position < screenPosition) {
-        step.style.opacity = "1";
-        step.style.transform = "translateY(0)";
-      }
-
+      step.style.opacity = "1";
+      step.style.transform = "translateY(0)";
     });
+  }
 
+  // Cap endless animated cards to reduce GPU/memory pressure on all devices.
+  const MAX_CARDS_PER_TRACK = 24;
+  const tracks = document.querySelectorAll(".slider-track, .slider-track-2");
+  tracks.forEach((track) => {
+    const cards = track.querySelectorAll(".trending-card");
+    cards.forEach((card, index) => {
+      if (index >= MAX_CARDS_PER_TRACK) {
+        card.remove();
+      }
+    });
   });
+
+  // Additional Safari/iOS hardening.
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+  if (isIOS || isSafari) {
+    tracks.forEach((track) => {
+      track.style.animationDuration = "120s";
+    });
+  }
 
 });
 </script>

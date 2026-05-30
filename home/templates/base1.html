@@ -1977,20 +1977,26 @@
     function monitorGoogleTranslateBar() {
       // Ensure body starts with 0 margin using !important
       document.body.style.setProperty('margin-top', '0px', 'important');
-
-      // Check every 300ms if the bar exists and adjust body margin
-      const checkBar = setInterval(() => {
+      const updateTranslateBarOffset = () => {
         const bar = document.querySelector('.goog-te-banner-frame');
-
-        // Check if bar exists AND is visible (not just in DOM)
         if (bar && bar.offsetParent !== null && bar.offsetHeight > 0 && window.getComputedStyle(bar).display !== 'none') {
-          const barHeight = bar.offsetHeight + 5; // Add 5px extra for spacing
+          const barHeight = bar.offsetHeight + 5;
           document.body.style.setProperty('margin-top', barHeight + 'px', 'important');
         } else {
-          // Always remove margin when bar is not visible
           document.body.style.setProperty('margin-top', '0px', 'important');
         }
-      }, 300);
+      };
+
+      updateTranslateBarOffset();
+      window.addEventListener('resize', updateTranslateBarOffset, { passive: true });
+      window.addEventListener('orientationchange', updateTranslateBarOffset, { passive: true });
+
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver(updateTranslateBarOffset);
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      } else {
+        setTimeout(updateTranslateBarOffset, 500);
+      }
     }
   </script>
 
