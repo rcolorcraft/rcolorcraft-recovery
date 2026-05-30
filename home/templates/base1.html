@@ -1527,44 +1527,48 @@
 
     <!-- POPUP OVERLAY -->
     <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
-
       <div class="bulk-popup" onclick="event.stopPropagation()">
-
-        <!-- CLOSE BUTTON -->
         <span class="close-btn" onclick="closePopup()">✖</span>
 
-        <!-- LOGO -->
-        <div class="logo"> RcolorCraft</div>
+        <div class="content">
+          <div class="brand">RcolorCraft</div>
 
-        <!-- TITLE -->
-        <h1><span>CORPORATE</span><br>ORDERS</h1>
+          <div class="title">
+            <span class="gold">Corporate</span>
+            <span class="white">Orders</span>
+          </div>
 
-        <!-- SUBTEXT -->
-        <p class="subtitle">
-          PLANNING A LARGE PROJECT <br>
-          OR BULK ART SUPPLY ORDER?
-        </p>
+          <div class="divider"></div>
 
-        <p class="desc">
-          We are here to help!<br>
-          Visit the counter or talk to our consultants <br>
-          to discuss your custom large orders, palette<br>
-          curation, and studio supply needs.
-        </p>
+          <div class="heading">
+            Planning A Large Project<br>
+            Or Bulk Art Supply Order?
+          </div>
 
-        <!-- CONTACT BOX -->
-        <div class="contact-box">
-          <a href="mailto:info@rcolorcraft.com" class="contact-link">
-            <strong> 📧 info@rcolorcraft.com </strong>
-          </a>
+          <div class="help">We Are Here To Help!</div>
 
-          <a href="tel:+919759013133" class="contact-link">
-            <strong> 📞 +91 97590 13133</strong>
-          </a>
+          <div class="desc">
+            Visit the counter or talk to our consultants
+            to discuss your custom large orders,
+            palette curation, and studio supply needs.
+          </div>
+
+          <div class="contact-card">
+            <a href="mailto:info@rcolorcraft.com" class="contact-link">
+              <div class="icon">✉</div>
+              <div class="email-text">
+                <span class="label">Email Us</span>
+                <span class="value">info@rcolorcraft.com</span>
+              </div>
+              <div class="arrow">→</div>
+            </a>
+          </div>
         </div>
-        <!-- BUTTON -->
-        <button class="cta-btn">Get in Touch</button>
 
+        <a href="tel:+919759013133" class="cta">
+          <span class="top">Get In Touch</span>
+          <span class="bottom">+91 97590 13133</span>
+        </a>
       </div>
     </div>
     <script>
@@ -1977,20 +1981,26 @@
     function monitorGoogleTranslateBar() {
       // Ensure body starts with 0 margin using !important
       document.body.style.setProperty('margin-top', '0px', 'important');
-
-      // Check every 300ms if the bar exists and adjust body margin
-      const checkBar = setInterval(() => {
+      const updateTranslateBarOffset = () => {
         const bar = document.querySelector('.goog-te-banner-frame');
-
-        // Check if bar exists AND is visible (not just in DOM)
         if (bar && bar.offsetParent !== null && bar.offsetHeight > 0 && window.getComputedStyle(bar).display !== 'none') {
-          const barHeight = bar.offsetHeight + 5; // Add 5px extra for spacing
+          const barHeight = bar.offsetHeight + 5;
           document.body.style.setProperty('margin-top', barHeight + 'px', 'important');
         } else {
-          // Always remove margin when bar is not visible
           document.body.style.setProperty('margin-top', '0px', 'important');
         }
-      }, 300);
+      };
+
+      updateTranslateBarOffset();
+      window.addEventListener('resize', updateTranslateBarOffset, { passive: true });
+      window.addEventListener('orientationchange', updateTranslateBarOffset, { passive: true });
+
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver(updateTranslateBarOffset);
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      } else {
+        setTimeout(updateTranslateBarOffset, 500);
+      }
     }
   </script>
 
