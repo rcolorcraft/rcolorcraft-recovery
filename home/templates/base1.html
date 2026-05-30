@@ -1164,6 +1164,15 @@
       transition: margin-top 0.3s ease;
     }
 
+    body.scroll-locked {
+      position: fixed;
+      width: 100%;
+      overflow: hidden;
+      left: 0;
+      right: 0;
+      touch-action: none;
+    }
+
     html {
       margin: 0 !important;
       padding: 0 !important;
@@ -1559,13 +1568,28 @@
       </div>
     </div>
     <script>
+      function lockBodyScroll() {
+        const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.dataset.scrollY = String(currentScrollY);
+        document.body.style.top = `-${currentScrollY}px`;
+        document.body.classList.add('scroll-locked');
+      }
+
+      function unlockBodyScroll() {
+        const savedScrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+        document.body.classList.remove('scroll-locked');
+        document.body.style.top = '';
+        delete document.body.dataset.scrollY;
+        window.scrollTo(0, savedScrollY);
+      }
+
       // Replace your existing popup script with this updated version
 
       function openPopup() {
         const overlay = document.getElementById('popupOverlay');
         if (overlay) {
           overlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
+          lockBodyScroll();
         }
       }
 
@@ -1575,7 +1599,7 @@
           // Close if clicking overlay background OR if called directly (close button)
           if (!event || event.target === overlay || event.currentTarget.classList.contains('close-btn')) {
             overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            unlockBodyScroll();
           }
         }
       }
@@ -1866,9 +1890,9 @@
 
       // Prevent body scroll when menu is open
       if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
       } else {
-        document.body.style.overflow = 'auto';
+        unlockBodyScroll();
       }
     });
 
@@ -1877,7 +1901,7 @@
       hamburger.classList.remove('active');
       navMenu.classList.remove('active');
       menuOverlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
+      unlockBodyScroll();
     });
 
     // Close menu when a menu item is clicked
@@ -1887,7 +1911,7 @@
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
         menuOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        unlockBodyScroll();
       });
     });
 
@@ -1897,7 +1921,7 @@
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
         menuOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        unlockBodyScroll();
       }
     });
 

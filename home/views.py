@@ -227,10 +227,10 @@ def book_service(request, service_type):
     elif service_name == "Nature & Water Fountain":
         query_term = "Fountain"
 
-    # Filter images based on the specific query term using icontains
-    # This replaces the entire 'if/elif/else' block for filtering
+    # Strict visibility for booking design selector:
+    # show only admin-approved + verified images.
     db_images = ServiceImage.objects.filter(
-        type_of_art__icontains=query_term, is_approved=True
+        type_of_art__icontains=query_term, is_approved=True, is_verified_pic=True
     )
 
     if request.method == "POST":
