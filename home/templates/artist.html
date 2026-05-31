@@ -109,8 +109,9 @@ min-height:100%;
 
 /* ===== IMAGE ===== */
 .artist-page .artist-photo {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
+  border: 2px solid #eef7ff;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -169,12 +170,7 @@ min-height:100%;
 .artist-page .artist-action {
   margin-top: 12px;
   position: relative;
-  z-index: 5; /* 🔥 FIX CLICK ISSUE */
-}
-
-
- position: relative;{
-  z-index: 10; /* 🔥 CLICK LOCK */
+  z-index: 10;
 }
 
 .artist-page .artist-action button {
@@ -196,6 +192,14 @@ min-height:100%;
   color: white;
 }
 
+.artist-page .result-summary {
+  max-width: 1150px;
+  margin: 0 auto 14px;
+  color: #0b4f75;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 /* ===== KYC ===== */
 .artist-page .kyc-images {
   display: flex;
@@ -215,6 +219,38 @@ min-height:100%;
 
 .artist-page .kyc-img:hover {
   transform: scale(1.05);
+}
+
+
+.artist-page .pagination {
+  max-width: 1150px;
+  margin: 18px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.artist-page .page-link {
+  border: 1px solid #c8dff0;
+  background: #fff;
+  color: #0b4f75;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.artist-page .page-link.active {
+  background: #2b6cd6;
+  border-color: #2b6cd6;
+  color: #fff;
+}
+
+.artist-page .page-link.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* ===== MODAL ===== */
@@ -269,6 +305,9 @@ min-height:100%;
 
   <hr>
 <h3>Artists</h3>
+<div class="result-summary">
+  Showing {{ artists|length }} of {{ total_artists }} artists
+</div>
 <div class="artist-list">
 
 {% for artist in artists %}
@@ -279,6 +318,7 @@ min-height:100%;
 
     <img class="artist-photo"
       src="{% if artist.passport_photo %}{{ artist.passport_photo.url }}{% else %}{% static 'default-profile.png' %}{% endif %}"
+      onerror="this.onerror=null;this.src='{% static 'default-profile.png' %}';"
       alt="{{ artist.full_name }}">
 
     <div class="artist-details">
@@ -356,11 +396,11 @@ min-height:100%;
 
         <div class="kyc-images">
           {% if artist.aadhar_card_image_front %}
-            <img src="{{ artist.aadhar_card_image_front.url }}" class="kyc-img" onclick="openModal(this)">
+            <img src="{{ artist.aadhar_card_image_front.url }}" class="kyc-img" onclick="openModal(this)" onerror="this.style.display='none';">
           {% endif %}
 
           {% if artist.aadhar_card_image_back %}
-            <img src="{{ artist.aadhar_card_image_back.url }}" class="kyc-img" onclick="openModal(this)">
+            <img src="{{ artist.aadhar_card_image_back.url }}" class="kyc-img" onclick="openModal(this)" onerror="this.style.display='none';">
           {% endif %}
         </div>
 
@@ -390,6 +430,32 @@ min-height:100%;
 
 </div>
 
+{% if page_obj and page_obj.paginator.num_pages > 1 %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a class="page-link" href="?page=1{% if request.GET.name %}&name={{ request.GET.name|urlencode }}{% endif %}{% if request.GET.artist_id %}&artist_id={{ request.GET.artist_id|urlencode }}{% endif %}{% if request.GET.pin_code %}&pin_code={{ request.GET.pin_code|urlencode }}{% endif %}{% if request.GET.address %}&address={{ request.GET.address|urlencode }}{% endif %}{% if request.GET.work_type %}&work_type={{ request.GET.work_type|urlencode }}{% endif %}{% if request.GET.experience_years %}&experience_years={{ request.GET.experience_years|urlencode }}{% endif %}">First</a>
+    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.name %}&name={{ request.GET.name|urlencode }}{% endif %}{% if request.GET.artist_id %}&artist_id={{ request.GET.artist_id|urlencode }}{% endif %}{% if request.GET.pin_code %}&pin_code={{ request.GET.pin_code|urlencode }}{% endif %}{% if request.GET.address %}&address={{ request.GET.address|urlencode }}{% endif %}{% if request.GET.work_type %}&work_type={{ request.GET.work_type|urlencode }}{% endif %}{% if request.GET.experience_years %}&experience_years={{ request.GET.experience_years|urlencode }}{% endif %}">Prev</a>
+  {% else %}
+    <span class="page-link disabled">First</span>
+    <span class="page-link disabled">Prev</span>
+  {% endif %}
+
+  {% for i in page_obj.paginator.page_range %}
+    {% if i >= page_obj.number|add:'-2' and i <= page_obj.number|add:'2' %}
+      <a class="page-link {% if page_obj.number == i %}active{% endif %}" href="?page={{ i }}{% if request.GET.name %}&name={{ request.GET.name|urlencode }}{% endif %}{% if request.GET.artist_id %}&artist_id={{ request.GET.artist_id|urlencode }}{% endif %}{% if request.GET.pin_code %}&pin_code={{ request.GET.pin_code|urlencode }}{% endif %}{% if request.GET.address %}&address={{ request.GET.address|urlencode }}{% endif %}{% if request.GET.work_type %}&work_type={{ request.GET.work_type|urlencode }}{% endif %}{% if request.GET.experience_years %}&experience_years={{ request.GET.experience_years|urlencode }}{% endif %}">{{ i }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.name %}&name={{ request.GET.name|urlencode }}{% endif %}{% if request.GET.artist_id %}&artist_id={{ request.GET.artist_id|urlencode }}{% endif %}{% if request.GET.pin_code %}&pin_code={{ request.GET.pin_code|urlencode }}{% endif %}{% if request.GET.address %}&address={{ request.GET.address|urlencode }}{% endif %}{% if request.GET.work_type %}&work_type={{ request.GET.work_type|urlencode }}{% endif %}{% if request.GET.experience_years %}&experience_years={{ request.GET.experience_years|urlencode }}{% endif %}">Next</a>
+    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.name %}&name={{ request.GET.name|urlencode }}{% endif %}{% if request.GET.artist_id %}&artist_id={{ request.GET.artist_id|urlencode }}{% endif %}{% if request.GET.pin_code %}&pin_code={{ request.GET.pin_code|urlencode }}{% endif %}{% if request.GET.address %}&address={{ request.GET.address|urlencode }}{% endif %}{% if request.GET.work_type %}&work_type={{ request.GET.work_type|urlencode }}{% endif %}{% if request.GET.experience_years %}&experience_years={{ request.GET.experience_years|urlencode }}{% endif %}">Last</a>
+  {% else %}
+    <span class="page-link disabled">Next</span>
+    <span class="page-link disabled">Last</span>
+  {% endif %}
+</div>
+{% endif %}
+
 
 <!-- 🔥 IMAGE MODAL -->
 <div id="imgModal" style="display:none; position:fixed; z-index:9999; padding-top:50px; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9);">
@@ -403,5 +469,3 @@ min-height:100%;
 </div>
 </div>
 {% endblock %}
-
-

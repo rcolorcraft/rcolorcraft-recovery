@@ -44,12 +44,28 @@ h1 {
 /* ================= ALERT ================= */
 .warning-alert {
     max-width: 1000px;
-    margin: auto;
-    padding: 15px 20px;
-    background: #fce391;
-    border-left: 5px solid #ff9800;
-    border-radius: 10px;
-    margin-bottom: 25px;
+    margin: 0 auto 16px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fff7e6, #fff1cc);
+    border: 1px solid #ffd591;
+    border-left: 5px solid #fa8c16;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(250, 140, 22, 0.14);
+}
+
+.warning-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ad4e00;
+    margin-bottom: 4px;
+}
+
+.warning-alert p {
+    margin: 0;
+    color: #7a3e00;
+    font-size: 13px;
+    line-height: 1.45;
 }
 
 /* ================= MAIN LAYOUT ================= */
@@ -136,13 +152,41 @@ h1 {
     background: hsl(224, 87%, 94%);
     padding: 20px;
     border-radius: 16px;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 8px 25px rgba(0,0,0,0.06);
     transition: 0.3s;
     width:100%;
     max-width:900px;
     margin:auto;
     margin-bottom: 3px;
+}
+
+.profile-top-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.profile-top-left {
+    flex: 0 0 150px;
+}
+
+.profile-top-right {
+    flex: 1;
+}
+.profile-top-right .upload-btn {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+.profile-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.profile-action-row .share-btn {
+    margin-top: 0;
 }
 
 .star {
@@ -188,7 +232,7 @@ h1 {
 
 /* Toggle */
 .toggle-container {
-    margin-top: 5px;
+    margin-top: 0;
     padding: 12px;
     background: #f6f8ff;
     border-radius: 10px;
@@ -213,17 +257,34 @@ h1 {
     font-size: 13px;
 }
 
+@media (max-width: 768px) {
+    .profile-top-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .profile-top-left,
+    .profile-top-right {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+}
+
 /* ================= RIGHT PANEL ================= */
 .profile-details {
-    background: #fff;
-    padding: 22px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 /* ================= SECTIONS ================= */
 .form-section {
-  margin-bottom: 5px;   /* gap kam */
+  margin-bottom: 14px;
+  background: #fff;
+  border: 1px solid #e7edf7;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(17, 38, 67, 0.06);
 }
 
 input, select, textarea {
@@ -240,19 +301,18 @@ textarea {
 
 .form-section h3 {
     font-size: 18px;
-        margin-top: 15px;
-
-    {% comment %} margin-bottom: 15px; {% endcomment %}
-    color: #4A6CF7;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #224c9a;
     border-left: 4px solid #4A6CF7;
-    padding-left: 8px;
+    padding-left: 10px;
 }
 
 /* ================= GRID ================= */
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 10px 12px;
 }
 
 /* mobile fix */
@@ -266,19 +326,20 @@ textarea {
 label {
     font-size: 12px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     color: #444;
+    display: block;
 }
 
 input,
 select,
 textarea {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 10px;
     border-radius: 6px;
     border: 1px solid #ddd;
     font-size: 13px;
-    background: #f9fafc;
+    background: #fbfcff;
     transition: 0.2s;
 }
 
@@ -331,6 +392,13 @@ input[readonly] {
   background: #eaf3ff;
 }
 
+.checkbox-group label {
+  background: #f8fbff;
+  border: 1px solid #e6eefc;
+  border-radius: 8px;
+  padding: 7px 9px;
+}
+
 /* 🔹 Checkbox Style */
 .checkbox-group input[type="checkbox"] {
   width: 16px;
@@ -346,7 +414,7 @@ input[readonly] {
 
 /* 🔹 Remove weird spacing */
 .full-width {
-  margin-bottom: 1px;
+  margin-bottom: 2px;
 }
 
 /* 🔹 Responsive (mobile fix) */
@@ -364,27 +432,30 @@ input[readonly] {
 }
 
 .aadhar-item {
-    background: #f9fafc;
-    padding: 8px;
+    background: #f8fbff;
+    padding: 10px;
     border-radius: 8px;
+    border: 1px solid #e8eef8;
 }
 
 /* ================= BUTTON ================= */
 .edit-button {
     text-align: center;
+    margin-top: 4px;
 }
 
 .edit-button button {
-    padding: 15px 38px;
-    border-radius: 25px;
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #4A6CF7, #6a11cb);
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-    margin-top:20px;
+    margin-top: 8px;
 }
 
 .edit-button button:hover {
@@ -459,14 +530,37 @@ input:checked + .slider:before {
     margin-top: 5px;
 }
 
+.select2-container--default .select2-selection--multiple {
+  background: #fbfcff !important;
+}
+
 .note-text {
     color: #ff4d4f;   /* red "Note:" */
     font-weight: 600;
 }
 
 .price {
-    color: #ff4d4f;   /* ₹20 red */
+    color: #ff4d4f;
     font-weight: bold;
+}
+
+.basic-split {
+    display: grid;
+    grid-template-columns: 1fr 270px;
+    gap: 12px;
+    align-items: start;
+}
+
+.profile-side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media (max-width: 900px) {
+    .basic-split {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ================= RESPONSIVE ================= */
@@ -495,10 +589,10 @@ input:checked + .slider:before {
 </style>
 <main class="edit-profile-page">
 
-    {% if not full_name or not dob or not aadhar_card_no  %}
+    {% if not name or not dob or not aadhar_card_no or not state %}
     <div class="warning-alert">
-        <strong>⚠️ Profile Incomplete!</strong>
-        <p>Please complete all required fields to access other features. You can only access your wallet until your profile is complete..</p>
+        <strong class="warning-title">⚠️ Profile Incomplete</strong>
+        <p>Please complete all required fields to unlock full features. Until your profile is complete, only wallet access is available.</p>
     </div>
     {% endif %}
 
@@ -515,22 +609,23 @@ input:checked + .slider:before {
             <!-- BASIC DETAILS -->
             <div class="form-section">
                 <h3>Basic Details</h3>
-
-                  <!-- LEFT SIDE PROFILE --><div class="profile-picture">
-
-    <label for="passport_photo">
-        <img 
-            id="preview-img"
-            src="{% if passport_photo %}{{ passport_photo }}{% else %}{% static 'default-profile.jpg' %}{% endif %}"
-        >
-    </label>
-
-    <input type="file" id="passport_photo" name="passport_photo" accept="image/*">
-
-
-                <label for="passport_photo" class="upload-btn">Upload Photo</label>
-
-          <div class="toggle-container">
+                <div class="profile-picture">
+    <div class="profile-top-row">
+      <div class="profile-top-left">
+        <label for="passport_photo">
+            <img
+                id="preview-img"
+                src="{% if passport_photo %}{{ passport_photo }}{% else %}{% static 'default-profile.jpg' %}{% endif %}"
+            >
+        </label>
+        <input type="file" id="passport_photo" name="passport_photo" accept="image/*">
+      </div>
+      <div class="profile-top-right">
+        <div class="profile-action-row">
+          <label for="passport_photo" class="upload-btn">Upload Photo</label>
+          <button type="button" class="share-btn" onclick="shareProfile()">Share My Profile</button>
+        </div>
+        <div class="toggle-container">
     <label class="switch">
         <input type="checkbox" id="ready_to_take_orders" name="ready_to_take_orders"
                {% if ready_to_take_orders %}checked{% endif %}>
@@ -539,45 +634,46 @@ input:checked + .slider:before {
 
     <span class="toggle-text">Ready to Take Orders</span>
 
-    <p class="toggle-note">
-        <span class="note-text">Note:</span> Turning this ON will deduct a one-time 
-        <span class="price">₹20</span> activation fee from your wallet.
-    </p>
-                    <button type="button" class="share-btn" onclick="shareProfile()">Share My Profile</button>
-
-</div>
-</div>
-
+                    <p class="toggle-note">
+        <span class="note-text">Note:</span> Turning this ON will deduct a one-time
+        <span class="price">₹50</span> activation fee from your wallet.
+                    </p>
+        </div>
+      </div>
+    </div>
+                </div>
 
                 <div class="grid-2">
-                    <div class="full-width">
-                        <label>Full Name <span class="star">*</span></label>
-<input type="text" name="full_name" value="{{ name|default_if_none:'' }}" placeholder="Enter your name" required>                    </div>
-
-                    <div>
-                        <label>Email <span class="star">*</span></label>
-                       <input type="email" name="email" value="{{ email_address }}" required>
-
-                    </div>
-
-                    <div>
-                        <label>Mobile <span class="star">*</span></label>
-<input type="text" name="mobile" value="{{ contact }}" required>
-                    </div>
-
-                    <div>
-                        <label>Father's Name </label>
-                        <input type="text" name="fathers_name" value="{{ fathers_name|default_if_none:'' }}" ....>
-                    </div>
-
-                    <div>
-                        <label>DOB <span class="star">*</span></label>
-                        <input type="date" name="dob" value="{{ dob|date:'Y-m-d' }}" required>
-                    </div>
-
-                    <div>
-                        <label>Gender <span class="star">*</span></label>
-                        <input type="text" name="gender" value="{{ gender|default_if_none:'' }}" required>
+                        <div class="full-width">
+                            <label>Full Name <span class="star">*</span></label>
+                            <input type="text" name="full_name" value="{{ name|default_if_none:'' }}" placeholder="Enter your name" required>
+                        </div>
+    
+                        <div>
+                            <label>Email</label>
+                           <input type="email" name="email" value="{{ email_address }}">
+    
+                        </div>
+    
+                        <div>
+                            <label>Mobile Number <span class="star">*</span></label>
+                            <input type="text" name="mobile" value="{{ contact }}" required>
+                        </div>
+    
+                        <div>
+                            <label>Father's Name </label>
+                            <input type="text" name="fathers_name" value="{{ fathers_name|default_if_none:'' }}" ....>
+                        </div>
+    
+                        <div>
+                            <label>Date of Birth (DOB) <span class="star">*</span></label>
+                            <input type="date" name="dob" value="{{ dob|date:'Y-m-d' }}" required>
+                        </div>
+    
+                        <div>
+                            <label>Gender <span class="star">*</span></label>
+                            <input type="text" name="gender" value="{{ gender|default_if_none:'' }}" required>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -587,19 +683,14 @@ input:checked + .slider:before {
                 <h3>Address</h3>
 
                 <div class="grid-2">
-                    <div class="full-width">
-                        <label>Full Address</label>
-                        <textarea name="full_address" ..>{{ full_address|default_if_none:'' }}</textarea>
-                    </div>
-
                     <div>
-                        <label>State </span></label>
-                        <input type="text" name="state" value="{{ state|default_if_none:'' }}" ....>
+                        <label>State <span class="star">*</span></label>
+                        <input type="text" name="state" value="{{ state|default_if_none:'' }}" .... required>
                     </div>
 
                     <div>
                         <label>Pincode </span></label>
-                        <input type="text" name="pincode" value="{{ pincode|default_if_none:'' }}" ...>
+                        <input type="text" name="pincode" value="{{ pincode|default_if_none:'' }}" inputmode="numeric" pattern="[0-9]*" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                     </div>
                 </div>
             </div>
@@ -610,7 +701,7 @@ input:checked + .slider:before {
 
                 <div class="grid-2">
                     <div>
-                        <label>Aadhar No <span class="star">*</span></label>
+                        <label>Aadhaar Number <span class="star">*</span></label>
                         <input type="text" name="aadhar_card_no" value="{{ aadhar_card_no|default_if_none:'' }}" required>
                     </div>
 
@@ -621,12 +712,12 @@ input:checked + .slider:before {
 
                     <div class="full-width aadhar-section">
                         <div class="aadhar-item">
-                            <label>Aadhar Front <span class="star">*</span></label>
+                            <label>Aadhaar Card Front Photo <span class="star">*</span></label>
                             <input type="file" name="aadhar_card_image_front" accept="image/*" {% if not aadhar_card_image_front %}required{% endif %}>
                         </div>
 
                         <div class="aadhar-item">
-                            <label>Aadhar Back <span class="star">*</span></label>
+                            <label>Aadhaar Card Back Photo <span class="star">*</span></label>
                             <input type="file" name="aadhar_card_image_back" accept="image/*" {% if not aadhar_card_image_back %}required{% endif %}>
                         </div>
                     </div>
@@ -692,7 +783,7 @@ input:checked + .slider:before {
                     </div>
 
                   <div class="full-width">
-    <label>Preferred Work Location <span class="star">*</span></label>
+                    <label>Preferred Location <span class="star">*</span></label>
 
  <select name="preferred_work_location" multiple="multiple" id="location" required>
   <option value="">Select State</option>
@@ -740,11 +831,6 @@ input:checked + .slider:before {
 </div>
                 
 
-                 <div class="full-width">
-                        <label>Full Address</label>
-<textarea name="full_address">{{ full_address|default_if_none:'' }}</textarea>                 
-   </div>
-
             </div>
 
             <!-- BANK DETAILS -->
@@ -764,7 +850,7 @@ input:checked + .slider:before {
 
                     <div>
                         <label>IFSC Code </label>
-                        <input type="text" name="ifsc_code" value="{{ ifsc_code|default_if_none:'' }}" ...>
+                        <input type="text" name="ifsc_code" value="{{ ifsc_code|default_if_none:'' }}">
                     </div>
                 </div>
             </div>
@@ -785,6 +871,17 @@ input:checked + .slider:before {
                     <div>
                         <label>Organization Name</label>
                         <input type="text" name="organization_name" value="{{ organization_name|default_if_none:'' }}">
+                    </div>
+
+                    <div>
+                        <label>Organization Type</label>
+                        <select name="organization_type">
+                            <option value="">Select Organization Type</option>
+                            <option value="Proprietorship" {% if organization_type == 'Proprietorship' %}selected{% endif %}>Proprietorship</option>
+                            <option value="Private Limited Company" {% if organization_type == 'Private Limited Company' %}selected{% endif %}>Private Limited Company</option>
+                            <option value="Government Organization" {% if organization_type == 'Government Organization' %}selected{% endif %}>Government Organization</option>
+                            <option value="Company" {% if organization_type == 'Company' %}selected{% endif %}>Company</option>
+                        </select>
                     </div>
 
                     <div>
@@ -827,9 +924,14 @@ $(document).ready(function () {
     /* ================= VALIDATION ================= */
     function validateForm() {
         const selected = $('#location').val();
+        const checkedWork = $('input[name="type_of_work"]:checked').length;
 
         if (!selected || selected.length === 0) {
             alert("⚠️ Please select at least one location");
+            return false;
+        }
+        if (checkedWork === 0) {
+            alert("⚠️ Please select at least one type of work");
             return false;
         }
         return true;
@@ -839,6 +941,9 @@ $(document).ready(function () {
 
    $('.edit-profile-container').on('submit', function (e) {
     e.preventDefault();  // ✅ page reload रोकेगा
+    if (!validateForm()) {
+        return;
+    }
 
     const formData = new FormData(this);
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
@@ -906,7 +1011,7 @@ $(document).ready(function () {
         if (this.checked) {
             Swal.fire({
                 title: "Confirmation Required",
-                text: "Turning ON 'Ready to Take Orders' will deduct ₹20 from your wallet.",
+                text: "Turning ON 'Ready to Take Orders' will deduct ₹50 from your wallet.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "OK",

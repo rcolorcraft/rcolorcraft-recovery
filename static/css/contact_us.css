@@ -1,0 +1,386 @@
+.cu-page {
+  min-height: 100vh;
+  padding: 12px 8px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(49, 115, 255, 0.12), transparent 35%),
+    radial-gradient(circle at 85% 90%, rgba(0, 170, 140, 0.12), transparent 35%),
+    linear-gradient(160deg, #f7fbff 0%, #eef6ff 45%, #f7fdff 100%);
+}
+
+.cu-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cu-page-head {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.cu-page-head h1 {
+  margin: 0;
+  color: #0f4678;
+  font-size: clamp(1.8rem, 3.2vw, 2.45rem);
+  line-height: 1.15;
+  width: 100%;
+}
+
+.cu-page-head p {
+  margin: 4px auto 0;
+  color: #4f6880;
+  font-size: 0.88rem;
+  max-width: none;
+  width: 100%;
+  line-height: 1.55;
+}
+
+.faq-section,
+.cu-social {
+  grid-column: 1 / -1;
+}
+
+.cu-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #d9e8f8;
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(30, 88, 152, 0.09);
+  padding: 10px;
+}
+
+.cu-hero h1 {
+  margin: 0;
+  color: #0f4678;
+  font-size: clamp(1.6rem, 2.9vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+}
+
+.cu-hero p {
+  margin: 8px 0 0;
+  color: #4f6880;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.cu-grid {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cu-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: center;
+  background: #f8fbff;
+  border: 1px solid #dceafb;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+}
+
+.cu-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #1f7bd6, #2c5fdb);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 16px rgba(44, 95, 219, 0.28);
+}
+
+.cu-item h3 {
+  margin: 0;
+  color: #113f69;
+  font-size: 0.9rem;
+}
+
+.cu-item p {
+  margin: 2px 0 5px;
+  color: #5e778f;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.cu-link {
+  color: #0d63bb;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.84rem;
+  word-break: break-word;
+  display: inline-block;
+}
+
+.cu-link:hover {
+  text-decoration: underline;
+}
+
+.cu-office h2 {
+  margin: 0;
+  color: #0f4678;
+  font-size: 1.2rem;
+}
+
+.cu-office-card {
+  margin-top: 6px;
+  background: linear-gradient(160deg, #fafdff, #f2f8ff);
+  border: 1px solid #d8e9fb;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.cu-office-card p {
+  margin: 0;
+  color: #4e667d;
+  font-size: 0.82rem;
+  line-height: 1.62;
+}
+
+.cu-hours {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #cfe2f5;
+}
+
+.cu-hours strong {
+  color: #0f4678;
+}
+
+.cu-actions {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cu-map-wrap {
+  margin-top: 8px;
+  border: 1px solid #d8e9fb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f7fbff;
+}
+
+.cu-map-wrap iframe {
+  width: 100%;
+  height: 180px;
+  border: 0;
+  display: block;
+}
+
+.cu-btn {
+  text-decoration: none;
+  text-align: center;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.cu-btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #1273d4, #1f8de9);
+  box-shadow: 0 10px 20px rgba(18, 115, 212, 0.25);
+}
+
+.cu-btn-secondary {
+  color: #104675;
+  background: #eaf4ff;
+  border: 1px solid #cfe4fa;
+}
+
+.cu-faq h2,
+.cu-social h2 {
+  margin: 0;
+  color: #0f4678;
+  font-size: 1.2rem;
+}
+
+.cu-faq > p,
+.cu-social > p {
+  margin: 6px 0 0;
+  color: #5a738b;
+  font-size: 0.92rem;
+}
+
+.faq-section {
+  padding: 10px;
+}
+
+.faq-header h2 {
+  margin: 0;
+  color: #0f4678;
+  font-size: 1.2rem;
+}
+
+.faq-header p {
+  margin: 3px 0 0;
+  color: #5a738b;
+  font-size: 0.82rem;
+}
+
+.faq-item {
+  margin-top: 6px;
+  border: 1px solid #dceafb;
+  border-radius: 9px;
+  background: #f8fbff;
+  overflow: hidden;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.faq-question h3 {
+  margin: 0;
+  color: #153f67;
+  font-size: 0.86rem;
+}
+
+.faq-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #eaf3ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.faq-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: #1e6eb8;
+  transition: transform 0.2s ease;
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 8px 8px;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #5d7790;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+.faq-item.active .faq-icon svg {
+  transform: rotate(180deg);
+}
+
+.cu-faq-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cu-faq-item {
+  background: #f7fbff;
+  border: 1px solid #dceafb;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.cu-faq-item h3 {
+  margin: 0;
+  color: #153f67;
+  font-size: 0.95rem;
+}
+
+.cu-faq-item p {
+  margin: 5px 0 0;
+  color: #5d7790;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.cu-social-grid {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.cu-social-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 9px;
+  border: 1px solid #d2e4f8;
+  background: #f6faff;
+  color: #13558d;
+  font-weight: 700;
+  padding: 7px;
+  font-size: 0.82rem;
+}
+
+.cu-social-item:hover {
+  background: #eaf3ff;
+}
+
+@media (max-width: 540px) {
+  .cu-page {
+    padding: 10px 8px;
+  }
+
+  .cu-card {
+    border-radius: 14px;
+    padding: 9px;
+  }
+
+  .cu-item {
+    gap: 10px;
+    border-radius: 12px;
+    padding: 10px;
+  }
+
+  .cu-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 17px;
+  }
+
+  .cu-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .cu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cu-faq-grid,
+  .cu-social-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 940px) {
+  .cu-wrap {
+    grid-template-columns: 1fr;
+  }
+}

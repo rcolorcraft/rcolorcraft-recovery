@@ -1,0 +1,77 @@
+{% extends 'base1.html' %}
+{% block title %}Report Detail - RColourcraft{% endblock %}
+
+{% block content %}
+<style>
+  .detail-wrap { max-width: 1280px; margin: 18px auto; padding: 0 12px; }
+  .card { background:#fff; border:1px solid #e5ecf8; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); margin-bottom:14px; }
+  .head { padding:12px 14px; border-bottom:1px solid #edf2fa; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .head h3 { margin:0; color:#1f456f; font-size:1rem; }
+  .body { padding:12px; }
+  .btn-back { background:#eef4fd; color:#1d4e80; border:1px solid #d6e4f6; border-radius:8px; padding:7px 10px; text-decoration:none; font-weight:700; font-size:.82rem; }
+  .grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:10px; }
+  .item { background:#f8fbff; border:1px solid #e7effa; border-radius:8px; padding:8px; }
+  .label { font-size:.75rem; color:#6d8198; text-transform:uppercase; }
+  .value { font-size:.9rem; color:#173f66; font-weight:700; margin-top:4px; }
+  .tbl-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th, td { border:1px solid #e7eef9; padding:8px; white-space:nowrap; }
+  th { background:#f3f8ff; color:#204b7a; }
+  .empty { color:#7a8ea5; font-style:italic; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="detail-wrap">
+  <div class="head" style="margin-bottom:10px;">
+    <h3>Full Detail View</h3>
+    <a class="btn-back" href="{% url 'admin_reports' %}?tab={{ dataset }}">Back to Reports</a>
+  </div>
+
+  {% if dataset == 'employees' %}
+  <div class="card">
+    <div class="head"><h3>Employee Profile</h3></div>
+    <div class="body grid">
+      <div class="item"><div class="label">ID</div><div class="value">{{ record.id }}</div></div>
+      <div class="item"><div class="label">Name</div><div class="value">{{ record.full_name|default:'-' }}</div></div>
+      <div class="item"><div class="label">Email</div><div class="value">{{ record.email_address|default:'-' }}</div></div>
+      <div class="item"><div class="label">Mobile</div><div class="value">{{ record.mobile|default:'-' }}</div></div>
+      <div class="item"><div class="label">City</div><div class="value">{{ record.city|default:'-' }}</div></div>
+      <div class="item"><div class="label">State</div><div class="value">{{ record.state|default:'-' }}</div></div>
+      <div class="item"><div class="label">Verified</div><div class="value">{{ record.is_verified }}</div></div>
+      <div class="item"><div class="label">User Email</div><div class="value">{% if record.user %}{{ record.user.email }}{% else %}-{% endif %}</div></div>
+    </div>
+  </div>
+
+  <div class="card"><div class="head"><h3>Assigned Bookings</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Booking ID</th><th>Service</th><th>Customer</th><th>Status</th><th>Assignment</th><th>Payment</th><th>Created At</th></tr></thead><tbody>{% for b in bookings %}<tr><td>{{ b.booking_id }}</td><td>{{ b.service_name }}</td><td>{{ b.customer_name }}</td><td>{{ b.status }}</td><td>{{ b.assignment_status }}</td><td>₹{{ b.payment_amount }}</td><td>{{ b.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="7" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Wallet Transactions</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Transaction ID</th><th>Type</th><th>Amount</th><th>Payment ID</th><th>Created At</th></tr></thead><tbody>{% for t in wallet_txns %}<tr><td>{{ t.transaction_id }}</td><td>{{ t.transaction_type }}</td><td>₹{{ t.amount }}</td><td>{{ t.razorpay_payment_id|default:'-' }}</td><td>{{ t.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Uploads</h3></div><div class="body tbl-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Price</th><th>Approved</th><th>Verified</th></tr></thead><tbody>{% for u in uploads %}<tr><td>{{ u.id }}</td><td>{{ u.image_name }}</td><td>{{ u.type_of_art }}</td><td>₹{{ u.price }}</td><td>{{ u.is_approved }}</td><td>{{ u.is_verified_pic }}</td></tr>{% empty %}<tr><td colspan="6" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+  {% endif %}
+
+  {% if dataset == 'customers' %}
+  <div class="card">
+    <div class="head"><h3>Customer Profile</h3></div>
+    <div class="body grid">
+      <div class="item"><div class="label">ID</div><div class="value">{{ record.id }}</div></div>
+      <div class="item"><div class="label">Name</div><div class="value">{{ record.customer_full_name|default:'-' }}</div></div>
+      <div class="item"><div class="label">Email</div><div class="value">{{ record.email|default:'-' }}</div></div>
+      <div class="item"><div class="label">Mobile</div><div class="value">{{ record.mobile|default:'-' }}</div></div>
+      <div class="item"><div class="label">Verified</div><div class="value">{{ record.is_verified }}</div></div>
+      <div class="item"><div class="label">User Email</div><div class="value">{% if record.user %}{{ record.user.email }}{% else %}-{% endif %}</div></div>
+    </div>
+  </div>
+
+  <div class="card"><div class="head"><h3>Bookings</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Booking ID</th><th>Service</th><th>Status</th><th>Payment</th><th>Total</th><th>Created At</th></tr></thead><tbody>{% for b in bookings %}<tr><td>{{ b.booking_id }}</td><td>{{ b.service_name }}</td><td>{{ b.status }}</td><td>₹{{ b.payment_amount }}</td><td>₹{{ b.total_amount }}</td><td>{{ b.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="6" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Wallet Transactions</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Transaction ID</th><th>Type</th><th>Amount</th><th>Payment ID</th><th>Created At</th></tr></thead><tbody>{% for t in wallet_txns %}<tr><td>{{ t.transaction_id }}</td><td>{{ t.transaction_type }}</td><td>₹{{ t.amount }}</td><td>{{ t.razorpay_payment_id|default:'-' }}</td><td>{{ t.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Orders</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Query ID</th><th>Product</th><th>Amount</th><th>Status</th><th>Created At</th></tr></thead><tbody>{% for o in orders %}<tr><td>{{ o.query_id }}</td><td>{{ o.product_name }}</td><td>₹{{ o.amount }}</td><td>{{ o.status }}</td><td>{{ o.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Reviews</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Rating</th><th>Review</th><th>Date</th></tr></thead><tbody>{% for r in reviews %}<tr><td>{{ r.customer_name }}</td><td>{{ r.customer_email }}</td><td>{{ r.rating }}</td><td>{{ r.customer_review|default:'-' }}</td><td>{{ r.review_date|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="card"><div class="head"><h3>Custom Products</h3></div><div class="body tbl-wrap"><table><thead><tr><th>Name</th><th>Size</th><th>Material</th><th>Message</th><th>Created At</th></tr></thead><tbody>{% for p in custom_products %}<tr><td>{{ p.name|default:'-' }}</td><td>{{ p.size|default:'-' }}</td><td>{{ p.material|default:'-' }}</td><td>{{ p.message|default:'-' }}</td><td>{{ p.created_at|date:"d M Y, H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">No records</td></tr>{% endfor %}</tbody></table></div></div>
+  {% endif %}
+</div>
+{% endblock %}
