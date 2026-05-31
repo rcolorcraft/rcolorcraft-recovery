@@ -1263,7 +1263,7 @@ def edit_profile_view(request):
             employee.ifsc_code = raw_ifsc or None
 
             # NEW: Handle the three new optional fields
-            employee.full_address = None
+            employee.full_address = request.POST.get("full_address") or None
             employee.working_range = request.POST.get("working_range")
             employee.belong_to_org = request.POST.get("belong_to_org") == "on"
             employee.pan_card = request.POST.get("pan_card")
