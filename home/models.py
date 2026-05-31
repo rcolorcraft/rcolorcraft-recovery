@@ -208,3 +208,22 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class PremiumService(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image_url = models.CharField(max_length=500)
+    book_slug = models.CharField(max_length=120)
+    explore_slug = models.CharField(max_length=120)
+    sort_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "premium_service"
+        ordering = ["sort_order", "id"]
+
+    def __str__(self):
+        return self.title

@@ -469,9 +469,11 @@
 
 
 <!-- Floating Book Button -->
+{% if request.user.is_authenticated and request.user.role == "customer" and not request.user.is_staff %}
 <a href="{% url 'book_service' service_slug %}" class="floating-book">
   Book Now
 </a>
+{% endif %}
 <!-- Modal for Image Viewer -->
 
 <style>

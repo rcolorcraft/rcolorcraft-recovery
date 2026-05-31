@@ -2,75 +2,103 @@
 {% load static %}
 
 {% block content %}
+<style>
+  .about-achievements {
+    max-width: 1200px;
+    margin: 18px auto 28px;
+    padding: 0 14px;
+  }
+
+  .about-achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .about-achievement-card {
+    background: #ffffff;
+    border: 1px solid #e2ecf8;
+    border-radius: 14px;
+    text-align: center;
+    padding: 18px 14px;
+    box-shadow: 0 8px 18px rgba(10, 74, 131, 0.08);
+  }
+
+  .about-achievement-card h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: #0f5e99;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .about-achievement-card p {
+    margin: 8px 0 0;
+    color: #335b7f;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 860px) {
+    .about-achievements-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 
 <section class="about-section">
+  <div class="about-glow about-glow-left" aria-hidden="true"></div>
+  <div class="about-glow about-glow-right" aria-hidden="true"></div>
 
-<div class="about-container">
-
-<div class="about-image">
-<img src="{% static 'gallery/about.jpg.jpeg' %}" alt="RColorcraft">
-</div>
-
-<div class="about-text">
-
-<h1>About RColorcraft</h1>
-<h3 class="tagline">Transforming Walls Into Creative Masterpieces</h3>
-
-<p>
-RColorcraft is a creative wall art and mural art company that transforms homes, offices, schools, and commercial spaces into beautiful artistic environments.
-</p>
-
-<p>
-Our team specializes in 3D wall art, mural art, cartoon art, and custom wall designs that bring creativity and life to every wall.
-</p>
-
-
-<div class="privacy-section">
-    <div class="privacy-icon">🔒</div>
-    
-    <div class="privacy-content">
-        <h3>Privacy Policy</h3>
-        <p>Your data security is our top priority. Read our policy to know how we protect your information.</p>
-        
-        <a href="{% static 'documents/PRIVACY POLICY.pdf' %}" target="_blank" class="privacy-btn">
-            View Policy →
-        </a>
+  <div class="about-container">
+    <div class="about-image">
+      <img src="{% static 'gallery/about.jpg.jpeg' %}" alt="RColorcraft">
     </div>
-</div>
-{% comment %} <div class="privacy-section">
-          <h3>Privacy Policy </h3>
-          <p>
-            Read our
-              <a href = '{% static "documents/PRIVACY POLICY.pdf" %}' target="_blank">
-                Privacy Policy
-              </a>
-            </p>
-        </div> {% endcomment %}
 
+    <div class="about-text">
+      <h1>About RColorcraft</h1>
+      <h3 class="">Transforming Walls Into Creative Masterpieces</h3>
 
-<div class="about-stats">
+      <p>
+        RColorcraft is a creative wall art and mural art company that transforms homes, offices, schools, and commercial spaces into beautiful artistic environments.
+      </p>
 
-<div class="stat-box">
-<h2>200+</h2>
-<p>Projects Completed</p>
-</div>
+      <p>
+        Our team specializes in 3D wall art, mural art, cartoon art, and custom wall designs that bring creativity and life to every wall.
+      </p>
 
-<div class="stat-box">
-<h2>550+</h2>
-<p>Happy Clients</p>
-</div>
+      <div class="privacy-section">
+        <div class="privacy-icon">🔒</div>
 
-<div class="stat-box">
-<h2>9+</h2>
-<p>Years Experience</p>
-</div>
+        <div class="privacy-content">
+          <h3>Privacy Policy</h3>
+          <p>Your data security is our top priority. Read our policy to know how we protect your information.</p>
 
-</div>
+          <a href="{% static 'documents/PRIVACY POLICY.pdf' %}" target="_blank" class="privacy-btn">
+            View Policy →
+          </a>
+        </div>
+      </div>
 
-</div>
+    </div>
+  </div>
+</section>
 
-</div>
-
+<section class="about-achievements" aria-label="Company Achievements">
+  <div class="about-achievements-grid">
+    <div class="about-achievement-card">
+      <h3>200+</h3>
+      <p>Projects Completed</p>
+    </div>
+    <div class="about-achievement-card">
+      <h3>550+</h3>
+      <p>Happy Clients</p>
+    </div>
+    <div class="about-achievement-card">
+      <h3>9+</h3>
+      <p>Years Experience</p>
+    </div>
+  </div>
 </section>
 
 <section class="why-section">

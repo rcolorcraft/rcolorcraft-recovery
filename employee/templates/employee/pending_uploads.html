@@ -1,0 +1,230 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block title %}Pending Approvals{% endblock %}
+
+{% block content %}
+<section class="pending-wrap">
+  <div class="pending-head">
+    <h1>Pending Upload Approvals</h1>
+    <p>All artist uploads waiting for admin approval in one place.</p>
+  </div>
+
+  {% if pending_items %}
+  <div class="pending-grid">
+    {% for row in pending_items %}
+    {% with item=row.obj %}
+    <article class="pending-card" id="upload-card-{{ item.id }}">
+      <div class="pending-media" data-media-type="{% if row.is_video %}video{% else %}image{% endif %}" data-media-url="{{ row.media_url }}">
+        {% if row.is_video %}
+          <video controls preload="metadata" playsinline>
+            <source src="{{ row.media_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% else %}
+          <img src="{{ row.media_url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.jpg' %}'">
+        {% endif %}
+      </div>
+      <div class="pending-body">
+        <h3>{{ item.image_name|default:"Untitled Upload" }}</h3>
+        <p><strong>Upload ID:</strong> #{{ item.id }}</p>
+        <p><strong>Uploader:</strong> {{ item.userupload_name|default:"-" }}</p>
+        <p><strong>Media Type:</strong> {% if row.is_video %}Video{% else %}Photo{% endif %}</p>
+        <p><strong>Art Type:</strong> {{ item.type_of_art|default:"-" }}</p>
+        <p><strong>Min Size:</strong> {{ item.min_size|default:"-" }}</p>
+        <p><strong>Price:</strong> ₹{{ item.price|default:"0" }}</p>
+        <div class="status-row">
+          <span class="chip pending">Pending Approval</span>
+          <span class="chip soft">{% if item.is_verified_pic %}Verified{% else %}Not Verified{% endif %}</span>
+        </div>
+        <div class="pending-actions">
+          <button class="approve-btn" data-id="{{ item.id }}">Approve</button>
+          <button class="delete-btn" data-id="{{ item.id }}">Delete</button>
+        </div>
+      </div>
+    </article>
+    {% endwith %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">No pending uploads right now.</div>
+  {% endif %}
+</section>
+
+<div id="previewModal" class="preview-modal">
+  <button type="button" class="preview-close" id="previewClose">×</button>
+  <div class="preview-inner" id="previewInner"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const previewModal = document.getElementById('previewModal');
+  const previewInner = document.getElementById('previewInner');
+  const previewClose = document.getElementById('previewClose');
+
+  function openPreview(kind, url) {
+    if (!previewModal || !previewInner) return;
+    if (kind === 'video') {
+      previewInner.innerHTML = `<video controls autoplay playsinline style="max-width:92vw;max-height:88vh;background:#000;border-radius:10px;"><source src="${url}"></video>`;
+    } else {
+      previewInner.innerHTML = `<img src="${url}" alt="Preview" style="max-width:92vw;max-height:88vh;border-radius:10px;">`;
+    }
+    previewModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePreview() {
+    if (!previewModal || !previewInner) return;
+    previewModal.classList.remove('show');
+    previewInner.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  if (previewClose) {
+    previewClose.addEventListener('click', closePreview);
+  }
+  if (previewModal) {
+    previewModal.addEventListener('click', function (e) {
+      if (e.target === previewModal) closePreview();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePreview();
+  });
+
+  document.querySelectorAll('.pending-media').forEach(function (box) {
+    const mediaType = box.getAttribute('data-media-type');
+    const mediaUrl = box.getAttribute('data-media-url');
+    if (!mediaUrl) return;
+    box.style.cursor = 'zoom-in';
+    box.addEventListener('click', function () {
+      openPreview(mediaType === 'video' ? 'video' : 'image', mediaUrl);
+    });
+  });
+
+  document.querySelectorAll('.approve-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.dataset.id;
+      Swal.fire({
+        icon: 'question',
+        title: 'Approve Upload?',
+        text: 'This upload will become visible on the website after approval.',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Approve',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#1d8f4e'
+      }).then((result) => {
+        if (!result.isConfirmed) return;
+        fetch("{% url 'approve_service_image' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+          },
+          body: JSON.stringify({ id })
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              const card = document.getElementById(`upload-card-${id}`);
+              if (card) card.remove();
+              Swal.fire({ icon: 'success', title: 'Approved', timer: 1200, showConfirmButton: false });
+            } else {
+              Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Approval failed' });
+            }
+          });
+      });
+    });
+  });
+
+  document.querySelectorAll('.delete-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.dataset.id;
+      Swal.fire({
+        icon: 'warning',
+        title: 'Delete Upload?',
+        text: 'This action cannot be undone.',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#d33'
+      }).then((result) => {
+        if (!result.isConfirmed) return;
+        fetch("{% url 'delete_service_image' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+          },
+          body: JSON.stringify({ id })
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              const card = document.getElementById(`upload-card-${id}`);
+              if (card) card.remove();
+              Swal.fire({ icon: 'success', title: 'Deleted', timer: 1200, showConfirmButton: false });
+            } else {
+              Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Delete failed' });
+            }
+          });
+      });
+    });
+  });
+</script>
+
+<style>
+.pending-wrap { max-width: 1200px; margin: 24px auto; padding: 0 14px 20px; }
+.pending-head { background:#fff; border:1px solid #e5edf9; border-radius:14px; padding:14px; margin-bottom:12px; }
+.pending-head h1 { margin:0; color:#24456d; font-size:1.5rem; }
+.pending-head p { margin:6px 0 0; color:#5d7391; }
+.pending-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; }
+.pending-card { background:#fff; border:1px solid #e5edf9; border-radius:12px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+.pending-media { height:170px; background:#f0f6ff; }
+.pending-media img { width:100%; height:100%; object-fit:cover; }
+.pending-media video { width:100%; height:100%; object-fit:cover; background:#000; }
+.pending-body { padding:10px; }
+.pending-body h3 { margin:0 0 6px; font-size:1rem; color:#1f3e65; }
+.pending-body p { margin:3px 0; color:#4c6787; font-size:.88rem; }
+.status-row { margin-top:7px; display:flex; gap:6px; flex-wrap:wrap; }
+.chip { font-size:.72rem; font-weight:700; padding:4px 8px; border-radius:999px; }
+.chip.pending { background:#fff4de; color:#a36700; }
+.chip.soft { background:#eef4ff; color:#365e98; }
+.pending-actions { margin-top:8px; display:flex; gap:8px; }
+.pending-actions button { border:none; border-radius:8px; padding:8px 10px; font-weight:700; cursor:pointer; }
+.approve-btn { background:#1d8f4e; color:#fff; }
+.delete-btn { background:#e54949; color:#fff; }
+.empty-state { background:#fff; border:1px dashed #d8e4f5; border-radius:12px; padding:16px; color:#597394; }
+
+.preview-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.86);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  padding: 20px;
+}
+.preview-modal.show { display: flex; }
+.preview-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.35);
+  color: #fff;
+  font-size: 30px;
+  line-height: 1;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.preview-inner {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+</style>
+{% endblock %}

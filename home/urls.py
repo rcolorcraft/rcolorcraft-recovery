@@ -15,12 +15,34 @@ urlpatterns = [
         views.toggle_artist_status,
         name="toggle_artist_status",
     ),
+    path("reports/", views.admin_reports, name="admin_reports"),
+    path(
+        "premium-services/editor/",
+        views.premium_services_editor,
+        name="premium_services_editor",
+    ),
+    path(
+        "reports/export/<str:dataset>/",
+        views.admin_reports_export,
+        name="admin_reports_export",
+    ),
+    path(
+        "reports/delete/<str:dataset>/<int:record_id>/",
+        views.admin_reports_delete,
+        name="admin_reports_delete",
+    ),
+    path(
+        "reports/detail/<str:dataset>/<int:record_id>/",
+        views.admin_reports_detail,
+        name="admin_reports_detail",
+    ),
     path("", views.home, name="home"),
     path("explore/", views.explore, name="explore"),
     path("", views.home_view, name="home"),  # root: /
     path("about/", views.about, name="about"),
     path("home/", views.home_view, name="home_page"),  # /home
     path("edit_profile/", views.edit_profile_view, name="edit_profile"),
+    path("my-uploads/", views.my_uploads_view, name="my_uploads"),
     path("explore/<str:service_type>/", views.explore_service, name="explore_service"),
     path("book/<str:service_type>/", views.book_service, name="book_service"),
     path("reviews/", views.reviews_page, name="reviews_page"),
@@ -96,10 +118,3 @@ urlpatterns = [
         name="toggle_artist_status",
     ),
 ]
-
-from django.conf import settings
-from django.conf.urls.static import static
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -102,6 +102,7 @@ class Employee(models.Model):
     organization_name = models.CharField(
         max_length=200, null=True, blank=True, help_text="Organization/Company Name"
     )
+    organization_type = models.CharField(max_length=60, null=True, blank=True)
 
     password = models.CharField(max_length=128, null=True, blank=True)
     role = models.CharField(max_length=50, null=True, blank=True)

@@ -64,8 +64,10 @@ urlpatterns += i18n_patterns(
     # ✅ home LAST
     path("", include("home.urls")),
 )
+
+handler404 = "home.views.custom_404"
 # STATIC add करो outside i18n
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    if getattr(settings, "MEDIA_URL", None) and getattr(settings, "MEDIA_ROOT", None):
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

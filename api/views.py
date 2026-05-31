@@ -1,4 +1,7 @@
 from django.shortcuts import render
+import os
+import subprocess
+import tempfile
 
 # Create your views here.
 import random, re
@@ -1025,6 +1028,15 @@ def logout_api(request):
 def save_booking_api(request):
     data = request.data
     try:
+        if request.user.role != "customer":
+            return Response(
+                {
+                    "success": False,
+                    "message": "Only customer accounts can create bookings.",
+                },
+                status=403,
+            )
+
         # Required fields validation
         required = [
             "service_name",
@@ -1244,6 +1256,11 @@ def api_service_image_upload(request):
     user, error = get_user_from_token(request)
     if not user:
         return JsonResponse({"success": False, "error": error}, status=401)
+    if not (getattr(user, "is_staff", False) or getattr(user, "role", "") == "employee"):
+        return JsonResponse(
+            {"success": False, "error": "Only artist/employee accounts can upload."},
+            status=403,
+        )
 
     try:
         name = request.POST.get("image_name")
@@ -1253,6 +1270,88 @@ def api_service_image_upload(request):
         min_size = f"{width} * {height}"
         type_of_art = request.POST.get("type_of_art")
         image = request.FILES.get("image")
+        if not image:
+            return JsonResponse({"success": False, "error": "Image/Video file is required"})
+
+        video_exts = (".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v")
+        max_photos = 20
+        max_videos = 10
+        max_video_seconds = 15
+
+        def media_url(item):
+            if item.file_url:
+                return str(item.file_url).lower()
+            try:
+                return str(item.image.url).lower()
+            except Exception:
+                return str(item.image).lower()
+
+        def is_video_item(item):
+            return media_url(item).endswith(video_exts)
+
+        def is_video_file(uploaded_file):
+            ctype = (getattr(uploaded_file, "content_type", "") or "").lower()
+            name_l = (getattr(uploaded_file, "name", "") or "").lower()
+            return ctype.startswith("video/") or name_l.endswith(video_exts)
+
+        def get_video_duration_seconds(uploaded_file):
+            suffix = os.path.splitext(uploaded_file.name)[1] or ".mp4"
+            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                for chunk in uploaded_file.chunks():
+                    tmp.write(chunk)
+                temp_path = tmp.name
+            try:
+                res = subprocess.run(
+                    [
+                        "ffprobe",
+                        "-v",
+                        "error",
+                        "-show_entries",
+                        "format=duration",
+                        "-of",
+                        "default=noprint_wrappers=1:nokey=1",
+                        temp_path,
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
+                    check=False,
+                )
+                if res.returncode != 0:
+                    return None
+                return float((res.stdout or "").strip())
+            except Exception:
+                return None
+            finally:
+                try:
+                    os.remove(temp_path)
+                except Exception:
+                    pass
+
+        existing = ServiceImage.objects.filter(userupload_id=user.id)
+        existing_photos = sum(1 for row in existing if not is_video_item(row))
+        existing_videos = sum(1 for row in existing if is_video_item(row))
+        incoming_is_video = is_video_file(image)
+
+        if incoming_is_video and existing_videos >= max_videos:
+            return JsonResponse(
+                {"success": False, "error": f"Video upload limit reached. Maximum {max_videos} videos allowed."}
+            )
+        if not incoming_is_video and existing_photos >= max_photos:
+            return JsonResponse(
+                {"success": False, "error": f"Photo upload limit reached. Maximum {max_photos} photos allowed."}
+            )
+        if incoming_is_video:
+            duration = get_video_duration_seconds(image)
+            if duration is None:
+                return JsonResponse(
+                    {"success": False, "error": "Unable to validate video duration. Please upload a valid video file."}
+                )
+            if duration > max_video_seconds:
+                return JsonResponse(
+                    {"success": False, "error": f"Video is {duration:.1f}s. Maximum allowed is {max_video_seconds}s."}
+                )
+            image.seek(0)
 
         ServiceImage.objects.create(
             image_name=name,

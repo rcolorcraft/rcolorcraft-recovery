@@ -15,23 +15,35 @@
 {% block content %}
 
 <style>
-  
-  
+  /* Homepage layout: keep hero full-width, make other sections container-fluid */
+  .herosec {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .discount-bar,
+  section {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 640px) {
+    .discount-bar,
+    section {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
   
   
 
-  
-    .trending-section {
-  
-      width: 100%;
-  
-      max-width: 1800px;
-  
-      margin: 0 auto;
-  
-      margin-bottom: 40px;
-  
-    }
   
 
   
@@ -43,7 +55,7 @@
   
       color: #000000;
   
-      margin-bottom: 3rem;
+      margin-bottom: 1.1rem;
   
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   
@@ -59,7 +71,7 @@
   
       overflow: hidden;
   
-      padding: 20px 0;
+      padding: 8px 0;
   
       mask-image: linear-gradient(
   
@@ -97,7 +109,7 @@
   
       display: flex;
   
-      gap: 3rem;
+      gap: 1rem;
   
        width: max-content;
 
@@ -109,11 +121,11 @@
   
       display: flex;
   
-      gap: 3rem;
+      gap: 1rem;
   
       width: max-content;
 
-      margin-top:15px;
+      margin-top:8px;
 
       animation: scroll-right 200s linear infinite;
   
@@ -183,9 +195,9 @@
   
       position: relative;
   
-      width: 280px;
+      width: 220px;
   
-      height: 250px;
+      height: 190px;
   
       border-radius: 20px;
   
@@ -340,9 +352,9 @@
   
       .trending-heading {
   
-        font-size: 1.8rem;
+        font-size: 1.45rem;
   
-        margin-bottom: 2rem;
+        margin-bottom: 0.8rem;
   
       }
   
@@ -350,9 +362,9 @@
   
       .trending-card {
   
-        width: 250px;
+        width: 170px;
   
-        height: 320px;
+        height: 150px;
   
       }
   
@@ -399,6 +411,68 @@
 
   
 }
+
+.explore-categories-section {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #dce9f8;
+  border-radius: 25px;
+  box-shadow: 0 12px 24px rgba(25, 73, 122, 0.08);
+  padding:2rem 1rem;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.explore-categories-section h1 {
+  margin-bottom: 30px;
+}
+
+
+.explore-categories-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.explore-categories-row .explore-item {
+  margin: 0 !important;
+}
+.explore-categories-section p {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #212121;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .explore-categories-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+    padding: 6px 2px 8px;
+    gap: 10px;
+  }
+
+  .explore-categories-row .explore-item {
+    flex: 0 1 calc(33.333% - 10px);
+    min-width: 0;
+  }
+
+  .explore-categories-section {
+    border-radius: 12px;
+    padding: 10px 8px 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .explore-categories-row .explore-item {
+    flex: 0 1 calc(33.333% - 8px);
+    min-width: 0;
+  }
+}
   
     
   
@@ -432,23 +506,7 @@
   
     
   
-    .services-grid {
-      display:grid;
-      grid-template-column:repeat(auto-fit,minmax(150px,1fr));
-  
-      flex-wrap: wrap;
-  
-      justify-content: center;
-  
-      max-width: 1800px;
-  
-      margin: 0 auto;
-  
-      padding: 20px;
-  
-      gap: 40px;
-  
-    }
+    
   
     
   
@@ -940,10 +998,10 @@
 
   /* image proper */
   .service-card img {
-    width: 100%;
-    height: 50%;
+  width: 1000%;
+    height: 380px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 0px;
   }
 
   /* text */
@@ -960,8 +1018,236 @@
   }
 }
 
+/* Premium Services compact layout override */
+.services-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  align-items: start;
+  margin-top: 14px;
+}
+
+
+
+
+.services-grid .service-card h3 {
+  font-size: 1rem !important;
+  line-height: 1.35 !important;
+  margin-top: 10px !important;
+  padding: 0 12px;
+}
+
+.services-grid .service-card p {
+  font-size: 0.87rem !important;
+  line-height: 1.5 !important;
+  margin-top: 6px !important;
+  margin-bottom: 10px !important;
+  padding: 0 12px;
+  min-height: 84px;
+  max-height: 84px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.services-grid .card-buttons {
+  margin-top: 8px;
+  gap: 8px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0 12px 12px;
+}
+
+
+.services-grid .card-buttons a {
+  min-height: 40px;
+  padding: 10px 10px !important;
+  border-radius: 999px !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  flex: 1 1 0;
+}
+
+.premium-service-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  background: rgba(8, 20, 34, 0.64);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.premium-service-modal.active {
+  display: flex;
+}
+
+.premium-service-modal .modal-card {
+  width: min(520px, 100%);
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #e2e9f5;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.24);
+  padding: 12px;
+  position: relative;
+}
+
+.premium-service-modal .close-x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #eef3fb;
+  color: #2d4f74;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.premium-service-modal h3 {
+  margin: 0;
+  color: #17456f;
+  font-size: 1rem;
+}
+
+.premium-service-modal p {
+  margin: 5px 0 10px;
+  color: #5f7690;
+  font-size: 0.82rem;
+}
+
+.premium-service-modal .meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.premium-service-modal .meta-chip {
+  border: 1px solid #dce7f7;
+  background: #f7fbff;
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-size: 0.76rem;
+  color: #24527f;
+  font-weight: 700;
+}
+
+.premium-service-modal .fields {
+  display: grid;
+  gap: 7px;
+}
+
+.premium-service-modal .field-wrap {
+  position: relative;
+}
+
+.premium-service-modal input,
+.premium-service-modal textarea {
+  width: 100%;
+  border: 1px solid #d4e1f3;
+  border-radius: 9px;
+  padding: 9px 10px 9px 36px;
+  font-size: 0.84rem;
+}
+
+.premium-service-modal textarea {
+  min-height: 74px;
+  resize: vertical;
+}
+
+.premium-service-modal .submit-btn {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 10px;
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #fff;
+  background: linear-gradient(135deg, #0f6f36, #1f9750);
+  cursor: pointer;
+}
+
+.premium-service-modal .field-icon {
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  color: #5f7e9e;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.premium-service-modal .field-wrap textarea + .field-icon {
+  top: 11px;
+}
+
+.premium-services-section {
+  margin: 36px 0;
+}
+
+#cartoon-painting-card,
+#home-painting-card {
+  left: 0 !important;
+}
+
+@media (max-width: 1100px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 840px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .services-grid .service-card p {
+    min-height: auto;
+  }
+
+  .services-grid .card-buttons {
+    grid-template-columns: 1fr !important;
+  }
+
+  .services-grid .card-buttons a {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 
 @media (max-width: 576px) {
+  .services-grid .card-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+  }
 
   .card-buttons {
     display: flex;
@@ -1040,11 +1326,12 @@
 
     /* SECTION */
 .ba-section {
-  padding: 60px 20px;
+  padding: 2rem 1rem;
   text-align: center;
   background: white;
-  border: 3px solid #00b894;
+  border-radius: 25px;
   box-shadow: 0 0 15px rgba(0, 184, 148, 0.6);
+  margin: 36px 0;
 }
 
 /* HEADING */
@@ -1118,17 +1405,7 @@
   clip-path: inset(0 50% 0 0);
 }
 
-/* LABELS */
-.label {
-  position: absolute;
-  top: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 6px 12px;
-  font-size: 13px;
-  border-radius: 20px;
-  z-index: 5;
-}
+
 
 .before {
   left: 10px;
@@ -1211,140 +1488,158 @@ img {
   }
 }
 
-.process-section h2{
-  font-family:"Playfair Display" ,serif;
-font-size: 38px;
-color:#1e2a38;
-margin-bottom: 40px;
-font-weight: 800;
-letter-spacing:1px;
-linear-gradient(90deg,#2c3e50,#00b894);
-text-shadow:0 2px 10px rgba(0,0,0,0.1);
--webkit-backgrouoond-clip:text;
--webkit-text-fil-color:transparent;
+.process-section {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.process-section h2 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  color: #19395d;
+  font-weight: 800;
+  letter-spacing: 0.2px;
 }
 
 .process-section h2::after {
-    content: "";
-    display: block;
-    width: 180px;       /* underline width */
-    height: 3px;       /* thickness */
-    background-color: red;
-    margin: 8px auto 0; /* spacing + center */
+  content: "";
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f7ddb, #1ca19b);
 }
 
-.process-section{
-  
-  padding: 80px 20px;
-  background: #f5f8ff;
-  text-align: center;
+.process-section p {
+  margin-top: 12px;
+  color: #607790;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-.process-section p{
-  font-size: 16px;
-  color:#777;
-  margin-top:12px;
-  letter-spacing:0.5px;
-}
-
-.timeline{
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+.timeline {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1220px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
-  margin-top: 60px;
-  padding: 0 40px;
 }
 
-/* CENTER LINE */
-.timeline::before{
+.timeline::before {
   content: "";
   position: absolute;
-  top: 55%;
   left: 10%;
-  width: 80%;
-  height: 4px;
-  background: linear-gradient(to right, #6c5ce7,#00cec9);
+  right: 10%;
+  top: 34px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f7ddb, #20a59e);
   z-index: 0;
 }
 
-.step{
-  background: #ffffff;
-  padding: 25px;
-  width: 250px;
-  min-height: 140px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.0.12);
-  boredr: 1px solid #f1f1f1;
+.step {
   position: relative;
   z-index: 1;
-  transition: 0.3s;
+  background: #fff;
+  border: 1px solid #d9e8fa;
+  border-radius: 16px;
+  padding: 18px 16px;
+  text-align: left;
+  box-shadow: 0 14px 28px rgba(33, 87, 145, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-
-
-/* 🔹 ICON */
-.icon{
-  font-size: 30px;
-  margin-bottom: 12px;
-  color: #0984e3;
+.step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(33, 87, 145, 0.16);
 }
 
-.step:hover{
-  transform: translateY(-10px); scale(1.03);
+.icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 22px;
+  background: linear-gradient(140deg, #1d7bda, #2fa6ea);
+  box-shadow: 0 8px 16px rgba(29, 123, 218, 0.28);
 }
 
-.step h3{
-  margin-bottom: 6px;
-  font-size:18px;
-  font-weight:600;
-}
-.steps p{
-  font-size: 14px;
-  color:#777;
+.step h3 {
+  margin: 0;
+  color: #1a3d62;
+  font-size: 1.02rem;
+  font-weight: 700;
 }
 
-/* 🔹 ARROWS */
-.step::after{
+.step p {
+  margin: 7px 0 0;
+  color: #617993;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.step::after {
   content: "→";
   position: absolute;
-  right: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  color: #00b894;
+  top: 28px;
+  right: -10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2fa3d6;
 }
 
-.step:last-child::after{
+.step:last-child::after {
   display: none;
 }
 
-@media (max-width: 768px){
-  .timeline{
-    flex-direction: column;
-    gap: 30px;
+@media (max-width: 980px) {
+  .timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .timeline::before{
+  .timeline::before {
     display: none;
   }
 
-  
-  .step::after{
+  .step::after {
     display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .process-section {
+    padding: 56px 12px 50px;
+  }
+
+  .timeline {
+    margin-top: 22px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .step {
+    padding: 14px 12px;
+    border-radius: 12px;
   }
 }
 
 .herosec{
-height:60vh;
+min-height:60vh;
 width:100%;
 display:flex;
 align-items:center;
 justify-content:center;
 background:
 linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("{% static 'gallery\hero.background.jpeg' %}") center/cover no-repeat;
+url("{% static 'gallery\\hero.background.jpeg' %}") center/cover no-repeat;
 }
 
 .hero-overlay{
@@ -1355,7 +1650,7 @@ border-radius:20px;
 text-align:center;
 color:white;
 max-width:1000px;
-width: 2000%;
+width: min(1000px, calc(100% - 24px));
 margin: 0 auto;
 backdrop-filter: blur(5px);
 {% comment %} box-shadow:0 20px 60px rgba(0,0,0,0.4); {% endcomment %}
@@ -1400,6 +1695,170 @@ color: #eee;
 margin-top:10px;
 opacity:0.9;
 }
+
+@media (max-width: 768px) {
+  .herosec {
+    min-height: 56vh;
+    padding: 12px 10px;
+  }
+
+  .hero-overlay {
+    padding: 22px 14px;
+    border-radius: 14px;
+    width: calc(100% - 12px);
+  }
+
+  .hero-text h1 {
+    font-size: 34px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-top: 0;
+  }
+
+  .hero-text .btn.primary {
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-text h1 {
+    font-size: 28px;
+  }
+
+  .hero-text p {
+    font-size: 14px;
+  }
+}
+
+.consult-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  background: rgba(8, 18, 32, 0.62);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.consult-modal {
+  width: min(520px, 100%);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 12px 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+  position: relative;
+}
+
+.consult-modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #eef4fb;
+  color: #264a70;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.consult-modal h3 {
+  margin: 0 0 8px;
+  color: #183f66;
+  font-size: 1.08rem;
+}
+
+.consult-modal .input-group {
+  position: relative;
+  margin-bottom: 7px;
+}
+
+.consult-modal .input-group input,
+.consult-modal .input-group textarea {
+  width: 100%;
+  border: 1px solid #d4e3f4;
+  border-radius: 9px;
+  padding: 10px 10px 10px 36px;
+  background: #fbfdff;
+  color: #1e3f61;
+  font-size: 0.88rem;
+}
+
+.consult-modal .input-group textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.consult-modal .input-group label {
+  position: static;
+  display: block;
+  margin-bottom: 4px;
+  color: #55718d;
+  font-size: 0.83rem;
+  transform: none;
+  left: auto;
+  top: auto;
+}
+
+.consult-modal .input-group .icon {
+  position: absolute;
+  left: 11px;
+  top: calc(50% + 8px);
+  transform: translateY(-50%);
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.consult-modal .input-group:has(textarea) .icon {
+  top: 39px;
+  transform: none;
+}
+
+.consult-modal .icon i {
+  position: static;
+  top: auto;
+  line-height: 1;
+  color: #5f7e9e;
+}
+
+.consult-modal .submit-btn {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1c79db, #2da1ec);
+}
+
+@media (max-width: 520px) {
+  .consult-modal {
+    padding: 14px 12px 12px;
+    border-radius: 12px;
+  }
+}
 {% comment %} 
 .cta-btn{
 display:inline-block;
@@ -1439,46 +1898,6 @@ and artistic designs. Experience art that breathes life into your walls.
 </p>
 <button class="btn primary" onclick="openForm()">✨ Get Free Consultation</button>
 
-
-<div id="consultPopup" class="popup-overlay">
-
-  <div class="consult-form">
-
-    <span class="close-btn" onclick="closeForm()">✖</span></button>
-
-    <form method="POST" action="{% url 'home' %}">
-      {% csrf_token %}
-
-      <div class="input-group">
-        <span class="icon"><i class="fa fa-user"></i></span>
-        <input type="text" name="name" placeholder=" " required>
-        <label>Your Name</label>
-      </div>
-
-      <div class="input-group">
-          <span class="icon"><i class="fa fa-envelope"></i></span>
-        <input type="email" name="email" placeholder=" "   required>
-        <label>Your Email</label>
-      </div>
-
-      <div class="input-group">
-              <span class="icon"><i class="fa fa-phone"></i></span>
-        <input type="text" name="phone"  placeholder=" " required>
-        <label>Phone Number</label>
-      </div>
-
-      <div class="input-group">
-                <span class="icon"><i class="fa fa-comment-dots"></i></span>
-        <textarea   <input type="text" name="message"  placeholder=" " required></textarea>
-        <label>Tell us your requirement</label>
-      </div>
-
-      <button type="submit" class="submit-btn">Submit</button>
-    </form>
-</div>
-</div> 
-<form id="consultationForm" method="POST">
-
  
  
  
@@ -1486,15 +1905,20 @@ and artistic designs. Experience art that breathes life into your walls.
 
 <script>
 function openForm() {
-    document.getElementById("consultPopup").style.display = "flex";
+    const consultPopup = document.getElementById("consultPopup");
+    if (consultPopup) consultPopup.style.display = "flex";
 
     // form open hone par success popup hide
-    const popup = document.getElementById("submittedPopup");
-    if (popup) popup.style.display = "none";
+    const submittedPopup = document.getElementById("submittedPopup");
+    if (submittedPopup) submittedPopup.style.display = "none";
 }
 
-function closeForm() {
-    document.getElementById("consultPopup").style.display = "none";
+function closeForm(event) {
+    const popup = document.getElementById("consultPopup");
+    if (!popup) return;
+    if (!event || event.target === popup) {
+      popup.style.display = "none";
+    }
 }
 
 window.onload = function () {
@@ -1613,6 +2037,44 @@ function closeForm() {
 </div>
 
   </div> 
+
+  <div id="consultPopup" class="consult-modal-overlay" onclick="closeForm(event)">
+    <div class="consult-modal" onclick="event.stopPropagation()">
+      <button type="button" class="close-btn" onclick="closeForm()">✖</button>
+      <h3>Get Free Consultation</h3>
+
+      <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+
+        <div class="input-group">
+          <label>Your Name</label>
+          <span class="icon"><i class="fa fa-user"></i></span>
+          <input type="text" name="name" placeholder="Enter full name" required>
+        </div>
+
+        <div class="input-group">
+          <label>Your Email</label>
+          <span class="icon"><i class="fa fa-envelope"></i></span>
+          <input type="email" name="email" placeholder="name@example.com" required>
+        </div>
+
+        <div class="input-group">
+          <label>Phone Number</label>
+          <span class="icon"><i class="fa fa-phone"></i></span>
+          <input type="text" name="phone" placeholder="+91XXXXXXXXXX" required>
+        </div>
+
+        <div class="input-group">
+          <label>Tell us your requirement</label>
+          <span class="icon"><i class="fa fa-comment-dots"></i></span>
+          <textarea name="message" placeholder="Share project size, location, and timeline" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+    </div>
+  </div>
+
   <div class="discount-bar">
     <div class="discount-scroll-track">
       <div class="discount-scroll-content">
@@ -1626,17 +2088,12 @@ function closeForm() {
   
   
   
-  <section class="hero"><div class="hero-box">
+  <section class=""><div class="hero-box">
+ <section class="explore-categories-section"><h1 class="trending-heading">{% trans "Explore Categories" %}</h1>
 
-  <!-- <h1>Welcome to Rcolorcraft</h1>
-
-  <p>Transform your space with our stunning murals and creative paintings.
-
-    Experience art that breathes life into your walls.
-</section>  <!-- Services Section -->  <section><h1>{% trans "  Explore Categories" %}</h1>
-  </p> -->
 
   <!-- 1. 3D Wall Art (Corrected slug) -->
+  <div class="explore-categories-row">
 
   <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-item">
 
@@ -1812,7 +2269,7 @@ function closeForm() {
   
 
 
-</div>
+  </div>
 
   </section>  <!-- Most Trending Designs Section -->  <section class="trending-section"><h2 class="trending-heading">{% trans "Most Trending Designs" %}</h2>
 
@@ -8206,412 +8663,58 @@ function closeForm() {
   </div>
 </div>
 
-  </section>  <!-- Services Section -->  <section><h1>{% trans "Our Premium Services" %}</h1>z
+  </section>  <!-- Services Section -->  <section class="premium-services-section"><h1>{% trans "Our Premium Services" %}</h1>
 
 <div class="services-grid">
-
+  {% for service in premium_services %}
   <div class="service-card">
-
     <div class="">
-
-      <img src="{% static 'gallery/3d.jpeg' %}" alt="3D Wall Art" />
-
+      <img src="{{ service.image_url }}" alt="{{ service.title }}" />
     </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "3D Wall Craft - Walls That Come Alive" %}</b></h3>
-
-    <p>{% trans "Turn plain walls into extraordinary 3D masterpieces. Our creative wall art adds depth, style, and a striking visual impact to any space. Perfect for interiors that deserve a bold artistic touch."%}</p>
+    <h3 style="padding-bottom: 5px;"><b>{{ service.title }}</b></h3>
+    <p>{{ service.description }}</p>
     <div class="card-buttons">
-
-      <a href="{% url 'book_service' '3d-wall-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' '3d-wall-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-
+      <a href="{% url 'book_service' service.book_slug %}" class="book-btn">{% trans "Book this Service" %}</a>
+      <a href="{% url 'explore_service' service.explore_slug %}" class="explore-btn">{% trans "Explore" %}</a>
     </div>
-
   </div>
+  {% endfor %}
+</div>
 
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/3dfloorsrt.jpeg' %}" alt="3D Floor Art" />
-
+<div id="premiumServiceModal" class="premium-service-modal" onclick="closePremiumServiceForm(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <button class="close-x" type="button" onclick="closePremiumServiceForm()">✕</button>
+    <h3>Quick Service Request</h3>
+    <p>Share your requirement. Our team will contact you shortly.</p>
+    <div class="meta">
+      <div class="meta-chip">Service: <span id="psService">-</span></div>
+      <div class="meta-chip">Action: <span id="psAction">-</span></div>
     </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "3D Floor Magic - Walk on Art" %}</b></h3>
-
-    <p>{% trans "Transform ordinary floors into stunning 3D visual experiences. Our realistic designs create breathtaking illusions that instantly capture attention. Perfect for homes, malls, offices, and commercial spaces."%}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' '3d-floor-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' '3d-floor-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
+    <form method="POST" action="{% url 'home' %}" onsubmit="attachPremiumServiceMeta()">
+      {% csrf_token %}
+      <div class="fields">
+        <div class="field-wrap">
+          <input type="text" name="name" placeholder="Enter full name" required>
+          <span class="field-icon"><i class="fa fa-user"></i></span>
+        </div>
+        <div class="field-wrap">
+          <input type="email" name="email" placeholder="name@example.com" required>
+          <span class="field-icon"><i class="fa fa-envelope"></i></span>
+        </div>
+        <div class="field-wrap">
+          <input type="text" name="phone" placeholder="+91XXXXXXXXXX" required>
+          <span class="field-icon"><i class="fa fa-phone"></i></span>
+        </div>
+        <div class="field-wrap">
+          <textarea name="message" id="psMessage" placeholder="Share project size, location, and timeline" required></textarea>
+          <span class="field-icon"><i class="fa fa-comment-dots"></i></span>
+        </div>
+      </div>
+      <input type="hidden" id="psServiceInput" value="">
+      <input type="hidden" id="psActionInput" value="">
+      <button type="submit" class="submit-btn">Submit Request</button>
+    </form>
   </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/m.jpeg' %}" alt="Mural Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Mural Works - Walls that Tell Your Story" %}</b></h3>
-
-    <p>{% trans "Bring life and personality to your walls with custom mural designs. Our artistic murals transform blank spaces into meaningful visual stories. Perfect for homes, offices, and creative environments." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'mural' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'mural' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/ad.jpeg' %}" alt="Metro Advertisement" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Metro & Piller Art - Be Seen by Thousands" %}</b></h3>
-
-    <p>{% trans "Align your brand with high-traffic metro spaces using bold visuals to reach daily commuters. Stay visible on the move and create a lasting impression that keeps your brand top-of-mind." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'metro-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'metro-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/ambujaadvertisement.jpeg' %}" alt="Outdoor Advertisement" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Urban Art - Make Your Brand Unmissable" %}</b></h3>
-
-    <p>{% trans "Stand out in busy streets and public spaces with powerful outdoor advertising art. Our bold designs attract attention from a distance. Perfect for brands that want strong visibility." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'outdoor-advertisement' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/school.jpg' %}" alt="School Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "School Art - Walls That Inspire Young Minds." %}</b></h3>
-
-    <p> {% trans "Transform school walls into colorful and educational spaces. Our creative artwork encourages imagination and curiosity in children. Perfect for making learning environments vibrant and engaging."%}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'school-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'school-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/selfie.jpeg' %}" alt="Selfie Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Selfi Spot - Turn Your Photo into Wall Art" %}</b></h3>
-
-    <p>{% trans "Convert your favorite photos into stunning artistic portraits. Our custom selfie art transforms memories into beautiful wall décor. Perfect for homes, gifts, and personal spaces." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'selfie-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'selfie-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/Madhubani painting.jpeg' %}" alt="Madhubani Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Madhubani Art - Traditional Art for Modern Walls" %}</b></h3>
-
-    <p> {% trans "Experience the beauty of authentic Madhubani art on your walls. Our hand-crafted designs bring rich culture and vibrant colors to your space. Perfect for elegant and traditional décor."%}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'madhubani-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'madhubani-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/Texture panting.jpeg' %}" alt="Texture Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Texture Wall - Luxury You Can Feel on Your Walls" %}</b></h3>
-
-    <p>{% trans "Add depth and sophistication with modern texture art designs. Our premium finishes create stylish and luxurious interiors. Perfect for contemporary homes and designer spaces." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'texture-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'texture-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- <div class="service-card">
-
-    <div class="circle">
-
-      <img src="{% static 'gallery/ganeshmurti.jpg' %}" alt="Stone Murti" />
-
-    </div>
-
-    <h3 style="padding-bottom: 12px;"> <b>Stone Murti</b></h3>
-
-    <p>Our hand-carved stone murtis capture divine energy and artistic excellence, perfect for temples, gardens, and home décor that radiates peace and grace.</p>
-
-    <div class="card-buttons">
-
-      {% comment %} <a href="{% url 'book_service' 'stone-murti' %}" class="book-btn">Customize Product</a> {% endcomment %}
-
-      <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
-
-    </div>
-
-  </div> -->
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/buddha_statue.jpg' %}" alt="Statue Craft" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Statue Craft - Masterpieces in Stone" %}</b></h3>
-
-    <p>{% trans "Bring your spaces to life with premium hand-carved stone statues. Our custom sculptures add artistic depth, elegance, and a touch of heritage to gardens, corporate offices, and private properties." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'stone-murti' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'stone-murti' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-
-
-  <!-- <div class="service-card">
-
-    <div class="circle">
-
-      <img src="{% static 'gallery/statue12.jpg' %}" alt="Statue" />
-
-    </div>
-
-    <h3 style="padding-bottom: 12px;"> <b>Statue</b></h3>
-
-    <p>Add grandeur and character to your surroundings with our beautifully crafted statues. Each piece is designed with precision, making it a timeless centerpiece for homes, offices, and public spaces.</p>
-
-    <div class="card-buttons">
-
-      {% comment %} <a href="{% url 'book_service' 'statue' %}" class="book-btn">Customize Product</a> {% endcomment %}
-
-      <a href="{% url 'shop' %}" class="explore-btn">Buy Now</a>
-
-    </div>
-
-  </div> -->
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/Scrap animal.jpeg' %}" alt="Scrap Animal Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Scrap Craft - Art Made from Creativity & Recycling" %}</b></h3>
-
-    <p>{% trans "Unique animal sculptures created from recycled materials. Our scrap art adds creativity and sustainability to parks, gardens, and public spaces. Perfect for eco-friendly artistic installations."%}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'scrap-animal-art' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/Water tank.jpeg' %}" alt="Water Tank Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Tank Art - From Tank to Landmark" %}</b></h3>
-
-    <p>{% trans "Turn ordinary water tanks into colorful artistic highlights. Our creative designs transform dull structures into vibrant visual attractions. Perfect for communities and public spaces." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'nature-fountain' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'nature-fountain' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/z.jpeg' %}" alt="Zenith Collection" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Zenith Collection - Walls Full of Creativity and Life" %}</b></h3>
-
-    <p>{% trans "Bring your walls to life with stunning statue-inspired designs. Our artwork adds depth, creativity, and a unique 3D feel to your space. Perfect for homes, gardens, and commercial areas that need a bold artistic touch." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'Zenith-Collection' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'Zenith-Collection' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-  <div class="service-card" >
-
-    <div class="">
-
-      <img src="{% static 'gallery/child.jpeg' %}" alt="Cartoon Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Cartoon Craft - Walls Full of Fun and Imagination" %}</b></h3>
-
-    <p>{% trans "Bring joy and creativity with playful cartoon wall art. Our designs create lively spaces for kids rooms, schools, and play areas. Perfect for bright and cheerful environments." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'cartoon-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'cartoon-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="service-card">
-
-    <div class="">
-
-      <img src="{% static 'gallery/living.jpeg' %}" alt="Home Art" />
-
-    </div>
-
-    <h3 style="padding-bottom: 5px;"> <b>{% trans "Home Decore Art - Make Your Home a Work of Art" %}</b></h3>
-
-    <p>{% trans "Elevate your space with bespoke wall paintings and canvas art that add luxury and uniqueness. Expertly crafted by professional artists, each piece is a perfect masterpiece for your home." %}</p>
-
-    <div class="card-buttons">
-
-      <a href="{% url 'book_service' 'home-painting' %}" class="book-btn">{% trans "Book this Service" %}</a>
-
-      <a href="{% url 'explore_service' 'home-painting' %}" class="explore-btn">{% trans "Explore" %}</a>
-
-    </div>
-
-  </div>
-
 </div>
 
   {% comment %} <section class="ba-section">
@@ -8691,6 +8794,53 @@ document.querySelectorAll(".ba-slider").forEach((sliderBox) => {
   });
 
 });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const maxWords = 30;
+  const descriptions = document.querySelectorAll(".services-grid .service-card p");
+  descriptions.forEach((el) => {
+    const raw = (el.textContent || "").trim().replace(/\s+/g, " ");
+    const words = raw.split(" ");
+    if (words.length > maxWords) {
+      el.textContent = words.slice(0, maxWords).join(" ") + " ...";
+    }
+  });
+});
+</script>
+
+<script>
+function openPremiumServiceForm(serviceName, actionName) {
+  const modal = document.getElementById("premiumServiceModal");
+  document.getElementById("psService").textContent = serviceName || "-";
+  document.getElementById("psAction").textContent = actionName || "-";
+  document.getElementById("psServiceInput").value = serviceName || "";
+  document.getElementById("psActionInput").value = actionName || "";
+  if (modal) modal.classList.add("active");
+}
+
+function closePremiumServiceForm(event) {
+  if (!event || event.target.id === "premiumServiceModal") {
+    const modal = document.getElementById("premiumServiceModal");
+    if (modal) modal.classList.remove("active");
+  } else if (!event.target.closest(".modal-card")) {
+    const modal = document.getElementById("premiumServiceModal");
+    if (modal) modal.classList.remove("active");
+  }
+}
+
+function attachPremiumServiceMeta() {
+  const service = document.getElementById("psServiceInput").value;
+  const action = document.getElementById("psActionInput").value;
+  const msg = document.getElementById("psMessage");
+  if (msg) {
+    const meta = "\\n\\n[Service: " + service + " | Action: " + action + "]";
+    if (!msg.value.includes("[Service:")) {
+      msg.value = msg.value + meta;
+    }
+  }
+}
 </script>
 
 <section class="process-section">

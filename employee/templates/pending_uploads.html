@@ -1,0 +1,107 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block title %}Pending Approvals{% endblock %}
+
+{% block content %}
+<section class="pending-wrap">
+  <div class="pending-head">
+    <h1>Pending Upload Approvals</h1>
+    <p>All artist uploads waiting for admin approval in one place.</p>
+  </div>
+
+  {% if pending_uploads %}
+  <div class="pending-grid">
+    {% for item in pending_uploads %}
+    <article class="pending-card" id="upload-card-{{ item.id }}">
+      <div class="pending-media">
+        <img src="{{ item.image.url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.jpg' %}'">
+      </div>
+      <div class="pending-body">
+        <h3>{{ item.image_name|default:"Untitled Upload" }}</h3>
+        <p><strong>Artist:</strong> {{ item.userupload_name|default:"-" }}</p>
+        <p><strong>Type:</strong> {{ item.type_of_art|default:"-" }}</p>
+        <p><strong>Price:</strong> ₹{{ item.price }}</p>
+        <div class="pending-actions">
+          <button class="approve-btn" data-id="{{ item.id }}">Approve</button>
+          <button class="delete-btn" data-id="{{ item.id }}">Delete</button>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">No pending uploads right now.</div>
+  {% endif %}
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.querySelectorAll('.approve-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.dataset.id;
+      fetch("{% url 'approve_service_image' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ id })
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            const card = document.getElementById(`upload-card-${id}`);
+            if (card) card.remove();
+            Swal.fire({ icon: 'success', title: 'Approved', timer: 1200, showConfirmButton: false });
+          } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Approval failed' });
+          }
+        });
+    });
+  });
+
+  document.querySelectorAll('.delete-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.dataset.id;
+      fetch("{% url 'delete_service_image' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ id })
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            const card = document.getElementById(`upload-card-${id}`);
+            if (card) card.remove();
+            Swal.fire({ icon: 'success', title: 'Deleted', timer: 1200, showConfirmButton: false });
+          } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Delete failed' });
+          }
+        });
+    });
+  });
+</script>
+
+<style>
+.pending-wrap { max-width: 1200px; margin: 24px auto; padding: 0 14px 20px; }
+.pending-head { background:#fff; border:1px solid #e5edf9; border-radius:14px; padding:14px; margin-bottom:12px; }
+.pending-head h1 { margin:0; color:#24456d; font-size:1.5rem; }
+.pending-head p { margin:6px 0 0; color:#5d7391; }
+.pending-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; }
+.pending-card { background:#fff; border:1px solid #e5edf9; border-radius:12px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+.pending-media { height:170px; background:#f0f6ff; }
+.pending-media img { width:100%; height:100%; object-fit:cover; }
+.pending-body { padding:10px; }
+.pending-body h3 { margin:0 0 6px; font-size:1rem; color:#1f3e65; }
+.pending-body p { margin:3px 0; color:#4c6787; font-size:.88rem; }
+.pending-actions { margin-top:8px; display:flex; gap:8px; }
+.pending-actions button { border:none; border-radius:8px; padding:8px 10px; font-weight:700; cursor:pointer; }
+.approve-btn { background:#1d8f4e; color:#fff; }
+.delete-btn { background:#e54949; color:#fff; }
+.empty-state { background:#fff; border:1px dashed #d8e4f5; border-radius:12px; padding:16px; color:#597394; }
+</style>
+{% endblock %}

@@ -1,0 +1,335 @@
+{% extends 'base1.html' %}
+{% block title %}Admin Reports - RColourcraft{% endblock %}
+
+{% block content %}
+<style>
+  .report-wrap { max-width: 1280px; margin: 18px auto; padding: 0 12px; }
+  .report-card { background: #fff; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.08); border: 1px solid #e6edf7; overflow: hidden; }
+  .report-head { padding: 14px 16px; border-bottom: 1px solid #edf2f9; }
+  .report-head h2 { margin: 0; font-size: 1.2rem; color: #1e3f67; }
+  .report-sub { margin: 4px 0 0; color: #6b7f95; font-size: .88rem; }
+  .report-tabs { display:flex; gap:8px; padding: 12px 12px 0; flex-wrap: wrap; }
+  .report-tab { padding: 8px 12px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: .88rem; color: #2b4f75; background: #f2f7ff; border: 1px solid #dce9fb; }
+  .report-tab.active { background: #1f7ad8; color:#fff; border-color: #1f7ad8; }
+  .tab-pane { padding: 12px; }
+  .filter-bar { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:10px; margin-bottom: 10px; }
+  .filter-bar input, .filter-bar select { width: 100%; border: 1px solid #d7e3f3; border-radius: 8px; padding: 8px 10px; font-size: .88rem; }
+  .filter-actions { display:flex; gap:8px; align-items:center; flex-wrap: wrap; }
+  .btn { border: none; border-radius: 8px; padding: 8px 12px; text-decoration:none; font-weight:700; font-size:.86rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  .btn-apply { background:#1f7ad8; color:#fff; }
+  .btn-reset { background:#eef4fd; color:#1f4e80; }
+  .btn-export { background:#198754; color:#fff; }
+  .btn-view { background:#0d6efd; color:#fff; border:none; border-radius:8px; padding:6px 10px; font-size:.8rem; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; }
+  .btn-danger { background:#dc3545; color:#fff; border:none; border-radius:8px; padding:6px 10px; font-size:.8rem; font-weight:700; cursor:pointer; }
+  .report-table-wrap { overflow-x: auto; border: 1px solid #e6edf7; border-radius: 10px; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: .89rem; }
+  .report-table th, .report-table td { border-bottom: 1px solid #e9f0fb; padding: 9px 8px; white-space: nowrap; }
+  .report-table th { background: #f3f8ff; color: #204b7a; }
+  .pager { margin-top: 10px; display:flex; gap: 6px; align-items:center; flex-wrap: wrap; }
+  .pager a, .pager span { padding: 5px 8px; border-radius: 6px; border:1px solid #dce7f6; text-decoration:none; color:#1f4e80; }
+  .pager .current { background:#1f7ad8; color:#fff; border-color:#1f7ad8; }
+
+  @media (max-width: 980px) {
+    .filter-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .filter-bar { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="report-wrap">
+  <div class="report-card">
+    <div class="report-head">
+      <h2>Admin Reports</h2>
+      <p class="report-sub">Use tabs, filter data, and export full dataset anytime.</p>
+    </div>
+
+    <div class="report-tabs">
+      <a class="report-tab {% if active_tab == 'transactions' %}active{% endif %}" href="?tab=transactions">Transactions ({{ txn_page.paginator.count }})</a>
+      <a class="report-tab {% if active_tab == 'users' %}active{% endif %}" href="?tab=users">Users ({{ users_page.paginator.count }})</a>
+      <a class="report-tab {% if active_tab == 'employees' %}active{% endif %}" href="?tab=employees">Employees ({{ employees_page.paginator.count }})</a>
+      <a class="report-tab {% if active_tab == 'customers' %}active{% endif %}" href="?tab=customers">Customers ({{ customers_page.paginator.count }})</a>
+      <a class="report-tab" href="{% url 'pending_uploads' %}">Pending Approvals ({{ pending_page.paginator.count }})</a>
+    </div>
+
+    <div class="tab-pane">
+      {% if active_tab == 'transactions' %}
+      <form method="get">
+        <input type="hidden" name="tab" value="transactions">
+        <div class="filter-bar">
+          <input type="text" name="txn_search" placeholder="Search Txn ID / Payment ID / Email" value="{{ txn_filter.search }}">
+          <select name="txn_type">
+            <option value="">All Types</option>
+            <option value="credit" {% if txn_filter.type == 'credit' %}selected{% endif %}>Credit</option>
+            <option value="debit" {% if txn_filter.type == 'debit' %}selected{% endif %}>Debit</option>
+          </select>
+          <div class="filter-actions">
+            <button class="btn btn-apply" type="submit">Filter</button>
+            <a class="btn btn-reset" href="?tab=transactions">Reset</a>
+            <a class="btn btn-export" href="{% url 'admin_reports_export' 'transactions' %}" title="Export full transaction data to Excel">📊 Export Excel</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr><th>Txn ID</th><th>Type</th><th>Amount</th><th>User</th><th>Role</th><th>Payment ID</th><th>Created At</th><th>Updated At</th></tr></thead>
+          <tbody>
+            {% for txn in txn_page.object_list %}
+            <tr>
+              <td>{{ txn.transaction_id }}</td>
+              <td>{{ txn.transaction_type }}</td>
+              <td>₹{{ txn.amount }}</td>
+              <td>{% if txn.wallet and txn.wallet.user %}{{ txn.wallet.user.email }}{% endif %}</td>
+              <td>{% if txn.wallet and txn.wallet.user %}{{ txn.wallet.user.role }}{% endif %}</td>
+              <td>{{ txn.razorpay_payment_id|default:"-" }}</td>
+              <td>{{ txn.created_at|date:"d M Y, H:i" }}</td>
+              <td>{{ txn.updated_at|date:"d M Y, H:i"|default:"-" }}</td>
+            </tr>
+            {% empty %}<tr><td colspan="8">No transactions found.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pager">
+        {% if txn_page.has_previous %}<a href="?tab=transactions&tpage={{ txn_page.previous_page_number }}&txn_search={{ txn_filter.search|urlencode }}&txn_type={{ txn_filter.type|urlencode }}">Prev</a>{% endif %}
+        <span class="current">{{ txn_page.number }}</span>
+        {% if txn_page.has_next %}<a href="?tab=transactions&tpage={{ txn_page.next_page_number }}&txn_search={{ txn_filter.search|urlencode }}&txn_type={{ txn_filter.type|urlencode }}">Next</a>{% endif %}
+      </div>
+
+      {% elif active_tab == 'users' %}
+      <form method="get">
+        <input type="hidden" name="tab" value="users">
+        <div class="filter-bar">
+          <input type="text" name="user_search" placeholder="Search Name / Email" value="{{ user_filter.search }}">
+          <select name="user_role">
+            <option value="">All Roles</option>
+            <option value="customer" {% if user_filter.role == 'customer' %}selected{% endif %}>Customer</option>
+            <option value="employee" {% if user_filter.role == 'employee' %}selected{% endif %}>Employee</option>
+            <option value="admin" {% if user_filter.role == 'admin' %}selected{% endif %}>Admin</option>
+          </select>
+          <select name="user_verified">
+            <option value="">All Verification</option>
+            <option value="yes" {% if user_filter.verified == 'yes' %}selected{% endif %}>Verified</option>
+            <option value="no" {% if user_filter.verified == 'no' %}selected{% endif %}>Not Verified</option>
+          </select>
+          <div class="filter-actions">
+            <button class="btn btn-apply" type="submit">Filter</button>
+            <a class="btn btn-reset" href="?tab=users">Reset</a>
+            <a class="btn btn-export" href="{% url 'admin_reports_export' 'users' %}" title="Export full user data to Excel">📊 Export Excel</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr><th>ID</th><th>Email</th><th>Full Name</th><th>Role</th><th>Verified</th><th>Staff</th><th>Created At</th><th>Updated At</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for user in users_page.object_list %}
+            <tr>
+              <td>{{ user.id }}</td><td>{{ user.email }}</td><td>{{ user.full_name|default:"-" }}</td><td>{{ user.role|default:"-" }}</td><td>{{ user.is_verified }}</td><td>{{ user.is_staff }}</td><td>{{ user.date_joined|date:"d M Y, H:i"|default:"-" }}</td><td>{{ user.last_login|date:"d M Y, H:i"|default:"-" }}</td>
+              <td>
+                {% if not user.is_staff and not user.is_superuser and user.id != request.user.id %}
+                <form method="post" action="{% url 'admin_reports_delete' 'users' user.id %}" onsubmit="return strictDeleteConfirm(this, 'user');">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="confirm_text" value="">
+                  <button class="btn-danger" type="submit">🗑 Delete</button>
+                </form>
+                {% else %}-{% endif %}
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="9">No users found.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pager">
+        {% if users_page.has_previous %}<a href="?tab=users&upage={{ users_page.previous_page_number }}&user_search={{ user_filter.search|urlencode }}&user_role={{ user_filter.role|urlencode }}&user_verified={{ user_filter.verified|urlencode }}">Prev</a>{% endif %}
+        <span class="current">{{ users_page.number }}</span>
+        {% if users_page.has_next %}<a href="?tab=users&upage={{ users_page.next_page_number }}&user_search={{ user_filter.search|urlencode }}&user_role={{ user_filter.role|urlencode }}&user_verified={{ user_filter.verified|urlencode }}">Next</a>{% endif %}
+      </div>
+
+      {% elif active_tab == 'employees' %}
+      <form method="get">
+        <input type="hidden" name="tab" value="employees">
+        <div class="filter-bar">
+          <input type="text" name="emp_search" placeholder="Search Name / Email / Mobile" value="{{ emp_filter.search }}">
+          <select name="emp_status">
+            <option value="">All Status</option>
+            <option value="approved" {% if emp_filter.status == 'approved' %}selected{% endif %}>Approved</option>
+            <option value="pending" {% if emp_filter.status == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="rejected" {% if emp_filter.status == 'rejected' %}selected{% endif %}>Rejected</option>
+          </select>
+          <select name="emp_verified">
+            <option value="">All Verification</option>
+            <option value="yes" {% if emp_filter.verified == 'yes' %}selected{% endif %}>Verified</option>
+            <option value="no" {% if emp_filter.verified == 'no' %}selected{% endif %}>Not Verified</option>
+          </select>
+          <div class="filter-actions">
+            <button class="btn btn-apply" type="submit">Filter</button>
+            <a class="btn btn-reset" href="?tab=employees">Reset</a>
+            <a class="btn btn-export" href="{% url 'admin_reports_export' 'employees' %}" title="Export full employee data to Excel">📊 Export Excel</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Verified</th><th>City</th><th>State</th><th>Created At</th><th>Updated At</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for e in employees_page.object_list %}
+            <tr>
+              <td>{{ e.id }}</td><td>{{ e.full_name|default:"-" }}</td><td>{{ e.email_address|default:"-" }}</td><td>{{ e.mobile|default:"-" }}</td><td>{{ e.status }}</td><td>{{ e.is_verified }}</td><td>{{ e.city|default:"-" }}</td><td>{{ e.state|default:"-" }}</td><td>{% if e.user %}{{ e.user.date_joined|date:"d M Y, H:i"|default:"-" }}{% else %}-{% endif %}</td><td>{% if e.user %}{{ e.user.last_login|date:"d M Y, H:i"|default:"-" }}{% else %}-{% endif %}</td>
+              <td>
+                <a class="btn-view" href="{% url 'admin_reports_detail' 'employees' e.id %}">View Full</a>
+                <form method="post" action="{% url 'admin_reports_delete' 'employees' e.id %}" onsubmit="return strictDeleteConfirm(this, 'employee');">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="confirm_text" value="">
+                  <button class="btn-danger" type="submit">🗑 Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="11">No employees found.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pager">
+        {% if employees_page.has_previous %}<a href="?tab=employees&epage={{ employees_page.previous_page_number }}&emp_search={{ emp_filter.search|urlencode }}&emp_status={{ emp_filter.status|urlencode }}&emp_verified={{ emp_filter.verified|urlencode }}">Prev</a>{% endif %}
+        <span class="current">{{ employees_page.number }}</span>
+        {% if employees_page.has_next %}<a href="?tab=employees&epage={{ employees_page.next_page_number }}&emp_search={{ emp_filter.search|urlencode }}&emp_status={{ emp_filter.status|urlencode }}&emp_verified={{ emp_filter.verified|urlencode }}">Next</a>{% endif %}
+      </div>
+
+      {% elif active_tab == 'customers' %}
+      <form method="get">
+        <input type="hidden" name="tab" value="customers">
+        <div class="filter-bar">
+          <input type="text" name="cust_search" placeholder="Search Name / Email / Mobile" value="{{ cust_filter.search }}">
+          <select name="cust_verified">
+            <option value="">All Verification</option>
+            <option value="yes" {% if cust_filter.verified == 'yes' %}selected{% endif %}>Verified</option>
+            <option value="no" {% if cust_filter.verified == 'no' %}selected{% endif %}>Not Verified</option>
+          </select>
+          <div class="filter-actions">
+            <button class="btn btn-apply" type="submit">Filter</button>
+            <a class="btn btn-reset" href="?tab=customers">Reset</a>
+            <a class="btn btn-export" href="{% url 'admin_reports_export' 'customers' %}" title="Export full customer data to Excel">📊 Export Excel</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Verified</th><th>User</th><th>Created At</th><th>Updated At</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for c in customers_page.object_list %}
+            <tr>
+              <td>{{ c.id }}</td><td>{{ c.customer_full_name }}</td><td>{{ c.email|default:"-" }}</td><td>{{ c.mobile|default:"-" }}</td><td>{{ c.is_verified }}</td><td>{% if c.user %}{{ c.user.email }}{% else %}-{% endif %}</td><td>{% if c.user %}{{ c.user.date_joined|date:"d M Y, H:i"|default:"-" }}{% else %}-{% endif %}</td><td>{% if c.user %}{{ c.user.last_login|date:"d M Y, H:i"|default:"-" }}{% else %}-{% endif %}</td>
+              <td>
+                <a class="btn-view" href="{% url 'admin_reports_detail' 'customers' c.id %}">View Full</a>
+                <form method="post" action="{% url 'admin_reports_delete' 'customers' c.id %}" onsubmit="return strictDeleteConfirm(this, 'customer');">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="confirm_text" value="">
+                  <button class="btn-danger" type="submit">🗑 Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="9">No customers found.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pager">
+        {% if customers_page.has_previous %}<a href="?tab=customers&cpage={{ customers_page.previous_page_number }}&cust_search={{ cust_filter.search|urlencode }}&cust_verified={{ cust_filter.verified|urlencode }}">Prev</a>{% endif %}
+        <span class="current">{{ customers_page.number }}</span>
+        {% if customers_page.has_next %}<a href="?tab=customers&cpage={{ customers_page.next_page_number }}&cust_search={{ cust_filter.search|urlencode }}&cust_verified={{ cust_filter.verified|urlencode }}">Next</a>{% endif %}
+      </div>
+      {% elif active_tab == 'pending' %}
+      <form method="get">
+        <input type="hidden" name="tab" value="pending">
+        <div class="filter-bar">
+          <input type="text" name="pending_search" placeholder="Search image/art/uploader" value="{{ pending_filter.search }}">
+          <select name="pending_media">
+            <option value="">All Media</option>
+            <option value="photo" {% if pending_filter.media == 'photo' %}selected{% endif %}>Photo</option>
+            <option value="video" {% if pending_filter.media == 'video' %}selected{% endif %}>Video</option>
+          </select>
+          <div class="filter-actions">
+            <button class="btn btn-apply" type="submit">Filter</button>
+            <a class="btn btn-reset" href="?tab=pending">Reset</a>
+          </div>
+        </div>
+      </form>
+
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr><th>ID</th><th>Image Name</th><th>Type of Art</th><th>Uploader</th><th>Price</th><th>Approved</th><th>Verified</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for p in pending_page.object_list %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.image_name|default:"-" }}</td>
+              <td>{{ p.type_of_art|default:"-" }}</td>
+              <td>{{ p.userupload_name|default:"-" }}</td>
+              <td>₹{{ p.price|default:"0" }}</td>
+              <td>{{ p.is_approved }}</td>
+              <td>{{ p.is_verified_pic }}</td>
+              <td>
+                <button type="button" class="btn-view approve-action" data-id="{{ p.id }}">Approve</button>
+                <button type="button" class="btn-danger delete-action" data-id="{{ p.id }}">Delete</button>
+              </td>
+            </tr>
+            {% empty %}<tr><td colspan="8">No pending uploads found.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pager">
+        {% if pending_page.has_previous %}<a href="?tab=pending&ppage={{ pending_page.previous_page_number }}&pending_search={{ pending_filter.search|urlencode }}&pending_media={{ pending_filter.media|urlencode }}">Prev</a>{% endif %}
+        <span class="current">{{ pending_page.number }}</span>
+        {% if pending_page.has_next %}<a href="?tab=pending&ppage={{ pending_page.next_page_number }}&pending_search={{ pending_filter.search|urlencode }}&pending_media={{ pending_filter.media|urlencode }}">Next</a>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<script>
+  function strictDeleteConfirm(form, recordType) {
+    const first = confirm('Delete this ' + recordType + ' record? This action cannot be undone.');
+    if (!first) return false;
+    const typed = prompt('For safety, type DELETE to continue.');
+    if (typed !== 'DELETE') return false;
+    const hidden = form.querySelector('input[name="confirm_text"]');
+    if (hidden) hidden.value = typed;
+    return true;
+  }
+
+  document.querySelectorAll('.approve-action').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      if (!confirm('Approve this upload?')) return;
+      fetch("{% url 'approve_service_image' %}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+        body: JSON.stringify({ id: id })
+      }).then(r => r.json()).then(data => {
+        if (data.success) location.reload();
+        else alert(data.message || 'Approval failed');
+      });
+    });
+  });
+
+  document.querySelectorAll('.delete-action').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      if (!confirm('Delete this upload?')) return;
+      fetch("{% url 'delete_service_image' %}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+        body: JSON.stringify({ id: id })
+      }).then(r => r.json()).then(data => {
+        if (data.success) location.reload();
+        else alert(data.message || 'Delete failed');
+      });
+    });
+  });
+</script>
+{% endblock %}

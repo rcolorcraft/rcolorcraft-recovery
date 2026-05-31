@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -8,11 +10,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import translation
 from django.shortcuts import render
+from django.http import Http404
+from django.db.utils import ProgrammingError, OperationalError
 
 
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def custom_404(request, exception):
+    return render(request, "404.html", status=404)
 
 
 # def home(request):
@@ -136,6 +144,7 @@ def approve_service_image(request):
             data = json.loads(request.body)
             image_id = data.get("id")
             image = ServiceImage.objects.get(id=image_id)
+            image.is_approved = True
             image.is_verified_pic = True
             image.save()
             return JsonResponse(
@@ -219,6 +228,13 @@ def book_service(request, service_type):
 
     service_name = service_dict.get(service_type, "Service")
 
+    if request.user.is_authenticated and request.user.role == "employee":
+        messages.error(
+            request,
+            "Artists/Employees are not allowed to create bookings.",
+        )
+        return redirect("explore_service", service_type=service_type)
+
     # Use robust filtering logic similar to explore_service
     query_term = service_name
 
@@ -280,6 +296,612 @@ def reviews_page(request):
     return render(request, "reviews.html", {"reviews": reviews})
 
 
+def _require_staff_or_404(request):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        raise Http404("Page not found")
+
+
+def admin_reports(request):
+    from accounts.models import CustomUser, Employee, Customer
+    from wallet.models import WalletTransaction
+    from django.db.models import Q
+    from employee.models import ServiceImage
+
+    _require_staff_or_404(request)
+
+    per_page = 20
+    active_tab = request.GET.get("tab", "transactions")
+
+    txn_qs = (
+        WalletTransaction.objects.select_related("wallet__user")
+        .exclude(wallet__user__is_staff=True)
+        .exclude(wallet__user__is_superuser=True)
+        .exclude(wallet__user__role__iexact="admin")
+        .order_by("-created_at")
+    )
+    users_qs = (
+        CustomUser.objects.exclude(is_staff=True)
+        .exclude(is_superuser=True)
+        .exclude(role__iexact="admin")
+        .order_by("-date_joined")
+    )
+    employees_qs = (
+        Employee.objects.select_related("user")
+        .exclude(user__is_staff=True)
+        .exclude(user__is_superuser=True)
+        .exclude(user__role__iexact="admin")
+        .order_by("-id")
+    )
+    customers_qs = (
+        Customer.objects.select_related("user")
+        .exclude(user__is_staff=True)
+        .exclude(user__is_superuser=True)
+        .exclude(user__role__iexact="admin")
+        .order_by("-id")
+    )
+    pending_qs = ServiceImage.objects.filter(is_approved=False).order_by("-id")
+
+    # Transactions filters
+    txn_search = request.GET.get("txn_search", "").strip()
+    txn_type = request.GET.get("txn_type", "").strip()
+    if txn_search:
+        txn_qs = txn_qs.filter(
+            Q(transaction_id__icontains=txn_search)
+            | Q(razorpay_payment_id__icontains=txn_search)
+            | Q(wallet__user__email__icontains=txn_search)
+        )
+    if txn_type:
+        txn_qs = txn_qs.filter(transaction_type__iexact=txn_type)
+
+    # Users filters
+    user_search = request.GET.get("user_search", "").strip()
+    user_role = request.GET.get("user_role", "").strip()
+    user_verified = request.GET.get("user_verified", "").strip()
+    if user_search:
+        users_qs = users_qs.filter(
+            Q(email__icontains=user_search) | Q(full_name__icontains=user_search)
+        )
+    if user_role:
+        users_qs = users_qs.filter(role__iexact=user_role)
+    if user_verified in ("yes", "no"):
+        users_qs = users_qs.filter(is_verified=(user_verified == "yes"))
+
+    # Employees filters
+    emp_search = request.GET.get("emp_search", "").strip()
+    emp_status = request.GET.get("emp_status", "").strip()
+    emp_verified = request.GET.get("emp_verified", "").strip()
+    if emp_search:
+        employees_qs = employees_qs.filter(
+            Q(full_name__icontains=emp_search)
+            | Q(email_address__icontains=emp_search)
+            | Q(mobile__icontains=emp_search)
+            | Q(user__email__icontains=emp_search)
+        )
+    if emp_status:
+        employees_qs = employees_qs.filter(status__iexact=emp_status)
+    if emp_verified in ("yes", "no"):
+        employees_qs = employees_qs.filter(is_verified=(emp_verified == "yes"))
+
+    # Customers filters
+    cust_search = request.GET.get("cust_search", "").strip()
+    cust_verified = request.GET.get("cust_verified", "").strip()
+    if cust_search:
+        customers_qs = customers_qs.filter(
+            Q(customer_full_name__icontains=cust_search)
+            | Q(email__icontains=cust_search)
+            | Q(mobile__icontains=cust_search)
+            | Q(user__email__icontains=cust_search)
+        )
+    if cust_verified in ("yes", "no"):
+        customers_qs = customers_qs.filter(is_verified=(cust_verified == "yes"))
+
+    # Pending approvals filters
+    pending_search = request.GET.get("pending_search", "").strip()
+    pending_media = request.GET.get("pending_media", "").strip()
+    if pending_search:
+        pending_qs = pending_qs.filter(
+            Q(image_name__icontains=pending_search)
+            | Q(type_of_art__icontains=pending_search)
+            | Q(userupload_name__icontains=pending_search)
+        )
+    if pending_media == "photo":
+        pending_qs = pending_qs.exclude(file_url__iregex=r"\.(mp4|mov|avi|webm|mkv|m4v)$")
+    elif pending_media == "video":
+        pending_qs = pending_qs.filter(file_url__iregex=r"\.(mp4|mov|avi|webm|mkv|m4v)$")
+
+    txn_page = Paginator(txn_qs, per_page).get_page(request.GET.get("tpage"))
+    users_page = Paginator(users_qs, per_page).get_page(request.GET.get("upage"))
+    employees_page = Paginator(employees_qs, per_page).get_page(request.GET.get("epage"))
+    customers_page = Paginator(customers_qs, per_page).get_page(request.GET.get("cpage"))
+    pending_page = Paginator(pending_qs, per_page).get_page(request.GET.get("ppage"))
+
+    return render(
+        request,
+        "admin_reports.html",
+        {
+            "active_tab": active_tab,
+            "txn_page": txn_page,
+            "users_page": users_page,
+            "employees_page": employees_page,
+            "customers_page": customers_page,
+            "pending_page": pending_page,
+            "txn_filter": {"search": txn_search, "type": txn_type},
+            "user_filter": {
+                "search": user_search,
+                "role": user_role,
+                "verified": user_verified,
+            },
+            "emp_filter": {
+                "search": emp_search,
+                "status": emp_status,
+                "verified": emp_verified,
+            },
+            "cust_filter": {"search": cust_search, "verified": cust_verified},
+            "pending_filter": {"search": pending_search, "media": pending_media},
+        },
+    )
+
+
+def admin_reports_export(request, dataset):
+    from accounts.models import CustomUser, Employee, Customer
+    from wallet.models import WalletTransaction
+    from openpyxl import Workbook
+    from home.models import Booking, BookingOrder, Review, CustomProduct
+    from employee.models import ServiceImage
+
+    _require_staff_or_404(request)
+
+    def safe_count(qs):
+        try:
+            return qs.count()
+        except (ProgrammingError, OperationalError):
+            return 0
+
+    def safe_list(qs):
+        try:
+            return list(qs)
+        except (ProgrammingError, OperationalError):
+            return []
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = f"{dataset.title()} Report"
+
+    if dataset == "transactions":
+        sheet.append(
+            ["Transaction ID", "Type", "Amount", "User Email", "User Role", "Payment ID", "Created At", "Updated At"]
+        )
+        txn_rows = (
+            WalletTransaction.objects.select_related("wallet__user")
+            .exclude(wallet__user__is_staff=True)
+            .exclude(wallet__user__is_superuser=True)
+            .exclude(wallet__user__role__iexact="admin")
+            .order_by("-created_at")
+        )
+        for txn in txn_rows:
+            user = txn.wallet.user if txn.wallet else None
+            sheet.append(
+                [
+                    txn.transaction_id,
+                    txn.transaction_type,
+                    float(txn.amount) if txn.amount is not None else 0,
+                    getattr(user, "email", ""),
+                    getattr(user, "role", ""),
+                    txn.razorpay_payment_id or "",
+                    txn.created_at.strftime("%Y-%m-%d %H:%M:%S") if txn.created_at else "",
+                    txn.updated_at.strftime("%Y-%m-%d %H:%M:%S") if txn.updated_at else "",
+                ]
+            )
+    elif dataset == "users":
+        sheet.append(["ID", "Email", "Full Name", "Role", "Is Verified", "Is Staff", "Created At", "Updated At"])
+        users_rows = (
+            CustomUser.objects.exclude(is_staff=True)
+            .exclude(is_superuser=True)
+            .exclude(role__iexact="admin")
+            .order_by("-date_joined")
+        )
+        for user in users_rows:
+            sheet.append(
+                [
+                    user.id,
+                    user.email,
+                    user.full_name or "",
+                    user.role or "",
+                    user.is_verified,
+                    user.is_staff,
+                    user.date_joined.strftime("%Y-%m-%d %H:%M:%S") if user.date_joined else "",
+                    user.last_login.strftime("%Y-%m-%d %H:%M:%S") if user.last_login else "",
+                ]
+            )
+    elif dataset == "employees":
+        sheet.title = "Employees Profile"
+        sheet.append(
+            [
+                "ID",
+                "Full Name",
+                "Email",
+                "Mobile",
+                "Status",
+                "Verified",
+                "City",
+                "State",
+                "User Email",
+                "Created At",
+                "Updated At",
+                "Total Bookings",
+                "Total Wallet Transactions",
+                "Total Uploads",
+            ]
+        )
+        employees_rows = list(
+            Employee.objects.select_related("user")
+            .exclude(user__is_staff=True)
+            .exclude(user__is_superuser=True)
+            .exclude(user__role__iexact="admin")
+            .order_by("-id")
+        )
+        employee_users = [e.user for e in employees_rows if e.user]
+        booking_counts = {}
+        wallet_counts = {}
+        upload_counts = {}
+        for emp in employees_rows:
+            if emp.user:
+                booking_counts[emp.user.id] = safe_count(Booking.objects.filter(assigned_employee=emp.user))
+                wallet_counts[emp.user.id] = safe_count(WalletTransaction.objects.filter(wallet__user=emp.user))
+                upload_counts[emp.user.id] = safe_count(ServiceImage.objects.filter(userupload_id=emp.user.id))
+
+        for emp in employees_rows:
+            user_id = emp.user.id if emp.user else None
+            sheet.append(
+                [
+                    emp.id,
+                    emp.full_name or "",
+                    emp.email_address or "",
+                    emp.mobile or "",
+                    emp.status,
+                    emp.is_verified,
+                    emp.city or "",
+                    emp.state or "",
+                    emp.user.email if emp.user else "",
+                    emp.user.date_joined.strftime("%Y-%m-%d %H:%M:%S") if emp.user and emp.user.date_joined else "",
+                    emp.user.last_login.strftime("%Y-%m-%d %H:%M:%S") if emp.user and emp.user.last_login else "",
+                    booking_counts.get(user_id, 0),
+                    wallet_counts.get(user_id, 0),
+                    upload_counts.get(user_id, 0),
+                ]
+            )
+
+        bookings_sheet = workbook.create_sheet("Employees Bookings")
+        bookings_sheet.append(
+            [
+                "Employee ID",
+                "Employee Email",
+                "Booking ID",
+                "Service",
+                "Customer Name",
+                "Status",
+                "Assignment Status",
+                "Payment Amount",
+                "Created At",
+            ]
+        )
+        bookings_rows = Booking.objects.select_related("assigned_employee").filter(
+            assigned_employee__in=employee_users
+        ).order_by("-created_at")
+        for b in bookings_rows:
+            bookings_sheet.append(
+                [
+                    b.assigned_employee.id if b.assigned_employee else "",
+                    b.assigned_employee.email if b.assigned_employee else "",
+                    b.booking_id,
+                    b.service_name,
+                    b.customer_name,
+                    b.status,
+                    b.assignment_status,
+                    float(b.payment_amount) if b.payment_amount is not None else 0,
+                    b.created_at.strftime("%Y-%m-%d %H:%M:%S") if b.created_at else "",
+                ]
+            )
+
+        wallet_sheet = workbook.create_sheet("Employees Wallet Txn")
+        wallet_sheet.append(
+            [
+                "Employee ID",
+                "Employee Email",
+                "Transaction ID",
+                "Type",
+                "Amount",
+                "Payment ID",
+                "Created At",
+            ]
+        )
+        wallet_rows = WalletTransaction.objects.select_related("wallet__user").filter(
+            wallet__user__in=employee_users
+        ).order_by("-created_at")
+        for t in wallet_rows:
+            user = t.wallet.user if t.wallet else None
+            wallet_sheet.append(
+                [
+                    user.id if user else "",
+                    user.email if user else "",
+                    t.transaction_id,
+                    t.transaction_type,
+                    float(t.amount) if t.amount is not None else 0,
+                    t.razorpay_payment_id or "",
+                    t.created_at.strftime("%Y-%m-%d %H:%M:%S") if t.created_at else "",
+                ]
+            )
+
+        upload_sheet = workbook.create_sheet("Employees Uploads")
+        upload_sheet.append(
+            [
+                "Employee ID",
+                "Uploader Name",
+                "Image Name",
+                "Type of Art",
+                "Price",
+                "Approved",
+                "Verified Pic",
+            ]
+        )
+        upload_rows = ServiceImage.objects.filter(
+            userupload_id__in=[u.id for u in employee_users]
+        ).order_by("-id")
+        for up in upload_rows:
+            upload_sheet.append(
+                [
+                    up.userupload_id,
+                    up.userupload_name or "",
+                    up.image_name or "",
+                    up.type_of_art or "",
+                    float(up.price) if up.price is not None else 0,
+                    up.is_approved,
+                    up.is_verified_pic,
+                ]
+            )
+    elif dataset == "customers":
+        sheet.title = "Customers Profile"
+        sheet.append(
+            [
+                "ID",
+                "Name",
+                "Email",
+                "Mobile",
+                "Verified",
+                "User Email",
+                "Created At",
+                "Updated At",
+                "Total Bookings",
+                "Total Wallet Transactions",
+                "Total Orders",
+                "Total Reviews",
+                "Total Custom Products",
+            ]
+        )
+        customers_rows = list(
+            Customer.objects.select_related("user")
+            .exclude(user__is_staff=True)
+            .exclude(user__is_superuser=True)
+            .exclude(user__role__iexact="admin")
+            .order_by("-id")
+        )
+        customer_users = [c.user for c in customers_rows if c.user]
+        for cust in customers_rows:
+            bookings_count = safe_count(Booking.objects.filter(customer_user_id=cust.user.id)) if cust.user else 0
+            wallet_count = safe_count(WalletTransaction.objects.filter(wallet__user=cust.user)) if cust.user else 0
+            orders_count = safe_count(BookingOrder.objects.filter(user=cust.user)) if cust.user else 0
+            reviews_count = safe_count(Review.objects.filter(customer_email__iexact=(cust.email or (cust.user.email if cust.user else ""))))
+            custom_count = safe_count(CustomProduct.objects.filter(user=cust.user)) if cust.user else 0
+            sheet.append(
+                [
+                    cust.id,
+                    cust.customer_full_name,
+                    cust.email or "",
+                    cust.mobile or "",
+                    cust.is_verified,
+                    cust.user.email if cust.user else "",
+                    cust.user.date_joined.strftime("%Y-%m-%d %H:%M:%S") if cust.user and cust.user.date_joined else "",
+                    cust.user.last_login.strftime("%Y-%m-%d %H:%M:%S") if cust.user and cust.user.last_login else "",
+                    bookings_count,
+                    wallet_count,
+                    orders_count,
+                    reviews_count,
+                    custom_count,
+                ]
+            )
+
+        cust_bookings = workbook.create_sheet("Customers Bookings")
+        cust_bookings.append(
+            [
+                "Customer User ID",
+                "Customer Email",
+                "Booking ID",
+                "Service",
+                "Status",
+                "Payment Amount",
+                "Total Amount",
+                "Created At",
+            ]
+        )
+        bookings_rows = Booking.objects.filter(customer_user_id__in=[u.id for u in customer_users]).order_by("-created_at")
+        customer_email_map = {u.id: u.email for u in customer_users}
+        for b in bookings_rows:
+            cust_bookings.append(
+                [
+                    b.customer_user_id,
+                    customer_email_map.get(b.customer_user_id, ""),
+                    b.booking_id,
+                    b.service_name,
+                    b.status,
+                    float(b.payment_amount) if b.payment_amount is not None else 0,
+                    float(b.total_amount) if b.total_amount is not None else 0,
+                    b.created_at.strftime("%Y-%m-%d %H:%M:%S") if b.created_at else "",
+                ]
+            )
+
+        cust_wallet = workbook.create_sheet("Customers Wallet Txn")
+        cust_wallet.append(
+            ["Customer ID", "Customer Email", "Transaction ID", "Type", "Amount", "Payment ID", "Created At"]
+        )
+        wallet_rows = WalletTransaction.objects.select_related("wallet__user").filter(
+            wallet__user__in=customer_users
+        ).order_by("-created_at")
+        for t in wallet_rows:
+            user = t.wallet.user if t.wallet else None
+            cust_wallet.append(
+                [
+                    user.id if user else "",
+                    user.email if user else "",
+                    t.transaction_id,
+                    t.transaction_type,
+                    float(t.amount) if t.amount is not None else 0,
+                    t.razorpay_payment_id or "",
+                    t.created_at.strftime("%Y-%m-%d %H:%M:%S") if t.created_at else "",
+                ]
+            )
+
+        cust_orders = workbook.create_sheet("Customers Orders")
+        cust_orders.append(
+            ["Customer ID", "Customer Email", "Order Query ID", "Product", "Amount", "Status", "Created At"]
+        )
+        order_rows = BookingOrder.objects.select_related("user").filter(user__in=customer_users).order_by("-created_at")
+        for o in order_rows:
+            cust_orders.append(
+                [
+                    o.user.id if o.user else "",
+                    o.user.email if o.user else "",
+                    str(o.query_id),
+                    o.product_name,
+                    float(o.amount) if o.amount is not None else 0,
+                    o.status,
+                    o.created_at.strftime("%Y-%m-%d %H:%M:%S") if o.created_at else "",
+                ]
+            )
+
+        cust_reviews = workbook.create_sheet("Customers Reviews")
+        cust_reviews.append(
+            ["Customer Name", "Customer Email", "Rating", "Review", "Review Date"]
+        )
+        review_emails = [c.email for c in customers_rows if c.email] + [u.email for u in customer_users]
+        review_rows = safe_list(Review.objects.filter(customer_email__in=review_emails).order_by("-review_date"))
+        for r in review_rows:
+            cust_reviews.append(
+                [
+                    r.customer_name,
+                    r.customer_email,
+                    r.rating,
+                    r.customer_review or "",
+                    r.review_date.strftime("%Y-%m-%d %H:%M:%S") if r.review_date else "",
+                ]
+            )
+
+        cust_custom = workbook.create_sheet("Customers Custom Products")
+        cust_custom.append(
+            ["Customer ID", "Customer Email", "Name", "Size", "Material", "Message", "Created At"]
+        )
+        custom_rows = CustomProduct.objects.select_related("user").filter(user__in=customer_users).order_by("-created_at")
+        for cp in custom_rows:
+            cust_custom.append(
+                [
+                    cp.user.id if cp.user else "",
+                    cp.user.email if cp.user else "",
+                    cp.name or "",
+                    cp.size or "",
+                    cp.material or "",
+                    cp.message or "",
+                    cp.created_at.strftime("%Y-%m-%d %H:%M:%S") if cp.created_at else "",
+                ]
+            )
+    else:
+        sheet.append(["Invalid dataset"])
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = f'attachment; filename="{dataset}_report.xlsx"'
+    workbook.save(response)
+    return response
+
+
+def admin_reports_detail(request, dataset, record_id):
+    from accounts.models import Employee, Customer
+    from wallet.models import WalletTransaction
+    from home.models import Booking, BookingOrder, Review, CustomProduct
+    from employee.models import ServiceImage
+
+    _require_staff_or_404(request)
+
+    def safe_list(qs):
+        try:
+            return list(qs)
+        except (ProgrammingError, OperationalError):
+            return []
+
+    context = {"dataset": dataset}
+    if dataset == "employees":
+        emp = get_object_or_404(Employee.objects.select_related("user"), id=record_id)
+        user = emp.user
+        context["record"] = emp
+        context["bookings"] = safe_list(Booking.objects.filter(assigned_employee=user).order_by("-created_at")) if user else []
+        context["wallet_txns"] = safe_list(
+            WalletTransaction.objects.select_related("wallet__user").filter(wallet__user=user).order_by("-created_at")
+        ) if user else []
+        context["uploads"] = safe_list(ServiceImage.objects.filter(userupload_id=user.id).order_by("-id")) if user else []
+    elif dataset == "customers":
+        cust = get_object_or_404(Customer.objects.select_related("user"), id=record_id)
+        user = cust.user
+        context["record"] = cust
+        context["bookings"] = safe_list(Booking.objects.filter(customer_user_id=user.id).order_by("-created_at")) if user else []
+        context["wallet_txns"] = safe_list(
+            WalletTransaction.objects.select_related("wallet__user").filter(wallet__user=user).order_by("-created_at")
+        ) if user else []
+        context["orders"] = safe_list(BookingOrder.objects.filter(user=user).order_by("-created_at")) if user else []
+        email_key = cust.email or (user.email if user else "")
+        context["reviews"] = safe_list(Review.objects.filter(customer_email__iexact=email_key).order_by("-review_date")) if email_key else []
+        context["custom_products"] = safe_list(CustomProduct.objects.filter(user=user).order_by("-created_at")) if user else []
+    else:
+        raise Http404("Invalid report dataset")
+
+    return render(request, "home/admin_reports_detail.html", context)
+
+
+@require_POST
+def admin_reports_delete(request, dataset, record_id):
+    from accounts.models import CustomUser, Employee, Customer
+
+    _require_staff_or_404(request)
+
+    next_url = request.POST.get("next") or reverse("admin_reports")
+    if not str(next_url).startswith("/reports/"):
+        next_url = reverse("admin_reports")
+    if request.POST.get("confirm_text") != "DELETE":
+        messages.error(request, "Delete blocked. You must type DELETE to confirm.")
+        return redirect(next_url)
+
+    if dataset == "users":
+        obj = get_object_or_404(CustomUser, id=record_id)
+        if obj.id == request.user.id:
+            messages.error(request, "You cannot delete your own admin account.")
+            return redirect(next_url)
+        if obj.is_staff or obj.is_superuser:
+            messages.error(request, "Staff/Admin users cannot be deleted from this page.")
+            return redirect(next_url)
+        obj.delete()
+        messages.success(request, "User deleted successfully.")
+    elif dataset == "employees":
+        obj = get_object_or_404(Employee, id=record_id)
+        obj.delete()
+        messages.success(request, "Employee profile deleted successfully.")
+    elif dataset == "customers":
+        obj = get_object_or_404(Customer, id=record_id)
+        obj.delete()
+        messages.success(request, "Customer profile deleted successfully.")
+    else:
+        messages.error(request, "Invalid delete action.")
+
+    return redirect(next_url)
+
+
 from django.contrib.auth import logout
 
 # from django.shortcuts import render, redirect
@@ -292,11 +914,12 @@ def logout_view(request):
 
 from django.shortcuts import render
 from django.db.models import Q
+from django.core.paginator import Paginator
 from accounts.models import Employee
 
 
 def artists(request):
-    query = Employee.objects.all()
+    query = Employee.objects.all().order_by("-id")
 
     # Get filters
     artist_id = request.GET.get("artist_id")
@@ -334,7 +957,19 @@ def artists(request):
         except ValueError:
             pass  # ignore invalid input
 
-    return render(request, "artist.html", {"artists": query})
+    paginator = Paginator(query, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "artist.html",
+        {
+            "artists": page_obj.object_list,
+            "page_obj": page_obj,
+            "total_artists": paginator.count,
+        },
+    )
 
 
 from .models import Review
@@ -521,6 +1156,40 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
+def my_uploads_view(request):
+    if request.user.role != "employee":
+        messages.error(request, "This page is only available for employee accounts.")
+        return redirect("home")
+
+    uploads = ServiceImage.objects.filter(userupload_id=request.user.id).order_by("-id")
+    video_exts = (".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v")
+
+    def _media_url(item):
+        if item.file_url:
+            return str(item.file_url).lower()
+        try:
+            return str(item.image.url).lower()
+        except Exception:
+            return str(item.image).lower()
+
+    photo_uploads = []
+    video_uploads = []
+    for item in uploads:
+        media_url = _media_url(item)
+        if media_url.endswith(video_exts):
+            video_uploads.append(item)
+        else:
+            photo_uploads.append(item)
+
+    context = {
+        "uploads": uploads,
+        "photo_uploads": photo_uploads,
+        "video_uploads": video_uploads,
+    }
+    return render(request, "my_uploads.html", context)
+
+
+@login_required
 def edit_profile_view(request):
     # List of all 29 Indian states
     INDIAN_STATES = [
@@ -569,12 +1238,19 @@ def edit_profile_view(request):
             employee.village = request.POST.get("village")
             employee.city = request.POST.get("city")
             employee.state = request.POST.get("state")
-            employee.pincode = request.POST.get("pincode")
+            raw_pincode = (request.POST.get("pincode") or "").strip()
+            if raw_pincode and not raw_pincode.isdigit():
+                return JsonResponse(
+                    {"success": False, "message": "Pincode must contain only numbers."}
+                )
+            employee.pincode = raw_pincode or None
             employee.aadhar_card_no = request.POST.get("aadhar_card_no")
             employee.experience = request.POST.get("experience")
 
             # Get multiple selected locations and join them
-            selected_locations = request.POST.getlist("preferred_location")
+            selected_locations = request.POST.getlist(
+                "preferred_work_location"
+            ) or request.POST.getlist("preferred_location")
             print("LOCATIONS:", selected_locations)
             employee.preferred_work_location = ", ".join(selected_locations)
 
@@ -583,15 +1259,17 @@ def edit_profile_view(request):
             )
 
             employee.account_no = request.POST.get("account_no") or None
-            employee.ifsc_code = request.POST.get("ifsc_code") or None
+            raw_ifsc = (request.POST.get("ifsc_code") or "").strip()
+            employee.ifsc_code = raw_ifsc or None
 
             # NEW: Handle the three new optional fields
-            employee.full_address = request.POST.get("full_address")
+            employee.full_address = None
             employee.working_range = request.POST.get("working_range")
             employee.belong_to_org = request.POST.get("belong_to_org") == "on"
             employee.pan_card = request.POST.get("pan_card")
             employee.gst_no = request.POST.get("gst_no")
             employee.organization_name = request.POST.get("organization_name")
+            employee.organization_type = request.POST.get("organization_type") or None
 
             employee.role = "employee"
 
@@ -617,25 +1295,25 @@ def edit_profile_view(request):
             if not prev_status and is_ready:
                 wallet = Wallet.objects.filter(user=user).first()
 
-                if wallet and wallet.balance >= Decimal("20.00"):
-                    wallet.balance -= Decimal("20.00")
+                if wallet and wallet.balance >= Decimal("50.00"):
+                    wallet.balance -= Decimal("50.00")
                     wallet.save()
 
                     WalletTransaction.objects.create(
                         wallet=wallet,
                         transaction_type="DEBIT",
-                        amount=Decimal("20.00"),
+                        amount=Decimal("50.00"),
                         razorpay_payment_id=f"ACTIVATION_FEE_{user.id}_{int(time.time())}",
                     )
 
                     employee.status = True
                     employee.save()
 
-                    print("Deducted ₹20 for activation fee")
+                    print("Deducted ₹50 for activation fee")
                     return JsonResponse(
                         {
                             "success": True,
-                            "message": "Profile updated successfully! ₹20 activation fee deducted from your wallet.",
+                            "message": "Profile updated successfully! ₹50 activation fee deducted from your wallet.",
                         }
                     )
                 else:
@@ -644,7 +1322,7 @@ def edit_profile_view(request):
                     return JsonResponse(
                         {
                             "success": False,
-                            "message": "Insufficient wallet balance. Please add ₹20 to enable 'Ready to Take Orders' feature.",
+                            "message": "Insufficient wallet balance. Please add ₹50 to enable 'Ready to Take Orders' feature.",
                         }
                     )
             else:
@@ -706,6 +1384,7 @@ def edit_profile_view(request):
             "pan_card": employee.pan_card,
             "gst_no": employee.gst_no,
             "organization_name": employee.organization_name,
+            "organization_type": employee.organization_type,
             "ready_to_take_orders": employee.status,
             "full_address": employee.full_address,
             "working_range": employee.working_range,
@@ -866,7 +1545,7 @@ def home_view(request):
 
             enriched_reviews.append(r)
 
-    context = {"reviews": enriched_reviews}
+    context = {"reviews": enriched_reviews, "premium_services": _premium_services_queryset()}
 
     return render(request, "home.html", context)
 
@@ -982,6 +1661,13 @@ def save_booking(request):
         if not request.user.is_authenticated:
             return JsonResponse(
                 {"success": False, "message": "You must be logged in to book a service"}
+            )
+        if request.user.role != "customer":
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Only customer accounts can create bookings.",
+                }
             )
         print("POST DATA:", request.POST)
 
@@ -1505,6 +2191,7 @@ def home(request):
     return render(
         request,
         "home.html",
+        {"premium_services": _premium_services_queryset()},
     )
 
 
@@ -1533,6 +2220,91 @@ def toggle_artist_status(request, booking_id):
 
 from django.utils import timezone
 from datetime import timedelta
+
+
+DEFAULT_PREMIUM_SERVICES = [
+    {"title": "3D Wall Craft - Walls That Come Alive", "description": "Turn plain walls into extraordinary 3D masterpieces. Our creative wall art adds depth, style, and a striking visual impact to any space. Perfect for interiors that deserve a bold artistic touch.", "image_url": "/static/gallery/3d.jpeg", "book_slug": "3d-wall-art", "explore_slug": "3d-wall-art"},
+    {"title": "3D Floor Magic - Walk on Art", "description": "Transform ordinary floors into stunning 3D visual experiences. Our realistic designs create breathtaking illusions that instantly capture attention. Perfect for homes, malls, offices, and commercial spaces.", "image_url": "/static/gallery/3dfloorsrt.jpeg", "book_slug": "3d-floor-art", "explore_slug": "3d-floor-art"},
+    {"title": "Mural Works - Walls that Tell Your Story", "description": "Bring life and personality to your walls with custom mural designs. Our artistic murals transform blank spaces into meaningful visual stories. Perfect for homes, offices, and creative environments.", "image_url": "/static/gallery/m.jpeg", "book_slug": "mural", "explore_slug": "mural"},
+    {"title": "Metro & Piller Art - Be Seen by Thousands", "description": "Align your brand with high-traffic metro spaces using bold visuals to reach daily commuters. Stay visible on the move and create a lasting impression that keeps your brand top-of-mind.", "image_url": "/static/gallery/ad.jpeg", "book_slug": "metro-advertisement", "explore_slug": "metro-advertisement"},
+    {"title": "Urban Art - Make Your Brand Unmissable", "description": "Stand out in busy streets and public spaces with powerful outdoor advertising art. Our bold designs attract attention from a distance. Perfect for brands that want strong visibility.", "image_url": "/static/gallery/ambujaadvertisement.jpeg", "book_slug": "outdoor-advertisement", "explore_slug": "outdoor-advertisement"},
+    {"title": "School Art - Walls That Inspire Young Minds", "description": "Transform school walls into colorful and educational spaces. Our creative artwork encourages imagination and curiosity in children. Perfect for making learning environments vibrant and engaging.", "image_url": "/static/gallery/school.jpg", "book_slug": "school-painting", "explore_slug": "school-painting"},
+    {"title": "Selfi Spot - Turn Your Photo into Wall Art", "description": "Convert your favorite photos into stunning artistic portraits. Our custom selfie art transforms memories into beautiful wall decor. Perfect for homes, gifts, and personal spaces.", "image_url": "/static/gallery/selfie.jpeg", "book_slug": "selfie-painting", "explore_slug": "selfie-painting"},
+    {"title": "Madhubani Art - Traditional Art for Modern Walls", "description": "Experience the beauty of authentic Madhubani art on your walls. Our hand-crafted designs bring rich culture and vibrant colors to your space. Perfect for elegant and traditional decor.", "image_url": "/static/gallery/Madhubani painting.jpeg", "book_slug": "madhubani-painting", "explore_slug": "madhubani-painting"},
+    {"title": "Texture Wall - Luxury You Can Feel on Your Walls", "description": "Add depth and sophistication with modern texture art designs. Our premium finishes create stylish and luxurious interiors. Perfect for contemporary homes and designer spaces.", "image_url": "/static/gallery/Texture panting.jpeg", "book_slug": "texture-painting", "explore_slug": "texture-painting"},
+    {"title": "Statue Craft - Masterpieces in Stone", "description": "Bring your spaces to life with premium hand-carved stone statues. Our custom sculptures add artistic depth, elegance, and a touch of heritage to gardens, corporate offices, and private properties.", "image_url": "/static/gallery/buddha_statue.jpg", "book_slug": "stone-murti", "explore_slug": "stone-murti"},
+    {"title": "Scrap Craft - Art Made from Creativity & Recycling", "description": "Unique animal sculptures created from recycled materials. Our scrap art adds creativity and sustainability to parks, gardens, and public spaces. Perfect for eco-friendly artistic installations.", "image_url": "/static/gallery/Scrap animal.jpeg", "book_slug": "scrap-animal-art", "explore_slug": "scrap-animal-art"},
+    {"title": "Tank Art - From Tank to Landmark", "description": "Turn ordinary water tanks into colorful artistic highlights. Our creative designs transform dull structures into vibrant visual attractions. Perfect for communities and public spaces.", "image_url": "/static/gallery/Water tank.jpeg", "book_slug": "nature-fountain", "explore_slug": "nature-fountain"},
+    {"title": "Zenith Collection - Walls Full of Creativity and Life", "description": "Bring your walls to life with stunning statue-inspired designs. Our artwork adds depth, creativity, and a unique 3D feel to your space. Perfect for homes, gardens, and commercial areas that need a bold artistic touch.", "image_url": "/static/gallery/z.jpeg", "book_slug": "Zenith-Collection", "explore_slug": "Zenith-Collection"},
+    {"title": "Cartoon Craft - Walls Full of Fun and Imagination", "description": "Bring joy and creativity with playful cartoon wall art. Our designs create lively spaces for kids rooms, schools, and play areas. Perfect for bright and cheerful environments.", "image_url": "/static/gallery/child.jpeg", "book_slug": "cartoon-painting", "explore_slug": "cartoon-painting"},
+    {"title": "Home Decore Art - Make Your Home a Work of Art", "description": "Elevate your space with bespoke wall paintings and canvas art that add luxury and uniqueness. Expertly crafted by professional artists, each piece is a perfect masterpiece for your home.", "image_url": "/static/gallery/living.jpeg", "book_slug": "home-painting", "explore_slug": "home-painting"},
+]
+
+
+def _premium_services_queryset():
+    from .models import PremiumService
+    try:
+        qs = PremiumService.objects.filter(is_active=True).order_by("sort_order", "id")
+        if qs.exists():
+            return list(qs)
+        # Seed defaults once so they become editable from UI
+        for idx, item in enumerate(DEFAULT_PREMIUM_SERVICES, start=1):
+            PremiumService.objects.create(
+                title=item["title"],
+                description=item["description"],
+                image_url=item["image_url"],
+                book_slug=item["book_slug"],
+                explore_slug=item["explore_slug"],
+                sort_order=idx,
+                is_active=True,
+            )
+        return list(PremiumService.objects.filter(is_active=True).order_by("sort_order", "id"))
+    except (ProgrammingError, OperationalError):
+        return DEFAULT_PREMIUM_SERVICES
+
+
+def premium_services_editor(request):
+    from .models import PremiumService
+
+    _require_staff_or_404(request)
+    _premium_services_queryset()
+
+    if request.method == "POST":
+        ids = request.POST.getlist("service_id[]")
+        titles = request.POST.getlist("title[]")
+        descriptions = request.POST.getlist("description[]")
+        images = request.POST.getlist("image_url[]")
+        books = request.POST.getlist("book_slug[]")
+        explores = request.POST.getlist("explore_slug[]")
+        active_ids = set(request.POST.getlist("active_ids[]"))
+
+        for i in range(len(titles)):
+            title = (titles[i] or "").strip()
+            if not title:
+                continue
+            row_id = (ids[i] or "").strip() if i < len(ids) else ""
+            payload = {
+                "title": title,
+                "description": (descriptions[i] if i < len(descriptions) else "").strip(),
+                "image_url": (images[i] if i < len(images) else "").strip(),
+                "book_slug": (books[i] if i < len(books) else "").strip(),
+                "explore_slug": (explores[i] if i < len(explores) else "").strip(),
+                "sort_order": i + 1,
+                "is_active": row_id in active_ids if row_id else True,
+            }
+            if row_id:
+                PremiumService.objects.filter(id=row_id).update(**payload)
+            else:
+                PremiumService.objects.create(**payload)
+
+        messages.success(request, "Premium services updated successfully.")
+        return redirect("premium_services_editor")
+
+    try:
+        services = PremiumService.objects.all().order_by("sort_order", "id")
+    except (ProgrammingError, OperationalError):
+        services = []
+    return render(request, "premium_services_editor.html", {"services": services})
 
 
 def my_bookings(request):

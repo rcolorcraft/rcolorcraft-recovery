@@ -142,7 +142,7 @@ import os
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:Qwaszx12345@localhost:5432/rasdb",
+        default="postgresql://postgres:Qwaszx@#12345@localhost:5432/rasdb",
         conn_max_age=600,
     )
 }
@@ -258,6 +258,9 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # ✅ Media files (user uploads)
 # S3 media storage"AWS_S3_REGION_NAME", "ap-south-1")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # TESTING TESTING TESRINGGGGG

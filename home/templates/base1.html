@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="{% static 'css/common.css' %}">
   <link rel="stylesheet" href="{% static 'css/responsive-overrides.css' %}">
   <link rel="stylesheet" href="{% static 'css/review_page.css' %}">
+  {% block extra_css %}{% endblock %}
 
 
   <style>
@@ -97,6 +98,72 @@
       background-color: rgba(255, 255, 255, 0.1);
       color: #fff;
     }
+
+    .profile-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 6px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 4px 12px rgba(8, 35, 68, 0.18);
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 20px rgba(21, 70, 122, 0.16);
+    }
+
+    .profile-meta {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-right: 2px;
+      vertical-align: middle;
+      gap: 0;
+      order: 2;
+    }
+
+    .profile-card .nav-icon {
+      order: 1;
+    }
+
+    .profile-role-label {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: #f4f9ff;
+      background: #667eea;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      vertical-align: middle;
+    }
+
+    @media (max-width: 768px) {
+      .profile-card {
+        padding: 3px 5px;
+        gap: 5px;
+        border-radius: 8px;
+      }
+
+      .profile-meta {
+        margin-right: 0;
+        gap: 0;
+      }
+
+      .profile-role-label {
+        font-size: 8px;
+        padding: 2px 6px;
+      }
+    }
   </style>
   <style>
     /* Popup box */
@@ -150,7 +217,7 @@
     /* ===== BUTTON STYLE ===== */
     .large-order-btn-mobile {
       position: fixed;
-      bottom: 100px;
+      bottom: 120px;
       right: 40px;
 
         {
@@ -520,13 +587,61 @@
       }
     }
 
-    @media (max-width: 480px) {
-      .card-buttons {
-        max-width: 150px;
-        margin-left: auto;
-        margin-right: auto;
+    /* Final alignment fix: mobile bulk order chip */
+    .mobile-large-order {
+      position: fixed;
+      right: 18px;
+      bottom: 108px;
+      z-index: 99999;
+    }
+
+    .large-order-btn-mobile {
+      position: static !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      padding: 10px 14px !important;
+      border-radius: 999px !important;
+      line-height: 1 !important;
+      min-height: 42px;
+      white-space: nowrap;
+    }
+
+    .large-order-btn-mobile .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .large-order-btn-mobile .btn-text {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-large-order {
+        display: none !important;
       }
     }
+
+    @media (max-width: 767px) {
+      .mobile-large-order {
+        display: block !important;
+      }
+    }
+
+    .site-footer .footer-cta-bulk {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+  
 
     /* Add this CSS to your existing styles (update the .contact-item class) */
 
@@ -1214,9 +1329,9 @@
           {% if user.is_authenticated and user.is_staff %}
           <li><a href="/bookings/" class="{% if request.path == '/bookings/' %}active{% endif %}">Bookings</a></li>
           <li><a href="/artists/" class="{% if request.path == '/artists/' %}active{% endif %}">Artists</a></li>
-          <li><a href="{% url 'service_images' %}">Art Images</a></li>
+          <li><a href="{% url 'service_images' %}" class="{% if '/employee/service_images/' in request.path %}active{% endif %}">Art Images</a></li>
+          <li><a href="{% url 'admin_reports' %}" class="{% if '/reports/' in request.path %}active{% endif %}">Reports</a></li>
           {% endif %}
-
 
           {% if request.user.is_authenticated and request.user.role == "customer" %}
           <li><a href="{% url 'my_orders' %}">My Orders</a></li>
@@ -1233,6 +1348,7 @@
           {% if request.user.is_authenticated and request.user.role == "employee" %}
           <li><a href="{% url 'employee_bookings' %}" class="{% if 'assignments' in request.path %}active{% endif %}">My
               Assignments</a></li>
+          <li><a href="{% url 'my_uploads' %}" class="{% if '/my-uploads/' in request.path %}active{% endif %}">My Uploads</a></li>
           <li><a href="{% url 'service_images' %}">Art Images</a></li>
 
           {% endif %}
@@ -1240,18 +1356,10 @@
       </nav>
     </div>
 
-    <div class="mobile-large-order">
-      <button class="large-order-btn-mobile" onclick="openPopup()">
-        <i class="icon">📦</i>
-        <span class="text">Bulk Order</span>
-      </button>
-    </div>
-
-
     <!-- ART SEARCH BAR -->
     <div class="art-search-container">
       <input type="text" id="artSearchInput" placeholder="Search art type…" list="artServices" />
-      <button onclick="searchArtService()">
+      <button type="button" id="artSearchBtn" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
 
@@ -1421,11 +1529,34 @@
           padding: 10px 15px;
           gap: 8px;
           box-sizing: border-box;
+          align-items: center;
+          justify-content: flex-end;
+          min-height: 54px;
         }
 
         .art-search-container input {
           flex: 1;
           min-width: 0;
+          max-width: 0;
+          opacity: 0;
+          pointer-events: none;
+          padding-left: 0;
+          border-color: transparent;
+          transition: max-width 0.25s ease, opacity 0.2s ease, padding 0.2s ease;
+        }
+
+        .art-search-container.active input {
+          flex: 1;
+          min-width: 0;
+          max-width: 100%;
+          opacity: 1;
+          pointer-events: auto;
+          padding-left: 12px;
+          border-color: #ddd;
+        }
+
+        .art-search-container button {
+          flex-shrink: 0;
         }
 
         .mobile-large-order {
@@ -1483,6 +1614,141 @@
         margin-top: 14px;
       }
 
+      /* ===== Header Redesign Override ===== */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .left-group {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+   
+
+      .nav-left ul {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-left a {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 10px;
+        border-radius: 9px;
+        color: #eff6ff !important;
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 600;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .nav-left a:hover,
+      .nav-left a.active {
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff !important;
+      }
+
+      .nav-left .large-order-btn {
+        border: none;
+        border-radius: 10px;
+        padding: 7px 10px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #173d66;
+        background: #ffd27d;
+      }
+
+      .art-search-container {
+        position: static !important;
+        transform: none !important;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 999px;
+        padding: 4px;
+      }
+
+      .art-search-container input {
+        width: 160px;
+        border: none;
+        background: transparent;
+        color: #fff;
+        padding: 7px 10px;
+      }
+
+      .art-search-container input::placeholder {
+        color: rgba(239, 246, 255, 0.86);
+      }
+
+      .art-search-container button {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        background:transparent;
+        color: #fff;
+      }
+
+      .language-switcher {
+        position: static !important;
+        transform: none !important;
+      }
+
+      .language-switcher select {
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: #fff;
+        padding: 6px 8px;
+      }
+
+      .nav-right {
+        margin-left: 4px;
+      }
+
+      .profile-card {
+        background: #fff;
+      }
+
+      @media (max-width: 768px) {
+        header {
+          padding: 8px 10px !important;
+        }
+
+        .site-logo-text {
+          font-size: 1.1rem;
+        }
+
+        .mobile-large-order {
+          display: block !important;
+          right: 40px !important;
+          bottom: 110px !important;
+          z-index: 100001 !important;
+        }
+
+        .art-search-container {
+          margin-left: 0;
+          width: 100%;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.15);
+        }
+
+        .art-search-container.active input {
+          color: #fff;
+        }
+      }
+
       .float {
         position: fixed;
         width: 60px;
@@ -1496,6 +1762,46 @@
         font-size: 35px;
         box-shadow: 2px 2px 3px #999;
         z-index: 100;
+      }
+
+      /* Final hard override: show bulk button on desktop + mobile above WhatsApp */
+      .mobile-large-order {
+        display: block !important;
+        position: fixed !important;
+        right: 40px !important;
+        bottom: 110px !important;
+        z-index: 100002 !important;
+      }
+
+      .mobile-large-order .large-order-btn-mobile {
+        display: inline-flex !important;
+        position: static !important;
+      }
+
+      .mobile-large-order .text,
+      .mobile-large-order .btn-text {
+        display: inline-block !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+        color: #fff !important;
+      }
+
+      .mobile-large-order .icon {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        position: static !important;
+        color: #fff !important;
+        font-size: 16px !important;
       }
     </style>
 
@@ -1640,9 +1946,26 @@
     <nav class="nav-right">
       <ul>
         <li>
-          <a href="javascript:void(0)" id="userIcon" onclick="togglePopup()">
-            <img src="{% static 'gallery/user.png' %}" class="nav-icon">
-          </a>
+          <div class="profile-card" id="userIcon" onclick="togglePopup()">
+            <span class="profile-meta">
+              <span class="profile-role-label">
+                {% if user.is_authenticated %}
+                  {% if user.is_staff %}
+                    Admin
+                  {% elif user.role == "employee" %}
+                    Employee
+                  {% elif user.role == "customer" %}
+                    Customer
+                  {% else %}
+                    User
+                  {% endif %}
+                {% else %}
+                  Guest
+                {% endif %}
+              </span>
+            </span>
+            <img src="{% static 'gallery/user.png' %}" class="nav-icon" alt="Profile">
+          </div>
 
           {% comment %} <p style="color:red;">Role: {{ user.role }}</p> {% endcomment %}
           <!-- Popup menu -->
@@ -1651,6 +1974,7 @@
 
             {% if user.is_authenticated and user.role == "employee" and not user.is_staff %}
             <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="{% url 'my_uploads' %}">My Uploads</a>
             {% endif %}
 
             <a href="{% url 'logout' %}">Logout/Login</a>
@@ -1711,15 +2035,15 @@
           <h3 class="footer-heading">Trending Services</h3>
           <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
             <a href="{% url 'explore_service' 'home-painting' %}" class="footer-service-link"><i
-                class="fa-solid fa-house"></i> Home Art</a>
+                class="fa-solid fa-house"></i> Home Decore Art</a>
             <a href="{% url 'explore_service' 'school-painting' %}" class="footer-service-link"><i
                 class="fa-solid fa-graduation-cap"></i> School Art</a>
             <a href="{% url 'explore_service' 'texture-painting' %}" class="footer-service-link"><i
-                class="fa-solid fa-shapes"></i> Texture Art</a>
+                class="fa-solid fa-shapes"></i> Texture Wall</a>
             <a href="{% url 'explore_service' '3d-wall-art' %}" class="footer-service-link"><i
-                class="fa-solid fa-cube"></i> 3D Wall Art</a>
+                class="fa-solid fa-cube"></i> 3D Wall Craft</a>
             <a href="{% url 'explore_service' 'Zenith-Collection' %}" class="footer-service-link"><i
-                class="fa-solid fa-gem"></i> Zenith Collection</a>
+                class="fa-solid fa-gem"></i> Zeinth Collection</a>
           </div>
         </div>
 
@@ -1728,15 +2052,15 @@
           <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
           <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
             <a href="{% url 'explore_service' 'metro-advertisement' %}" class="footer-service-link"><i
-                class="fa-solid fa-train"></i> Metro Advertisement</a>
+                class="fa-solid fa-train"></i> Metro &amp; Piller Art</a>
             <a href="{% url 'explore_service' 'selfie-painting' %}" class="footer-service-link"><i
-                class="fa-solid fa-face-smile"></i> selfie-Art</a>
+                class="fa-solid fa-face-smile"></i> Selfi Spot</a>
             <a href="{% url 'explore_service' 'mural' %}" class="footer-service-link"><i
-                class="fa-solid fa-paint-roller"></i> Mural Art</a>
+                class="fa-solid fa-paint-roller"></i> Mural Works</a>
             <a href="{% url 'explore_service' 'cartoon-painting' %}" class="footer-service-link"><i
-                class="fa-solid fa-face-smile"></i> Cartoon Art</a>
+                class="fa-solid fa-face-smile"></i> Cartoon Craft</a>
             <a href="{% url 'explore_service' 'fountain-art' %}" class="footer-service-link"><i
-                class="fa-solid fa-droplet"></i> Water Tank</a>
+                class="fa-solid fa-droplet"></i> Tank Art</a>
           </div>
         </div>
 
@@ -1745,15 +2069,15 @@
           <h3 class="footer-heading" aria-hidden="true">&nbsp;</h3>
           <div class="footer-services-col" style="display: flex; flex-direction: column; gap: 4px;">
             <a href="{% url 'explore_service' '3d-floor-art' %}" class="footer-service-link"><i
-                class="fa-solid fa-layer-group"></i> 3D Floor Art</a>
+                class="fa-solid fa-layer-group"></i> 3D Floor Magic</a>
             <a href="{% url 'explore_service' 'madhubani-painting' %}" class="footer-service-link"><i
                 class="fa-solid fa-palette"></i> Madhubani Art</a>
             <a href="{% url 'explore_service' 'outdoor-advertisement' %}" class="footer-service-link"><i
-                class="fa-solid fa-image"></i> Outdoor Advertisement</a>
+                class="fa-solid fa-image"></i> Urban Art</a>
             <a href="{% url 'explore_service' 'scrap-animal-art' %}" class="footer-service-link"><i
-                class="fa-solid fa-shapes"></i> Scrap Art</a>
+                class="fa-solid fa-shapes"></i> Scrap Craft</a>
             <a href="{% url 'explore_service' 'urban-art' %}" class="footer-service-link"><i
-                class="fa-solid fa-city"></i> Urban Art</a>
+                class="fa-solid fa-city"></i> Statue</a>
           </div>
         </div>
 
@@ -1957,10 +2281,57 @@
       }
     }
 
+    function isMobileSearchMode() {
+      return window.innerWidth <= 768;
+    }
+
+    function openMobileSearch() {
+      const container = document.querySelector(".art-search-container");
+      const input = document.getElementById("artSearchInput");
+      if (!container || !input) return;
+      container.classList.add("active");
+      setTimeout(() => input.focus(), 120);
+    }
+
+    function closeMobileSearch() {
+      const container = document.querySelector(".art-search-container");
+      const input = document.getElementById("artSearchInput");
+      if (!container || !input) return;
+      container.classList.remove("active");
+      input.blur();
+    }
+
+    const artSearchBtn = document.getElementById("artSearchBtn");
+    if (artSearchBtn) {
+      artSearchBtn.addEventListener("click", function () {
+        const container = document.querySelector(".art-search-container");
+        if (isMobileSearchMode() && container && !container.classList.contains("active")) {
+          openMobileSearch();
+          return;
+        }
+        searchArtService();
+      });
+    }
+
     /* ENTER key support */
     document.getElementById("artSearchInput").addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         searchArtService();
+      }
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!isMobileSearchMode()) return;
+      const container = document.querySelector(".art-search-container");
+      if (!container) return;
+      if (!container.contains(event.target)) {
+        closeMobileSearch();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && isMobileSearchMode()) {
+        closeMobileSearch();
       }
     });
   </script>
@@ -2037,6 +2408,12 @@ target="_blank">
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <div class="mobile-large-order">
+    <button class="large-order-btn-mobile" onclick="openPopup()">
+      <i class="icon">📦</i>
+      <span class="btn-text">Bulk Order</span>
+    </button>
+  </div>
   <a href="https://wa.me/919759013133?text=Hi%20I%20want%20to%20book%20your%20service" class="float" target="_blank">
     <i class="fa fa-whatsapp wp-button"></i>
   </a>
