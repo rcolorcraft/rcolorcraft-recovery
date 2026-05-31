@@ -683,6 +683,10 @@ input:checked + .slider:before {
                 <h3>Address</h3>
 
                 <div class="grid-2">
+                    <div class="full-width">
+                        <label>Full Address</label>
+                        <textarea name="full_address">{{ full_address|default_if_none:'' }}</textarea>
+                    </div>
                     <div>
                         <label>State <span class="star">*</span></label>
                         <input type="text" name="state" value="{{ state|default_if_none:'' }}" .... required>
