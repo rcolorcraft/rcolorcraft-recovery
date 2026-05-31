@@ -1328,30 +1328,32 @@ def api_service_image_upload(request):
                 except Exception:
                     pass
 
-        existing = ServiceImage.objects.filter(userupload_id=user.id)
-        existing_photos = sum(1 for row in existing if not is_video_item(row))
-        existing_videos = sum(1 for row in existing if is_video_item(row))
-        incoming_is_video = is_video_file(image)
+        # Apply limits only for employee role, not admin
+        if getattr(user, "role", "") == "employee":
+            existing = ServiceImage.objects.filter(userupload_id=user.id)
+            existing_photos = sum(1 for row in existing if not is_video_item(row))
+            existing_videos = sum(1 for row in existing if is_video_item(row))
+            incoming_is_video = is_video_file(image)
 
-        if incoming_is_video and existing_videos >= max_videos:
-            return JsonResponse(
-                {"success": False, "error": f"Video upload limit reached. Maximum {max_videos} videos allowed."}
-            )
-        if not incoming_is_video and existing_photos >= max_photos:
-            return JsonResponse(
-                {"success": False, "error": f"Photo upload limit reached. Maximum {max_photos} photos allowed."}
-            )
-        if incoming_is_video:
-            duration = get_video_duration_seconds(image)
-            if duration is None:
+            if incoming_is_video and existing_videos >= max_videos:
                 return JsonResponse(
-                    {"success": False, "error": "Unable to validate video duration. Please upload a valid video file."}
+                    {"success": False, "error": f"Video upload limit reached. Maximum {max_videos} videos allowed."}
                 )
-            if duration > max_video_seconds:
+            if not incoming_is_video and existing_photos >= max_photos:
                 return JsonResponse(
-                    {"success": False, "error": f"Video is {duration:.1f}s. Maximum allowed is {max_video_seconds}s."}
+                    {"success": False, "error": f"Photo upload limit reached. Maximum {max_photos} photos allowed."}
                 )
-            image.seek(0)
+            if incoming_is_video:
+                duration = get_video_duration_seconds(image)
+                if duration is None:
+                    return JsonResponse(
+                        {"success": False, "error": "Unable to validate video duration. Please upload a valid video file."}
+                    )
+                if duration > max_video_seconds:
+                    return JsonResponse(
+                        {"success": False, "error": f"Video is {duration:.1f}s. Maximum allowed is {max_video_seconds}s."}
+                    )
+                image.seek(0)
 
         ServiceImage.objects.create(
             image_name=name,

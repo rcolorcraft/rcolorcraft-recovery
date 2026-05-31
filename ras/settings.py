@@ -142,7 +142,7 @@ import os
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:Qwaszx@#12345@localhost:5432/rasdb",
+        default="postgresql://neeraj_shrivastav:UvmeHsDhT4XeJKJ12pCTPs9qp2ScfqM7@dpg-d84osgojo89c73b1bka0-a.singapore-postgres.render.com/rccdb_y3vz",
         conn_max_age=600,
     )
 }
