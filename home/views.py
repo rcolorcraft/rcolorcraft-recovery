@@ -2277,12 +2277,15 @@ def premium_services_editor(request):
         books = request.POST.getlist("book_slug[]")
         explores = request.POST.getlist("explore_slug[]")
         active_ids = set(request.POST.getlist("active_ids[]"))
+        remove_ids = set([x for x in request.POST.getlist("remove_ids[]") if x])
 
         for i in range(len(titles)):
             title = (titles[i] or "").strip()
             if not title:
                 continue
             row_id = (ids[i] or "").strip() if i < len(ids) else ""
+            if row_id and row_id in remove_ids:
+                continue
             payload = {
                 "title": title,
                 "description": (descriptions[i] if i < len(descriptions) else "").strip(),
@@ -2296,6 +2299,9 @@ def premium_services_editor(request):
                 PremiumService.objects.filter(id=row_id).update(**payload)
             else:
                 PremiumService.objects.create(**payload)
+
+        if remove_ids:
+            PremiumService.objects.filter(id__in=list(remove_ids)).delete()
 
         messages.success(request, "Premium services updated successfully.")
         return redirect("premium_services_editor")
