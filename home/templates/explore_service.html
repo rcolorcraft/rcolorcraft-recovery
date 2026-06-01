@@ -143,6 +143,8 @@
           <span class="art-type">Urban Art</span>
           {% elif img.type_of_art == "Selfie Painting" or img.type_of_art == "Selfie Art" %}
           <span class="art-type">Selfi Spot</span>
+          {% elif img.type_of_art == "Madhubani Painting" %}
+          <span class="art-type">Madhubani Art</span>
           {% else %}
           <span class="art-type">{{ img.type_of_art }}</span>
           {% endif %}
