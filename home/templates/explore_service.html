@@ -145,6 +145,10 @@
           <span class="art-type">Selfi Spot</span>
           {% elif img.type_of_art == "Madhubani Painting" %}
           <span class="art-type">Madhubani Art</span>
+          {% elif img.type_of_art == "Texture Painting" %}
+          <span class="art-type">Texture Wall</span>
+          {% elif img.type_of_art == "Scrap Animal Art" %}
+          <span class="art-type">Scrap Craft</span>
           {% else %}
           <span class="art-type">{{ img.type_of_art }}</span>
           {% endif %}
