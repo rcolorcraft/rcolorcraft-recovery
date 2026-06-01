@@ -137,6 +137,8 @@
           <span class="art-type">Home Decore Art</span>
           {% elif img.type_of_art == "Nature & Water Fountain" or img.type_of_art == "Fountain Art" %}
           <span class="art-type">Tank Art</span>
+          {% elif img.type_of_art == "Metro Advertisement" %}
+          <span class="art-type">Metro & Piller art</span>
           {% else %}
           <span class="art-type">{{ img.type_of_art }}</span>
           {% endif %}
