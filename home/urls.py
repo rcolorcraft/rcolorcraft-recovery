@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import my_assignments
+
 
 # from django.contrib.auth import views as auth_views
 # from django.conf import settings
@@ -9,12 +9,7 @@ from .views import my_assignments
 # app_name = "home"
 
 urlpatterns = [
-    path("employee/assignments/", my_assignments, name="my_assignments"),
-    path(
-        "assignments/<int:booking_id>/toggle-artist-status/",
-        views.toggle_artist_status,
-        name="toggle_artist_status",
-    ),
+
     path("reports/", views.admin_reports, name="admin_reports"),
     path(
         "premium-services/editor/",
