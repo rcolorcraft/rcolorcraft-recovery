@@ -1365,22 +1365,21 @@
 
       <!-- Suggestions -->
       <datalist id="artServices">
-        <option value="3D Wall Art">
-        <option value="3D Floor Art">
-        <option value="Mural Art">
-        <option value="Metro Advertisement">
-        <option value="Outdoor Advertisement">
+        <option value="3D Wall Craft">
+        <option value="3D Floor Magic">
+        <option value="Mural Works">
+        <option value="Metro & Piller Art">
+        <option value="Urban Art">
         <option value="School Art">
-        <option value="Selfie Art">
+        <option value="Selfi Spot">
         <option value="Madhubani Art">
-        <option value="Texture Art">
-        <!-- <option value="Pillere Art"> -->
-        <option value="Scrap Animal Art">
-        <option value="Water Tank Art">
-        <option value="Cartoon Art">
-        <option value="Home Art">
-        <option value="Zenith Collection">
-
+        <option value="Texture Wall">
+        <option value="Statue">
+        <option value="Scrap Craft">
+        <option value="Tank Art">
+        <option value="Cartoon Craft">
+        <option value="Home Decore Art">
+        <option value="Zeinth Collection">
       </datalist>
     </div>
 
@@ -2258,6 +2257,24 @@
       const input = document.getElementById("artSearchInput").value.trim().toLowerCase();
 
       const serviceMap = {
+        // New visually updated names
+        "3d wall craft": "3d-wall-art",
+        "3d floor magic": "3d-floor-art",
+        "mural works": "mural",
+        "metro & piller art": "metro-advertisement",
+        "urban art": "outdoor-advertisement",
+        "school art": "school-painting",
+        "selfi spot": "selfie-painting",
+        "madhubani art": "madhubani-painting",
+        "texture wall": "texture-painting",
+        "statue": "urban-art",
+        "scrap craft": "scrap-animal-art",
+        "tank art": "nature-fountain",
+        "cartoon craft": "cartoon-painting",
+        "home decore art": "home-painting",
+        "zeinth collection": "Zenith-Collection",
+
+        // Old fallback names (for backwards compatibility)
         "3d wall art": "3d-wall-art",
         "3d floor art": "3d-floor-art",
         "mural art": "mural",
@@ -2271,7 +2288,8 @@
         "scrap animal art": "scrap-animal-art",
         "water tank": "nature-fountain",
         "cartoon painting": "cartoon-painting",
-        "home painting": "home-painting"
+        "home painting": "home-painting",
+        "zenith collection": "Zenith-Collection"
       };
 
       if (serviceMap[input]) {
