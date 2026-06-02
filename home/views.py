@@ -2166,7 +2166,7 @@ def toggle_artist_status(request, booking_id):
         booking.artist_status = not booking.artist_status
         booking.save(update_fields=["artist_status"])
 
-    return redirect("employee_bookings")
+    return redirect("employee_assignments")
 
 
 from django.shortcuts import render, redirect
@@ -2195,7 +2195,27 @@ def home(request):
     )
 
 
+from .models import Booking
 
+
+def my_assignments(request):
+    bookings = Booking.objects.all()
+
+    return render(request, "employee_bookings.html", {"bookings": bookings})
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Booking
+
+
+def toggle_artist_status(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == "POST":
+        booking.artist_status = not booking.artist_status
+        booking.save()
+
+    return redirect("my_assignments")
 
 
 from django.utils import timezone

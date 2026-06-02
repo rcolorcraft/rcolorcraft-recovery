@@ -31,11 +31,6 @@
                     <div class="restricted-info">
                         <p><strong>City:</strong> {{ booking.city }}</p>
                         <p><strong>Pincode:</strong> {{ booking.pin_code }}</p>
-                        <div class="row">
-                            <p><strong>Total Walls:</strong> {{ booking.total_walls }}</p>
-                            <p><strong>Total SqFt:</strong> {{ booking.total_sqft }}</p>
-                        </div>
-                        <p><strong>Quoted Price:</strong> ₹{{ booking.total_amount }}</p>
                     </div>
 
                     <!-- Full Details - Only visible after acceptance -->
@@ -45,6 +40,11 @@
                         <p><strong>Customer Name:</strong> {{ booking.customer_name }}</p>
                         <p><strong>Contact:</strong> {{ booking.contact_number }} | {{ booking.email }}</p>
                         <p><strong>Full Address:</strong> {{ booking.address }}, {{ booking.city }}, {{ booking.state }} - {{ booking.pin_code }}</p>
+                        <div class="row">
+                            <p><strong>Total Walls:</strong> {{ booking.total_walls }}</p>
+                            <p><strong>Total SqFt:</strong> {{ booking.total_sqft }}</p>
+                        </div>
+                        <p><strong>Quoted Price:</strong> ₹{{ booking.total_amount }}</p>
                     </div>
                     {% endif %}
                     
