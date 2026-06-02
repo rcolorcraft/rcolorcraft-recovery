@@ -19,6 +19,13 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+try:
+    import dotenv
+    dotenv.load_dotenv(os.path.join(BASE_DIR, ".env"))
+except ImportError:
+    pass
+
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # MEDIA_URL = "https://res.cloudinary.com/djpbnsl2t/"
@@ -30,7 +37,7 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 SECRET_KEY = "django-insecure-am_fw1vlm_u(2pqj*8k7fv=8*+l9!ync@fa&#5x-$u6)k)-!$r"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "t")
 
 ALLOWED_HOSTS = [
     "rcolorcraft.com",  # Your root domain
@@ -142,7 +149,7 @@ import os
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="",
+        default=os.environ.get("DATABASE_URL"),
         conn_max_age=600,
     )
 }
