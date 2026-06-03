@@ -82,6 +82,10 @@
         max-width: 750px;
         margin: 40px auto;
     }
+    .booking-form.guest-locked {
+        pointer-events: none;
+        opacity: 0.6;
+    }
 
 
     .booking-wrapper {
@@ -1617,7 +1621,7 @@
 <div id="bookingWrapper" class="booking-wrapper">
 
     <!-- 🔒 ADD THIS OVERLAY HERE -->
-    <div id="formOverlay" class="form-overlay" style="display:none;">
+    <div id="formOverlay" class="form-overlay" {% if not request.user.is_authenticated %}style="display:flex;"{% else %}style="display:none;"{% endif %}>
         <div class="overlay-box">
             <h3>🔐 Login Required</h3>
             <p>Please signup/login to book this service</p>
@@ -1626,15 +1630,13 @@
     </div>
 
     <!-- 👇 YOUR EXISTING FORM -->
-    <form id="bookingForm" method="POST" enctype="multipart/form-data">
-        <form id="bookingForm" method="POST" enctype="multipart/form-data">
+    <form id="bookingForm" class="booking-form {% if not request.user.is_authenticated %}guest-locked{% endif %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="steps">
                 <div class="step active" id="step1">
                     <div class="circle">1</div>
                     Booking
                 </div>
-        </form>
 </div>
 
 {% if user.is_authenticated and user.role == "customer" and not user.is_staff %}
@@ -2944,18 +2946,6 @@
                 }
             });
         });
-
-        window.onload = function () {
-            const isLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}";
-
-            if (isLoggedIn === "false") {
-                document.getElementById("formOverlay").style.display = "flex";
-
-                document.querySelectorAll("#bookingForm input, #bookingForm select, #bookingForm textarea, #bookingForm button").forEach(el => {
-                    el.disabled = true;
-                });
-            }
-        };
 
         function goToSignup() {
             window.location.href = "{% url 'accounts:signup_customer' %}?next=" + encodeURIComponent(window.location.pathname);
