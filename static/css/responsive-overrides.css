@@ -128,7 +128,19 @@ table {
     margin-top: 1rem;
     left: auto !important;
     right: auto !important;
-    justify-content: center;
+    display: block !important;
+  }
+
+  .card-buttons a,
+  .card-buttons button {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 0.75rem 0 !important;
+  }
+
+  .card-buttons a:last-child,
+  .card-buttons button:last-child {
+    margin-bottom: 0 !important;
   }
 }
 
@@ -272,5 +284,4 @@ img {
   max-width: 100%;
   height: auto;
 }
-
 
