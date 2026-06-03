@@ -775,7 +775,14 @@ def api_create_order(request):
         body = json.loads(request.body)
         amount = int(float(body.get("amount", 0)) * 100)
 
-        if amount < 100:
+        if user.role == "employee" and amount < 20000:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "error": "Minimum amount is ₹200 for artists/employees.",
+                }
+            )
+        elif amount < 100:
             return JsonResponse({"success": False, "error": "Minimum amount is ₹1"})
 
         receipt_id = f"wallet_{int(time.time())}_{user.id}"

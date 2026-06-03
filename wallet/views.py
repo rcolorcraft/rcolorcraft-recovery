@@ -32,7 +32,9 @@ def create_razorpay_order_wallet(request):
     try:
         amount_str = request.POST.get('amount', '0')
         amount = int(float(amount_str) * 100)  # Convert to paise
-        if amount < 100:
+        if request.user.role == 'employee' and amount < 20000:
+            return JsonResponse({'success': False, 'error': 'Minimum amount is ₹200 for artists/employees.'})
+        elif amount < 100:
             return JsonResponse({'success': False, 'error': 'Minimum amount is ₹1'})
 
         receipt_id = f'wallet_{int(time.time())}'

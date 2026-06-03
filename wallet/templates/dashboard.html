@@ -72,7 +72,11 @@
   <div style="text-align:center; margin-bottom:20px;">
     <input type="number" id="walletAmount" placeholder="Enter Amount to Add"  />
     <button id="payBtn">Add Money</button>
-    <div class="min-note">Minimum amount: ₹200</div>
+    {% if request.user.role == 'employee' %}
+      <div class="min-note">Minimum amount: ₹200</div>
+    {% else %}
+      <div class="min-note">Minimum amount: ₹1</div>
+    {% endif %}
   </div>
 
   <h2>📜 Transaction History</h2>
@@ -101,12 +105,17 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 document.getElementById('payBtn').onclick = function(){
-    let amount = document.getElementById('walletAmount').value;
+    let amount = parseFloat(document.getElementById('walletAmount').value) || 0;
+    let userRole = "{{ request.user.role }}";
 
-    // if(amount < 200){ 
-    //     alert('Minimum amount to add is ₹200'); 
-    //     return; 
-    // }
+    if (userRole === "employee" && amount < 200) { 
+        alert('Minimum amount to add is ₹200'); 
+        return; 
+    }
+    if (amount < 1) {
+        alert('Minimum amount to add is ₹1');
+        return;
+    }
 
     fetch("{% url 'create_wallet_order' %}", {
         method:'POST',
