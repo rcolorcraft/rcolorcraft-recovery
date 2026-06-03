@@ -138,7 +138,20 @@
   
     }
 
-    @media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    @media (prefers-reduced-motion: reduce) {
+      .slider-track,
+      .slider-track-2 {
+        animation: none !important;
+        transform: none !important;
+      }
+
+      .trending-card,
+      .trending-card img {
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
       .trending-slider {
         overflow-x: auto;
         overflow-y: hidden;
@@ -150,8 +163,6 @@
 
       .slider-track,
       .slider-track-2 {
-        animation: none !important;
-        transform: none !important;
         width: max-content;
         padding: 0 2px;
       }
