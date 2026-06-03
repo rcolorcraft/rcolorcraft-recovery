@@ -492,19 +492,19 @@ def api_update_employee_profile(request):
     # Ready to take orders
     is_ready = request.POST.get("ready_to_take_orders") == "true"
 
-    # Deduct ₹20 only ONCE
+    # Deduct ₹50 only once when enabling ready-to-take-orders
     if not prev_status and is_ready:
         # Assuming Wallet and WalletTransaction models are imported
         wallet = Wallet.objects.filter(user=user).first()
 
-        if wallet and wallet.balance >= Decimal("20.00"):
-            wallet.balance -= Decimal("20.00")
+        if wallet and wallet.balance >= Decimal("50.00"):
+            wallet.balance -= Decimal("50.00")
             wallet.save()
 
             WalletTransaction.objects.create(
                 wallet=wallet,
                 transaction_type="DEBIT",
-                amount=Decimal("20.00"),
+                amount=Decimal("50.00"),
                 razorpay_payment_id=f"ACTIVATION_{user.id}_{int(time.time())}",
             )
 
@@ -513,7 +513,10 @@ def api_update_employee_profile(request):
             employee.status = False
             employee.save()
             return JsonResponse(
-                {"success": False, "message": "Insufficient wallet balance"}
+                {
+                    "success": False,
+                    "message": "Insufficient wallet balance. Please add at least ₹50 to activate this feature.",
+                }
             )
 
     else:

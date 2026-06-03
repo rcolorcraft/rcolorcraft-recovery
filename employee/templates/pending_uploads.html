@@ -15,7 +15,7 @@
     {% for item in pending_uploads %}
     <article class="pending-card" id="upload-card-{{ item.id }}">
       <div class="pending-media">
-        <img src="{{ item.image.url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.jpg' %}'">
+        <img src="{{ item.image.url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.png' %}'">
       </div>
       <div class="pending-body">
         <h3>{{ item.image_name|default:"Untitled Upload" }}</h3>

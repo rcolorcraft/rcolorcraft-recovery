@@ -615,7 +615,7 @@ input:checked + .slider:before {
         <label for="passport_photo">
             <img
                 id="preview-img"
-                src="{% if passport_photo %}{{ passport_photo }}{% else %}{% static 'default-profile.jpg' %}{% endif %}"
+                src="{% if passport_photo %}{{ passport_photo }}{% else %}{% static 'default-profile.png' %}{% endif %}"
             >
         </label>
         <input type="file" id="passport_photo" name="passport_photo" accept="image/*">

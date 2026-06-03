@@ -1746,7 +1746,7 @@
         <div class="form-group full-width">
             <div class="grid-4-col">
                 <div class="form-group col-span-3">
-                    <label>Choose Your Design</label>
+                    <label>Choose Your Design <span style="color: red;">*</span></label>
                     <div id="selectedDesignContainer"></div>
                     <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
                     <div id="image-preview" style="margin-top:10px;"></div>
@@ -1765,15 +1765,15 @@
 
         <!-- Row 5: Dimensions (Square Ft) -->
         <div class="form-group square-ft-box full-width">
-            <label>Dimensions (Square Ft)</label>
+            <label>Dimensions (Square Ft) <span style="color: red;">*</span></label>
             <div class="square-ft-inputs">
                 <div class="sf-field">
-                    <span class="field-label">WIDTH *</span>
+                    <span class="field-label">WIDTH <span style="color: red;">*</span></span>
                     <input type="number" id="width" name="width" placeholder="Width" min="1">
                 </div>
                 <span class="cross-icon">*</span>
                 <div class="sf-field">
-                    <span class="field-label">HEIGHT =</span>
+                    <span class="field-label">HEIGHT <span style="color: red;">*</span></span>
                     <input type="number" id="height" name="height" placeholder="Height" min="1">
                 </div>
                 <span class="equals-icon">=</span>
@@ -1783,13 +1783,16 @@
                 </div>
                 <div class="sf-field">
                     <span class="field-label">Total Wall</span>
-                    <input type="number" id="total_walls" name="total_walls" min="1" value="1">
+                    <input type="number" id="total_walls" name="total_walls" min="0" value="0" placeholder="0">
                 </div>
                 <div class="sf-field">
                     <span class="field-label">Total Floor</span>
-                    <input type="number" id="total_floor" name="total_floor" min="1" value="1">
+                    <input type="number" id="total_floor" name="total_floor" min="0" value="0" placeholder="0">
                 </div>
             </div>
+            <p style="margin: 8px 0 0; font-size: 12px; color: #666;">
+                At least one of <strong>Total Wall</strong> or <strong>Total Floor</strong> is required.
+            </p>
         </div>
 
         <!-- Hidden Design Price and Amount -->
@@ -1952,6 +1955,40 @@
         }
 
         return total;
+    }
+
+    function resetBookingFormState() {
+        const bookingForm = document.getElementById("bookingForm");
+        if (bookingForm) {
+            bookingForm.reset();
+        }
+
+        selectedDesigns = [];
+        updateUI();
+        showSelectedDesignsInForm();
+
+        const totalSqft = document.getElementById("total_sqft");
+        const totalAmountInput = document.getElementById("total_amount_input");
+        const bookingAmount = document.getElementById("booking_amount");
+        const calculatedPrice = document.getElementById("calculated-price");
+        const priceDisplay = document.getElementById("price-display");
+        const clearDesignBtn = document.getElementById("clearDesignBtn");
+        const selectedDesignsInput = document.getElementById("selected_designs");
+
+        if (totalSqft) totalSqft.value = "";
+        if (totalAmountInput) totalAmountInput.value = "";
+        if (bookingAmount) bookingAmount.value = "0";
+        if (calculatedPrice) calculatedPrice.innerText = "₹0";
+        if (priceDisplay) priceDisplay.style.display = "none";
+        if (clearDesignBtn) clearDesignBtn.style.display = "none";
+        if (selectedDesignsInput) selectedDesignsInput.value = "";
+
+        if (typeof flatpickr !== "undefined") {
+            const appointmentInput = document.getElementById("appointment_date");
+            if (appointmentInput && appointmentInput._flatpickr) {
+                appointmentInput._flatpickr.clear();
+            }
+        }
     }
 
     // SELECT FUNCTION
@@ -2502,21 +2539,11 @@
 
 
         function clearDesignSelection() {
-            // Clear hidden fields
-            document.getElementById("selected_design_id_input").value = '';
-            document.getElementById("selected_design_name_input").value = '';
-            document.getElementById("selected_design_price_input").value = '0';
-
-            // Hide and clear visible display
-            document.getElementById("design_name_display").value = '';
-            document.getElementById("design_price_display").value = '';
-            document.getElementById("selected-design-info").style.display = 'none';
-
-            // Hide clear button
-            document.getElementById("clearDesignBtn").style.display = "none";
-
-            // Recalculate with base rate
-            calcSqftAndPrice();
+            selectedDesigns = [];
+            updateUI();
+            showSelectedDesignsInForm();
+            document.getElementById("selected_designs").value = "";
+            calculatePrice();
         }
         function showToast(msg) {
             const toast = document.getElementById("toast");
@@ -2533,11 +2560,13 @@
             let width = document.getElementById("width");
             let height = document.getElementById("height");
             let walls = document.getElementById("total_walls");
+            let floors = document.getElementById("total_floor");
 
-            if (width && height && walls) {
+            if (width && height && walls && floors) {
                 width.addEventListener("input", calculate);
                 height.addEventListener("input", calculate);
-                walls.addEventListener("input", calculate); // 🔥 MUST
+                walls.addEventListener("input", calculate);
+                floors.addEventListener("input", calculate);
             }
             {% comment %} let priceBox = document.getElementById("calculated-price");
             let priceDisplay = document.getElementById("price-display");
@@ -2550,13 +2579,23 @@
 
                 let w = parseFloat(width.value) || 0;
                 let h = parseFloat(height.value) || 0;
-                let totalWalls = parseInt(walls.value) || 1;
+                let totalWalls = parseInt(walls.value, 10) || 0;
+                let totalFloors = parseInt(floors.value, 10) || 0;
+                let totalSurfaces = totalWalls + totalFloors;
+
+                if (totalWalls < 0 || totalFloors < 0) {
+                    document.getElementById("total_sqft").value = "";
+                    document.getElementById("calculated-price").innerText = "₹0";
+                    document.getElementById("total_amount_input").value = "";
+                    document.getElementById("booking_amount").value = 0;
+                    return;
+                }
 
                 // sqft per wall
                 let sqft = w * h;
 
-                // total sqft (all walls)
-                let totalSqft = sqft * totalWalls;
+                // total sqft across selected surfaces
+                let totalSqft = sqft * totalSurfaces;
 
                 // show sqft
                 document.getElementById("total_sqft").value = totalSqft;
@@ -2565,10 +2604,10 @@
                 let designTotal = getDesignTotal();
 
                 // FINAL PRICE
-                let price = (totalSqft * 50) + (designTotal * totalWalls);
+                let price = (totalSqft * 50) + (designTotal * totalSurfaces);
 
                 document.getElementById("calculated-price").innerText = "₹" + price;
-                document.getElementById("price-display").style.display = "block";
+                document.getElementById("price-display").style.display = totalSqft > 0 ? "block" : "none";
 
                 document.getElementById("total_amount_input").value = price;
                 document.getElementById("booking_amount").value = price;
@@ -2740,10 +2779,19 @@
             let pin_code = (document.querySelector('[name="pin_code"]').value || '').trim();
             let appointment_date = (document.querySelector('[name="appointment_date"]').value || '').trim();
 
-            if (!name || !contact || !address || !state) {
+            const missingFields = [];
+            if (!name) missingFields.push('Full Name');
+            if (!contact) missingFields.push('Contact No');
+            if (!address) missingFields.push('Full Address');
+            if (!state) missingFields.push('State');
+            if (!city) missingFields.push('City');
+            if (!pin_code) missingFields.push('Pin Code');
+            if (!appointment_date) missingFields.push('Appointment Date');
+
+            if (missingFields.length > 0) {
                 Swal.fire({
                     title: '⚠️ Mandatory Fields Required',
-                    text: 'Please fill in all mandatory fields: Full Name, Contact No, Full Address, and State.',
+                    text: 'Please fill in these mandatory fields: ' + missingFields.join(', '),
                     icon: 'warning',
                     background: '#f8fbff',
                     confirmButtonColor: '#3b82f6',
@@ -2765,10 +2813,16 @@
                 return;
             }
 
-            if (!city || !pin_code || !appointment_date) {
+            let width = $("#width").val();
+            let height = $("#height").val();
+            let totalWalls = parseInt($("#total_walls").val(), 10) || 0;
+            let totalFloor = parseInt($("#total_floor").val(), 10) || 0;
+            const selectedDesignPayload = document.getElementById("selected_designs").value || "";
+
+            if (!selectedDesigns.length || !selectedDesignPayload) {
                 Swal.fire({
-                    title: '⚠️ Required Fields Missing',
-                    text: 'Please fill in City, Pin Code, and Appointment Date to complete your booking.',
+                    title: '⚠️ Design Required',
+                    text: 'Please select at least one design before booking.',
                     icon: 'warning',
                     background: '#f8fbff',
                     confirmButtonColor: '#3b82f6',
@@ -2777,13 +2831,22 @@
                 return;
             }
 
-            let width = $("#width").val();
-            let height = $("#height").val();
-
             if (!width || parseFloat(width) <= 0 || !height || parseFloat(height) <= 0) {
                 Swal.fire({
                     title: '⚠️ Dimensions Required',
                     text: 'Please enter valid width and height to calculate the dimensions and cost.',
+                    icon: 'warning',
+                    background: '#f8fbff',
+                    confirmButtonColor: '#3b82f6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            if (totalWalls <= 0 && totalFloor <= 0) {
+                Swal.fire({
+                    title: '⚠️ Surface Count Required',
+                    text: 'Please enter at least one Total Wall or Total Floor.',
                     icon: 'warning',
                     background: '#f8fbff',
                     confirmButtonColor: '#3b82f6',
@@ -2803,10 +2866,12 @@
             formData.append("pin_code", pin_code);
             formData.append("state", state);
             formData.append("city", city);
+            formData.append("selected_designs", selectedDesignPayload);
 
             formData.append("width", width);
             formData.append("height", height);
-            formData.append("total_walls", $("#total_walls").val());
+            formData.append("total_walls", totalWalls);
+            formData.append("total_floor", totalFloor);
             formData.append("total_sqft", $("#total_sqft").val());
 
             formData.append("appointment_date", appointment_date);
@@ -2829,14 +2894,8 @@
                         // Mark booking as confirmed
                         bookingConfirmed = true;
 
-                        // Reset form fields
-                        document.getElementById("bookingForm").reset();
-
-                        // Reset custom design selection logic
-                        selectedDesigns = [];
-                        updateUI();
-                        showSelectedDesignsInForm();
-                        calculatePrice();
+                        // Reset booking form and UI state
+                        resetBookingFormState();
 
                         Swal.fire({
                             title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
@@ -2858,7 +2917,7 @@
                             showCancelButton: true,   // ➕ Book Another
                             showCloseButton: true,    // ❌ Cut button (top corner)
 
-                            confirmButtonText: "🏠 Go to Home",
+                            confirmButtonText: "📦 Go to My Orders",
                             cancelButtonText: "➕ Book Another",
 
                             confirmButtonColor: "#4CAF50",
@@ -2867,17 +2926,17 @@
                         }).then((result) => {
 
                             if (result.isConfirmed) {
-                                // 👉 Home Page
-                                window.location.href = "/";
+                                // 👉 My Orders Page
+                                window.location.href = "{% url 'my_orders' %}";
                             }
                             else if (result.dismiss === Swal.DismissReason.cancel) {
-                                // 👉 Book Another → form reset
-                                document.querySelector("form").reset();
-                                window.location.reload(); // simple way to reset everything
+                                // 👉 Book Another → keep the cleared form ready for a new booking
+                                bookingConfirmed = false;
+                                resetBookingFormState();
                             }
                             else if (result.dismiss === Swal.DismissReason.close) {
-                                // 👉 ❌ Cut button → kuch nahi (same data rahega)
-                                console.log("Popup closed, continue editing");
+                                // Keep the cleared form visible after closing the popup
+                                bookingConfirmed = false;
                             }
 
                         });
@@ -2899,7 +2958,7 @@
         };
 
         function goToSignup() {
-            window.location.href = "/accounts/signup/?next=" + window.location.pathname;
+            window.location.href = "{% url 'accounts:signup_customer' %}?next=" + encodeURIComponent(window.location.pathname);
         }
 
 </script>

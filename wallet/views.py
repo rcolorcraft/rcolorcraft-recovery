@@ -9,6 +9,9 @@ import time
 from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
+EMPLOYEE_MIN_WALLET_TOPUP = 200
+DEFAULT_MIN_WALLET_TOPUP = 1
+
 
 # Initialize Razorpay client
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
@@ -32,9 +35,9 @@ def create_razorpay_order_wallet(request):
     try:
         amount_str = request.POST.get('amount', '0')
         amount = int(float(amount_str) * 100)  # Convert to paise
-        if request.user.role == 'employee' and amount < 20000:
+        if request.user.role == 'employee' and amount < EMPLOYEE_MIN_WALLET_TOPUP * 100:
             return JsonResponse({'success': False, 'error': 'Minimum amount is ₹200 for artists/employees.'})
-        elif amount < 100:
+        elif amount < DEFAULT_MIN_WALLET_TOPUP * 100:
             return JsonResponse({'success': False, 'error': 'Minimum amount is ₹1'})
 
         receipt_id = f'wallet_{int(time.time())}'

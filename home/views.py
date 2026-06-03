@@ -176,6 +176,13 @@ def delete_service_image(request):
 
             # Admin can delete any image
             if user.is_staff or image.userupload_id == user.id:
+                if not user.is_staff and image.is_approved and image.is_verified_pic:
+                    return JsonResponse(
+                        {
+                            "success": False,
+                            "message": "Approved and verified uploads cannot be deleted.",
+                        }
+                    )
                 image.delete()
                 return JsonResponse({"success": True})
             else:
@@ -1686,7 +1693,8 @@ def save_booking(request):
         pin_code = request.POST.get("pin_code")
         state = request.POST.get("state")
         city = request.POST.get("city")
-        total_walls = request.POST.get("total_walls")
+        total_walls = request.POST.get("total_walls") or "0"
+        total_floor = request.POST.get("total_floor") or "0"
         width = request.POST.get("width")
         height = request.POST.get("height")
         width = float(width) if width else None
@@ -1698,13 +1706,52 @@ def save_booking(request):
         total_amount = request.POST.get("total_amount")
         print(total_amount, "total_amount_+++++++++++++++++++++")
         # --- Design Fields (from form or null) ---
-        selected_design_name = request.POST.get("selected_design_name")
-        selected_design_price = request.POST.get(
-            "selected_design_price"
-        )  # This is the price/rate for the design
+        selected_designs_raw = request.POST.get("selected_designs", "")
         custom_design_file = request.FILES.get(
             "custom_design"
         )  # This handles uploaded file
+
+        try:
+            selected_designs = json.loads(selected_designs_raw) if selected_designs_raw else []
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {"success": False, "message": "Invalid design selection data."}
+            )
+
+        if not isinstance(selected_designs, list) or len(selected_designs) == 0:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Please select at least one design before booking.",
+                }
+            )
+
+        try:
+            total_walls = int(total_walls)
+            total_floor = int(total_floor)
+        except (TypeError, ValueError):
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Total Wall and Total Floor must be valid numbers.",
+                }
+            )
+
+        if total_walls < 0 or total_floor < 0:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Total Wall and Total Floor cannot be negative.",
+                }
+            )
+
+        if total_walls == 0 and total_floor == 0:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Please enter at least one Total Wall or Total Floor.",
+                }
+            )
 
         required_fields = [
             service_name,
@@ -1713,7 +1760,6 @@ def save_booking(request):
             pin_code,
             state,
             city,
-            total_walls,
             width,
             height,
             appointment_date,
@@ -1756,21 +1802,17 @@ def save_booking(request):
         print("getting to it ")
 
         # --- Finalize Design Fields for Model ---
-        design_name_to_save = selected_design_name if selected_design_name else None
+        design_name_to_save = ", ".join(
+            [str(item.get("name", "")).strip() for item in selected_designs if item.get("name")]
+        ) or None
 
-        # Save the design price/rate (which was used to calculate the final amount)
-        price_to_save = float(selected_design_price) if selected_design_price else None
+        price_to_save = sum(
+            float(item.get("price", 0) or 0) for item in selected_designs
+        )
 
         # Determine type_of_art_booked
         if design_name_to_save:
             art_type = "Selected Design"
-        elif custom_design_file:
-            art_type = "Custom Upload"
-            # If custom design is uploaded, the price/rate used would be the service's default rate
-            # You might want to pull the default rate here, but we'll use null/0 for simplicity.
-            price_to_save = (
-                price_to_save if price_to_save is not None else 0
-            )  # Default price if needed
         else:
             art_type = "Standard Service"
             # If standard, the price/rate is the hardcoded base rate from your JS, which you may want to save here.
@@ -1824,6 +1866,7 @@ def save_booking(request):
         🏠 Address: {booking.address}, {booking.city}, {booking.state} - {booking.pin_code}
 
         🧱 Total Walls: {booking.total_walls}
+        🪵 Total Floors: {total_floor}
         📐 Width x Height: {booking.width} ft x {booking.height} ft
         📏 Total Sq Ft: {booking.total_sqft}
 
@@ -2199,7 +2242,7 @@ from .models import Booking
 
 
 def my_assignments(request):
-    bookings = Booking.objects.all()
+    bookings = Booking.objects.all().order_by("-created_at")
 
     return render(request, "employee_bookings.html", {"bookings": bookings})
 

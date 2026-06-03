@@ -22,7 +22,7 @@
             Your browser does not support the video tag.
           </video>
         {% else %}
-          <img src="{{ row.media_url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.jpg' %}'">
+          <img src="{{ row.media_url }}" alt="{{ item.image_name }}" onerror="this.src='{% static 'default-profile.png' %}'">
         {% endif %}
       </div>
       <div class="pending-body">

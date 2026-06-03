@@ -31,6 +31,8 @@
                     <div class="restricted-info">
                         <p><strong>City:</strong> {{ booking.city }}</p>
                         <p><strong>Pincode:</strong> {{ booking.pin_code }}</p>
+                        <p><strong>Total SqFt:</strong> {{ booking.total_sqft }}</p>
+                        <p><strong>Quoted Price:</strong> ₹{{ booking.total_amount }}</p>
                     </div>
 
                     <!-- Full Details - Only visible after acceptance -->
@@ -187,7 +189,6 @@
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #a7c8c8, rgba(0, 0, 0, 0));
     margin-bottom: 15px;
 }
-
 /* Actions */
 .assignment-actions {
     margin-top: 20px;
@@ -285,6 +286,38 @@ input:checked + .slider:before {
 .toggle-text {
     margin-left: 8px;
     font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 20px 12px 32px;
+    }
+    .employee-view {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .booking-card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    .booking-header {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .booking-header .service-name {
+        font-size: 19px;
+    }
+    .assignment-actions {
+        align-items: stretch;
+    }
+    .action-btn {
+        width: 100%;
+        text-align: center;
+    }
+    .row,
+    .info-row {
+        display: block;
+    }
 }
 
 </style>

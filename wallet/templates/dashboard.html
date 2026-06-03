@@ -6,7 +6,7 @@
 <style>
   body { background: #f4f6f9; }
   .wallet-container {
-    width: 70%;
+    width: min(760px, calc(100% - 24px));
     margin: 40px auto;
     background: #fff;
     padding: 25px;
@@ -24,12 +24,20 @@
     font-weight: bold;
     color: #4CAF50;
   }
+  .wallet-topup {
+    text-align:center;
+    margin-bottom:20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+  }
   input[type="number"] {
     padding: 10px;
-    width: 150px;
+    width: 220px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-right: 10px;
   }
   button {
     background: #4CAF50;
@@ -63,17 +71,47 @@
   tr:nth-child(even) {
     background: #f9f9f9;
   }
+  @media (max-width: 768px) {
+    .wallet-container {
+      margin: 18px auto;
+      padding: 16px;
+      border-radius: 10px;
+    }
+    .balance {
+      font-size: 18px;
+    }
+    .wallet-topup {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    input[type="number"],
+    button {
+      width: 100%;
+    }
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
 </style>
 
 <div class="wallet-container">
   <h1>💰 My Wallet</h1>
   <div class="balance">Current Balance: ₹{{ wallet.balance }}</div>
 
-  <div style="text-align:center; margin-bottom:20px;">
-    <input type="number" id="walletAmount" placeholder="Enter Amount to Add"  />
+  <div class="wallet-topup">
+    <input
+      type="number"
+      id="walletAmount"
+      placeholder="{% if request.user.role == 'employee' %}Minimum top-up ₹200{% else %}Enter Amount to Add{% endif %}"
+      {% if request.user.role == 'employee' %}min="200"{% else %}min="1"{% endif %}
+      step="1"
+      inputmode="numeric"
+    />
     <button id="payBtn">Add Money</button>
     {% if request.user.role == 'employee' %}
-      <div class="min-note">Minimum amount: ₹200</div>
+      <div class="min-note">Minimum wallet top-up: ₹200. Registration/activation charge stays fixed at ₹50.</div>
     {% else %}
       <div class="min-note">Minimum amount: ₹1</div>
     {% endif %}
@@ -194,6 +232,16 @@ rzp.on('payment.failed', function (res){
         }
     });
 };
+
+if ("{{ request.user.role }}" === "employee") {
+    document.getElementById('walletAmount').addEventListener('input', function () {
+        if (this.value && parseFloat(this.value) < 200) {
+            this.setCustomValidity('Employee wallet top-up must be at least ₹200');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+}
 </script>
 
 {% endblock %}
