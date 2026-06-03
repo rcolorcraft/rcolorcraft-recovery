@@ -1940,6 +1940,7 @@
 
     // GLOBAL (सबसे ऊपर)
     let selectedDesigns = [];
+    let bookingConfirmed = false;
 
     function getDesignTotal() {
         let total = 0;
@@ -2718,6 +2719,18 @@
         $('.book-btn').on('click', function (e) {
             e.preventDefault();
 
+            if (bookingConfirmed) {
+                Swal.fire({
+                    title: '📢 Booking Already Confirmed',
+                    text: 'Your booking has already been confirmed. If you wish to make a new booking, please refresh the page.',
+                    icon: 'info',
+                    background: '#f8fbff',
+                    confirmButtonColor: '#3b82f6',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
             // Validate mandatory fields
             let name = (document.querySelector('[name="customer_name"]').value || '').trim();
             let contact = (document.querySelector('[name="contact_number"]').value || '').trim();
@@ -2813,6 +2826,17 @@
                 success: function (resp) {
 
                     if (resp.success) {
+                        // Mark booking as confirmed
+                        bookingConfirmed = true;
+
+                        // Reset form fields
+                        document.getElementById("bookingForm").reset();
+
+                        // Reset custom design selection logic
+                        selectedDesigns = [];
+                        updateUI();
+                        showSelectedDesignsInForm();
+                        calculatePrice();
 
                         Swal.fire({
                             title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
