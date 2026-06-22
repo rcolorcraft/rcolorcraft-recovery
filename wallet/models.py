@@ -28,7 +28,7 @@ class Wallet(models.Model):
         return False
 
     def __str__(self):
-        return f"{self.user.username} - Wallet: ₹{self.balance} ({self.wallet_id})"
+        return f"{self.user.email} - Wallet: ₹{self.balance} ({self.wallet_id})"
 
     class Meta:
         db_table = "wallet_wallet"
