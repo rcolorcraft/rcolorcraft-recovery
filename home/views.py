@@ -2280,6 +2280,41 @@ from .models import Consultation
 
 
 def home(request):
+    if request.GET.get("run_repair") == "1":
+        from django.db import connection
+        from django.http import JsonResponse
+        from django.core.management import call_command
+        import io
+        
+        messages = []
+        with connection.cursor() as cursor:
+            target_migrations = [
+                "0011_alter_review_id_alter_review_table",
+                "0012_consultation",
+                "0014_artist_customer",
+                "0015_assignment",
+                "0016_artist_kyc_status_artist_status",
+                "0018_rename_status_artist_is_active_and_more"
+            ]
+            cursor.execute(
+                "DELETE FROM django_migrations WHERE app = 'home' AND name = ANY(%s)",
+                [target_migrations]
+            )
+            messages.append(f"Deleted {cursor.rowcount} out-of-sync migration records from database.")
+            
+        out = io.StringIO()
+        try:
+            call_command("migrate", "home", stdout=out, stderr=out)
+            messages.append("Django migrate command executed.")
+        except Exception as e:
+            messages.append(f"Migration error: {str(e)}")
+            
+        return JsonResponse({
+            "status": "success",
+            "messages": messages,
+            "output": out.getvalue()
+        })
+
     if request.GET.get("debug_db") == "1":
         from django.db import connection
         from django.http import JsonResponse
