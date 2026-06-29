@@ -2333,14 +2333,20 @@ def home(request):
             
             # 6. Re-insert migration history records to sync Django state
             """
-            INSERT INTO django_migrations (app, name, applied) VALUES
-            ('home', '0011_alter_review_id_alter_review_table', NOW()),
-            ('home', '0012_consultation', NOW()),
-            ('home', '0014_artist_customer', NOW()),
-            ('home', '0015_assignment', NOW()),
-            ('home', '0016_artist_kyc_status_artist_status', NOW()),
-            ('home', '0018_rename_status_artist_is_active_and_more', NOW())
-            ON CONFLICT (app, name) DO NOTHING;
+            INSERT INTO django_migrations (app, name, applied)
+            SELECT val.app, val.name, val.applied
+            FROM (VALUES
+                ('home', '0011_alter_review_id_alter_review_table', NOW()),
+                ('home', '0012_consultation', NOW()),
+                ('home', '0014_artist_customer', NOW()),
+                ('home', '0015_assignment', NOW()),
+                ('home', '0016_artist_kyc_status_artist_status', NOW()),
+                ('home', '0018_rename_status_artist_is_active_and_more', NOW())
+            ) AS val(app, name, applied)
+            WHERE NOT EXISTS (
+                SELECT 1 FROM django_migrations 
+                WHERE django_migrations.app = val.app AND django_migrations.name = val.name
+            );
             """
         ]
         
