@@ -300,7 +300,38 @@ def book_service(request, service_type):
 
 
 def home(request):
+    if request.GET.get("debug_db") == "1":
+        from django.db import connection
+        from django.http import JsonResponse
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_name 
+                FROM information_schema.tables 
+                WHERE table_schema='public'
+            """)
+            tables = [row[0] for row in cursor.fetchall()]
+            
+            cursor.execute("SELECT app, name, applied FROM django_migrations ORDER BY applied DESC")
+            migrations = [f"{row[0]}: {row[1]} ({row[2]})" for row in cursor.fetchall()]
+            
+            artist_cols = []
+            try:
+                cursor.execute("""
+                    SELECT column_name, data_type 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'home_artist'
+                """)
+                artist_cols = [f"{row[0]} ({row[1]})" for row in cursor.fetchall()]
+            except Exception as e:
+                artist_cols = [str(e)]
+                
+        return JsonResponse({
+            "tables": tables,
+            "migrations": migrations,
+            "artist_columns": artist_cols
+        })
     return render(request, "home.html")
+
 
 
 from django.shortcuts import render
