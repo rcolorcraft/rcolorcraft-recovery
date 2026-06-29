@@ -207,7 +207,10 @@ class Artist(models.Model):
     )
 
     def __str__(self):
-        return self.user.email
+        try:
+            return self.user.email
+        except Exception:
+            return f"Artist #{self.pk} (User deleted)"
 
 
 class PremiumService(models.Model):
