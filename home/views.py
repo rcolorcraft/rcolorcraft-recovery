@@ -2283,37 +2283,80 @@ def home(request):
     if request.GET.get("run_repair") == "1":
         from django.db import connection
         from django.http import JsonResponse
-        from django.core.management import call_command
-        import io
         
         messages = []
-        with connection.cursor() as cursor:
-            target_migrations = [
-                "0011_alter_review_id_alter_review_table",
-                "0012_consultation",
-                "0014_artist_customer",
-                "0015_assignment",
-                "0016_artist_kyc_status_artist_status",
-                "0018_rename_status_artist_is_active_and_more"
-            ]
-            cursor.execute(
-                "DELETE FROM django_migrations WHERE app = 'home' AND name = ANY(%s)",
-                [target_migrations]
-            )
-            messages.append(f"Deleted {cursor.rowcount} out-of-sync migration records from database.")
+        sql_commands = [
+            # 1. Rename review to home_review if it exists
+            "ALTER TABLE IF EXISTS review RENAME TO home_review;",
             
-        out = io.StringIO()
-        try:
-            call_command("migrate", "home", stdout=out, stderr=out)
-            messages.append("Django migrate command executed.")
-        except Exception as e:
-            messages.append(f"Migration error: {str(e)}")
+            # 2. Create home_consultation table
+            """
+            CREATE TABLE IF NOT EXISTS home_consultation (
+                id bigserial PRIMARY KEY,
+                name varchar(100) NOT NULL,
+                email varchar(254) NOT NULL,
+                phone varchar(15) NOT NULL,
+                message text NOT NULL
+            );
+            """,
+            
+            # 3. Create home_customer table
+            """
+            CREATE TABLE IF NOT EXISTS home_customer (
+                id bigserial PRIMARY KEY,
+                user_id integer NOT NULL UNIQUE REFERENCES accounts_customuser(id) DEFERRABLE INITIALLY DEFERRED
+            );
+            """,
+            
+            # 4. Create home_artist table
+            """
+            CREATE TABLE IF NOT EXISTS home_artist (
+                id bigserial PRIMARY KEY,
+                user_id integer NOT NULL UNIQUE REFERENCES accounts_customuser(id) DEFERRABLE INITIALLY DEFERRED,
+                is_active boolean NOT NULL DEFAULT FALSE,
+                kyc_status varchar(20) NOT NULL DEFAULT 'pending'
+            );
+            """,
+            
+            # 5. Create home_assignment table
+            """
+            CREATE TABLE IF NOT EXISTS home_assignment (
+                id bigserial PRIMARY KEY,
+                customer_name varchar(100) NOT NULL,
+                city varchar(50) NOT NULL,
+                pincode varchar(10) NOT NULL,
+                price integer NOT NULL,
+                status varchar(20) NOT NULL DEFAULT 'pending',
+                is_completed boolean NOT NULL DEFAULT FALSE
+            );
+            """,
+            
+            # 6. Re-insert migration history records to sync Django state
+            """
+            INSERT INTO django_migrations (app, name, applied) VALUES
+            ('home', '0011_alter_review_id_alter_review_table', NOW()),
+            ('home', '0012_consultation', NOW()),
+            ('home', '0014_artist_customer', NOW()),
+            ('home', '0015_assignment', NOW()),
+            ('home', '0016_artist_kyc_status_artist_status', NOW()),
+            ('home', '0018_rename_status_artist_is_active_and_more', NOW())
+            ON CONFLICT (app, name) DO NOTHING;
+            """
+        ]
+        
+        with connection.cursor() as cursor:
+            for sql in sql_commands:
+                try:
+                    cursor.execute(sql)
+                    messages.append(f"Successfully executed SQL block.")
+                except Exception as e:
+                    messages.append(f"SQL Error: {str(e)}")
             
         return JsonResponse({
             "status": "success",
-            "messages": messages,
-            "output": out.getvalue()
+            "messages": messages
         })
+
 
     if request.GET.get("debug_db") == "1":
         from django.db import connection
