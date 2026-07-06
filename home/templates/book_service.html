@@ -1699,6 +1699,27 @@
     <h2>{% trans "Book" %} {{ service_name }}</h2>
 
     <div class="form-grid">
+        <!-- Row 4: CHOOSE YOUR DESIGN & ESTIMATE COST -->
+        <div class="form-group full-width">
+            <div class="grid-4-col">
+                <div class="form-group col-span-3">
+                    <label>Choose Your Design <span style="color: red;">*</span></label>
+                    <div id="selectedDesignContainer"></div>
+                    <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
+                    <div id="image-preview" style="margin-top:10px;"></div>
+                    <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖
+                        Clear Design</button>
+                </div>
+
+                <div class="form-group col-span-1">
+                    <label style="text-align: center; width: 100%;">Estimate Cost</label>
+                    <div class="price-display" id="price-display">
+                        <div class="price" id="calculated-price">₹0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Row 1: FULL NAME & EMAIL ID -->
         <div class="form-group">
             <label>Full Name <span style="color: red;">*</span></label>
@@ -1740,27 +1761,6 @@
                     <label>Appointment Date <span style="color: red;">*</span></label>
                     <!-- <input type="date" id="appointment_date" name="appointment_date" required> -->
                     <input type="text" id="appointment_date" name="appointment_date" required placeholder="Select Date">
-                </div>
-            </div>
-        </div>
-
-        <!-- Row 4: CHOOSE YOUR DESIGN & ESTIMATE COST -->
-        <div class="form-group full-width">
-            <div class="grid-4-col">
-                <div class="form-group col-span-3">
-                    <label>Choose Your Design <span style="color: red;">*</span></label>
-                    <div id="selectedDesignContainer"></div>
-                    <button type="button" class="design-btn" onclick="openDesignPopup()">Select Design</button>
-                    <div id="image-preview" style="margin-top:10px;"></div>
-                    <button type="button" id="clearDesignBtn" onclick="clearDesignSelection()" style="display:none;">✖
-                        Clear Design</button>
-                </div>
-
-                <div class="form-group col-span-1">
-                    <label style="text-align: center; width: 100%;">Estimate Cost</label>
-                    <div class="price-display" id="price-display">
-                        <div class="price" id="calculated-price">₹0</div>
-                    </div>
                 </div>
             </div>
         </div>
