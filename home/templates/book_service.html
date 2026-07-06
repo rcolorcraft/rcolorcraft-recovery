@@ -2070,18 +2070,18 @@
     function openDesignPopup() {
         document.getElementById("designPopup").style.display = "block";
         const bulkBtn = document.querySelector(".mobile-large-order");
-        if (bulkBtn) bulkBtn.style.display = "none";
+        if (bulkBtn) bulkBtn.style.setProperty("display", "none", "important");
         const waBtn = document.querySelector(".float");
-        if (waBtn) waBtn.style.display = "none";
+        if (waBtn) waBtn.style.setProperty("display", "none", "important");
     }
 
     // CLOSE POPUP
     function closeDesignPopup() {
         document.getElementById("designPopup").style.display = "none";
         const bulkBtn = document.querySelector(".mobile-large-order");
-        if (bulkBtn) bulkBtn.style.display = "";
+        if (bulkBtn) bulkBtn.style.removeProperty("display");
         const waBtn = document.querySelector(".float");
-        if (waBtn) waBtn.style.display = "";
+        if (waBtn) waBtn.style.removeProperty("display");
     }
 
 
