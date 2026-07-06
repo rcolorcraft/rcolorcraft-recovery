@@ -883,10 +883,9 @@
     }
 
 
-    /* MAIN BAR */
     .selection-bar {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
 
         padding: 12px 18px;
@@ -902,6 +901,7 @@
     .selection-bar .left {
         display: flex;
         align-items: center;
+        justify-self: start;
     }
 
     /* SELECTED COUNT */
@@ -930,6 +930,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        justify-self: end;
     }
 
     /* TOTAL PRICE */
@@ -953,6 +954,7 @@
 
         cursor: pointer;
         transition: 0.3s;
+        justify-self: center;
     }
 
     .done-btn:hover {
@@ -1927,13 +1929,14 @@
                 <span id="selectedCount">0 Selected</span>
             </div>
 
+            <!-- MIDDLE -->
+            <button onclick="confirmSelection()" class="done-btn">
+                Done ✅
+            </button>
+
             <!-- RIGHT -->
             <div class="right">
                 <span id="totalPrice">₹0</span>
-
-                <button onclick="confirmSelection()" class="done-btn">
-                    Done ✅
-                </button>
             </div>
 
         </div>
