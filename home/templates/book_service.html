@@ -960,6 +960,27 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
+    /* MOBILE RESPONSIVENESS FOR SELECTION BAR */
+    @media (max-width: 480px) {
+        .selection-bar {
+            padding: 10px 12px;
+        }
+        #selectedCount {
+            padding: 4px 8px;
+            font-size: 11px !important;
+        }
+        .selection-bar .right {
+            gap: 8px;
+        }
+        #totalPrice {
+            font-size: 14px;
+        }
+        .done-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+    }
+
     #selectedCount {
         color: #555;
         font-size: 14px;
@@ -1021,18 +1042,7 @@
         opacity: 1;
     }
 
-    .done-btn {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 18px;
-        background: #00c853;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-    }
+
 
     /* selected state */
     .design-card.selected {
