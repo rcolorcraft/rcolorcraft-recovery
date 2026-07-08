@@ -1994,7 +1994,7 @@
         if (totalAmountInput) totalAmountInput.value = "";
         if (bookingAmount) bookingAmount.value = "0";
         if (calculatedPrice) calculatedPrice.innerText = "₹0";
-        if (priceDisplay) priceDisplay.style.display = "none";
+        if (priceDisplay) priceDisplay.style.display = "flex";
         if (clearDesignBtn) clearDesignBtn.style.display = "none";
         if (selectedDesignsInput) selectedDesignsInput.value = "";
 
@@ -2630,7 +2630,7 @@
                 let price = (totalSqft * 50) + (designTotal * totalSurfaces);
 
                 document.getElementById("calculated-price").innerText = "₹" + price;
-                document.getElementById("price-display").style.display = totalSqft > 0 ? "block" : "none";
+                document.getElementById("price-display").style.display = "flex";
 
                 document.getElementById("total_amount_input").value = price;
                 document.getElementById("booking_amount").value = price;
