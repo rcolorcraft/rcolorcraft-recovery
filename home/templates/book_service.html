@@ -2588,6 +2588,13 @@
                 walls.addEventListener("input", calculate);
                 floors.addEventListener("input", calculate);
             }
+
+            let contactInput = document.querySelector('input[name="contact_number"]');
+            if (contactInput) {
+                contactInput.addEventListener("input", function (e) {
+                    this.value = this.value.replace(/[^0-9]/g, "");
+                });
+            }
             {% comment %} let priceBox = document.getElementById("calculated-price");
             let priceDisplay = document.getElementById("price-display");
             let totalAmountInput = document.getElementById("total_amount_input");
