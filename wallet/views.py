@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
 EMPLOYEE_MIN_WALLET_TOPUP = 200
-DEFAULT_MIN_WALLET_TOPUP = 1
+DEFAULT_MIN_WALLET_TOPUP = 200
 
 
 # Initialize Razorpay client
@@ -38,7 +38,7 @@ def create_razorpay_order_wallet(request):
         if request.user.role == 'employee' and amount < EMPLOYEE_MIN_WALLET_TOPUP * 100:
             return JsonResponse({'success': False, 'error': 'Minimum amount is ₹200 for artists/employees.'})
         elif amount < DEFAULT_MIN_WALLET_TOPUP * 100:
-            return JsonResponse({'success': False, 'error': 'Minimum amount is ₹1'})
+            return JsonResponse({'success': False, 'error': 'Minimum amount is ₹200'})
 
         receipt_id = f'wallet_{int(time.time())}'
         order_data = {

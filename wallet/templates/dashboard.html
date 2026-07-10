@@ -104,8 +104,8 @@
     <input
       type="number"
       id="walletAmount"
-      placeholder="{% if request.user.role == 'employee' %}Minimum top-up ₹200{% else %}Enter Amount to Add{% endif %}"
-      {% if request.user.role == 'employee' %}min="200"{% else %}min="1"{% endif %}
+      placeholder="{% if request.user.role == 'employee' %}Minimum top-up ₹200{% else %}Minimum top-up ₹200{% endif %}"
+      {% if request.user.role == 'employee' %}min="200"{% else %}min="200"{% endif %}
       step="1"
       inputmode="numeric"
     />
@@ -113,7 +113,7 @@
     {% if request.user.role == 'employee' %}
       <div class="min-note">Minimum wallet top-up: ₹200. Registration/activation charge stays fixed at ₹50.</div>
     {% else %}
-      <div class="min-note">Minimum amount: ₹1</div>
+      <div class="min-note">Minimum amount: ₹200</div>
     {% endif %}
   </div>
 
@@ -150,8 +150,8 @@ document.getElementById('payBtn').onclick = function(){
         alert('Minimum amount to add is ₹200'); 
         return; 
     }
-    if (amount < 1) {
-        alert('Minimum amount to add is ₹1');
+    if (amount < 200) {
+        alert('Minimum amount to add is ₹200');
         return;
     }
 
