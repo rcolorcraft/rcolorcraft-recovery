@@ -1882,7 +1882,20 @@ def save_booking(request):
             total_amount=total_amount,
         )
 
-        # --- SEND BOOKING CONFIRMATION EMAIL ---
+        # --- SEND BOOKING CONFIRMATION EMAIL IN BACKGROUND ---
+        import threading
+        def send_email_async(subj, msg, recipient):
+            try:
+                send_mail(
+                    subj,
+                    msg,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [recipient],
+                    fail_silently=False,
+                )
+            except Exception as email_err:
+                print("EMAIL ERROR:", email_err)
+
         try:
             subject = f"Booking Confirmation - {booking.booking_id}"
 
@@ -1923,13 +1936,8 @@ def save_booking(request):
             message += "Our team will contact you within 24 hours.\n"
             message += "Thank you for choosing RColorCraft! 😊"
 
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [email],  # customer email
-                fail_silently=False,
-            )
+            if email:
+                threading.Thread(target=send_email_async, args=(subject, message, email)).start()
 
             print("BOOKING SAVED:", booking)
         except Exception as email_error:
