@@ -2595,6 +2595,22 @@
                     this.value = this.value.replace(/[^0-9]/g, "");
                 });
             }
+
+            // City: allow only letters and spaces
+            let cityInput = document.querySelector('input[name="city"]');
+            if (cityInput) {
+                cityInput.addEventListener("input", function (e) {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, "");
+                });
+            }
+
+            // State: allow only letters and spaces
+            let stateInput = document.querySelector('input[name="state"]');
+            if (stateInput) {
+                stateInput.addEventListener("input", function (e) {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, "");
+                });
+            }
             {% comment %} let priceBox = document.getElementById("calculated-price");
             let priceDisplay = document.getElementById("price-display");
             let totalAmountInput = document.getElementById("total_amount_input");
