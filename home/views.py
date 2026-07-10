@@ -1830,8 +1830,12 @@ def save_booking(request):
                     )
 
         next_id = Booking.objects.count() + 1
-        booking_id = f"RCC{next_id}"
-        print("getting to it ")
+        while True:
+            booking_id = f"RCC{next_id}"
+            if not Booking.objects.filter(booking_id=booking_id).exists():
+                break
+            next_id += 1
+        print("getting to it ", booking_id)
 
         # --- Finalize Design Fields for Model ---
         design_name_to_save = ", ".join(
