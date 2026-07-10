@@ -2287,7 +2287,7 @@ from .models import Booking
 
 
 def my_assignments(request):
-    bookings = Booking.objects.all().order_by("-created_at")
+    bookings = Booking.objects.filter(assigned_employee=request.user).order_by("-created_at")
 
     return render(request, "employee_bookings.html", {"bookings": bookings})
 
