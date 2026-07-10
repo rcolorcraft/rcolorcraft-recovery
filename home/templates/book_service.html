@@ -1644,6 +1644,8 @@
     <!-- 👇 YOUR EXISTING FORM -->
     <form id="bookingForm" class="booking-form {% if not request.user.is_authenticated %}guest-locked{% endif %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" id="booking_amount" name="booking_amount" value="0">
+            <input type="hidden" name="service_name" value="{{ service_name }}">
             <div class="steps">
                 <div class="step active" id="step1">
                     <div class="circle">1</div>
@@ -1703,11 +1705,6 @@
     </div>
 </div>
 {% endif %}
-<form class="booking-form" id="bookingForm" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="hidden" id="booking_amount" name="booking_amount" value="0">
-    <input type="hidden" name="service_name" value="{{ service_name }}">
-
     <h2>{% trans "Book" %} {{ service_name }}</h2>
 
     <div class="form-grid">
@@ -1746,7 +1743,7 @@
         <!-- Row 2: CONTACT NO & FULL ADDRESS -->
         <div class="form-group">
             <label>Contact No <span style="color: red;">*</span></label>
-            <input type="text" name="contact_number" required>
+            <input type="text" name="contact_number" required pattern="\d+" title="Please enter numbers only">
         </div>
 
         <div class="form-group">
@@ -2823,11 +2820,11 @@
                 return;
             }
 
-            // Length validation for address (minimum 40 characters)
-            if (address.length < 40) {
+            // Validate contact number contains only digits
+            if (!/^\d+$/.test(contact)) {
                 Swal.fire({
-                    title: '⚠️ Address Too Short',
-                    text: 'Please enter a detailed full address with at least 40 characters. (Current length: ' + address.length + ')',
+                    title: '⚠️ Invalid Contact Number',
+                    text: 'Please enter numbers only for the Contact Number (no letters or special characters).',
                     icon: 'warning',
                     background: '#f8fbff',
                     confirmButtonColor: '#3b82f6',
@@ -2903,7 +2900,7 @@
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
             $.ajax({
-                url: '/en/home/save_booking/',
+                url: "{% url 'save_booking' %}",
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -2963,7 +2960,26 @@
                             }
 
                         });
+                    } else {
+                        Swal.fire({
+                            title: '⚠️ Booking Failed',
+                            text: resp.message || 'Something went wrong.',
+                            icon: 'error',
+                            background: '#f8fbff',
+                            confirmButtonColor: '#3b82f6',
+                            confirmButtonText: 'OK'
+                        });
                     }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: '⚠️ Server Error',
+                        text: 'An error occurred while saving the booking. Please try again.',
+                        icon: 'error',
+                        background: '#f8fbff',
+                        confirmButtonColor: '#3b82f6',
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
         });
