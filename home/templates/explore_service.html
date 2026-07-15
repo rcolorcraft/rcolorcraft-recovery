@@ -572,6 +572,16 @@
 
   // Restore previous selections on load
   document.addEventListener("DOMContentLoaded", function () {
+    // Explicitly clear all checkboxes first (prevents browser back-button caching bugs!)
+    const allCheckboxes = document.querySelectorAll(".design-checkbox");
+    allCheckboxes.forEach(cb => {
+      cb.checked = false;
+      const label = cb.closest('.select-here-label');
+      if (label) {
+        label.classList.remove("selected");
+      }
+    });
+
     let designs = [];
     try {
       const stored = sessionStorage.getItem("selected_designs_" + serviceSlug);
