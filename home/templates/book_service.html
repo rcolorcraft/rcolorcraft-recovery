@@ -2011,6 +2011,17 @@
         updateUI();
         showSelectedDesignsInForm();
 
+        // Clear visual selected classes from popup design cards
+        const designCards = document.querySelectorAll(".design-card");
+        designCards.forEach(card => {
+            card.classList.remove("selected");
+        });
+
+        // Explicitly clear selected designs from sessionStorage
+        if (typeof serviceSlug !== 'undefined') {
+            sessionStorage.removeItem("selected_designs_" + serviceSlug);
+        }
+
         const totalSqft = document.getElementById("total_sqft");
         const totalAmountInput = document.getElementById("total_amount_input");
         const bookingAmount = document.getElementById("booking_amount");
