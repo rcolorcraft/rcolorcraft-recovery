@@ -1633,7 +1633,7 @@
 <div id="bookingWrapper" class="booking-wrapper">
 
     <!-- 🔒 ADD THIS OVERLAY HERE -->
-    <div id="formOverlay" class="form-overlay" {% if not request.user.is_authenticated %}style="display:flex;"{% else %}style="display:none;"{% endif %}>
+    <div id="formOverlay" class="form-overlay" style="display:none;">
         <div class="overlay-box">
             <h3>🔐 Login Required</h3>
             <p>Please signup/login to book this service</p>
@@ -1642,7 +1642,7 @@
     </div>
 
     <!-- 👇 YOUR EXISTING FORM -->
-    <form id="bookingForm" class="booking-form {% if not request.user.is_authenticated %}guest-locked{% endif %}" method="POST" enctype="multipart/form-data">
+    <form id="bookingForm" class="booking-form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" id="booking_amount" name="booking_amount" value="0">
             <input type="hidden" name="service_name" value="{{ service_name }}">
@@ -1884,7 +1884,7 @@
         <div class="design-gallery">
 
             {% for img in db_images %}
-            <div class="design-card" onclick="selectDesign(event,
+            <div class="design-card" data-id="{{ img.id }}" onclick="selectDesign(event,
             '{{ img.id }}',
              '{{ img.image_name }}', 
              '{{ img.image.url }}', 
@@ -1956,6 +1956,38 @@
     // GLOBAL (सबसे ऊपर)
     let selectedDesigns = [];
     let bookingConfirmed = false;
+    const serviceSlug = "{{ service_slug }}";
+
+    // Restore selected designs on page load
+    document.addEventListener("DOMContentLoaded", function() {
+        const stored = sessionStorage.getItem("selected_designs_" + serviceSlug);
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    selectedDesigns = parsed;
+                    
+                    // Mark selected cards inside the pop-up gallery
+                    selectedDesigns.forEach(item => {
+                        const card = document.querySelector(`.design-card[data-id="${item.id}"]`);
+                        if (card) {
+                            card.classList.add("selected");
+                        }
+                    });
+                    
+                    updateUI();
+                    showSelectedDesignsInForm();
+                    setTimeout(() => {
+                        if (window.calculatePrice) {
+                            window.calculatePrice();
+                        }
+                    }, 50);
+                }
+            } catch (e) {
+                console.error("Error loading selected designs:", e);
+            }
+        }
+    });
 
     function getDesignTotal() {
         let total = 0;
@@ -2059,6 +2091,11 @@
         // hidden input
         document.getElementById("selected_designs").value =
             JSON.stringify(selectedDesigns);
+
+        // Sync with sessionStorage
+        if (typeof serviceSlug !== 'undefined') {
+            sessionStorage.setItem("selected_designs_" + serviceSlug, JSON.stringify(selectedDesigns));
+        }
     }
 
 

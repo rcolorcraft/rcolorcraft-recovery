@@ -8699,9 +8699,8 @@ function closeForm() {
     </div>
     <h3 style="padding-bottom: 5px;"><b>{{ service.title }}</b></h3>
     <p>{{ service.description }}</p>
-    <div class="card-buttons">
-      <a href="{% url 'book_service' service.book_slug %}" class="book-btn">{% trans "Book this Service" %}</a>
-      <a href="{% url 'explore_service' service.explore_slug %}" class="explore-btn">{% trans "Explore" %}</a>
+    <div class="card-buttons" style="display: flex; justify-content: center; width: 100%;">
+      <a href="{% url 'explore_service' service.explore_slug %}" class="explore-btn" style="width: 100%; text-align: center; display: block; border-radius: 20px; box-sizing: border-box;">{% trans "BOOK NOW" %}</a>
     </div>
   </div>
   {% endfor %}

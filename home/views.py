@@ -264,7 +264,11 @@ def book_service(request, service_type):
     return render(
         request,
         "book_service.html",
-        {"service_name": service_name, "db_images": db_images},
+        {
+            "service_name": service_name,
+            "db_images": db_images,
+            "service_slug": service_type,
+        },
     )
 
 
@@ -1697,23 +1701,29 @@ from .models import Booking
 @require_http_methods(["POST"])
 def save_booking(request):
     try:
-        if not request.user.is_authenticated:
-            return JsonResponse(
-                {"success": False, "message": "You must be logged in to book a service"}
-            )
-        if request.user.role != "customer":
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": "Only customer accounts can create bookings.",
-                }
-            )
+        if request.user.is_authenticated:
+            if request.user.role == "employee":
+                return JsonResponse(
+                    {
+                        "success": False,
+                        "message": "Artists/Employees are not allowed to create bookings.",
+                    }
+                )
         print("POST DATA:", request.POST)
 
         # --- Standard Fields ---
         service_name = request.POST.get("service_name")
         customer_name = request.POST.get("customer_name")
         print("NAME:", customer_name)
+        
+        if request.user.is_authenticated:
+            customer_user_id = request.user.id
+            cust_name = getattr(request.user, 'full_name', None) or request.user.email
+            if not cust_name:
+                cust_name = customer_name
+        else:
+            customer_user_id = 0
+            cust_name = customer_name
         # 👈 YAHAN ADD KARO
         contact_number = request.POST.get("contact_number")
         email = request.POST.get("email")
@@ -1856,10 +1866,8 @@ def save_booking(request):
             # If you want to save the rate from SERVICE_BASE_RATES, you'd need to send it from JS or look it up here.
 
         booking = Booking.objects.create(
-            customer_name=(
-                request.user.full_name if request.user.full_name else request.user.email
-            ),
-            customer_user_id=request.user.id,
+            customer_name=cust_name,
+            customer_user_id=customer_user_id,
             booking_id=booking_id,
             service_name=service_name,
             contact_number=contact_number,
