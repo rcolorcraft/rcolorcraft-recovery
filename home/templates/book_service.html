@@ -2988,6 +2988,9 @@
                         // Reset booking form and UI state
                         resetBookingFormState();
 
+                        const userIsLoggedIn = "{{ request.user.is_authenticated|yesno:'true,false' }}" === "true";
+                        const confirmBtnText = userIsLoggedIn ? "📦 Go to My Orders" : "🏠 Back to Home";
+
                         Swal.fire({
                             title: `🎉 Booking Confirmed, ${resp.name || "User"}!`,
                             html: `
@@ -3008,7 +3011,7 @@
                             showCancelButton: true,   // ➕ Book Another
                             showCloseButton: true,    // ❌ Cut button (top corner)
 
-                            confirmButtonText: "📦 Go to My Orders",
+                            confirmButtonText: confirmBtnText,
                             cancelButtonText: "➕ Book Another",
 
                             confirmButtonColor: "#4CAF50",
@@ -3017,8 +3020,13 @@
                         }).then((result) => {
 
                             if (result.isConfirmed) {
-                                // 👉 My Orders Page
-                                window.location.href = "{% url 'my_orders' %}";
+                                if (userIsLoggedIn) {
+                                    // 👉 My Orders Page
+                                    window.location.href = "{% url 'my_orders' %}";
+                                } else {
+                                    // 👉 Homepage
+                                    window.location.href = "{% url 'home' %}";
+                                }
                             }
                             else if (result.dismiss === Swal.DismissReason.cancel) {
                                 // 👉 Book Another → keep the cleared form ready for a new booking
